@@ -1,6 +1,6 @@
-# Damda
+
 # 엘리스 2차 팀프로젝트 5팀
-## (가제)
+## Damda(담다)
 #### 원데이클래스 예약 사이트
 
 팀장 : 안수민<br>
@@ -64,7 +64,7 @@ https://www.figma.com/team_invite/redeem/XwBOve7psAYzVmPrO5PLLL
 
 ## ERD
 
-추후 링크 또는 이미지 추가 예정
+https://docs.google.com/spreadsheets/d/1s4yOh4NvQHpxDc_TLAZdWhtiyUQ7gMHxHU5qf7s83Hk/edit#gid=0
 
 ## 기능명세서
 
@@ -73,4 +73,10 @@ https://docs.google.com/spreadsheets/d/1Dh2Xd1nuJST977FsuWn7eRqPyaDJsPQIy2bAHofI
 
 ## 역할분담
 
-추후 회의를 통해 선정, 현재 서비스별 분담 예정
+- 도메인별로 분배
+    1. 메인페이지 - 안수민
+    2. 공방등록페이지 - 장성규
+    3. 마이페이지 - 이윤희
+    4. 회원가입, 로그인 페이지(유저, 관리자) - 박진희, 정승현
+    5. 주문 페이지 : 상세내용 포함 + 예약시 ‘완료 페이지’ - 문선민
+    6. 장바구니 페이지 - 박수빈
