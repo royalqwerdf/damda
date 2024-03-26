@@ -1,4 +1,3 @@
-
 # 엘리스 2차 팀프로젝트 5팀
 ## Damda(담다)
 #### 원데이클래스 예약 사이트
@@ -60,7 +59,7 @@
     6. 주문(예약) 페이지 - 상세 내용을 포함 + 예약 시 ‘예약완료’ 안내 페이지
 
 ## 와이어프레임 & 프로토타입
-https://www.figma.com/team_invite/redeem/XwBOve7psAYzVmPrO5PLLL
+https://www.figma.com/file/rnIR2PSQtgmGvgTVM9eHPy/Untitled?type=design&node-id=0%3A1&mode=design&t=ivIT5ybStdItRFXk-1
 
 ## ERD
 
