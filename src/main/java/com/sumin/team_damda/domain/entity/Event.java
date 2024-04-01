@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,16 +15,21 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name="category")
-public class Category {
+@Table(name="event")
+public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name="category_name")
-    private String categoryName;
+    @Column(name="title")
+    private String title;
 
-    @OneToMany(mappedBy = "category")
-    private List<Class> classes = new ArrayList<>();
+    @Column(name="content")
+    private String content;
 
+    @Column(name="upload_date")
+    private LocalDateTime uploadTime;
+
+    @OneToMany(mappedBy = "event")
+    private List<EventImage> eventImages = new ArrayList<>();
 }

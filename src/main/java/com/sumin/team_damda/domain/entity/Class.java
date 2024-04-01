@@ -1,15 +1,14 @@
 package com.sumin.team_damda.domain.entity;
 
 
-import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -26,26 +25,20 @@ public class Class {
 
     @Column(name="class_name")
     private String className;
-    @Column(name="location")
-    private String location;
     @Column(name="class_explanation")
     private String classExplanation;
-    @Column(name="search_keywords")
-    private String searchKeywords;
-    @Column(name="contact")
-    private String contact;
-    @Column(name="main_image")
-    private String mainImage;
-    @Column(name="like_count")
-    private int likeCount;
-    @Column(name="rating")
-    private float rating;
-    @Column(name="price")
-    private int price;
     @Column(name="headcount")
     private int headcount;
-    @Column(name="time_of_day")
-    private String time;
+    @Column(name="class_address")
+    private String address;
+    @Column(name="class_curriculum")
+    private String curriculum;
+    @Column(name="price")
+    private int price;
+    @Column(name="total_rating")
+    private float totalRating;
+    @Column(name="total_like")
+    private int totalLike;
 
     @ManyToOne
     @JoinColumn(name="manager_id")
@@ -55,6 +48,16 @@ public class Class {
     @JoinColumn(name="category_id")
     private Category category;
 
+    @OneToMany(mappedBy = "aClass")
+    private List<ClassTime> classTimes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "aClass")
+    private List<ClassReview> classReviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "aClass")
+    private List<ClassLike> classLikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "aClass", cascade = CascadeType.ALL)
+    private List<ClassImage> classImages = new ArrayList<>();
 
 }

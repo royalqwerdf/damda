@@ -6,35 +6,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
-@Data
 @Entity
+@Table(name="class_like")
 @AllArgsConstructor
+@Data
 @NoArgsConstructor
 @Builder
-@Table(name="class_review")
-public class ClassReview {
+public class ClassLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @ManyToOne
-    @JoinColumn(name="user_id")
-    private Member member;
-
-    @ManyToOne
     @JoinColumn(name="class_id")
     private Class aClass;
 
-    @Column(name="review")
-    private String review;
-
-    @Column(name="rating")
-    private float rating;
-
-    @OneToMany(mappedBy = "classReview")
-    private List<ReviewImage> reviewImages;
-
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private Member member;
 }

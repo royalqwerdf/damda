@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -23,17 +24,20 @@ public class ClassReservation {
     @JoinColumn(name = "user_id")
     private Member member;
 
-    @Column(name="reservation_time")
-    private LocalDateTime reservationTime;
+    @Column(name="reservation_date_time")
+    private LocalDateTime reservationDateTime;
 
     @ManyToOne
     @JoinColumn(name="class_id")
     private Class aClass;
 
-    @Column(name="class_type")
-    private String classType;
+    @Column(name="total_headcount")
+    private int total_headcount;
 
-    @Column(name="price")
-    private long price;
+    @Column(name="total_price")
+    private int total_price;
+
+    @Column(name="reservation_completed_time")
+    private LocalDateTime reservationCompletedTime;
 
 }

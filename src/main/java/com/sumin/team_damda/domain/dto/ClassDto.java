@@ -12,18 +12,5 @@ import java.util.Map;
 @Data
 public class ClassDto {
 
-    private Long id;
-    private String className;
-    private String location;
-    private String classExplanation;
-    private String contact;
-    private String mainImage;
-    private int likeCount;
-    private float rating;
-    private int price;
-    private int headcount;
-    private String time;
-    private String manager;
-    private String category;
 
 }

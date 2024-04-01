@@ -6,24 +6,24 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@Data
 @Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name="review_image")
 @Builder
-@Table(name="category")
-public class Category {
+public class ReviewImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name="category_name")
-    private String categoryName;
+    @Column(name="review_image_url")
+    private String imageUrl;
 
-    @OneToMany(mappedBy = "category")
-    private List<Class> classes = new ArrayList<>();
+    @Column(name="review_file_name")
+    private String fileName;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="class_review_id")
+    private ClassReview classReview;
 }

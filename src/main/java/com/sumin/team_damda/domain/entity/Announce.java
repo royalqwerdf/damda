@@ -1,29 +1,31 @@
 package com.sumin.team_damda.domain.entity;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name="category")
-public class Category {
+@Table(name="announce")
+public class Announce {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name="category_name")
-    private String categoryName;
+    @Column(name="title")
+    private String title;
 
-    @OneToMany(mappedBy = "category")
-    private List<Class> classes = new ArrayList<>();
+    @Column(name="content")
+    private String content;
 
+    @Column(name="upload_date")
+    private LocalDateTime uploadDate;
 }

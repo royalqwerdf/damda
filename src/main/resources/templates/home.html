@@ -39,17 +39,19 @@
     <div style="display: flex;justify-content: center;margin-top: 30px">
         <a style="margin: 10px 20px 10px 20px;" th:each="category:${categories}" href="#" th:text="${category.categoryName}"></a>
     </div>
+
+
     <div style="display: flex;justify-content: center;margin-top: 30px;">
         <div style="margin: 0px 30px 0px 30px;border-radius: 20px;border:0px solid white;background-color: #FFF5D9;padding-bottom: 20px;overflow: hidden" th:each="class : ${classes}">
-            <a href="#"><img style="width: 200px;height: 150px;" th:src="@{${class.mainImage}}">
+            <a href="#"><img style="width: 200px;height: 150px;" th:src="@{${class.getClassImages().get(0).getImageUrl()}}">
             <div style="display: flex;justify-content: space-between">
                 <div>
-                    <span style="padding-left: 10px" th:text="${class.manager.nickname}"></span>
+                    <span style="padding-left: 10px" th:text="${class.manager.name}"></span>
 
                 </div>
                 <div style="padding-right: 10px">
-                    <span th:text="${class.rating}"></span>
-                    <span th:text="${class.likeCount}"></span>
+                    <span th:text="${class.totalRating}"></span>
+                    <span th:text="${class.totalLike}"></span>
                 </div>
             </div>
             <div>
@@ -69,15 +71,15 @@
     <div style="display: flex;justify-content: center;margin-top: 50px;">
         <div style="margin: 0px 30px 0px 30px;border-radius: 20px;border:0px solid white;background-color: #FFF5D9;padding-bottom: 20px;overflow: hidden" th:each="class : ${classes}">
             <a href="#">
-                <img style="width: 200px;height: 150px;" th:src="@{${class.mainImage}}">
+                <img style="width: 200px;height: 150px;" th:src="@{${class.getClassImages().get(0).getImageUrl()}}">
                 <div style="display: flex;justify-content: space-between">
                     <div>
-                        <span style="padding-left: 10px" th:text="${class.manager.nickname}"></span>
+                        <span style="padding-left: 10px" th:text="${class.manager.name}"></span>
 
                     </div>
                     <div style="padding-right: 10px">
-                        <span th:text="${class.rating}"></span>
-                        <span th:text="${class.likeCount}"></span>
+                        <span th:text="${class.totalRating}"></span>
+                        <span th:text="${class.totalLike}"></span>
                     </div>
                 </div>
                 <div>
@@ -98,15 +100,15 @@
         <div style="display:flex;justify-content:center;margin-top: 50px;">
             <div style="margin: 0px 30px 0px 30px;border-radius: 20px;border:0px solid white;background-color: white;padding-bottom: 20px;overflow: hidden" th:each="class : ${classes}">
                 <a href="#">
-                    <img style="width: 200px;height: 150px;" th:src="@{${class.mainImage}}">
+                    <img style="width: 200px;height: 150px;" th:src="@{${class.getClassImages().get(0).getImageUrl()}}">
                     <div style="display: flex;justify-content: space-between">
                         <div>
-                            <span style="padding-left: 10px" th:text="${class.manager.nickname}"></span>
+                            <span style="padding-left: 10px" th:text="${class.manager.name}"></span>
 
                         </div>
                         <div style="padding-right: 10px">
-                            <span th:text="${class.rating}"></span>
-                            <span th:text="${class.likeCount}"></span>
+                            <span th:text="${class.totalRating}"></span>
+                            <span th:text="${class.totalLike}"></span>
                         </div>
                     </div>
                     <div>
@@ -119,6 +121,7 @@
             </div>
         </div>
     </div>
+
 </body>
 <footer style="background-color: #FFF5D9;display: flex;justify-content: center;height: 300px">
     footer

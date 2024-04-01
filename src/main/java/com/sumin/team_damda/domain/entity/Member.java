@@ -18,20 +18,24 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name="user_id")
-    private String userId;
+    @Column(name="user_email")
+    private String userEmail;
     @Column(name="password")
     private String password;
-    @Column(name="nickname")
-    private String nickname;
-    @Column(name="userEmail")
-    private String email;
-
+    @Column(name="name")
+    private String name;
+    @Column(name="phone_number")
+    private String phone;
     @Column(name="role")
     @Enumerated(EnumType.STRING)
     private Role role;
+    @Column(name="login_type")
+    private String loginType;
 
     @OneToMany(mappedBy = "manager")
     private List<Class> classes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<ClassLike> classLikes = new ArrayList<>();
 
 }

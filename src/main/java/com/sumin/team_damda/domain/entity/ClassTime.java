@@ -6,35 +6,29 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
-@Data
 @Entity
+@Table(name="class_time")
 @AllArgsConstructor
+@Data
 @NoArgsConstructor
 @Builder
-@Table(name="class_review")
-public class ClassReview {
+public class ClassTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
-    @JoinColumn(name="user_id")
-    private Member member;
+    @Column(name="class_date")
+    private LocalDateTime classDate;
+
+    @Column(name="class_start_at")
+    private LocalDateTime classStart;
+    @Column(name="class_end_at")
+    private LocalDateTime classEnd;
 
     @ManyToOne
     @JoinColumn(name="class_id")
     private Class aClass;
-
-    @Column(name="review")
-    private String review;
-
-    @Column(name="rating")
-    private float rating;
-
-    @OneToMany(mappedBy = "classReview")
-    private List<ReviewImage> reviewImages;
-
 }
