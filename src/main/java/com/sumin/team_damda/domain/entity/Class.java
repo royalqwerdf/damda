@@ -1,6 +1,7 @@
 package com.sumin.team_damda.domain.entity;
 
 
+import com.sumin.team_damda.domain.dto.ClassDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -59,5 +60,21 @@ public class Class {
 
     @OneToMany(mappedBy = "ondayClass", cascade = CascadeType.ALL)
     private List<ClassImage> classImages = new ArrayList<>();
+
+    public ClassDto toDto(){
+        return ClassDto.builder()
+                .className(this.className)
+                .classExplanation(this.classExplanation)
+                .headcount(this.headcount)
+                .address(this.address)
+                .curriculum(this.curriculum)
+                .price(this.price)
+                .totalRating(this.totalRating)
+                .totalLike(this.totalLike)
+                .categoryName(this.category.getCategoryName())
+                .managerName(this.manager.getName())
+                .managerPhone(this.manager.getPhone())
+                .build();
+    }
 
 }
