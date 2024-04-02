@@ -63,6 +63,7 @@ public class Class {
 
     public ClassDto toDto(){
         return ClassDto.builder()
+                .id(this.id)
                 .className(this.className)
                 .classExplanation(this.classExplanation)
                 .headcount(this.headcount)

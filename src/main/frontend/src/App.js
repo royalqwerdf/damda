@@ -1,24 +1,24 @@
 import './App.css';
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import ClassList from "./ClassList";
 
 function App() {
-    const [hello, setHello] = useState([])
-
+    const [classes, setClasses] = useState([])
     useEffect(() => {
         axios.get('/home')
-            .then((response) =>
+            .then(response=>
             {
-                const object = response.data;
-                console.log(object);
+                setClasses(response.data);
+                console.log(response.data);
             })
             .catch(error => console.log(error))
     }, []);
 
     return (
-        <div>
-            백엔드에서 가져온 데이터입니다 : {hello}
-        </div>
+        <>
+            <ClassList classes = {classes}/>
+        </>
     );
 }
 

@@ -5,27 +5,23 @@ import com.sumin.team_damda.domain.entity.Category;
 import com.sumin.team_damda.domain.entity.Class;
 import com.sumin.team_damda.domain.repository.CategoryRepository;
 import com.sumin.team_damda.domain.repository.ClassRepository;
+import com.sumin.team_damda.domain.service.ClassService;
 import com.sumin.team_damda.domain.service.MainService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @RestController
 public class MainController {
     private final MainService mainService;
-    private final ClassRepository classRepository;
-    private final CategoryRepository categoryRepository;
+    private final ClassService classService;
 
-    public MainController(MainService mainService,ClassRepository classRepository,CategoryRepository categoryRepository){
+    public MainController(MainService mainService,ClassService classService,CategoryRepository categoryRepository){
         this.mainService = mainService;
-        this.classRepository = classRepository;
-        this.categoryRepository = categoryRepository;
+        this.classService = classService;
     }
 
 //    @GetMapping("/home")
@@ -40,9 +36,7 @@ public class MainController {
 //        return map;
 //    }
     @GetMapping("/home")
-    public ClassDto mainPage(){
-        Class ondayClass = classRepository.findById(1L).orElse(null);
-        ClassDto classDto = ondayClass.toDto();
-        return classDto;
+    public List<ClassDto> mainPage(){
+        return classService.getAllClass();
     }
 }

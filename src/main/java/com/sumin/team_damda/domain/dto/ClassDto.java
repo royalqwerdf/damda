@@ -15,9 +15,9 @@ public class ClassDto {
     private String address;
     private String curriculum;
     private int price;
-
     private float totalRating;
     private int totalLike;
+
     private String categoryName;
     private String managerName;
     private String managerPhone;
