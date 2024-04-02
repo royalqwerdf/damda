@@ -17,10 +17,6 @@ public class Inquiry {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
-    @JoinColumn(name="user_id")
-    private Member member;
-
     @Column(name="title")
     private String title;
 
@@ -29,5 +25,10 @@ public class Inquiry {
 
     @Column(name="reply")
     private String reply;
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private Member member;
+
 
 }

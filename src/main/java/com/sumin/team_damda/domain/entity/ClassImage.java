@@ -18,17 +18,17 @@ public class ClassImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="class_id")
-    private Class aClass;
-
     @Column(name="image")
     private String imageUrl;
 
-    @Column(name="main_yn")
+    @Column(name="main_yn", length = 1)
     private String main_yn;
 
     @Column(name="image_name")
     private String imageName;
+
+    @ManyToOne
+    @JoinColumn(name="class_id")
+    private Class ondayClass;
 
 }

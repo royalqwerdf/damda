@@ -20,24 +20,33 @@ public class ClassReservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private Member member;
-
     @Column(name="reservation_date_time")
     private LocalDateTime reservationDateTime;
 
-    @ManyToOne
-    @JoinColumn(name="class_id")
-    private Class aClass;
+    @Column(name="class_type")
+    private String classType;
 
-    @Column(name="total_headcount")
-    private int total_headcount;
+    @Column(name="select_person")
+    private int select_person;
 
     @Column(name="total_price")
     private int total_price;
 
-    @Column(name="reservation_completed_time")
-    private LocalDateTime reservationCompletedTime;
+    @Column(name="select_date")
+    private LocalDate select_date;
 
+    @Column(name="select_time")
+    private LocalDateTime select_time;
+
+    @ManyToOne
+    @JoinColumn(name="class_id")
+    private Class ondayClass;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private Member member;
+
+    @OneToOne
+    @JoinColumn(name="order_detail_id")
+    private OrderDetail orderDetail;
 }

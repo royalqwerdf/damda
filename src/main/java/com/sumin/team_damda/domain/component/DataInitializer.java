@@ -5,18 +5,16 @@ import com.sumin.team_damda.domain.entity.Category;
 import com.sumin.team_damda.domain.entity.Class;
 import com.sumin.team_damda.domain.entity.ClassImage;
 import com.sumin.team_damda.domain.entity.Member;
+import com.sumin.team_damda.domain.enums.LoginType;
 import com.sumin.team_damda.domain.repository.CategoryRepository;
 import com.sumin.team_damda.domain.repository.ClassImageRepository;
 import com.sumin.team_damda.domain.repository.ClassRepository;
 import com.sumin.team_damda.domain.repository.MemberRepository;
-import com.sumin.team_damda.domain.role.Role;
+import com.sumin.team_damda.domain.enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class DataInitializer implements ApplicationRunner {
@@ -42,7 +40,7 @@ public class DataInitializer implements ApplicationRunner {
                 .password("1234")
                 .userEmail("gildong@kakao.com")
                 .phone("010-1111-2222")
-                .loginType("kakao")
+                .loginType(LoginType.KAKAO)
                 .build();
         Member testMember2 = Member.builder()
                 .name("마동석")
@@ -50,7 +48,7 @@ public class DataInitializer implements ApplicationRunner {
                 .password("1234")
                 .userEmail("dongsuk@kakao.com")
                 .phone("010-2222-3333")
-                .loginType("kakao")
+                .loginType(LoginType.GOOGLE)
                 .build();
 
         memberRepository.save(testMember1);
@@ -152,19 +150,17 @@ public class DataInitializer implements ApplicationRunner {
         classImageRepository.save(classImage4);
 
         ClassImage img1 = classImageRepository.findById(1L).orElse(null);
-        img1.setAClass(testClass1);
+        img1.setOndayClass(testClass1);
         classImageRepository.save(img1);
         ClassImage img2 = classImageRepository.findById(2L).orElse(null);
-        img2.setAClass(testClass4);
+        img2.setOndayClass(testClass4);
         classImageRepository.save(img2);
         ClassImage img3 = classImageRepository.findById(3L).orElse(null);
-        img3.setAClass(testClass2);
+        img3.setOndayClass(testClass2);
         classImageRepository.save(img3);
         ClassImage img4 = classImageRepository.findById(4L).orElse(null);
-        img4.setAClass(testClass3);
+        img4.setOndayClass(testClass3);
         classImageRepository.save(img4);
-
-        System.out.println(img1);
 
     }
 

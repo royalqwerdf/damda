@@ -48,16 +48,16 @@ public class Class {
     @JoinColumn(name="category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "aClass")
+    @OneToMany(mappedBy = "ondayClass")
     private List<ClassTime> classTimes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "aClass")
+    @OneToMany(mappedBy = "ondayClass")
     private List<ClassReview> classReviews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "aClass")
+    @OneToMany(mappedBy = "ondayClass")
     private List<ClassLike> classLikes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "aClass", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ondayClass", cascade = CascadeType.ALL)
     private List<ClassImage> classImages = new ArrayList<>();
 
 }

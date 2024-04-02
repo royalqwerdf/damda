@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 @Table(name="announce")
 public class Announce {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -28,4 +29,9 @@ public class Announce {
 
     @Column(name="upload_date")
     private LocalDateTime uploadDate;
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private Member member;
+
 }

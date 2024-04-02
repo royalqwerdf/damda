@@ -20,15 +20,14 @@ public class ClassTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name="class_date")
-    private LocalDateTime classDate;
-
     @Column(name="class_start_at")
-    private LocalDateTime classStart;
+    private LocalDateTime classStartsAt;
+
     @Column(name="class_end_at")
-    private LocalDateTime classEnd;
+    private LocalDateTime classEndsAt;
 
     @ManyToOne
     @JoinColumn(name="class_id")
-    private Class aClass;
+    private Class ondayClass;
+
 }

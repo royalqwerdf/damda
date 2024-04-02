@@ -20,7 +20,7 @@ public class ClassLike {
 
     @ManyToOne
     @JoinColumn(name="class_id")
-    private Class aClass;
+    private Class ondayClass;
 
     @ManyToOne
     @JoinColumn(name="user_id")
