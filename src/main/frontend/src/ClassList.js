@@ -20,10 +20,10 @@ function ClassList() {
                 </span>
             </div>
             <div id="categories">
-                <a>카테고리 출력</a>
+                <a>카테고리들 출력부분</a>
             </div>
             <div id="classes">
-            {classes.map(onedayClass => {
+            {classes?.classes?.map(onedayClass => {
                 return (
                         <div id="classCard" key={onedayClass.id}>
                             <a href="#">

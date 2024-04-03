@@ -1,5 +1,6 @@
 package com.sumin.team_damda.domain.entity;
 
+import com.sumin.team_damda.domain.dto.CategoryDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,5 +26,12 @@ public class Category {
 
     @OneToMany(mappedBy = "category")
     private List<Class> classes = new ArrayList<>();
+
+    public CategoryDto toDto(){
+        return CategoryDto.builder()
+                .id(this.id)
+                .categoryName(this.categoryName)
+                .build();
+    }
 
 }
