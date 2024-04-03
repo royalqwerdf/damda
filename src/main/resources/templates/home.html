@@ -43,7 +43,8 @@
 
     <div style="display: flex;justify-content: center;margin-top: 30px;">
         <div style="margin: 0px 30px 0px 30px;border-radius: 20px;border:0px solid white;background-color: #FFF5D9;padding-bottom: 20px;overflow: hidden" th:each="class : ${classes}">
-            <a href="#"><img style="width: 200px;height: 150px;" th:src="@{${class.getClassImages().get(0).getImageUrl()}}">
+            <a href="#">
+                <img style="width: 200px;height: 150px;" th:src="@{${class.getClassImages().get(0).getImageUrl()}}">
             <div style="display: flex;justify-content: space-between">
                 <div>
                     <span style="padding-left: 10px" th:text="${class.manager.name}"></span>

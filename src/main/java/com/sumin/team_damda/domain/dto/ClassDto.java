@@ -21,6 +21,7 @@ public class ClassDto {
     private String categoryName;
     private String managerName;
     private String managerPhone;
+    private String mainImage;
 
     private Category category;
     private Member manager;

@@ -1,38 +1,117 @@
-.App {
-  text-align: center;
+a {
+  text-decoration: none;
+  color: black;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body{
+  padding-top: 65px;
+  width:100vw;
+  margin-left: calc(-50vw + 50%);
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+#navibar{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  font-size:20px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: space-around;
+  text-align: center;
+  padding-top: 30px;
+  margin-left: -6px;
+  margin-top: -6px;
+  background-color: white;
+}
+#navibar a{
+  color: #401E20;
+  padding-left: 5px;
+}
+#navibar #menu{
+  margin-right:30px;
+}
+#navibar #rightbar{
+  border-right: #401E20 1px solid;
+  padding-right: 5px;
+}
+#navibar button{
+  margin-left: 5px;
+  background-color:transparent;
+  border-radius: 5px;
+  border: #F52334 1px solid;
+  color: #F52334;
+}
+#banner{
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  margin-top: 20px;
+  background-color: #CCEADE;
+}
+#banner img{
+  height: 60%;
+  width: 60%;
+}
+#category #text{
+  display: flex;justify-content: center;margin-top: 100px;
 }
 
-.App-link {
-  color: #61dafb;
+#category #text span{
+  color: #F52334;
+  text-decoration-line: underline;
+  text-decoration-color: currentColor;
+  text-underline-offset:10px;
+  font-size: 30px;
+  font-weight: bold;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#category #categories{
+  display: flex;
+  justify-content: center;
+  margin-top: 30px
+}
+#category #categories a{
+  margin: 10px 20px 10px 20px;
+}
+#category #classes{
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+#category #classes #classCard{
+  margin: 0px 30px 0px 30px;
+  border-radius: 20px;
+  border:0px solid white;
+  background-color: #FFF5D9;
+  padding-bottom: 20px;
+  overflow: hidden;
+}
+#category #classes #classCard a img{
+  width: 200px;
+  height: 150px;
+}
+#category #classes #classCard a #classManagerNameRatingLike{
+  display: flex;
+  justify-content: space-between;
+}
+#category #classes #classCard a #classManagerNameRatingLike #left{
+  padding-left: 10px;
+}
+#category #classes #classCard a #classManagerNameRatingLike #right{
+  padding-right: 10px;
+}
+#category #classes #classCard a #classManagerNameRatingLike #right img{
+  width: 11px;
+  height: 11px;
+}
+#category #classes #classCard a #classManagerNameRatingLike #right #star{
+  width: 15px;
+  height: 15px;
+}
+#category #classes #classCard a #className span{
+  padding-left: 10px;
+  font-weight: bold;
+}
+#category #classes #classCard a #classPrice{
+  display:flex;
+  justify-content: flex-end;
+}
+#category #classes #classCard a #classPrice span{
+  padding-right: 10px;
 }

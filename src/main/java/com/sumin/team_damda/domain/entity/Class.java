@@ -62,6 +62,12 @@ public class Class {
     private List<ClassImage> classImages = new ArrayList<>();
 
     public ClassDto toDto(){
+        String mainImage = "";
+        for(ClassImage classImage:classImages){
+            if(classImage.getMain_yn().equals("Y")){
+                mainImage = classImage.getImageUrl();
+            }
+        }
         return ClassDto.builder()
                 .id(this.id)
                 .className(this.className)
@@ -75,6 +81,7 @@ public class Class {
                 .categoryName(this.category.getCategoryName())
                 .managerName(this.manager.getName())
                 .managerPhone(this.manager.getPhone())
+                .mainImage(mainImage)
                 .build();
     }
 
