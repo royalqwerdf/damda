@@ -1,11 +1,7 @@
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import Navigation from "./Navigation";
-import Banner from "./Banner";
-import CategoryClassList from "./CategoryClassList";
-import BestClassList from "./BestClassList";
-import NewClassList from "./NewClassList";
-import Footer from "./Footer";
-import MainPage from "./MainPage";
+import Navigation from "./pages/Navigation";
+import Footer from "./pages/Footer";
+import MainPage from "./pages/MainPage";
 import ClassOpen from "./pages/ClassOpen";
 
 function App(){
