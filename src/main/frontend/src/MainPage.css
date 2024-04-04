@@ -49,11 +49,16 @@ body{
   height: 60%;
   width: 60%;
 }
-#category #text{
+#text{
   display: flex;justify-content: center;margin-top: 100px;
 }
-
-#category #text span{
+#best #text{
+  display: flex;justify-content: center;margin-top: 100px;
+  padding: 30px 0px 10px 0px;
+}
+#new #text{
+}
+#text span{
   color: #F52334;
   text-decoration-line: underline;
   text-decoration-color: currentColor;
@@ -64,17 +69,31 @@ body{
 #category #categories{
   display: flex;
   justify-content: center;
-  margin-top: 30px
+  margin-top: 30px;
+  text-align: center;
 }
-#category #categories a{
-  margin: 10px 20px 10px 20px;
+#category #categories li{
+  list-style-type : none;
+  margin-right: 30px;
+  display: inline-block;
+
 }
-#category #classes{
+#best {
+  background-color: #FFDCD1;
+}
+
+#bestClasses{
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  padding-bottom: 50px;
+}
+#classes{
   display: flex;
   justify-content: center;
   margin-top: 30px;
 }
-#category #classes #classCard{
+#classCard{
   margin: 0px 30px 0px 30px;
   border-radius: 20px;
   border:0px solid white;
@@ -82,36 +101,47 @@ body{
   padding-bottom: 20px;
   overflow: hidden;
 }
-#category #classes #classCard a img{
+#classCard a img{
   width: 200px;
   height: 150px;
 }
-#category #classes #classCard a #classManagerNameRatingLike{
+#classCard a #classManagerNameRatingLike{
   display: flex;
   justify-content: space-between;
 }
-#category #classes #classCard a #classManagerNameRatingLike #left{
+#classCard a #classManagerNameRatingLike #left{
   padding-left: 10px;
 }
-#category #classes #classCard a #classManagerNameRatingLike #right{
+#classCard a #classManagerNameRatingLike #right{
   padding-right: 10px;
 }
-#category #classes #classCard a #classManagerNameRatingLike #right img{
+#classCard a #classManagerNameRatingLike #right img{
   width: 11px;
   height: 11px;
 }
-#category #classes #classCard a #classManagerNameRatingLike #right #star{
+#classCard a #classManagerNameRatingLike #right #star{
   width: 15px;
   height: 15px;
 }
-#category #classes #classCard a #className span{
+#classCard a #className span{
   padding-left: 10px;
   font-weight: bold;
 }
-#category #classes #classCard a #classPrice{
+#classCard a #classPrice{
   display:flex;
   justify-content: flex-end;
 }
-#category #classes #classCard a #classPrice span{
+#classCard a #classPrice span{
   padding-right: 10px;
+}
+#new {
+  padding-bottom: 100px;
+}
+#footer{
+  background-color: #FFF5D9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+
 }

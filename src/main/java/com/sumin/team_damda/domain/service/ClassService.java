@@ -25,4 +25,34 @@ public class ClassService {
         }
         return allClassDto;
     }
+
+    public List<ClassDto> getCategoryClass(int categoryId) {
+        List<ClassDto> categoryClassDto = new ArrayList<>();
+        List<Class> categoryClass = classRepository.findByCategoryId(categoryId);
+        for(Class onedayClass:categoryClass){
+            ClassDto classDto = onedayClass.toDto();
+            categoryClassDto.add(classDto);
+        }
+        return categoryClassDto;
+    }
+
+    public List<ClassDto> getBestClass(){
+        List<ClassDto> bestClassDto = new ArrayList<>();
+        List<Class> bestClass = classRepository.findTop12ByOrderByTotalRatingDescTotalLikeDesc();
+        for(Class onedayClass:bestClass){
+            ClassDto classDto = onedayClass.toDto();
+            bestClassDto.add(classDto);
+        }
+        return bestClassDto;
+    }
+
+    public List<ClassDto> getNewClass(){
+        List<ClassDto> newClassDto = new ArrayList<>();
+        List<Class> newClass = classRepository.findTop12ByOrderByIdDesc();
+        for(Class onedayClass:newClass){
+            ClassDto classDto = onedayClass.toDto();
+            newClassDto.add(classDto);
+        }
+        return newClassDto;
+    }
 }
