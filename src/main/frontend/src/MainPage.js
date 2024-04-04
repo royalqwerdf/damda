@@ -1,10 +1,10 @@
-import './App.css';
+import './MainPage.css';
 import ClassList from "./ClassList";
 import Navigation from "./Navigation";
 import Banner from "./Banner";
 
 
-function App() {
+function MainPage() {
     return (
         <div>
             <Navigation />
@@ -14,4 +14,4 @@ function App() {
     );
 }
 
-export default App;
+export default MainPage;

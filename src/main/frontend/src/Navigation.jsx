@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './MainPage.css';
 function Navigation(){
     return (
         <nav id="navibar">
