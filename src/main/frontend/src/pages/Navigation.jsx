@@ -1,5 +1,5 @@
 import React from 'react';
-import './MainPage.css';
+import '../styles/MainPage.css';
 import {Link} from "react-router-dom";
 
 function Navigation(){

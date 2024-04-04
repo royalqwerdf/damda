@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
-import './manageClass.css';
+import '../styles/manageClass.css';
 import useDetectClose from '../hooks/useDetectClose';
 import {LevelDropDown} from "../components/LevelDropDown";
 import {CategoryDropDown} from "../components/CategoryDropDown";

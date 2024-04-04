@@ -1,4 +1,4 @@
-import './MainPage.css';
+import '../styles/MainPage.css';
 import CategoryClassList from "./CategoryClassList";
 import Navigation from "./Navigation";
 import Banner from "./Banner";

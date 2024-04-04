@@ -1,5 +1,5 @@
 import React from 'react';
-import './MainPage.css';
+import '../styles/MainPage.css';
 function Banner(){
     return(
         <div id="banner">
