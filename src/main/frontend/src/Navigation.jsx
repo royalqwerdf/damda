@@ -1,5 +1,7 @@
 import React from 'react';
 import './MainPage.css';
+import {Link} from "react-router-dom";
+
 function Navigation(){
     return (
         <nav id="navibar">
@@ -17,12 +19,15 @@ function Navigation(){
                 <input type="text"/>
                 <a href="#" id="rightbar">LOGIN</a>
                 <a href="#">JOIN</a>
-                <button onClick="location.href='#'">
-                    클래스 등록
-                </button>
+                <Link to="/class-open">
+                    <button>
+                        클래스 등록
+                    </button>
+                </Link>
             </div>
         </nav>
     );
 }
+
 
 export default Navigation;

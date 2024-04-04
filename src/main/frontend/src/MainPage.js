@@ -11,20 +11,13 @@ import NewClassList from "./NewClassList";
 function MainPage() {
     return (
         <div>
-            <BrowserRouter>
-                <Navigation />
                 <Banner />
+                <CategoryClassList />
                 <Routes>
-                    <Route path="/" element={<CategoryClassList />}></Route>
                     <Route path="/category/*" element={<CategoryClassList />}></Route>
                 </Routes>
                 <BestClassList />
                 <NewClassList />
-                <Footer />
-            </BrowserRouter>
-
-
-
         </div>
     );
 }
