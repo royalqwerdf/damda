@@ -36,9 +36,6 @@ public class Cart {
     @Column(name = "total_price", nullable = false)
     private int totalPrice;
 
-    //classTime.getOndayClass().getPrice() * selectedCount;
-    //오류발생 프론트 단에서 계산
-
     @CreatedDate
     @Column(name = "add_at", nullable = false)
     private LocalDateTime addAt;
