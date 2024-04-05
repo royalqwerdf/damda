@@ -3,6 +3,7 @@ import Navigation from "./pages/Navigation";
 import Footer from "./pages/Footer";
 import MainPage from "./pages/MainPage";
 import ClassOpen from "./pages/ClassOpen";
+import SearchPage from "./pages/SearchPage";
 
 function App(){
     return(
@@ -11,6 +12,7 @@ function App(){
                 <Navigation />
                 <Routes>
                     <Route path="/" element={<MainPage/>}></Route>
+                    <Route path="/search" element={<SearchPage/>}></Route>
                     <Route path="/class-open" element={<ClassOpen/>}></Route>
                 </Routes>
                 <Footer />

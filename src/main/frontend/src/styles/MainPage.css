@@ -137,11 +137,77 @@ body{
 #new {
   padding-bottom: 100px;
 }
+#searchIcon{
+  width: 30px;
+  height: 30px;
+  vertical-align: bottom;
+}
+#searchPage{
+  margin-top: 100px;
+  justify-content: center;
+}
+#searchOption{
+  background-color: #FFDCD1;
+  width: 100vw;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+#searchOption input{
+  font-size: 20px;
+  border-radius: 10px;
+  border: none;
+  text-align: center;
+  height: 40px;
+}
+#inputKeyword{
+  width: 500px;
+}
+#inputNumber{
+}
+#btnSearch{
+  color: white;
+  width: 150px;
+  height: 40px;
+  background-color: #f52334;
+  border: none;
+  border-radius: 10px;
+  margin-left: 50px;
+  font-size: 20px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+#resultSearch{
+}
+#dropboxes{
+  display: flex;
+  justify-content: center;
+  margin: 20px 0px;
+}
+#dropboxes ul{
+  list-style:none;
+}
+#categoryDropdown{
+  border: none;
+  background-color: white;
+  border-radius: 10px;
+  margin: 0px 30px;
+}
+#categoryUl{
+  width: 100px;
+}
+#resultSearch{
+  margin-top: 100px;
+}
 #footer{
   background-color: #FFF5D9;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 300px;
-
 }
