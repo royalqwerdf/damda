@@ -21,10 +21,10 @@ public class ClassTime {
     private long id;
 
     @Column(name="class_start_at")
-    private LocalDateTime classStartsAt;
+    private String classStartsAt;
 
     @Column(name="class_end_at")
-    private LocalDateTime classEndsAt;
+    private String classEndsAt;
 
     @ManyToOne
     @JoinColumn(name="class_id")
