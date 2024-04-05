@@ -150,16 +150,16 @@ public class DataInitializer implements ApplicationRunner {
         classImageRepository.save(classImage4);
 
         ClassImage img1 = classImageRepository.findById(1L).orElse(null);
-        img1.setOndayClass(testClass1);
+        img1.setOnedayClass(testClass1);
         classImageRepository.save(img1);
         ClassImage img2 = classImageRepository.findById(2L).orElse(null);
-        img2.setOndayClass(testClass4);
+        img2.setOnedayClass(testClass4);
         classImageRepository.save(img2);
         ClassImage img3 = classImageRepository.findById(3L).orElse(null);
-        img3.setOndayClass(testClass2);
+        img3.setOnedayClass(testClass2);
         classImageRepository.save(img3);
         ClassImage img4 = classImageRepository.findById(4L).orElse(null);
-        img4.setOndayClass(testClass3);
+        img4.setOnedayClass(testClass3);
         classImageRepository.save(img4);
 
     }

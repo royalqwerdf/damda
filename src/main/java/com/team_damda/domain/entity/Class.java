@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Builder
-public class Class {
+@EnableJpaAuditing
+public class Class extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,16 +51,16 @@ public class Class {
     @JoinColumn(name="category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "ondayClass")
+    @OneToMany(mappedBy = "onedayClass")
     private List<ClassTime> classTimes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "ondayClass")
+    @OneToMany(mappedBy = "onedayClass")
     private List<ClassReview> classReviews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "ondayClass")
+    @OneToMany(mappedBy = "onedayClass")
     private List<ClassLike> classLikes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "ondayClass", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "onedayClass", cascade = CascadeType.ALL)
     private List<ClassImage> classImages = new ArrayList<>();
 
     public ClassDto toDto(){

@@ -33,7 +33,7 @@ public class ClassReview {
 
     @ManyToOne
     @JoinColumn(name="class_id")
-    private Class ondayClass;
+    private Class onedayClass;
 
     @OneToMany(mappedBy = "classReview")
     @Comment("리뷰의 사진 매핑")

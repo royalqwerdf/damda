@@ -29,6 +29,6 @@ public class ClassImage {
 
     @ManyToOne
     @JoinColumn(name="class_id")
-    private Class ondayClass;
+    private Class onedayClass;
 
 }
