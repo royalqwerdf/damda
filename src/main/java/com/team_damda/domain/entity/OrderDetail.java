@@ -54,4 +54,12 @@ public class OrderDetail {
     @ManyToOne
     @JoinColumn(name="user_id")
     private Member member;
+
+    @OneToOne(mappedBy="orderDetail", cascade = CascadeType.ALL)
+    private ClassReservation reservation;
+
+    public Long getClassReservationId() {
+        return classReservation.getId(); // ClassReservation 객체의 id 값을 반환
+    }
+
 }

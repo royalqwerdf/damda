@@ -38,7 +38,7 @@ public class DataInitializer implements ApplicationRunner {
                 .name("홍길동")
                 .role(Role.MANAGER)
                 .password("1234")
-                .userEmail("gildong@kakao.com")
+                .userEmail("gildong2@kakao.com")
                 .phone("010-1111-2222")
                 .loginType(LoginType.KAKAO)
                 .build();
