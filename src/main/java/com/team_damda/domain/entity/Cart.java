@@ -1,4 +1,4 @@
-package com.sumin.team_damda.domain.entity;
+package com.team_damda.domain.entity;
 
 import com.team_damda.domain.entity.BaseTimeEntity;
 import com.team_damda.domain.entity.ClassTime;

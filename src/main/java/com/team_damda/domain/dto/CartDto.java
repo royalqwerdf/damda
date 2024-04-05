@@ -1,8 +1,8 @@
-package com.sumin.team_damda.domain.dto;
+package com.team_damda.domain.dto;
 
-import com.sumin.team_damda.domain.entity.Cart;
-import com.sumin.team_damda.domain.entity.ClassTime;
-import com.sumin.team_damda.domain.entity.Member;
+import com.team_damda.domain.entity.Cart;
+import com.team_damda.domain.entity.ClassTime;
+import com.team_damda.domain.entity.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

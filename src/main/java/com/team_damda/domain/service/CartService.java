@@ -1,9 +1,9 @@
-package com.sumin.team_damda.domain.service;
+package com.team_damda.domain.service;
 
-import com.sumin.team_damda.domain.dto.CartDto;
-import com.sumin.team_damda.domain.entity.Cart;
-import com.sumin.team_damda.domain.entity.Class;
-import com.sumin.team_damda.domain.repository.CartRepository;
+import com.team_damda.domain.entity.Class;
+import com.team_damda.domain.dto.CartDto;
+import com.team_damda.domain.entity.Cart;
+import com.team_damda.domain.repository.CartRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -73,7 +73,7 @@ public class CartService {
             cart.setSelectedCount(selectedCount);
 
             // 총 가격 변경
-            Class onedayClass = cart.getClassTime().getOndayClass();
+            Class onedayClass = cart.getClassTime().getOnedayClass();
             cart.setTotalPrice(onedayClass.getPrice() * selectedCount);
             return true;
         } else {
@@ -89,7 +89,7 @@ public class CartService {
             cart.setSelectedCount(selectedCount);
 
             // 총 가격 변경
-            Class onedayClass = cart.getClassTime().getOndayClass();
+            Class onedayClass = cart.getClassTime().getOnedayClass();
             cart.setTotalPrice(onedayClass.getPrice() * selectedCount);
             return true;
         } else {

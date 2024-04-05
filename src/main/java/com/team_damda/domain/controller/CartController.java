@@ -1,9 +1,9 @@
-package com.sumin.team_damda.domain.controller;
+package com.team_damda.domain.controller;
 
-import com.sumin.team_damda.domain.dto.CartDto;
-import com.sumin.team_damda.domain.entity.Cart;
-import com.sumin.team_damda.domain.service.CartService;
-import com.sumin.team_damda.domain.util.CookieUtils;
+import com.team_damda.domain.dto.CartDto;
+import com.team_damda.domain.entity.Cart;
+import com.team_damda.domain.service.CartService;
+import com.team_damda.domain.util.CookieUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;

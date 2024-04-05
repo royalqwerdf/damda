@@ -1,7 +1,7 @@
-package com.sumin.team_damda.domain.repository;
+package com.team_damda.domain.repository;
 
-import com.sumin.team_damda.domain.dto.CartDto;
-import com.sumin.team_damda.domain.entity.Cart;
+import com.team_damda.domain.dto.CartDto;
+import com.team_damda.domain.entity.Cart;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
