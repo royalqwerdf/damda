@@ -35,8 +35,8 @@ public class MainController {
         return map;
     }
 
-    @GetMapping("/category/{id}")
-    public List<ClassDto> categoryClass(@PathVariable int categoryId){
+    @GetMapping("/category/{categoryId}")
+    public List<ClassDto> categoryClass(@PathVariable("categoryId") Long categoryId){
         return classService.getCategoryClass(categoryId);
     }
 

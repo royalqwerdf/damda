@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface ClassRepository extends JpaRepository<Class,Long> {
 
-    public List<Class> findByCategoryId(int categoryId);
+    public List<Class> findByCategoryId(long categoryId);
     public List<Class> findTop12ByOrderByTotalRatingDescTotalLikeDesc();
     public List<Class> findTop12ByOrderByIdDesc();
 }

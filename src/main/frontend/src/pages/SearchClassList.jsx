@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 
-function BestClassList(){
+function SearchClassList(){
     const [classes, setClasses] = useState([]);
     useEffect(() => {
         axios.get('/best')
@@ -48,4 +48,4 @@ function BestClassList(){
     );
 }
 
-export default BestClassList;
+export default SearchClassList;

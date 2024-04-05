@@ -4,6 +4,8 @@ import Footer from "./pages/Footer";
 import MainPage from "./pages/MainPage";
 import ClassOpen from "./pages/ClassOpen";
 import SearchPage from "./pages/SearchPage";
+import CategoryClassList from "./pages/CategoryClassList";
+import CategoryClassList2 from "./pages/CategoryClassList2";
 
 function App(){
     return(
