@@ -17,16 +17,21 @@ body{
   justify-content: space-around;
   text-align: center;
   padding-top: 30px;
+  padding-bottom: 20px;
   margin-left: -6px;
   margin-top: -6px;
   background-color: white;
+  align-items: center;
+}
+#navibar #menu a{
+  font-weight: bold;
 }
 #navibar a{
   color: #401E20;
   padding-left: 5px;
 }
-#navibar #menu{
-  margin-right:30px;
+#navibar #news{
+  margin:0px 30px;
 }
 #navibar #rightbar{
   border-right: #401E20 1px solid;
@@ -36,8 +41,10 @@ body{
   margin-left: 5px;
   background-color:transparent;
   border-radius: 5px;
-  border: #F52334 1px solid;
+  border: #F52334 2px solid;
   color: #F52334;
+  padding: 5px;
+  font-weight: bold;
 }
 #banner{
   display: flex;
@@ -143,13 +150,12 @@ body{
   vertical-align: bottom;
 }
 #searchPage{
-  margin-top: 100px;
   justify-content: center;
 }
 #searchOption{
   background-color: #FFDCD1;
   width: 100vw;
-  height: 300px;
+  height: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -187,7 +193,7 @@ input::-webkit-inner-spin-button {
 #dropboxes{
   display: flex;
   justify-content: center;
-  margin: 20px 0px;
+  margin: 40px 0px;
 }
 #dropboxes ul{
   list-style:none;

@@ -43,7 +43,7 @@ function SearchPage(){
                     </div>
                     <div>
                         <input id="inputNumber" type="number" placeholder="최소 가격"/>
-                        {"   ~   "}
+                        {" ~ "}
                         <input id="inputNumber" type="number" placeholder="최대 가격"/>
                         <button id="btnSearch">검색</button>
                     </div>
