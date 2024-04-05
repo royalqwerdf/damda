@@ -4,8 +4,11 @@ import useDetectClose from '../hooks/useDetectClose';
 import {LevelDropDown} from "../components/LevelDropDown";
 import {CategoryDropDown} from "../components/CategoryDropDown";
 import {LongtimeDropDown} from "../components/LongtimeDropDown";
+import ClassScheduleForm from '../components/ClassScheduleForm';
+import { v4 as uuidv4 } from 'uuid';
 
-//import 'bootstrap/dist/js/bootstrap.bundle';
+
+import 'bootstrap/dist/js/bootstrap.bundle';
 
 const ClassOpen = () => {
     //난이도 드롭다운 박스 설정
@@ -26,6 +29,7 @@ const ClassOpen = () => {
     const longtimeList = ['1시간', '1시간 30분', '2시간']
     const [isOpenLongtime, setIsOpenLongtime] = useDetectClose(longtimeRef, false);
 
+
     useEffect(() => {
         //백엔드에서 카테고리 이름 목록을 가져옴
         const fetchCategories = async() => {
@@ -41,8 +45,39 @@ const ClassOpen = () => {
         fetchCategories();
     }, []);
 
+    //클래스 일정 등록 폼들을 저장할 리스트
+    const [formList, setFormList] = useState([]);
+
+
+    //클래스 일정 등록 동적 생성
+    const [formFields, setFormFields] = useState([]);
+
+        const handleAddFields = () => {
+            const newField = {id: uuidv4(), start: '', end: '', count: '' };
+            formList.push(newField);
+            setFormFields(prevState => [...prevState, newField]);
+            console.log(formList);
+        };
+
+        const handleRemoveFields = (index) => {
+            setFormFields(prevState => {
+                const updatedFields = prevState.filter((_, i) => i !== index);
+                // 인덱스 재조정
+                const updatedFormList = updatedFields.map((field, idx) => ({ ...field, index: idx }));
+                // formList 업데이트
+                setFormList(updatedFormList);
+                console.log(formList);
+                return updatedFields;
+            });
+        };
+
+        const handleSubmit = (e) => {
+            e.preventDefault();
+    };
+
 
     return (
+
         <div className="class-open-page" style={{ height: "2048px" }}>
                     <div className="class-information-input-area">
                         <div className="input-area">
@@ -65,7 +100,7 @@ const ClassOpen = () => {
                                  <div className="class-explain" style={{ fontSize: '18px', fontWeight: 'bold' }}>
                                             클래스 설명
                                  </div>
-                                 <form className="class-explain-input-group" method="get" action="/frontend/public">
+                                 <form className="class-explain-input-group" method="get" action="/">
                                        <div className="explain-group">
                                             <input className="form-control"
                                                    name="classexplain"
@@ -155,97 +190,28 @@ const ClassOpen = () => {
                                         <div className="class-schedule-setting" style={{ width: '100%', height: '30px', fontSize: '18px', fontWeight: 'bold', marginLeft: '80px' }}>
                                             클래스 일정 등록
                                         </div>
-                                        <div className="detail-setting-zone" style={{ width: '100%' }}>
-                                            <div className="schedule-group" style={{ width: '100%', height: '150px' }}>
-                                                <div className="class-start-time-space">
-                                                    <div className="start-time-top" style={{ fontWeight: 'bold', marginLeft: '20px' }}>수업 시작 시간</div>
-                                                    <div className="start-time-bottom" style={{ marginTop: '10px', padding: '15px' }}>
-                                                        <button className="btn btn-light lh-1 p-0 px-2 dropdown-toggle"
-                                                                type="button"
-                                                                data-bs-toggle="dropdown"
-                                                                aria-expanded="false"
-                                                                style={{ width: '100%', height: '40px', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px' }}>
-                                                            <span className="level-drop-button" style={{ color: '#696969' }}>시작 시간 설정</span>
-                                                        </button>
-                                                        <ul className="dropdown-menu dropdown-menu-end">
-                                                            <li>
-                                                                <button className="dropdown-item d-flex align-items-center gap-2"
-                                                                        onClick={() => console.log("오전 09:00 선택")}
-                                                                        style={{ width: '100%' }}>
-                                                                    오전 09:00
-                                                                </button>
-                                                            </li>
-                                                            {/* 다른 시작 시간 항목들 추가 */}
-                                                            <li>
-                                                                <button className="dropdown-item d-flex align-items-center gap-2"
-                                                                        onClick={() => console.log("오전 10:00 선택")}
-                                                                        style={{ width: '100%' }}>
-                                                                    오전 10:00
-                                                                </button>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div className="class-end-time-space">
-                                                    <div className="end-time-top" style={{ fontWeight: 'bold', marginLeft: '20px' }}>수업 종료 시간</div>
-                                                    <div className="end-time-bottom" style={{ marginTop: '10px', padding: '15px' }}>
-                                                        <button className="btn btn-light lh-1 p-0 px-2 dropdown-toggle"
-                                                                type="button"
-                                                                data-bs-toggle="dropdown"
-                                                                aria-expanded="false"
-                                                                style={{ width: '100%', height: '40px', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px' }}>
-                                                            <span className="level-drop-button" style={{ color: '#696969' }}>종료 시간 설정</span>
-                                                        </button>
-                                                        <ul className="dropdown-menu dropdown-menu-end">
-                                                            <li>
-                                                                <button className="dropdown-item d-flex align-items-center gap-2"
-                                                                        onClick={() => console.log("오전 10:00 선택")}
-                                                                        style={{ width: '100%' }}>
-                                                                    오전 10:00
-                                                                </button>
-                                                            </li>
-                                                            {/* 다른 종료 시간 항목들 추가 */}
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div className="class-headcount-max-space">
-                                                    <div className="headcount-max-top" style={{ fontWeight: 'bold', marginLeft: '20px' }}>최대 수강 인원</div>
-                                                    <div className="headcount-max-bottom" style={{ marginTop: '10px', padding: '15px' }}>
-                                                        <button className="btn btn-light lh-1 p-0 px-2 dropdown-toggle"
-                                                                type="button"
-                                                                data-bs-toggle="dropdown"
-                                                                aria-expanded="false"
-                                                                style={{ width: '100%', height: '40px', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px' }}>
-                                                            <span className="level-drop-button" style={{ color: '#696969' }}>인원수 설정</span>
-                                                        </button>
-                                                        <ul className="dropdown-menu dropdown-menu-end">
-                                                            <li>
-                                                                <button className="dropdown-item d-flex align-items-center gap-2"
-                                                                        onClick={() => console.log("1명 선택")}
-                                                                        style={{ width: '100%' }}>
-                                                                    1명
-                                                                </button>
-                                                            </li>
-                                                            {/* 다른 인원수 항목들 추가 */}
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div className="class-schedule-delete-space">
-                                                    <div className="schedule-delete-top" style={{ fontWeight: 'bold', marginLeft: '40px' }}>삭제</div>
-                                                    <div className="schedule-delete-bottom" style={{ marginTop: '10px', padding: '15px' }}>
-                                                        <button className="class-schedule-delete-btn"
-                                                                type="button"
-                                                                style={{ width: '100%', height: '40px', color: '#cd5c5c', backgroundColor: '#FFFFFF', border: '2px solid #e9967a', borderRadius: '10px' }}>
-                                                            삭제
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <div className="schedule-classify" style={{ width: '100%', height: '30px' }}>
+                                            <div className="start-time-top" style={{ fontWeight: 'bold'}}>수업 시작 시간</div>
+                                            <div className="end-time-top" style={{ fontWeight: 'bold'}}>수업 종료 시간</div>
+                                            <div className="headcount-max-top" style={{ fontWeight: 'bold'}}>최대 수강 인원</div>
+                                            <div className="schedule-delete-top" style={{ fontWeight: 'bold' }}>삭제</div>
                                         </div>
+                                        <form className="detail-setting-zone" onSubmit={handleSubmit} style={{marginRight: '10px', width: '100%' }}>
+                                            {formFields.map((field, index) => (
+
+                                                <ClassScheduleForm
+                                                    key={index}
+                                                    index={index}
+                                                    handleRemoveFields={handleRemoveFields}
+                                                />
+                                            ))}
+
+                                        </form>
                                         <div className="schedule-add-button-zone" style={{ width: '100%', height: '40px' }}>
                                             <button className="schedule-add-btn"
                                                     type="button"
-                                                    style={{ width: '30%', height: '40px', color: '#FFFFFF', backgroundColor: '#cd5c5c', border: '2px solid #e9967a', borderRadius: '10px' }}>
+                                                    onClick={() => handleAddFields()}
+                                                    style={{ width: '30%', height: '40px', color: '#FFFFFF', backgroundColor: '#cd5c5c', border: '2px solid #e9967a', borderRadius: '10px', marginTop: '20px'}}>
                                                 클래스 일정 추가
                                             </button>
                                         </div>
@@ -266,7 +232,7 @@ const ClassOpen = () => {
                             <div className="class-shop-address-area" style={{ marginTop: '50px' }}>
                                             <div className="address-search-zone" style={{ marginLeft: '50px', height: '50px' }}>
                                                 <div className="adress-name" style={{ fontWeight: 'bold' }}>주  소</div>
-                                                <form className="class-address-search-group" method="get" action="/frontend/public">
+                                                <form className="class-address-search-group" method="get" action="/">
                                                     <div className="input-group">
                                                         <input className="form-control"
                                                                name="address"
@@ -277,7 +243,7 @@ const ClassOpen = () => {
                                                 </form>
                                             </div>
                                             <div className="detail-address-input-zone">
-                                                <form className="detail-address-input-group" method="get" action="/frontend/public">
+                                                <form className="detail-address-input-group" method="get" action="/">
                                                     <div className="input-group">
                                                         <input className="form-control"
                                                                name="detailaddress"
@@ -292,7 +258,7 @@ const ClassOpen = () => {
                             <div className="curriculum-input-area" style={{ width: '100%', marginTop: '50px' }}>
                                 <div className="curriculum-name" style={{ fontSize: '18px', fontWeight: 'bold', marginLeft: '70px' }}>커리큘럼</div>
                                 <div className="curriculum-input" style={{ padding: '30px', width: '100%', height: '400px' }}>
-                                    <form className="class-curriculum-input-group" method="get" action="/frontend/public">
+                                    <form className="class-curriculum-input-group" method="get" action="/">
                                         <div className="input-group">
                                             <input className="form-control"
                                                    name="curriculum"

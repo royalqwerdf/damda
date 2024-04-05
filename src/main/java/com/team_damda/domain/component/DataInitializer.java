@@ -1,6 +1,5 @@
 package com.team_damda.domain.component;
 
-
 import com.team_damda.domain.entity.Category;
 import com.team_damda.domain.entity.Class;
 import com.team_damda.domain.entity.ClassImage;
@@ -15,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-
+/*
 @Component
 public class DataInitializer implements ApplicationRunner {
     private final ClassRepository classRepository;
@@ -72,6 +71,7 @@ public class DataInitializer implements ApplicationRunner {
         categoryRepository.save(testCategory3);
         categoryRepository.save(testCategory4);
 
+        /*
         Class testClass1 = Class.builder()
                 .className("맛스타")
                 .price(50000)
@@ -150,18 +150,19 @@ public class DataInitializer implements ApplicationRunner {
         classImageRepository.save(classImage4);
 
         ClassImage img1 = classImageRepository.findById(1L).orElse(null);
-        img1.setOnedayClass(testClass1);
+        img1.setOndayClass(testClass1);
         classImageRepository.save(img1);
         ClassImage img2 = classImageRepository.findById(2L).orElse(null);
-        img2.setOnedayClass(testClass4);
+        img2.setOndayClass(testClass4);
         classImageRepository.save(img2);
         ClassImage img3 = classImageRepository.findById(3L).orElse(null);
-        img3.setOnedayClass(testClass2);
+        img3.setOndayClass(testClass2);
         classImageRepository.save(img3);
         ClassImage img4 = classImageRepository.findById(4L).orElse(null);
-        img4.setOnedayClass(testClass3);
+        img4.setOndayClass(testClass3);
         classImageRepository.save(img4);
 
     }
 
 }
+*/
