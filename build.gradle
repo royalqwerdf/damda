@@ -43,6 +43,9 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.0'
     implementation 'io.hypersistence:hypersistence-utils-hibernate-60:3.3.1'
     implementation 'com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations'
+    // JWT
+    implementation 'com.auth0:java-jwt:4.2.1'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
 
 tasks.named('test') {
