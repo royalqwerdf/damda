@@ -17,6 +17,12 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
+### MAC DS_Store exclude
+.DS_Store
+._.DS_Store
+**/.DS_Store
+**/._.DS_Store
+
 ### IntelliJ IDEA ###
 .idea
 *.iws

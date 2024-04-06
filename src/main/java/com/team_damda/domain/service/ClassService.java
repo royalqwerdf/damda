@@ -58,8 +58,9 @@ public class ClassService {
         return allClassDto;
     }
 
+
     @Transactional
-    public List<ClassDto> getCategoryClass(int categoryId) {
+    public List<ClassDto> getCategoryClass(long categoryId) {
         List<ClassDto> categoryClassDto = new ArrayList<>();
         List<Class> categoryClass = classRepository.findByCategoryId(categoryId);
         for(Class onedayClass:categoryClass){
