@@ -42,3 +42,6 @@ application.properties
 
 ### VS Code ###
 .vscode/
+
+# Ignore serviceAccountKey.json file
+resources/serviceAccountKey.json

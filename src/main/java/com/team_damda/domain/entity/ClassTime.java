@@ -1,5 +1,6 @@
 package com.team_damda.domain.entity;
 
+import com.team_damda.domain.dto.ClassTimeDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,5 +30,14 @@ public class ClassTime {
     @ManyToOne
     @JoinColumn(name="class_id")
     private Class onedayClass;
+
+    public ClassTimeDto toDto() {
+        return ClassTimeDto.builder()
+                .id(this.id)
+                .classStartsAt(this.classStartsAt)
+                .classEndsAt(this.classEndsAt)
+                .className(this.onedayClass.getClassName())
+                .build();
+    }
 
 }
