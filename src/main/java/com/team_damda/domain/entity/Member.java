@@ -32,6 +32,9 @@ public class Member {
     @Column(name="phone", nullable = false, length = 20)
     private String phone;
 
+    @Column(name="img_url")
+    private String imageUrl;
+
     @Column(name="sns_ny", length = 1)
     private String snsNy;
 
@@ -43,6 +46,7 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private LoginType loginType;
 
+    @Column(length = 1000)
     private String refreshToken;
 
 
