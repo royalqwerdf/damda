@@ -1,16 +1,16 @@
 import React, { useRef, useState } from 'react';
 import useDetectClose from '../hooks/useDetectClose';
-import {ClassStartDropDown} from "../components/ClassStartDropDown";
-import {ClassEndDropDown} from "../components/ClassEndDropDown";
-import {HeadcountDropDown} from "../components/HeadcountDropDown";
+import {ClassStartDropDown} from "../components/dropdown/ClassStartDropDown";
+import {ClassEndDropDown} from "../components/dropdown/ClassEndDropDown";
+import {HeadcountDropDown} from "../components/dropdown/HeadcountDropDown";
 
 
-const ClassScheduleForm = ({ index, handleRemoveFields }) => {
+const ClassScheduleForm = ({ index, handleFieldChange, handleRemoveFields }) => {
     const [field, setField] = useState({ start: '', end: '', count: '' });
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setField(prevState => ({ ...prevState, [name]: value }));
+    const handleInputChange = (name, value) => {
+            setField(prevState => ({ ...prevState, [name]: value }));
+            handleFieldChange(index, name, value);
     };
 
     //수업시작 시간 드롭박스 설정
@@ -35,7 +35,7 @@ const ClassScheduleForm = ({ index, handleRemoveFields }) => {
         <div className="schedule-group" style={{ width: '100%', height: '60px' }}>
             <div className="class-start-time-space">
                 <div className="start-time-bottom" style={{padding: '15px' }}>
-                    <div ref={classStartRef} name='start' value={field.start} onChange={(e) => handleInputChange(index, e)} style={{ position: 'relative', zIndex: 1}}>
+                    <div ref={classStartRef} name='start' value={field.start} onChange={(e) => handleInputChange(index, e)} style={{ position: 'relative'}}>
 
                         <input
                             onClick={() => setIsOpenClassStart(!isOpenClassStart)}
@@ -47,7 +47,7 @@ const ClassScheduleForm = ({ index, handleRemoveFields }) => {
                             style={{ width: '100%', height: '40px', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px' }}
                         />
                         {isOpenClassStart && (
-                            <ul style={{ cursor: 'pointer', position: 'absolute', top: '100%', left: 0, zIndex: 1, listStyleType: 'none', padding: '10px', width: '90%', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)' }}>
+                            <ul style={{ cursor: 'pointer', position: 'absolute', top: '100%', left: 0, listStyleType: 'none', padding: '10px', width: '90%', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)' }}>
                                 {classStartList.map((value, index) => (
                                     <ClassStartDropDown key={index} value={value} setClassStartIdentify={setClassStartIdentify} setIsOpen={setIsOpenClassStart} isOpen={isOpenClassStart}/>
                                 ))}
@@ -70,7 +70,7 @@ const ClassScheduleForm = ({ index, handleRemoveFields }) => {
                             style={{ width: '100%', height: '40px', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px' }}
                         />
                         {isOpenClassEnd && (
-                            <ul style={{ cursor: 'pointer', position: 'absolute', top: '100%', left: 0, zIndex: 2, listStyleType: 'none', padding: '10px', width: '90%', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)' }}>
+                            <ul style={{ cursor: 'pointer', position: 'absolute', top: '100%', left: 0, listStyleType: 'none', padding: '10px', width: '90%', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)' }}>
                                 {classEndList.map((value, index) => (
                                     <ClassEndDropDown key={index} value={value} setClassEndIdentify={setClassEndIdentify} setIsOpen={setIsOpenClassEnd} isOpen={isOpenClassEnd}/>
                                 ))}

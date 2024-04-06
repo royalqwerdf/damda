@@ -203,21 +203,46 @@
 .address-search-zone {
     display: flex;
     align-items: center;
+    margin-left : 50px;
+    margin-right: 70px;
 }
 
 .address-name {
     display: flex;
-    flex: 3;
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
 }
 
-.class-address-serach-group {
+.class-address-search-group {
     display: flex;
-    flex: 7;
-    margin-left: 30px;
-    margin-right: 70px;
+    flex: 8;
+}
+
+.address-search-button {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
 }
 
 .detail-address-input-zone {
     margin-left : 50px;
     margin-right: 70px;
+}
+
+.class-curriculum-input-group {
+    justify-content: center;
+    text-align: center;
+}
+
+.cur-form-control {
+    width: 90%;
+    height: 400px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    border: 2px solid #dcdcdc;
+    margin-top: 20px;
 }
