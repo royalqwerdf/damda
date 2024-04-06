@@ -1,17 +1,10 @@
 package com.team_damda.domain.entity;
 
-import com.team_damda.domain.entity.BaseTimeEntity;
-import com.team_damda.domain.entity.ClassTime;
-import com.team_damda.domain.entity.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Data
