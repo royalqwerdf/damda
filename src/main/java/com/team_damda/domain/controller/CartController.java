@@ -178,12 +178,12 @@ public class CartController {
 
         if(memberId != null) {
             List<Cart> carts = cartService.getAllCartsByMemberId(memberId);
-            if(carts.size() == 0) isEmpty = true;
+            if(carts.isEmpty()) isEmpty = true;
         } else {
             String cookieValue = CookieUtils.getCookieValue(request, "cookieValue");
             if(cookieValue != null) {
                 List<Cart> carts = cartService.getAllCartsByCookieValue(cookieValue);
-                if(carts.size() == 0) isEmpty = true;
+                if(carts.isEmpty()) isEmpty = true;
             } else {
                 return ResponseEntity.notFound().build();
             }
