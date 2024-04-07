@@ -6,8 +6,13 @@ import com.team_damda.domain.exception.NotFoundException;
 import com.team_damda.domain.repository.ClassReservationRepository;
 import com.team_damda.domain.repository.OrderDetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+
+//import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,15 +24,25 @@ public class OrderDetailService {
     @Autowired
     private final ClassReservationRepository classReservationRepository;
 
-
     @Autowired
     public OrderDetailService(OrderDetailRepository orderDetailRepository, ClassReservationRepository classReservationRepository) {
         this.orderDetailRepository = orderDetailRepository;
         this.classReservationRepository = classReservationRepository;
     }
 
+    public Page<OrderDetail> findAll(Pageable pageable) {
+        return orderDetailRepository.findAll(pageable);
+    }
+
+    //페이지 구현
+    public Page<OrderDetail> getOrderDetailList(Pageable pageable){
+        pageable = PageRequest.of(pageable.getPageNumber() <= 0 ? 0 : pageable.getPageNumber()-1,
+                pageable.getPageSize());
+        return orderDetailRepository.findAll(pageable);
+    }
+
     // 예약 ID를 기반으로 주문 상세 정보 가져오기
-    public List<OrderDetail> getOrderDetailsByClassReservationId(Long classReservationId) {
+    public List<OrderDetail> getOrderDetailByClassReservationId(Long classReservationId) {
         return orderDetailRepository.findByClassReservationId(classReservationId);
     }
 
@@ -38,7 +53,7 @@ public class OrderDetailService {
         if (optionalClassReservation.isPresent()) {
             ClassReservation classReservation = optionalClassReservation.get();
             // 다른 사람이 예약 정보를 변경하지 않았다면 주문 상세 정보 수정
-            // 여기에서는 단순히 저장만 하도록 가정합니다. 필요에 따라 실제 업데이트 로직을 구현하세요.
+            // 업데이트된 정보를 반환
             return orderDetailRepository.save(updatedOrderDetail);
         } else {
             // 예약 정보가 없는 경우 예외 처리
@@ -46,7 +61,7 @@ public class OrderDetailService {
         }
     }
 
-    // 예약 정보 확인하여 주문 상세 정보 삭제
+    //주문상세 삭제 (예약에서 구현할것인가?)
     public void deleteOrderDetail(Long orderDetailId) {
         // 주문 상세 정보 조회
         Optional<OrderDetail> optionalOrderDetail = orderDetailRepository.findById(orderDetailId);
@@ -66,4 +81,7 @@ public class OrderDetailService {
             throw new NotFoundException("OrderDetail not found for orderDetailId: " + orderDetailId);
         }
     }
+
+
+
 }

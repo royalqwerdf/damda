@@ -3,6 +3,7 @@ import Navigation from "./pages/Navigation";
 import Footer from "./pages/Footer";
 import MainPage from "./pages/MainPage";
 import ClassOpen from "./pages/ClassOpen";
+import UserHome from "./pages/UserHome";
 
 function App(){
     return(
@@ -12,6 +13,7 @@ function App(){
                 <Routes>
                     <Route path="/" element={<MainPage/>}></Route>
                     <Route path="/class-open" element={<ClassOpen/>}></Route>
+                    <Route path="/user-home" element={<UserHome />} />
                 </Routes>
                 <Footer />
             </BrowserRouter>
