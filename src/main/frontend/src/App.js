@@ -3,6 +3,9 @@ import Navigation from "./pages/Navigation";
 import Footer from "./pages/Footer";
 import MainPage from "./pages/MainPage";
 import ClassOpen from "./pages/ClassOpen";
+import SearchPage from "./pages/SearchPage";
+import CategoryClassList from "./pages/CategoryClassList";
+import CategoryClassList2 from "./pages/CategoryClassList2";
 import UserHome from "./pages/UserHome";
 
 function App(){
@@ -12,6 +15,7 @@ function App(){
                 <Navigation />
                 <Routes>
                     <Route path="/" element={<MainPage/>}></Route>
+                    <Route path="/search" element={<SearchPage/>}></Route>
                     <Route path="/class-open" element={<ClassOpen/>}></Route>
                     <Route path="/user-home" element={<UserHome />} />
                 </Routes>
