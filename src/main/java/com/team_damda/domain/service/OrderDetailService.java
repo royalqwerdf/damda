@@ -13,9 +13,12 @@ import java.util.Optional;
 
 @Service
 public class OrderDetailService {
-
+    @Autowired
     private final OrderDetailRepository orderDetailRepository;
+
+    @Autowired
     private final ClassReservationRepository classReservationRepository;
+
 
     @Autowired
     public OrderDetailService(OrderDetailRepository orderDetailRepository, ClassReservationRepository classReservationRepository) {
