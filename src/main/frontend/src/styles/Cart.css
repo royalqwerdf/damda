@@ -40,12 +40,45 @@
     margin: 0 200px 0 100px;
 }
 
-#cart #lists {
-    display: flex;
-    align-items: center;
+#cart #cart-list {
     width: 70%;
     margin-left: 15%;
-    padding-top: 50px;
-    padding-bottom: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     border-bottom: 1px solid #d9d9d9;
+    font-size: 18px;
+}
+
+#cart #cart-list .cart-item {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#cart #cart-list .cart-item span {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+#cart #cart-list .cart-item span.class-name {
+    display: inline-block;
+    width: 390px;
+    text-align: left;
+}
+
+#cart #cart-list .cart-item span.count {
+    display: inline-block;
+    width: 40px;
+    text-align: center;
+}
+
+#cart #cart-list .cart-item span.date {
+    display: inline-block;
+    width: 270px;
+    text-align: center;
+}
+
+#cart #cart-list .cart-item span.price {
+    display: inline-block;
+    width: 80px;
+    text-align: center;
 }
