@@ -5,12 +5,11 @@ import {ClassEndDropDown} from "../components/dropdown/ClassEndDropDown";
 import {HeadcountDropDown} from "../components/dropdown/HeadcountDropDown";
 
 
-const ClassScheduleForm = ({ index, handleFieldChange, handleRemoveFields }) => {
+const ClassScheduleForm = ({ index, handleRemoveFields, startArr, setStartArr, endArr, setEndArr, countArr, setCountArr }) => {
     const [field, setField] = useState({ start: '', end: '', count: '' });
 
     const handleInputChange = (name, value) => {
             setField(prevState => ({ ...prevState, [name]: value }));
-            handleFieldChange(index, name, value);
     };
 
     //수업시작 시간 드롭박스 설정
@@ -35,13 +34,12 @@ const ClassScheduleForm = ({ index, handleFieldChange, handleRemoveFields }) => 
         <div className="schedule-group" style={{ width: '100%', height: '60px' }}>
             <div className="class-start-time-space">
                 <div className="start-time-bottom" style={{padding: '15px' }}>
-                    <div ref={classStartRef} name='start' value={field.start} onChange={(e) => handleInputChange(index, e)} style={{ position: 'relative'}}>
+                    <div ref={classStartRef} style={{ position: 'relative'}}>
 
                         <input
                             onClick={() => setIsOpenClassStart(!isOpenClassStart)}
                             type='button'
                             name='start'
-                            value={field.start}
                             value={classStartIdentify || '시작 시간'}
                             onChange={handleInputChange}
                             style={{ width: '100%', height: '40px', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px' }}
@@ -64,7 +62,6 @@ const ClassScheduleForm = ({ index, handleFieldChange, handleRemoveFields }) => 
                             onClick={() => setIsOpenClassEnd(!isOpenClassEnd)}
                             type='button'
                             name='end'
-                            value={field.end}
                             value={classEndIdentify || '종료 시간'}
                             onChange={handleInputChange}
                             style={{ width: '100%', height: '40px', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px' }}
@@ -88,7 +85,6 @@ const ClassScheduleForm = ({ index, handleFieldChange, handleRemoveFields }) => 
                             onClick={() => setIsOpenHeadcount(!isOpenHeadcount)}
                             type='button'
                             name='count'
-                            value={field.count}
                             value={headcountIdentify || '인원수'}
                             onChange={handleInputChange}
                             style={{ width: '100%', height: '40px', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px' }}

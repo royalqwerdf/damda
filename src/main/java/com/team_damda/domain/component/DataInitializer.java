@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-/*
+
 @Component
 public class DataInitializer implements ApplicationRunner {
     private final ClassRepository classRepository;
@@ -32,7 +32,7 @@ public class DataInitializer implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-
+        /*
         Member testMember1 = Member.builder()
                 .name("홍길동")
                 .role(Role.MANAGER)
@@ -162,7 +162,8 @@ public class DataInitializer implements ApplicationRunner {
         img4.setOndayClass(testClass3);
         classImageRepository.save(img4);
 
+         */
+
     }
 
 }
-*/

@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import '../styles/manageClass.css';
 import useDetectClose from '../hooks/useDetectClose';
 import {LevelDropDown} from "../components/dropdown/LevelDropDown";
@@ -8,6 +8,8 @@ import ClassScheduleForm from '../components/ClassScheduleForm';
 import { v4 as uuidv4 } from 'uuid';
 import PopupDom from '../components/PopupDom';
 import PopupPostCode from '../components/PopupPostCode';
+import useUploadImage from '../hooks/useUploadImage';
+
 
 import 'bootstrap/dist/js/bootstrap.bundle';
 
@@ -30,6 +32,11 @@ const ClassOpen = () => {
     useEffect(() => {
         console.log('커리큘럼 입력:', curriculum);
     }, [curriculum]);
+
+    const [price, setPrice] = useState('');
+    useEffect(() => {
+        console.log('가격 입력:', price);
+    }, [price]);
 
 
 
@@ -56,7 +63,7 @@ const ClassOpen = () => {
         //백엔드에서 카테고리 이름 목록을 가져옴
         const fetchCategories = async() => {
             try {
-                const response = await fetch('/classes');
+                const response = await fetch('/class-open');
                 const data = await response.json();
                 setCategoryList(data);
                 console.log('Fetched categories:', data);
@@ -67,50 +74,42 @@ const ClassOpen = () => {
         fetchCategories();
     }, []);
 
-    //클래스 일정 등록 폼들을 저장할 리스트
-    const [formList, setFormList] = useState([]);
-
 
     //클래스 일정 등록 동적 생성
     const [formFields, setFormFields] = useState([]);
 
+    useEffect(() => {
+        console.log("formFields:", formFields);
+    }, [formFields]);
+
         const handleAddFields = () => {
             const newField = { id: uuidv4(), start: '', end: '', count: '' };
-            setFormList(prevList => [...prevList, newField]); // formList 상태를 업데이트
             setFormFields(prevFields => [...prevFields, newField]); // formFields 상태를 업데이트
-            console.log("이건가?" + formList.map(item => `start: ${item.start}, end: ${item.end}, count: ${item.count}`).join(', '));
+
+            setStartArr(prevArr => [...prevArr, '']);
+            setEndArr(prevArr => [...prevArr, '']);
+            setCountArr(prevArr => [...prevArr, '']);
         };
 
 
         const handleRemoveFields = (index) => {
             setFormFields(prevState => {
                 const updatedFields = prevState.filter((_, i) => i !== index);
-                // 인덱스 재조정
-                const updatedFormList = updatedFields.map((field, idx) => ({ ...field, index: idx }));
-                // formList 업데이트
-                setFormList(updatedFormList);
-                console.log("삭제됐나?" + formList.map(item => `start: ${item.start}, end: ${item.end}, count: ${item.count}`).join(', '));
+
                 return updatedFields;
             });
         };
 
         const handleSubmit = (e) => {
             e.preventDefault();
-            console.log(formList);
     };
 
-    const handleFieldChange = (index, fieldName, value) => {
-            // 해당 인덱스의 폼에 대한 값 변경
-            const updatedFormFields = [...formFields];
-            updatedFormFields[index][fieldName] = value;
-            setFormFields(updatedFormFields);
+    // 생성 일시 관련 배열
+    const [startArr, setStartArr] = useState([]);
+    const [endArr, setEndArr] = useState([]);
+    const [countArr, setCountArr] = useState([]);
 
-            // 전체 폼 리스트 업데이트
-            const updatedFormList = [...formList];
-            updatedFormList[index][fieldName] = value;
-            setFormList(updatedFormList);
 
-    };
 
     //주소 검색 관련 코드
     const [isPopupOpen, setIsPopupOpen] = useState(false)
@@ -131,6 +130,67 @@ const ClassOpen = () => {
     const handleAddressSearch = (address) => {
         setFullAddress(address);
     }
+    const [memberAddress, setMemberAddress] = useState('');
+    useEffect(() => {
+        setMemberAddress(fullAddress + " " + detailaddress);
+    }, [fullAddress, detailaddress]);
+
+    useEffect(() => {
+        console.log("진짜 풀 주소: " + memberAddress);
+    }, [memberAddress]);
+
+
+    //이미지 업로드 함수
+    const [imageUrl, setImageUrl] = useState("");
+    const [file, setFile] = useState(null);
+    const [imageFiles, setImageFiles] = useState([]);
+
+    const uploadImage = useUploadImage(); // 이미지 업로드 훅 사용
+
+    const onUpload = async () => {
+        try {
+            for (let i = 0; i < imageFiles.length; i++) {
+                const currentFile = imageFiles[i]; // 현재 파일을 가져옴
+                const downloadUrl = await uploadImage(currentFile); // 현재 파일을 업로드
+                console.log("File uploaded:", downloadUrl);
+            }
+                console.log("All files uploaded successfully");
+            } catch (error) {
+                console.error("Error uploading files:", error);
+            }
+    };
+
+
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        if (file) {
+            if(imageFiles.length >= 5) {
+                console.log("최대 5개까지만 추가 가능")
+                return;
+            }
+           setImageFiles(prevFiles => [...prevFiles, file]);
+           const fileUrl = URL.createObjectURL(file);
+           setFile(null);
+        }
+    };
+
+    const onChange = (e) => {
+        const files = e.target.files;
+        if (!files) return null;
+        const selectedFiles = Array.from(files).slice(0, 5 - imageFiles.length);
+        if(selectedFiles.length === 0) {
+            alert("파일은 5개까지 첨부 가능합니다.")
+            return;
+        }
+
+        setImageFiles(prevFiles => [...prevFiles, ...selectedFiles]);
+        console.log("Selected Image Files:", imageFiles);
+    };
+
+    const removeImage = (indexToRemove) => {
+        setImageFiles(prevFiles => prevFiles.filter((_, index) => index !== indexToRemove));
+        console.log("delete after Image Files:", imageFiles);
+    };
 
 
 
@@ -266,10 +326,9 @@ const ClassOpen = () => {
                                         <form className="detail-setting-zone" onSubmit={handleSubmit} style={{marginRight: '10px', width: '100%' }}>
                                             {formFields.map((field, index) => (
                                                 <ClassScheduleForm
-                                                    key={index}
+                                                    key={field.id}
                                                     index={index}
                                                     handleRemoveFields={handleRemoveFields}
-                                                    handleFieldChange={handleFieldChange}
                                                 />
                                             ))}
 
@@ -287,12 +346,18 @@ const ClassOpen = () => {
                             <div className="class-open-date-info-area" style={{ width: '100%', marginTop: '50px' }}>
                                         <div className="class-open-info" style={{ fontSize: '18px', fontWeight: 'bold', marginLeft: '80px' }}>운영 정보</div>
                                         <div className="close-date-setting-space" style={{ padding: '30px' }}>
-                                            <div className="close-setting" style={{ fontSize: '14px', fontWeight: 'bold', marginLeft: '60px' }}>휴무일 지정</div>
-                                            <button className="schedule-add-btn"
-                                                    type="button"
-                                                    style={{ width: '200px', height: '30px', backgroundColor: '#c0c0c0', border: '2px solid #808080', borderRadius: '10px', marginLeft: '20px' }}>
-                                                캘린더
-                                            </button>
+                                            <div className="close-setting" style={{ fontSize: '14px', fontWeight: 'bold', marginLeft: '60px' }}>클래스 가격</div>
+                                            <form className="class-name-input-group" method="get" action="">
+                                                <div className="input-group">
+                                                    <input className="price-form-control"
+                                                        name="price"
+                                                        type="text"
+                                                        required
+                                                        value={price}
+                                                        onChange={e => setPrice(e.target.value)}
+                                                        placeholder="1인 기준 가격을 입력하세요" />
+                                                </div>
+                                            </form>
                                         </div>
                             </div>
 
@@ -357,8 +422,43 @@ const ClassOpen = () => {
                                 </div>
                             </div>
 
+                            <div className="image-upload-url">
+
+                                <form onSubmit={onSubmit} style={{padding: '20px', marginLeft: '20px'}}>
+                                    <label htmlFor="input-file">
+                                        <div>
+                                            <p>{}</p>
+                                        </div>
+                                    </label>
+                                    <input type="file" onChange={onChange} accept="image/*" style={{ width: '250px'}} multiple/>
+
+                                </form>
+                                <div className="attached-image-files" style={{ marginLeft: '30px', width: '250px', height: '30px'}}>
+                                    {imageFiles.map((file, index) => (
+                                        <p key={index} style={{fontSize: '10px', color:'#c0c0c0'}}>{file.name}<div type="button" style={{cursor: 'pointer', size: '5px', marginLeft: '10px'}} onClick={() => removeImage(index)}>x</div></p>
+                                    ))}
+                                </div>
+
+                            </div>
+
                         </div>
                     </div>
+
+                    <div className="cancel-submit-button-area">
+                        <button className="cancel-button"
+                                type="button"
+                                style={{cursor: 'pointer', fontWeight: 'bold', color: '#FFFFFF', width: '120px', height: '40px', backgroundColor: '#c0c0c0', border: '2px solid #808080', borderRadius: '10px', marginLeft: '780px'}}>
+                                취  소
+                         </button>
+
+                         <button className="submit-button"
+                                 type="button"
+                                 onClick={onUpload}
+                                 style={{cursor: 'pointer', fontWeight: 'bold', color: '#FFFFFF', width: '120px', height: '40px', backgroundColor: '#cd5c5c', border: '2px solid #e9967a', borderRadius: '10px', marginLeft: '20px' }}>
+                                 등  록
+                         </button>
+                    </div>
+
                 </div>
     );
 };

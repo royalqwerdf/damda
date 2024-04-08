@@ -32,7 +32,7 @@ public class ClassOpenController {
     private final CategoryRepository categoryRepository;
     private final MemberRepository memberRepository;
 
-    @GetMapping("/classes")
+    @GetMapping("/class-open")
     public ResponseEntity<List<String>> getCategoryNames() {
         List<String> categoryNames = new ArrayList<>();
         List<Category> categories = categoryRepository.findAll();
@@ -46,7 +46,7 @@ public class ClassOpenController {
     }
 
 
-    @PostMapping("/classes")
+    @PostMapping("/class-open")
     public Long createClass(@RequestBody ClassDto classDto,
                             @RequestBody ClassTimeDto classTimeDto) {
 
