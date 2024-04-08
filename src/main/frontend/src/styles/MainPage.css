@@ -85,7 +85,11 @@ body{
   justify-content: center;
   overflow-x: auto;
 }
-
+#resultSearch-container{
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+}
 #category{
   height: 350px;
 }
@@ -109,8 +113,6 @@ body{
   justify-content: center;
   margin-top: 30px;
   padding-bottom: 50px;
-
-
 }
 #classes{
   display: flex;

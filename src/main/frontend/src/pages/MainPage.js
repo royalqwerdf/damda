@@ -1,6 +1,6 @@
 import '../styles/MainPage.css';
-import CategoryClassList from "./CategoryClassList";
-import Banner from "./Banner";
+import CategoryList from "./CategoryList";
+import Banner from "../components/Banner";
 import BestClassList from "./BestClassList";
 import NewClassList from "./NewClassList";
 import {useEffect, useState} from "react";
@@ -24,7 +24,7 @@ function MainPage() {
     return (
         <div>
             <Banner />
-            <CategoryClassList categories={categories} classes={classes}/>
+            <CategoryList categories={categories} classes={classes}/>
             <BestClassList />
             <NewClassList />
         </div>

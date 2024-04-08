@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import '../styles/MainPage.css';
 import axios from "axios";
-import Dropdown from "./DropDown";
+import Dropdown from "../components/dropdown/DropDown";
 import SearchClassList from "./SearchClassList";
 
 function SearchPage(){
@@ -49,7 +49,7 @@ function SearchPage(){
                     </div>
                 </div>
             </div>
-            <div id="resultSearch">
+            <div id="resultSearch-container">
             <SearchClassList />
             </div>
         </div>
