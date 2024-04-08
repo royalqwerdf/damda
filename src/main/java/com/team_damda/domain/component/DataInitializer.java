@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-/*
+
 @Component
 public class DataInitializer implements ApplicationRunner {
     private final ClassRepository classRepository;
@@ -71,8 +71,64 @@ public class DataInitializer implements ApplicationRunner {
         categoryRepository.save(testCategory3);
         categoryRepository.save(testCategory4);
 
-        /*
+
         Class testClass1 = Class.builder()
+                .className("맛스타")
+                .price(50000)
+                .category(testCategory1)
+                .manager(testMember1)
+                .classExplanation("맛있는 파스타 만들기")
+                .headcount(5)
+                .totalRating(4.6f)
+                .totalLike(102)
+                .address("서울")
+                .build();
+
+        Class testClass11 = Class.builder()
+                .className("맛스타")
+                .price(50000)
+                .category(testCategory1)
+                .manager(testMember1)
+                .classExplanation("맛있는 파스타 만들기")
+                .headcount(5)
+                .totalRating(4.6f)
+                .totalLike(102)
+                .address("서울")
+                .build();
+        Class testClass12 = Class.builder()
+                .className("맛스타")
+                .price(50000)
+                .category(testCategory1)
+                .manager(testMember1)
+                .classExplanation("맛있는 파스타 만들기")
+                .headcount(5)
+                .totalRating(4.6f)
+                .totalLike(102)
+                .address("서울")
+                .build();
+        Class testClass13 = Class.builder()
+                .className("맛스타")
+                .price(50000)
+                .category(testCategory1)
+                .manager(testMember1)
+                .classExplanation("맛있는 파스타 만들기")
+                .headcount(5)
+                .totalRating(4.6f)
+                .totalLike(102)
+                .address("서울")
+                .build();
+        Class testClass14 = Class.builder()
+                .className("맛스타")
+                .price(50000)
+                .category(testCategory1)
+                .manager(testMember1)
+                .classExplanation("맛있는 파스타 만들기")
+                .headcount(5)
+                .totalRating(4.6f)
+                .totalLike(102)
+                .address("서울")
+                .build();
+        Class testClass15 = Class.builder()
                 .className("맛스타")
                 .price(50000)
                 .category(testCategory1)
@@ -123,6 +179,11 @@ public class DataInitializer implements ApplicationRunner {
 
 
         classRepository.save(testClass1);
+        classRepository.save(testClass11);
+        classRepository.save(testClass12);
+        classRepository.save(testClass13);
+        classRepository.save(testClass14);
+        classRepository.save(testClass15);
         classRepository.save(testClass2);
         classRepository.save(testClass3);
         classRepository.save(testClass4);
@@ -150,19 +211,18 @@ public class DataInitializer implements ApplicationRunner {
         classImageRepository.save(classImage4);
 
         ClassImage img1 = classImageRepository.findById(1L).orElse(null);
-        img1.setOndayClass(testClass1);
+        img1.setOnedayClass(testClass1);
         classImageRepository.save(img1);
         ClassImage img2 = classImageRepository.findById(2L).orElse(null);
-        img2.setOndayClass(testClass4);
+        img2.setOnedayClass(testClass4);
         classImageRepository.save(img2);
         ClassImage img3 = classImageRepository.findById(3L).orElse(null);
-        img3.setOndayClass(testClass2);
+        img3.setOnedayClass(testClass2);
         classImageRepository.save(img3);
         ClassImage img4 = classImageRepository.findById(4L).orElse(null);
-        img4.setOndayClass(testClass3);
+        img4.setOnedayClass(testClass3);
         classImageRepository.save(img4);
 
     }
 
 }
-*/

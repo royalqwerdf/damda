@@ -4,8 +4,6 @@ a {
 }
 body{
   padding-top: 65px;
-  width:100vw;
-  margin-left: calc(-50vw + 50%);
 }
 #navibar{
   position: fixed;
@@ -73,6 +71,21 @@ body{
   font-size: 30px;
   font-weight: bold;
 }
+#category-container{
+  display: flex;
+  justify-content: center;
+}
+#bestClasses-container {
+  display: flex;
+  justify-content: center;
+  overflow-x: hidden;
+}
+#newClass-container{
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+}
+
 #category{
   height: 350px;
 }
@@ -96,6 +109,8 @@ body{
   justify-content: center;
   margin-top: 30px;
   padding-bottom: 50px;
+
+
 }
 #classes{
   display: flex;
