@@ -27,6 +27,9 @@ public class ClassTime {
     @Column(name="class_end_at")
     private String classEndsAt;
 
+    @Column(name="headcount")
+    private int headcount;
+
     @ManyToOne
     @JoinColumn(name="class_id")
     private Class onedayClass;
@@ -36,6 +39,7 @@ public class ClassTime {
                 .id(this.id)
                 .classStartsAt(this.classStartsAt)
                 .classEndsAt(this.classEndsAt)
+                .headcount(this.headcount)
                 .className(this.onedayClass.getClassName())
                 .build();
     }

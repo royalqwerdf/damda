@@ -5,10 +5,10 @@ import {LevelDropDown} from "../components/dropdown/LevelDropDown";
 import {CategoryDropDown} from "../components/dropdown/CategoryDropDown";
 import {LongtimeDropDown} from "../components/dropdown/LongtimeDropDown";
 import ClassScheduleForm from '../components/ClassScheduleForm';
-import { v4 as uuidv4 } from 'uuid';
 import PopupDom from '../components/PopupDom';
 import PopupPostCode from '../components/PopupPostCode';
 import useUploadImage from '../hooks/useUploadImage';
+import axios from 'axios';
 
 
 import 'bootstrap/dist/js/bootstrap.bundle';
@@ -38,6 +38,9 @@ const ClassOpen = () => {
         console.log('가격 입력:', price);
     }, [price]);
 
+    const [level, setLevel] = useState('');
+    const [category, setCategory] = useState('');
+    const [longtime, setLongtime] = useState('');
 
 
     //난이도 드롭다운 박스 설정
@@ -60,11 +63,11 @@ const ClassOpen = () => {
 
 
     useEffect(() => {
-        //백엔드에서 카테고리 이름 목록을 가져옴
-        const fetchCategories = async() => {
+        // 백엔드에서 카테고리 이름 목록을 가져옴
+        const fetchCategories = async () => {
             try {
-                const response = await fetch('http://localhost:8080/class-open');
-                const data = await response.json();
+                const response = await axios.get('http://localhost:8080/class-open');
+                const data = response.data;
                 setCategoryList(data);
                 console.log('Fetched categories:', data);
             } catch (error) {
@@ -75,6 +78,7 @@ const ClassOpen = () => {
     }, []);
 
 
+
     //클래스 일정 등록 동적 생성
     const [formFields, setFormFields] = useState([]);
 
@@ -83,31 +87,26 @@ const ClassOpen = () => {
     }, [formFields]);
 
         const handleAddFields = () => {
-            const newField = { id: uuidv4(), start: '', end: '', count: '' };
+            const newField = { start: '', end: '', count: '' };
             setFormFields(prevFields => [...prevFields, newField]); // formFields 상태를 업데이트
+        };
 
-            setStartArr(prevArr => [...prevArr, '']);
-            setEndArr(prevArr => [...prevArr, '']);
-            setCountArr(prevArr => [...prevArr, '']);
+        const handleFieldChange = (index, fieldName, value) => {
+            const updatedFormFields = [...formFields];
+            updatedFormFields[index][fieldName] = value;
+            setFormFields(updatedFormFields);
         };
 
 
         const handleRemoveFields = (index) => {
-            setFormFields(prevState => {
-                const updatedFields = prevState.filter((_, i) => i !== index);
-
-                return updatedFields;
-            });
+            setFormFields(prevFormFields => prevFormFields.filter((_, i) => i !== index));
+            console.log("동적생성폼 삭제:", formFields);
         };
+
 
         const handleSubmit = (e) => {
             e.preventDefault();
     };
-
-    // 생성 일시 관련 배열
-    const [startArr, setStartArr] = useState([]);
-    const [endArr, setEndArr] = useState([]);
-    const [countArr, setCountArr] = useState([]);
 
 
 
@@ -141,45 +140,31 @@ const ClassOpen = () => {
 
 
     //이미지 업로드 함수
-    const [imageUrl, setImageUrl] = useState("");
-    const [file, setFile] = useState(null);
+    const uploadedUrls = [];
     const [imageFiles, setImageFiles] = useState([]);
+    const [lastIdx, setLastIdx] = useState(0);
 
     const uploadImage = useUploadImage(); // 이미지 업로드 훅 사용
 
     const onUpload = async () => {
+
         try {
-            if(imageFiles[0] != null){
-                console.log("원본 이미지1:", imageFiles[0]);
-                const downloadUrl = await uploadImage(imageFiles[0]);
-                setImageFiles[0] = null;
-                console.log("실험1:", downloadUrl);
-            }
+                if (lastIdx === 0) {
+                    // 이미지 파일이 없는 경우
+                    alert("이미지를 업로드하지 않았습니다.")
+                    return;
+                }
 
-            if(imageFiles[1] != null){
-                console.log("원본 이미지2:", imageFiles[1]);
-                const downloadUrl = await uploadImage(imageFiles[1]);
-                setImageFiles[1] = null;
-                console.log("실험2:", downloadUrl);
-            }
-
-            if(imageFiles[2] != null){
-                const downloadUrl = await uploadImage(imageFiles[2]);
-                setImageFiles[2] = null;
-                console.log("실험3:", downloadUrl);
-            }
-
-            if(imageFiles[3] != null){
-                const downloadUrl = await uploadImage(imageFiles[3]);
-                setImageFiles[3] = null;
-                console.log("실험4:", downloadUrl);
-            }
-
-            if(imageFiles[4] != null){
-                const downloadUrl = await uploadImage(imageFiles[4]);
-                setImageFiles[4] = null;
-                console.log("실험5:", downloadUrl);
-            }
+                for (let i = 0; i < lastIdx; i++) {
+                    if (imageFiles[i] != null) {
+                        console.log("원본 이미지:", imageFiles[i]);
+                        const downloadUrl = await uploadImage(imageFiles[i]);
+                        console.log("업로드된 이미지의 다운로드 URL:", downloadUrl);
+                        uploadedUrls.push(downloadUrl);
+                        console.log("URL모음 배열:", uploadedUrls);
+                        setImageFiles[i] = null;
+                    }
+                }
 
                 console.log("All files uploaded successfully");
             } catch (error) {
@@ -198,12 +183,58 @@ const ClassOpen = () => {
         }
 
         setImageFiles(prevFiles => [...prevFiles, ...selectedFiles]);
+        setLastIdx(prevLastIdx => prevLastIdx + 1);
         console.log("Selected Image Files:", imageFiles);
+        console.log("인덱스:", lastIdx);
     };
 
     const removeImage = (indexToRemove) => {
         setImageFiles(prevFiles => prevFiles.filter((_, index) => index !== indexToRemove));
         console.log("delete after Image Files:", imageFiles);
+    };
+
+
+    const handleClassSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            await onUpload();
+
+            const classDto = {
+                className: classname,
+                classExplanation: classExplanation,
+                level: level,
+                longtime: longtime,
+                address: memberAddress,
+                curriculum: curriculum,
+                price: price,
+                categoryName: category
+            };
+
+            const classTimeDtos = formFields.map(time => ({
+                classStartsAt: time.start,
+                classEndsAt: time.end,
+                headcount: time.count,
+                // 다른 필드 값들 설정
+            }));
+
+            const classImageDtos = uploadedUrls.map((url, index) => ({
+                imageUrl: url,
+                main_yn: index === 0 ? 'y' : 'n'
+            }));
+
+            const requestData = {
+                classDto : classDto,
+                classTimeDtos : classTimeDtos,
+                classImageDtos : classImageDtos
+            };
+
+            const response = await axios.post('http://localhost:8080/class-open', requestData);
+            console.log('클래스 생성 성공:', response.data);
+
+        } catch (error) {
+            console.error('클래스 생성 오류:', error);
+        }
     };
 
 
@@ -259,7 +290,10 @@ const ClassOpen = () => {
 
                                                 <div ref={dropDownRef} style={{ position: 'relative', zIndex: 1}}>
                                                     <input
-                                                        onClick={() => setIsOpen(!isOpen)}
+                                                        onClick={() => {
+                                                            setIsOpen(!isOpen);
+                                                            setLevel(levelIdentify || '난이도');
+                                                        }}
                                                         type='button'
                                                         value={levelIdentify || '난이도'}
                                                         style={{ width: '100%', height: '40px', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px' }}
@@ -283,7 +317,10 @@ const ClassOpen = () => {
 
                                                 <div ref={categoryRef} style={{ position: 'relative', zIndex: 1}}>
                                                     <input
-                                                        onClick={() => setIsOpenCategory(!isOpenCategory)}
+                                                        onClick={() => {
+                                                            setIsOpenCategory(!isOpenCategory);
+                                                            setCategory(categoryIdentify || '카테고리');
+                                                        }}
                                                         type='button'
                                                         value={categoryIdentify || '카테고리'}
                                                         style={{ width: '100%', height: '40px', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px' }}
@@ -307,7 +344,10 @@ const ClassOpen = () => {
 
                                                 <div ref={longtimeRef} style={{ position: 'relative', zIndex: 1}}>
                                                     <input
-                                                        onClick={() => setIsOpenLongtime(!isOpenLongtime)}
+                                                        onClick={() => {
+                                                            setIsOpenLongtime(!isOpenLongtime);
+                                                            setLongtime(longtimeIdentify || '시간');
+                                                        }}
                                                         type='button'
                                                         value={longtimeIdentify || '시간'}
                                                         style={{ width: '100%', height: '40px', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px' }}
@@ -340,9 +380,9 @@ const ClassOpen = () => {
                                         <form className="detail-setting-zone" onSubmit={handleSubmit} style={{marginRight: '10px', width: '100%' }}>
                                             {formFields.map((field, index) => (
                                                 <ClassScheduleForm
-                                                    key={field.id}
                                                     index={index}
                                                     handleRemoveFields={handleRemoveFields}
+                                                    handleFieldChange={handleFieldChange}
                                                 />
                                             ))}
 
@@ -445,9 +485,6 @@ const ClassOpen = () => {
                                         </div>
                                     </label>
                                     <input type="file" onChange={onChange} accept="image/*" style={{ width: '250px'}} multiple/>
-                                    <button type="button"
-                                            style={{ width: '70px', height: '30px', color: '#FFFFFF', backgroundColor: '#cd5c5c', border: '2px solid #e9967a', borderRadius: '10px', marginTop: '20px'}}
-                                            >업로드</button>
 
                                 </form>
                                 <div className="attached-image-files" style={{ marginLeft: '30px', width: '250px', height: '30px'}}>
@@ -470,7 +507,7 @@ const ClassOpen = () => {
 
                          <button className="submit-button"
                                  type="button"
-                                 onClick={onUpload}
+                                 onClick={handleClassSubmit}
                                  style={{cursor: 'pointer', fontWeight: 'bold', color: '#FFFFFF', width: '120px', height: '40px', backgroundColor: '#cd5c5c', border: '2px solid #e9967a', borderRadius: '10px', marginLeft: '20px' }}>
                                  등  록
                          </button>

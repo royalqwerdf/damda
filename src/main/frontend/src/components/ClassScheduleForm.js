@@ -5,11 +5,14 @@ import {ClassEndDropDown} from "../components/dropdown/ClassEndDropDown";
 import {HeadcountDropDown} from "../components/dropdown/HeadcountDropDown";
 
 
-const ClassScheduleForm = ({ index, handleRemoveFields, startArr, setStartArr, endArr, setEndArr, countArr, setCountArr }) => {
+const ClassScheduleForm = ({ index, handleRemoveFields, handleFieldChange}) => {
     const [field, setField] = useState({ start: '', end: '', count: '' });
 
+    //field의 start, end, count를 각각 name에 대입해 setField하는 함수
     const handleInputChange = (name, value) => {
             setField(prevState => ({ ...prevState, [name]: value }));
+            console.log(index + "의 선택값 :" + value);
+            handleFieldChange(index, name, value);
     };
 
     //수업시작 시간 드롭박스 설정
@@ -27,7 +30,7 @@ const ClassScheduleForm = ({ index, handleRemoveFields, startArr, setStartArr, e
     //인원수 드롭다운 박스 설정
     const headcountRef = useRef();
     const [headcountIdentify, setHeadcountIdentify] = useState('');
-    const headcountList = ['1명', '2명', '3명', '4명', '5명', '6명', '7명', '8명', '9명']
+    const headcountList = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     const [isOpenHeadcount, setIsOpenHeadcount] = useDetectClose(headcountRef, false);
 
     return (
@@ -47,7 +50,13 @@ const ClassScheduleForm = ({ index, handleRemoveFields, startArr, setStartArr, e
                         {isOpenClassStart && (
                             <ul style={{ cursor: 'pointer', position: 'absolute', top: '100%', left: 0, listStyleType: 'none', padding: '10px', width: '90%', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)' }}>
                                 {classStartList.map((value, index) => (
-                                    <ClassStartDropDown key={index} value={value} setClassStartIdentify={setClassStartIdentify} setIsOpen={setIsOpenClassStart} isOpen={isOpenClassStart}/>
+                                    <ClassStartDropDown
+                                        key={index}
+                                        value={value}
+                                        setClassStartIdentify={setClassStartIdentify}
+                                        setIsOpen={setIsOpenClassStart}
+                                        isOpen={isOpenClassStart}
+                                        handleInputChange={handleInputChange}/>
                                 ))}
                             </ul>
                         )}
@@ -69,7 +78,13 @@ const ClassScheduleForm = ({ index, handleRemoveFields, startArr, setStartArr, e
                         {isOpenClassEnd && (
                             <ul style={{ cursor: 'pointer', position: 'absolute', top: '100%', left: 0, listStyleType: 'none', padding: '10px', width: '90%', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)' }}>
                                 {classEndList.map((value, index) => (
-                                    <ClassEndDropDown key={index} value={value} setClassEndIdentify={setClassEndIdentify} setIsOpen={setIsOpenClassEnd} isOpen={isOpenClassEnd}/>
+                                    <ClassEndDropDown
+                                        key={index}
+                                        value={value}
+                                        setClassEndIdentify={setClassEndIdentify}
+                                        setIsOpen={setIsOpenClassEnd}
+                                        isOpen={isOpenClassEnd}
+                                        handleInputChange={handleInputChange}/>
                                 ))}
                             </ul>
                         )}
@@ -93,7 +108,13 @@ const ClassScheduleForm = ({ index, handleRemoveFields, startArr, setStartArr, e
                         {isOpenHeadcount && (
                             <ul style={{ cursor: 'pointer', position: 'absolute', top: '100%', left: 0, zIndex: 2, listStyleType: 'none', padding: '10px', width: '90%', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)' }}>
                                 {headcountList.map((value, index) => (
-                                    <HeadcountDropDown key={index} value={value} setHeadcountIdentify={setHeadcountIdentify} setIsOpen={setIsOpenHeadcount} isOpen={isOpenHeadcount}/>
+                                    <HeadcountDropDown
+                                        key={index}
+                                        value={value}
+                                        setHeadcountIdentify={setHeadcountIdentify}
+                                        setIsOpen={setIsOpenHeadcount}
+                                        isOpen={isOpenHeadcount}
+                                        handleInputChange={handleInputChange}/>
                                 ))}
                             </ul>
                         )}

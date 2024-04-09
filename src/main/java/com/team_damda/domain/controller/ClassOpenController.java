@@ -1,10 +1,11 @@
 package com.team_damda.domain.controller;
 
 import com.team_damda.domain.dto.ClassDto;
+import com.team_damda.domain.dto.ClassImageDto;
 import com.team_damda.domain.dto.ClassTimeDto;
-import com.team_damda.domain.entity.Category;
+import com.team_damda.domain.dto.RequestData;
+import com.team_damda.domain.entity.*;
 import com.team_damda.domain.entity.Class;
-import com.team_damda.domain.entity.Member;
 import com.team_damda.domain.repository.CategoryRepository;
 import com.team_damda.domain.repository.ClassRepository;
 import com.team_damda.domain.repository.MemberRepository;
@@ -45,13 +46,15 @@ public class ClassOpenController {
 
 
     @PostMapping("/class-open")
-    public Long createClass(@RequestBody ClassDto classDto,
-                            @RequestBody ClassTimeDto classTimeDto) {
+    public Long createClass(@RequestBody RequestData requestData) {
 
         Long memberId = 1L;
-        Long categoryId = 1L;
+        ClassDto classDto = requestData.getClassDto();
+        List<ClassTimeDto> classTimeDtos = requestData.getClassTimeDtos();
+        List<ClassImageDto> classImageDtos = requestData.getClassImageDtos();
 
-        return classOpenService.saveForClass(memberId, categoryId, classDto, classTimeDto);
+
+        return classOpenService.saveForClass(memberId, classDto, classTimeDtos, classImageDtos);
     }
 
 }

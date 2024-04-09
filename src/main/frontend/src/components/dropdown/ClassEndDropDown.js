@@ -1,8 +1,9 @@
 
-export const ClassEndDropDown = ({value, setClassEndIdentify, setIsOpen, isOpen, isLast}) => {
+export const ClassEndDropDown = ({value, setClassEndIdentify, setIsOpen, isOpen, isLast, handleInputChange}) => {
     const valueClick = () => {
         setClassEndIdentify(value)
         setIsOpen(!isOpen)
+        handleInputChange('end', value) // count 값을 설정
     }
 
     const listItemStyle = {

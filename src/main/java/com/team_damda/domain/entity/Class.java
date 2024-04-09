@@ -30,8 +30,10 @@ public class Class extends BaseTimeEntity{
     private String className;
     @Column(name="class_explanation")
     private String classExplanation;
-    @Column(name="headcount")
-    private int headcount;
+    @Column(name="level")
+    private String level;
+    @Column (name="longtime")
+    private String longtime;
     @Column(name="class_address")
     private String address;
     @Column(name="class_curriculum")
@@ -74,7 +76,8 @@ public class Class extends BaseTimeEntity{
                 .id(this.id)
                 .className(this.className)
                 .classExplanation(this.classExplanation)
-                .headcount(this.headcount)
+                .level(this.level)
+                .longtime(this.longtime)
                 .address(this.address)
                 .curriculum(this.curriculum)
                 .price(this.price)

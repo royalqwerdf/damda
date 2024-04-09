@@ -11,6 +11,7 @@ public class ClassTimeDto {
     private long id;
     private String classStartsAt;
     private String classEndsAt;
+    private int headcount;
 
     private String className;
 
@@ -20,6 +21,7 @@ public class ClassTimeDto {
         return ClassTime.builder()
                 .classStartsAt(this.classStartsAt)
                 .classEndsAt(this.classEndsAt)
+                .headcount(this.headcount)
                 .onedayClass(onedayClass)
                 .build();
 
