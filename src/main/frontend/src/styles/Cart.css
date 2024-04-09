@@ -52,6 +52,7 @@
 #cart #cart-list .cart-item {
     padding-top: 20px;
     padding-bottom: 20px;
+    vertical-align: middle;
 }
 
 #cart #cart-list .cart-item span {
@@ -61,24 +62,44 @@
 
 #cart #cart-list .cart-item span.class-name {
     display: inline-block;
-    width: 390px;
+    width: 340px;
     text-align: left;
+    margin-left: 50px;
 }
 
 #cart #cart-list .cart-item span.count {
     display: inline-block;
-    width: 40px;
+    width: 30px;
     text-align: center;
 }
 
 #cart #cart-list .cart-item span.date {
     display: inline-block;
-    width: 270px;
+    width: 240px;
     text-align: center;
+    vertical-align: middle;
 }
 
 #cart #cart-list .cart-item span.price {
     display: inline-block;
-    width: 80px;
+    width: 110px;
     text-align: center;
+}
+
+#cart #cart-list .cart-item button {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+}
+
+#cart #cart-list .cart-item button.minus {
+    border-radius: 50%;
+    background-color: #F5F5F5;
+}
+
+#cart #cart-list .cart-item button.plus {
+    border-radius: 50%;
+    background-color: #FFF5D9;
 }

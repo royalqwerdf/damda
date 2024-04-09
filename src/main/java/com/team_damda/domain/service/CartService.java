@@ -61,15 +61,13 @@ public class CartService {
         }
     }
     // 회원 카트 수정하기
-    public boolean updateCartForMember(Long memberId, Long cartId, int selectedCount) {
+    public boolean updateCartForMember(Long memberId, Long cartId, int selectedCount, int totalPrice) {
         Cart cart = cartRepository.getByMemberIdAndId(memberId, cartId);
         if(cart != null) {
             // 인원수 변경
             cart.setSelectedCount(selectedCount);
-
             // 총 가격 변경
-            Class onedayClass = cart.getClassTime().getOnedayClass();
-            cart.setTotalPrice(onedayClass.getPrice() * selectedCount);
+            cart.setTotalPrice(totalPrice);
             return true;
         } else {
             return false;
@@ -77,15 +75,13 @@ public class CartService {
     }
 
     // 비회원 카트 수정하기
-    public boolean updateCartForGuest(String cookieValue, Long cartId, int selectedCount) {
+    public boolean updateCartForGuest(String cookieValue, Long cartId, int selectedCount, int totalPrice) {
         Cart cart = cartRepository.getByCookieValueAndId(cookieValue, cartId);
         if(cart != null) {
             // 인원수 변경
             cart.setSelectedCount(selectedCount);
-
             // 총 가격 변경
-            Class onedayClass = cart.getClassTime().getOnedayClass();
-            cart.setTotalPrice(onedayClass.getPrice() * selectedCount);
+            cart.setTotalPrice(totalPrice);
             return true;
         } else {
             return false;

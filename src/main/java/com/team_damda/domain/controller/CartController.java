@@ -149,18 +149,18 @@ public class CartController {
 
     // 카트 수정
     @PutMapping("/carts/{cartId}")
-    public ResponseEntity<Void> updateCart(@PathVariable Long cartId, int selectedCount, HttpSession session, HttpServletRequest request) {
+    public ResponseEntity<Void> updateCart(@PathVariable Long cartId, int selectedCount, int totalPrice, HttpSession session, HttpServletRequest request) {
         Long memberId = (Long) session.getAttribute("memberId");
         // 수정 성공 여부
         boolean isUpdated = false;
 
         if (memberId != null) { // 회원인 경우
-            isUpdated = cartService.updateCartForMember(memberId, cartId, selectedCount);
+            isUpdated = cartService.updateCartForMember(memberId, cartId, selectedCount, totalPrice);
         } else { // 비회원인 경우
             // 쿠키값 확인
             String cookieValue = CookieUtils.getCookieValue(request, "cookieValue");
             if (cookieValue != null) {
-                isUpdated = cartService.updateCartForGuest(cookieValue, cartId, selectedCount);
+                isUpdated = cartService.updateCartForGuest(cookieValue, cartId, selectedCount, totalPrice);
             }
         }
 

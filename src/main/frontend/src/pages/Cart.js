@@ -5,52 +5,54 @@ import axios from "axios";
 
 function Cart() {
     const [carts, setCarts] = useState([]);
-    useEffect(() => {
-        axios.get('/carts')
-            .then(response=>
-            {
-                // 받아온 데이터를 가공하여 Date 객체로 변환
-                const processedData = response.data.carts.map(cart => ({
-                    ...cart,
-                    classTime: {
-                        ...cart.classTime,
-                        classStartsAt: new Date(cart.classTime.classStartsAt)
-                    }
-                }));
-
-                // 변환된 데이터를 상태로 설정
-                setCarts(processedData);
-            })
-            .catch(error => console.log(error))
-    }, []);
-
-    // // 예시 데이터
     // useEffect(() => {
-    //     setCarts([
+    //     axios.get('/carts')
+    //         .then(response=>
     //         {
-    //             id: 0,
-    //             classTime: {
-    //                 onedayClass: {
-    //                     className: "Class 1"
-    //                 },
-    //                 classStartsAt: new Date(2024, 4, 8, 10, 0, 0)
-    //             },
-    //             selectedCount: 2,
-    //             totalPrice: 10000
-    //         },
-    //         {
-    //             id: 1,
-    //             classTime: {
-    //                 onedayClass: {
-    //                     className: "Class 2"
-    //                 },
-    //                 classStartsAt: new Date(2024, 4, 9, 10, 0, 0)
-    //             },
-    //             selectedCount: 1,
-    //             totalPrice: 5000
-    //         }
-    //     ]);
+    //             // 받아온 데이터를 가공하여 Date 객체로 변환
+    //             const processedData = response.data.carts.map(cart => ({
+    //                 ...cart,
+    //                 classTime: {
+    //                     ...cart.classTime,
+    //                     classStartsAt: new Date(cart.classTime.classStartsAt)
+    //                 }
+    //             }));
+    //
+    //             // 변환된 데이터를 상태로 설정
+    //             setCarts(processedData);
+    //         })
+    //         .catch(error => console.log(error))
     // }, []);
+
+    // 예시 데이터
+    useEffect(() => {
+        setCarts([
+            {
+                id: 0,
+                classTime: {
+                    onedayClass: {
+                        className: "Class 1",
+                        price: 10000
+                    },
+                    classStartsAt: new Date(2024, 4, 8, 10, 0, 0)
+                },
+                selectedCount: 2,
+                totalPrice: 20000
+            },
+            {
+                id: 1,
+                classTime: {
+                    onedayClass: {
+                        className: "Class 2",
+                        price: 15000
+                    },
+                    classStartsAt: new Date(2024, 4, 9, 10, 0, 0)
+                },
+                selectedCount: 1,
+                totalPrice: 15000
+            }
+        ]);
+    }, []);
 
     // 체크박스
     const [checkboxes, setCheckboxes] = useState([]);
@@ -71,6 +73,44 @@ function Cart() {
         } else {
             setCheckboxes([]);
         }
+    }
+
+    // 인원수 증가 버튼
+    const handleIncrease = (cartId) => {
+        const updatedCarts = carts.map(cart => {
+            if(cart.id === cartId) {
+                const updatedCount = cart.selectedCount + 1;
+                const updatedPrice = cart.classTime.onedayClass.price * updatedCount;
+                return { ...cart, selectedCount: updatedCount, totalPrice: updatedPrice };
+            }
+            return cart;
+        })
+        setCarts(updatedCarts);
+        const updatedCart = updatedCarts.find(cart => cart.id === cartId);
+        updateCart(cartId, updatedCart.selectedCount, updatedCart.totalPrice);
+    }
+
+    // 인원수 감소 버튼
+    const handleDecrease = (cartId) => {
+        const updatedCarts = carts.map(cart => {
+            if(cart.id === cartId && cart.selectedCount > 1) {
+                const updatedCount = cart.selectedCount - 1;
+                const updatedPrice = cart.classTime.onedayClass.price * updatedCount;
+                return { ...cart, selectedCount: updatedCount, totalPrice: updatedPrice };
+            }
+            return cart;
+        })
+        setCarts(updatedCarts);
+        const updatedCart = updatedCarts.find(cart => cart.id === cartId);
+        updateCart(cartId, updatedCart.selectedCount, updatedCart.totalPrice);
+    }
+
+    const updateCart = (cartId, selectedCount, totalPrice) => {
+        axios.put(`/carts/${cartId}`, { selectedCount, totalPrice })
+            .then(response => {
+                console.log('Cart updated successfully:', response.data);
+            })
+            .catch(error => console.log(error));
     }
 
     return (
@@ -106,7 +146,9 @@ function Cart() {
                         </span>
 
                         {/* 인원 */}
+                        <button class="minus" onClick={() => handleDecrease(cart.id)}>-</button>
                         <span className="count">{cart.selectedCount}명</span>
+                        <button class="plus" onClick={() => handleIncrease(cart.id)}>+</button>
 
                         {/* 예약일시 */}
                         <span className="date">{formatDate(cart.classTime.classStartsAt)}</span>
@@ -127,7 +169,7 @@ function formatDate(date) {
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
 
-    return `${year}.${month}.${day} ${hours}:${minutes}`;
+    return <>{year}.{month}.{day}<br/>{hours}:{minutes}</>;
 }
 
 export default Cart;
