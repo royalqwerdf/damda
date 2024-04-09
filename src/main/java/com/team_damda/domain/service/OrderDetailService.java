@@ -24,6 +24,10 @@ public class OrderDetailService {
     @Autowired
     private final ClassReservationRepository classReservationRepository;
 
+    public void deleteOrderDetailById(Long orderDetailId) {
+        orderDetailRepository.deleteById(orderDetailId);
+    }
+
     @Autowired
     public OrderDetailService(OrderDetailRepository orderDetailRepository, ClassReservationRepository classReservationRepository) {
         this.orderDetailRepository = orderDetailRepository;
@@ -47,17 +51,25 @@ public class OrderDetailService {
     }
 
     // 예약 정보 확인하여 주문 상세 정보 수정
+
     public OrderDetail updateOrderDetail(Long orderDetailId, OrderDetail updatedOrderDetail) {
         // 예약 정보 조회
-        Optional<ClassReservation> optionalClassReservation = classReservationRepository.findById(updatedOrderDetail.getClassReservationId());
-        if (optionalClassReservation.isPresent()) {
-            ClassReservation classReservation = optionalClassReservation.get();
-            // 다른 사람이 예약 정보를 변경하지 않았다면 주문 상세 정보 수정
-            // 업데이트된 정보를 반환
-            return orderDetailRepository.save(updatedOrderDetail);
+        Optional<OrderDetail> optionalOrderDetail = orderDetailRepository.findById(orderDetailId);
+        if (optionalOrderDetail.isPresent()) {
+            OrderDetail orderDetail = optionalOrderDetail.get();
+            // 여기에서 updatedOrderDetail로부터 필요한 정보를 가져와서 orderDetail을 업데이트합니다.
+
+            orderDetail.setReservationDate(updatedOrderDetail.getReservationDate());
+            orderDetail.setOrderDate(updatedOrderDetail.getOrderDate());
+            orderDetail.setClassName(updatedOrderDetail.getClassName());
+            orderDetail.setTotalHeadcount(updatedOrderDetail.getTotalHeadcount());
+            orderDetail.setTotalPrice(updatedOrderDetail.getTotalPrice());
+            // 이와 같이 필요한 필드를 업데이트합니다.
+            // 마지막으로 저장합니다.
+            return orderDetailRepository.save(orderDetail);
         } else {
             // 예약 정보가 없는 경우 예외 처리
-            throw new NotFoundException("Reservation not found for reservationId: " + updatedOrderDetail.getClassReservationId());
+            throw new NotFoundException("OrderDetail not found for orderDetailId: " + orderDetailId);
         }
     }
 

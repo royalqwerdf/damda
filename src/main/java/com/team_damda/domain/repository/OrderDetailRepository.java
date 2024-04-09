@@ -12,8 +12,8 @@ import java.util.List;
 
         void deleteOrderDetail(long OrderDetailId);
 
-        List<OrderDetail> updateOrderDetail();
+        // 엔티티를 수정하기 위해 save 메서드 사용
+        OrderDetail save(OrderDetail updatedOrderDetail);
 
         List<OrderDetail> findByClassReservationId(Long classReservationId);
-
-}
+    }
