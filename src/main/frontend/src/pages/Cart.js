@@ -110,7 +110,7 @@ function Cart() {
     //         selectedCount: selectedCount,
     //         totalPrice: totalPrice
     //     }
-    //     history.push(`/cart/reservation-complete`, { reservationInfo });
+    //     history.push(`/carts/reservation-complete`, { reservationInfo });
     // }
 
     // 선택 클래스 예약
@@ -248,7 +248,7 @@ function Cart() {
             </div>
             <div className="button-select">
                 <button onClick={() => handleDelete()}>선택 CLASS 삭제</button>
-                <button>선택 CLASS 찜</button>
+                {/* <button>선택 CLASS 찜</button> */}
             </div>
             <div className="button-reservation">
                 <button onClick={() => handleCheckedReserve()}>선택 CLASS 예약</button>

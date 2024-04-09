@@ -1,0 +1,36 @@
+#complete #title{
+    display: flex;
+    margin-top: 100px;
+    margin-left: 10%;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+#complete #step{
+    display: flex;
+    margin-top: 50px;
+    margin-left: 55%;
+    font-size: 20px;
+    color: #B6B6B6;
+}
+
+#complete #step .now {
+    font-weight: bold;
+    color: black;
+}
+
+#complete #row {
+    margin-top: 15px;
+    margin-left: 15%;
+    width: 70%;
+    border-top: 2px solid black;
+}
+
+#complete #message{
+    margin-top: 65px;
+    margin-bottom: 65px;
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 30px;
+}
