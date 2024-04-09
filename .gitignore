@@ -45,3 +45,7 @@ application.properties
 
 # Ignore serviceAccountKey.json file
 resources/serviceAccountKey.json
+
+#firebase setting
+frontend/src/firebase/fbase.js
+frontend/src/firebase/.env

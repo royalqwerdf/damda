@@ -63,7 +63,7 @@ const ClassOpen = () => {
         //백엔드에서 카테고리 이름 목록을 가져옴
         const fetchCategories = async() => {
             try {
-                const response = await fetch('/class-open');
+                const response = await fetch('http://localhost:8080/class-open');
                 const data = await response.json();
                 setCategoryList(data);
                 console.log('Fetched categories:', data);
@@ -149,30 +149,44 @@ const ClassOpen = () => {
 
     const onUpload = async () => {
         try {
-            for (let i = 0; i < imageFiles.length; i++) {
-                const currentFile = imageFiles[i]; // 현재 파일을 가져옴
-                const downloadUrl = await uploadImage(currentFile); // 현재 파일을 업로드
-                console.log("File uploaded:", downloadUrl);
+            if(imageFiles[0] != null){
+                console.log("원본 이미지1:", imageFiles[0]);
+                const downloadUrl = await uploadImage(imageFiles[0]);
+                setImageFiles[0] = null;
+                console.log("실험1:", downloadUrl);
             }
+
+            if(imageFiles[1] != null){
+                console.log("원본 이미지2:", imageFiles[1]);
+                const downloadUrl = await uploadImage(imageFiles[1]);
+                setImageFiles[1] = null;
+                console.log("실험2:", downloadUrl);
+            }
+
+            if(imageFiles[2] != null){
+                const downloadUrl = await uploadImage(imageFiles[2]);
+                setImageFiles[2] = null;
+                console.log("실험3:", downloadUrl);
+            }
+
+            if(imageFiles[3] != null){
+                const downloadUrl = await uploadImage(imageFiles[3]);
+                setImageFiles[3] = null;
+                console.log("실험4:", downloadUrl);
+            }
+
+            if(imageFiles[4] != null){
+                const downloadUrl = await uploadImage(imageFiles[4]);
+                setImageFiles[4] = null;
+                console.log("실험5:", downloadUrl);
+            }
+
                 console.log("All files uploaded successfully");
             } catch (error) {
                 console.error("Error uploading files:", error);
             }
     };
 
-
-    const onSubmit = async (e) => {
-        e.preventDefault();
-        if (file) {
-            if(imageFiles.length >= 5) {
-                console.log("최대 5개까지만 추가 가능")
-                return;
-            }
-           setImageFiles(prevFiles => [...prevFiles, file]);
-           const fileUrl = URL.createObjectURL(file);
-           setFile(null);
-        }
-    };
 
     const onChange = (e) => {
         const files = e.target.files;
@@ -424,13 +438,16 @@ const ClassOpen = () => {
 
                             <div className="image-upload-url">
 
-                                <form onSubmit={onSubmit} style={{padding: '20px', marginLeft: '20px'}}>
+                                <form style={{padding: '20px', marginLeft: '20px'}}>
                                     <label htmlFor="input-file">
                                         <div>
                                             <p>{}</p>
                                         </div>
                                     </label>
                                     <input type="file" onChange={onChange} accept="image/*" style={{ width: '250px'}} multiple/>
+                                    <button type="button"
+                                            style={{ width: '70px', height: '30px', color: '#FFFFFF', backgroundColor: '#cd5c5c', border: '2px solid #e9967a', borderRadius: '10px', marginTop: '20px'}}
+                                            >업로드</button>
 
                                 </form>
                                 <div className="attached-image-files" style={{ marginLeft: '30px', width: '250px', height: '30px'}}>
