@@ -35,8 +35,8 @@ public class Member {
     @Column(name="img_url")
     private String imageUrl;
 
-    @Column(name="sns_ny", length = 1)
-    private String snsNy;
+    @Column(name="sns_id")
+    private String snsId;
 
     @Column(name="role")
     @Enumerated(EnumType.STRING)

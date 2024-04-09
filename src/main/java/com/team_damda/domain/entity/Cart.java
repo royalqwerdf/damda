@@ -1,5 +1,8 @@
 package com.team_damda.domain.entity;
 
+import com.team_damda.domain.entity.BaseTimeEntity;
+import com.team_damda.domain.entity.ClassTime;
+import com.team_damda.domain.entity.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,12 +19,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Table(name="cart")
 @Builder
-@EnableJpaAuditing
-public class Cart {
+public class Cart extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "cookie_value")
     private String cookieValue;
@@ -29,16 +31,12 @@ public class Cart {
     @Column(name = "selected_count", nullable = false)
     private int selectedCount;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "class_time_id", nullable = false)
     private ClassTime classTime;
 
     @Column(name = "total_price", nullable = false)
     private int totalPrice;
-
-    @CreatedDate
-    @Column(name = "add_at", nullable = false)
-    private LocalDateTime addAt;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
@@ -58,6 +56,11 @@ public class Cart {
         this.classTime = classTime;
         this.selectedCount = selectedCount;
         this.totalPrice = totalPrice;
+    }
+
+    public Cart(ClassTime classTime, int selectedCount) {
+        this.classTime = classTime;
+        this.selectedCount = selectedCount;
     }
 
     public Cart(ClassTime classTime, int selectedCount, int totalPrice) {

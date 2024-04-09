@@ -21,7 +21,7 @@ public class MemberController {
     @PostMapping("/signUp")
     public String signUp(@RequestBody MemberSignupDto memberSignupDto) throws Exception {
         memberService.signUp(memberSignupDto);
-        return "/memberSaved";
+        return "redirect:/memberSaved";
     }
 
 
