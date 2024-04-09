@@ -27,10 +27,39 @@
 }
 
 #complete #message{
-    margin-top: 65px;
-    margin-bottom: 65px;
     display: flex;
     justify-content: center;
+    margin-top: 65px;
+    margin-bottom: 65px;
     font-weight: bold;
     font-size: 30px;
+}
+
+#complete .buttons {
+    display: flex;
+    justify-content: center;
+}
+
+#complete .buttons button {
+    margin-top: 100px;
+    margin-bottom: 270px;
+    height: 72px;
+    width: 209px;
+    border-radius: 9px;
+    font-size: 18px;
+}
+
+#complete .buttons .mainPage {
+    margin-right: 25px;
+    background-color: white;
+    color: #F52334;
+    border: 2px solid #F52334;
+    cursor: pointer;
+}
+
+#complete .buttons .reservation {
+    background-color: #f52334;
+    color: white;
+    border: 2px solid #F52334;
+    cursor: pointer;
 }

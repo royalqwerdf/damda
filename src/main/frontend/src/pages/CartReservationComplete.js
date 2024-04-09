@@ -12,6 +12,10 @@ function CartReservationComplete() {
             </div>
             <div id="row"></div>
             <div id="message">예약이 완료되었습니다!</div>
+            <div className="buttons">
+                <button className="mainPage">메인 페이지로</button>
+                <button className="reservation">내 예약 확인하기</button>
+            </div>
         </div>
     )
 }
