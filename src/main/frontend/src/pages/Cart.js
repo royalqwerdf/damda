@@ -1,58 +1,60 @@
 import '../styles/Cart.css';
 import React, {useEffect, useState} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import axios from "axios";
 
 function Cart() {
     const [carts, setCarts] = useState([]);
-    // useEffect(() => {
-    //     axios.get('/carts')
-    //         .then(response=>
-    //         {
-    //             // 받아온 데이터를 가공하여 Date 객체로 변환
-    //             const processedData = response.data.carts.map(cart => ({
-    //                 ...cart,
-    //                 classTime: {
-    //                     ...cart.classTime,
-    //                     classStartsAt: new Date(cart.classTime.classStartsAt)
-    //                 }
-    //             }));
-    //
-    //             // 변환된 데이터를 상태로 설정
-    //             setCarts(processedData);
-    //         })
-    //         .catch(error => console.log(error))
-    // }, []);
+    useEffect(() => {
+        axios.get('/carts')
+            .then(response=>
+            {
+                // 받아온 데이터를 가공하여 Date 객체로 변환
+                const processedData = response.data.carts.map(cart => ({
+                    ...cart,
+                    classTime: {
+                        ...cart.classTime,
+                        classStartsAt: new Date(cart.classTime.classStartsAt)
+                    }
+                }));
+
+                // 변환된 데이터를 상태로 설정
+                setCarts(processedData);
+            })
+            .catch(error => console.log(error))
+    }, []);
 
     // 예시 데이터
-    useEffect(() => {
-        setCarts([
-            {
-                id: 0,
-                classTime: {
-                    onedayClass: {
-                        className: "Class 1",
-                        price: 10000
-                    },
-                    classStartsAt: new Date(2024, 4, 8, 10, 0, 0)
-                },
-                selectedCount: 2,
-                totalPrice: 20000
-            },
-            {
-                id: 1,
-                classTime: {
-                    onedayClass: {
-                        className: "Class 2",
-                        price: 15000
-                    },
-                    classStartsAt: new Date(2024, 4, 9, 10, 0, 0)
-                },
-                selectedCount: 1,
-                totalPrice: 15000
-            }
-        ]);
-    }, []);
+    // useEffect(() => {
+    //     setCarts([
+    //         {
+    //             id: 0,
+    //             classTime: {
+    //                 onedayClass: {
+    //                     id:0,
+    //                     className: "Class 1",
+    //                     price: 10000
+    //                 },
+    //                 classStartsAt: new Date(2024, 4, 8, 10, 0, 0)
+    //             },
+    //             selectedCount: 2,
+    //             totalPrice: 20000
+    //         },
+    //         {
+    //             id: 1,
+    //             classTime: {
+    //                 onedayClass: {
+    //                     id: 1,
+    //                     className: "Class 2",
+    //                     price: 15000
+    //                 },
+    //                 classStartsAt: new Date(2024, 4, 9, 10, 0, 0)
+    //             },
+    //             selectedCount: 1,
+    //             totalPrice: 15000
+    //         }
+    //     ]);
+    // }, []);
 
     // 체크박스
     const [checkboxes, setCheckboxes] = useState([]);
@@ -80,7 +82,7 @@ function Cart() {
         checkboxes.forEach((cartId) => {
             axios.delete(`/carts/${cartId}`)
                 .then(response => {
-                    console.log(`Cart ${cartId} deleted successfully`);
+                    console.log(`Cart ${cartId} is deleted successfully`);
                     const updatedCarts = carts.filter(cart => cart.id !== cartId);
                     setCarts(updatedCarts);
                 })
@@ -95,6 +97,69 @@ function Cart() {
             if (isConfirmed) {
                 deleteCheckedCarts();
                 setCheckboxes([]);
+            }
+        }
+    }
+
+    // 예약 정보 저장
+    // const history = useHistory();
+    // const saveReserveInfo = (className, classDateTime, selectedCount, totalPrice) => {
+    //     const reservationInfo = {
+    //         className: className,
+    //         classDateTime: formatDate(classDateTime),
+    //         selectedCount: selectedCount,
+    //         totalPrice: totalPrice
+    //     }
+    //     history.push(`/cart/reservation-complete`, { reservationInfo });
+    // }
+
+    // 선택 클래스 예약
+    const reserveCheckedCarts = () => {
+        checkboxes.forEach((cartId) => {
+            const cart = carts.find(cart => cart.id === cartId);
+            const classId = cart.classTime.onedayClass.id;
+            axios.post(`/classes/${classId}/reservation`)
+                .then(response => {
+                    console.log(`Class ${classId} is reserved successfully`);
+                    // saveReserveInfo(cart.classTime.onedayClass.className, cart.classTime.classStartsAt, cart.selectedCount, cart.totalPrice);
+                    const updatedCarts = carts.filter(cart => cart.id !== cartId);
+                    setCarts(updatedCarts);
+                })
+                .catch(error => console.log(error));
+        })
+    }
+    const handleCheckedReserve = () => {
+        if(checkboxes.length === 0) {
+            alert("예약할 클래스를 선택해 주세요.")
+        } else {
+            const isConfirmed = window.confirm("선택한 클래스를 예약하시겠습니까?");
+            if(isConfirmed) {
+                reserveCheckedCarts();
+                setCheckboxes([]);
+            }
+        }
+    }
+
+    // 전체 클래스 예약
+    const reserveAllCarts = () => {
+        carts.forEach((cart) => {
+            const classId = cart.classTime.onedayClass.id;
+            axios.post(`/classes/${classId}/reservation`)
+                .then(response => {
+                    console.log(`Class ${classId} is reserved successfully`);
+                    // saveReserveInfo(cart.classTime.onedayClass.className, cart.classTime.classStartsAt, cart.selectedCount, cart.totalPrice);
+                    setCarts([]);
+                })
+                .catch(error => console.log(error));
+        })
+    }
+    const handleAllReserve = () => {
+        if(carts.length === 0) {
+            alert("장바구니에 담긴 클래스가 없습니다.")
+        } else {
+            const isConfirmed = window.confirm("장바구니의 모든 클래스를 예약하시겠습니까?");
+            if(isConfirmed) {
+                reserveAllCarts();
             }
         }
     }
@@ -186,8 +251,8 @@ function Cart() {
                 <button>선택 CLASS 찜</button>
             </div>
             <div className="button-reservation">
-                <button>선택 CLASS 예약</button>
-                <button className="whole">전체 CLASS 예약</button>
+                <button onClick={() => handleCheckedReserve()}>선택 CLASS 예약</button>
+                <button className="whole" onClick={() => handleAllReserve()}>전체 CLASS 예약</button>
             </div>
         </div>
     )

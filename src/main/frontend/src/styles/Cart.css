@@ -119,7 +119,6 @@
 
 #cart .button-select {
     margin-left: 15%;
-    cursor: pointer;
 }
 
 #cart .button-select button {
@@ -131,13 +130,13 @@
     font-size: 16px;
     color: #F52334;
     border: 2px solid #F52334;
+    cursor: pointer;
 }
 
 #cart .button-reservation {
     display: flex;
     justify-content: flex-end;
     margin-right: 15%;
-    cursor: pointer;
     margin-top: 20px;
     margin-bottom: 150px;
 }
@@ -151,6 +150,7 @@
     font-size: 18px;
     color: #F52334;
     border: 2px solid #F52334;
+    cursor: pointer;
 }
 
 #cart .button-reservation button.whole {
