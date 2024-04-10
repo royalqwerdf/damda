@@ -28,7 +28,7 @@ public class UserInformationDTO {
         userInformationDTO.setName(member.getName());
         userInformationDTO.setPhone(member.getPhone());
         userInformationDTO.setUserEmail(member.getUserEmail());
-        // 다른 필드 설정
+
         return userInformationDTO;
     }
 }

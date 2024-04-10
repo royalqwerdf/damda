@@ -22,7 +22,7 @@ public class OrderDetailDTO {
         orderDetailDTO.setTotalHeadcount(orderDetail.getTotalHeadcount());
         orderDetailDTO.setTotalPrice(orderDetail.getTotalPrice());
 
-        // 다른 필드 설정
+
         return orderDetailDTO;
     }
 }

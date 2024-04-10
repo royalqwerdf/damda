@@ -36,7 +36,7 @@ public class OrderDetailController {
         @DeleteMapping("/orderDetails/{id}")
         public ResponseEntity<?> deleteOrderDetail(@PathVariable("id") Long id) {
                 try {
-                        orderDetailService.deleteOrderDetailById(id); // OrderDetailService로 이동
+                        orderDetailService.deleteOrderDetail(id); // OrderDetailService로 이동
                         return ResponseEntity.ok().build();
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete order detail");
