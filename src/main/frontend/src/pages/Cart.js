@@ -1,6 +1,6 @@
 import '../styles/Cart.css';
 import React, {useEffect, useState} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, redirect } from 'react-router-dom';
 import axios from "axios";
 
 function Cart() {
@@ -79,15 +79,25 @@ function Cart() {
 
     // 선택 클래스 삭제
     const deleteCheckedCarts = () => {
-        checkboxes.forEach((cartId) => {
-            axios.delete(`/carts/${cartId}`)
+        const deletedCartIds = [];
+
+        const deleteRequests = checkboxes.map((cartId)=> {
+            return axios.delete(`/carts/${cartId}`)
                 .then(response => {
                     console.log(`Cart ${cartId} is deleted successfully`);
-                    const updatedCarts = carts.filter(cart => cart.id !== cartId);
-                    setCarts(updatedCarts);
+                    deletedCartIds.push(cartId);
                 })
-                .catch(error => console.log(error));
-        })
+                .catch(error => {
+                    console.log(error);
+                })
+        });
+
+        Promise.all(deleteRequests)
+            .then((deletedCartsIds) => {
+                const updatedCarts = carts.filter(cart => !deletedCartsIds.includes(cart.id));
+                setCarts(updatedCarts);
+            })
+            .catch(error => console.log(error));
     }
     const handleDelete = () => {
         if(checkboxes.length === 0){
@@ -105,12 +115,16 @@ function Cart() {
     const reserveCheckedCarts = () => {
         checkboxes.forEach((cartId) => {
             const cart = carts.find(cart => cart.id === cartId);
-            const classId = cart.classTime.onedayClass.id;
-            axios.post(`/classes/${classId}/reservation`)
+            const reservationRequest = {
+                classDto: cart.classTime.onedayClass,
+                classTimeDto: cart.classTime
+            };
+            axios.post(`/reservation`, { reservationRequest })
                 .then(response => {
-                    console.log(`Class ${classId} is reserved successfully`);
+                    console.log(`Class ${cart.classTime.onedayClass.id} is reserved successfully`);
                     const updatedCarts = carts.filter(cart => cart.id !== cartId);
                     setCarts(updatedCarts);
+                    return <redirect to="/carts/reservation-complete"/>
                 })
                 .catch(error => console.log(error));
         })
@@ -130,11 +144,15 @@ function Cart() {
     // 전체 클래스 예약
     const reserveAllCarts = () => {
         carts.forEach((cart) => {
-            const classId = cart.classTime.onedayClass.id;
-            axios.post(`/classes/${classId}/reservation`)
+            const reservationRequest = {
+                classDto: cart.classTime.onedayClass,
+                classTimeDto: cart.classTime
+            };
+            axios.post(`/reservation`, { reservationRequest })
                 .then(response => {
-                    console.log(`Class ${classId} is reserved successfully`);
+                    console.log(`Class ${cart.classTime.onedayClass.id} is reserved successfully`);
                     setCarts([]);
+                    return <redirect to="/carts/reservation-complete"/>
                 })
                 .catch(error => console.log(error));
         })
