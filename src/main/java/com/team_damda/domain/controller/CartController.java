@@ -4,6 +4,7 @@ import com.team_damda.domain.dto.CartDto;
 import com.team_damda.domain.entity.Cart;
 import com.team_damda.domain.entity.ClassTime;
 import com.team_damda.domain.entity.Member;
+import com.team_damda.domain.repository.CartRepository;
 import com.team_damda.domain.repository.ClassTimeRepository;
 import com.team_damda.domain.repository.MemberRepository;
 import com.team_damda.domain.service.CartService;
@@ -26,6 +27,7 @@ public class CartController {
     private final CartService cartService;
     private final ClassTimeRepository classTimeRepository;
     private final MemberRepository memberRepository;
+    private final CartRepository cartRepository;
 
     // 클래스 게시글에서 해당 클래스를 장바구니에 담기
     @PostMapping("/carts/{classTimeId}")

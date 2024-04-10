@@ -1,8 +1,11 @@
 import React from "react";
 import '../styles/CartReservationComplete.css';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function CartReservationComplete() {
+    const location = useLocation();
+    const reservationInfoArray = location.state.reservationInfoArray;
+
     return (
         <div id="complete">
             <div id="title">
