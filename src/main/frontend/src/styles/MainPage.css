@@ -99,6 +99,9 @@ body{
   margin-top: 30px;
   text-align: center;
 }
+#category #categories li a{
+  cursor: pointer;
+}
 #category #categories li{
   list-style-type : none;
   margin-right: 30px;
@@ -107,7 +110,21 @@ body{
 #best {
   background-color: #FFDCD1;
 }
-
+#class-list{
+  display: flex;
+  justify-content: center;
+}
+#class-list button{
+  border: none;
+  background-color: transparent;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100px;
+  font-size: 20px;
+}
+#class-list button:hover{
+  font-size: 40px;
+}
 #bestClasses{
   display: flex;
   justify-content: center;

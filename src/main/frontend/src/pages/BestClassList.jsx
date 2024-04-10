@@ -8,6 +8,7 @@ import ClassList from "./ClassList";
 function BestClassList(){
     const [classes,setClasses] = useState([]);
     const [page,setPage] = useState(0);
+    let maxPage;
 
     useEffect(() => {
         axios.get('/best')
@@ -24,24 +25,27 @@ function BestClassList(){
                     DAMDA'S BEST
                 </span>
             </div>
-            <ClassList class={classToArray(classes)}/>
-            <button onClick={()=>pageBtnClick("prev")}>{"prev"}</button>
-            <button onClick={()=>pageBtnClick("next")}>{"next"}</button>
+            <div id="class-list">
+                <button onClick={() => pageBtnClick("prev")}>{"<"}</button>
+                <ClassList class={classToArray(classes)}/>
+                <button onClick={() => pageBtnClick("next")}>{">"}</button>
+            </div>
         </div>
     );
 
-    function pageBtnClick(str){
-        if(str === "prev" && 0 < page){
-            setPage(page-1);
+    function pageBtnClick(str) {
+        maxPage = Math.floor(classes.length / 4);
+        if (str === "prev" && 0 < page) {
+            setPage(page - 1);
         }
         else if(str === "prev" && 0 === page){
-            setPage(0)
+            setPage(maxPage)
         }
-        else if(str === "next" && 2 > page){
+        else if(str === "next" && maxPage > page){
             setPage(page+1);
         }
-        else if(str === "next" && 2 === page){
-            setPage(2);
+        else if(str === "next" && maxPage === page){
+            setPage(0);
         }
     }
 

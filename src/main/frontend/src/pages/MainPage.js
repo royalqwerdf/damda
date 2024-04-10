@@ -16,8 +16,6 @@ function MainPage() {
             {
                 setClasses(response.data.classes);
                 setCategories(response.data.categories);
-                console.log(classes);
-                console.log(categories);
             })
             .catch(error => console.log(error))
     }, []);

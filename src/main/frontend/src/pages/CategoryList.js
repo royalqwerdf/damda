@@ -29,7 +29,7 @@ function CategoryList(props) {
                 {props.categories?.map(category =>{
                     return (
                         <li key={category.id}>
-                            <a id={category.id} href='javascript:void(0)' onClick={()=>classList(category.id)}>
+                            <a id={category.id} href={()=>false} onClick={()=>classList(category.id)}>
                                 {category.categoryName}
                             </a>
                         </li>
