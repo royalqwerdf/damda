@@ -6,6 +6,8 @@ import ClassOpen from "./pages/ClassOpen";
 import SearchPage from "./pages/SearchPage";
 import CategoryClassList from "./pages/CategoryClassList";
 import CategoryClassList2 from "./pages/CategoryClassList2";
+import UserHome from "./pages/UserHome";
+import AdminHome from "./pages/AdminHome";
 
 function App(){
     return(
@@ -16,6 +18,8 @@ function App(){
                     <Route path="/" element={<MainPage/>}></Route>
                     <Route path="/search" element={<SearchPage/>}></Route>
                     <Route path="/class-open" element={<ClassOpen/>}></Route>
+                    <Route path="/user-home" element={<UserHome/>}></Route>
+                    <Route path="/admin-home" element={<AdminHome/>}></Route>
                 </Routes>
                 <Footer />
             </BrowserRouter>

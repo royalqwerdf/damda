@@ -32,23 +32,23 @@ public class ClassService {
     }
 
     @Transactional
-    public Long saveForClass(Long memberId, ClassDto classDto, List<ClassTimeDto> classTimeDtos, List<ClassImageDto> classImageDtos) {
+        public Long saveForClass(Long memberId, ClassDto classDto, List<ClassTimeDto> classTimeDtos, List<ClassImageDto> classImageDtos) {
 
-        Member member = memberRepository.findById(memberId).orElse(null);
-        Category category = categoryRepository.findByCategoryName(classDto.getCategoryName());
-        Class classEntity = classDto.toEntity(category, member);
+            Member member = memberRepository.findById(memberId).orElse(null);
+            Category category = categoryRepository.findByCategoryName(classDto.getCategoryName());
+            Class classEntity = classDto.toEntity(category, member);
 
-        for(ClassTimeDto classTimes : classTimeDtos) {
-            ClassTime classTimeEntity = classTimes.toEntity(classEntity);
-            classTimeRepository.save(classTimeEntity);
-        }
+            for(ClassTimeDto classTimes : classTimeDtos) {
+                ClassTime classTimeEntity = classTimes.toEntity(classEntity);
+                classTimeRepository.save(classTimeEntity);
+            }
 
-        for(ClassImageDto classImages : classImageDtos) {
-            ClassImage classImageEntity = classImages.toEntity(classEntity);
-            classImageRepository.save(classImageEntity);
-        }
+            for(ClassImageDto classImages : classImageDtos) {
+                ClassImage classImageEntity = classImages.toEntity(classEntity);
+                classImageRepository.save(classImageEntity);
+            }
 
-        return classRepository.save(classEntity).getId();
+            return classRepository.save(classEntity).getId();
     }
 
     @Transactional

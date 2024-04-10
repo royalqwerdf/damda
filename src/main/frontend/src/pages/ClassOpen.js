@@ -42,6 +42,23 @@ const ClassOpen = () => {
     const [category, setCategory] = useState('');
     const [longtime, setLongtime] = useState('');
 
+    const handleSelectChange = (name, value) => {
+        switch(name) {
+            case 'level':
+                setLevel(value);
+                break;
+            case 'category':
+                setCategory(value);
+                break;
+            case 'longtime':
+                setLongtime(value);
+                break;
+            default:
+                console.error('Invalid name:', name);
+        }
+         console.log(name + "의 선택값 :" + value);
+    };
+
 
     //난이도 드롭다운 박스 설정
     const dropDownRef = useRef();
@@ -197,6 +214,11 @@ const ClassOpen = () => {
     const handleClassSubmit = async (e) => {
         e.preventDefault();
 
+        if (!classname || !classExplanation || !memberAddress || !price || !curriculum) {
+            alert('필요한 모든 내용을 입력하세요');
+            return;
+        }
+
         try {
             await onUpload();
 
@@ -290,19 +312,23 @@ const ClassOpen = () => {
 
                                                 <div ref={dropDownRef} style={{ position: 'relative', zIndex: 1}}>
                                                     <input
-                                                        onClick={() => {
-                                                            setIsOpen(!isOpen);
-                                                            setLevel(levelIdentify || '난이도');
-                                                        }}
+                                                        onClick={() => setIsOpen(!isOpen)}
                                                         type='button'
                                                         value={levelIdentify || '난이도'}
+                                                        onChange={handleSelectChange}
                                                         style={{ width: '100%', height: '40px', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px' }}
                                                     />
 
                                                     {isOpen &&
                                                         <ul style={{ cursor: 'pointer', position: 'absolute', top: '100%', left: 0, zIndex: 2, listStyleType: 'none', padding: '10px', width: '90%', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)' }}>
                                                             {levelList.map((value, index) => (
-                                                                <LevelDropDown key={index} value={value} setIsOpen={setIsOpen} setLevelIdentify={setLevelIdentify} isOpen={isOpen}/>
+                                                                <LevelDropDown
+                                                                    key={index}
+                                                                    value={value}
+                                                                    setIsOpen={setIsOpen}
+                                                                    setLevelIdentify={setLevelIdentify}
+                                                                    isOpen={isOpen}
+                                                                    handleSelectChange={handleSelectChange}/>
                                                             ))}
                                                         </ul>
                                                     }
@@ -317,19 +343,23 @@ const ClassOpen = () => {
 
                                                 <div ref={categoryRef} style={{ position: 'relative', zIndex: 1}}>
                                                     <input
-                                                        onClick={() => {
-                                                            setIsOpenCategory(!isOpenCategory);
-                                                            setCategory(categoryIdentify || '카테고리');
-                                                        }}
+                                                        onClick={() => setIsOpenCategory(!isOpenCategory)}
                                                         type='button'
                                                         value={categoryIdentify || '카테고리'}
+                                                        onChange={handleSelectChange}
                                                         style={{ width: '100%', height: '40px', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px' }}
                                                     />
 
                                                     {isOpenCategory && (
                                                         <ul style={{ cursor: 'pointer', position: 'absolute', top: '100%', left: 0, zIndex: 2, listStyleType: 'none', padding: '10px', width: '90%', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)' }}>
                                                             {categoryList.map((value, index) => (
-                                                                <CategoryDropDown key={index} value={value} setCategoryIdentify={setCategoryIdentify} setIsOpen={setIsOpenCategory} isOpen={isOpenCategory}/>
+                                                                <CategoryDropDown
+                                                                    key={index}
+                                                                    value={value}
+                                                                    setCategoryIdentify={setCategoryIdentify}
+                                                                    setIsOpen={setIsOpenCategory}
+                                                                    isOpen={isOpenCategory}
+                                                                    handleSelectChange={handleSelectChange}/>
                                                             ))}
                                                         </ul>
                                                     )}
@@ -344,19 +374,23 @@ const ClassOpen = () => {
 
                                                 <div ref={longtimeRef} style={{ position: 'relative', zIndex: 1}}>
                                                     <input
-                                                        onClick={() => {
-                                                            setIsOpenLongtime(!isOpenLongtime);
-                                                            setLongtime(longtimeIdentify || '시간');
-                                                        }}
+                                                        onClick={() => setIsOpenLongtime(!isOpenLongtime)}
                                                         type='button'
                                                         value={longtimeIdentify || '시간'}
+                                                        onChange={handleSelectChange}
                                                         style={{ width: '100%', height: '40px', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px' }}
                                                     />
 
                                                     {isOpenLongtime && (
                                                         <ul style={{ cursor: 'pointer', position: 'absolute', top: '100%', left: 0, zIndex: 2, listStyleType: 'none', padding: '10px', width: '90%', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)' }}>
                                                             {longtimeList.map((value, index) => (
-                                                                <LongtimeDropDown key={index} value={value} setLongtimeIdentify={setLongtimeIdentify} setIsOpen={setIsOpenLongtime} isOpen={isOpenLongtime}/>
+                                                                <LongtimeDropDown
+                                                                    key={index}
+                                                                    value={value}
+                                                                    setLongtimeIdentify={setLongtimeIdentify}
+                                                                    setIsOpen={setIsOpenLongtime}
+                                                                    isOpen={isOpenLongtime}
+                                                                    handleSelectChange={handleSelectChange}/>
                                                             ))}
                                                         </ul>
                                                     )}
