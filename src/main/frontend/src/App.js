@@ -4,6 +4,7 @@ import Footer from "./pages/Footer";
 import MainPage from "./pages/MainPage";
 import ClassOpen from "./pages/ClassOpen";
 import SearchPage from "./pages/SearchPage";
+import ClassReservation from "./pages/ClassReservation";
 import CategoryClassList from "./pages/CategoryClassList";
 import CategoryClassList2 from "./pages/CategoryClassList2";
 
@@ -16,6 +17,7 @@ function App(){
                     <Route path="/" element={<MainPage/>}></Route>
                     <Route path="/search" element={<SearchPage/>}></Route>
                     <Route path="/class-open" element={<ClassOpen/>}></Route>
+                    <Route path="/class-reservation" element={<ClassReservation/>}></Route>
                 </Routes>
                 <Footer />
             </BrowserRouter>

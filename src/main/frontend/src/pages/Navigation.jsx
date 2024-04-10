@@ -28,6 +28,11 @@ function Navigation(){
                         클래스 등록
                     </button>
                 </Link>
+                <Link to="/class-reservation">
+                    <button>
+                        예약하기
+                    </button>
+                </Link>
             </div>
         </nav>
     );
