@@ -13,18 +13,18 @@ import Calendar from 'react-calendar';
 import "react-calendar/dist/Calendar.css";
 import '../styles/reservation.css';
 import moment from "moment";
+import MapContent from '../components/MapContent';
 
 const ClassReservation = () => {
 
   /*----------Class Control*/
      const { id } = useParams(); // URL에서 classId가져오기???
      const [classDetails, setClassDetails] = useState(null);
-
+     const defaultImg = "https://firebasestorage.googleapis.com/v0/b/damda-30bee.appspot.com/o/damda.png?alt=media&token=2dfa534c-01ba-4eba-a4de-af7fd44d7194";
      useEffect(() => {
        const fetchClassDetails = async () => {
          try {
            const response = await axios.get(`http://localhost:8080/class-reservation/${id}`);
-//           const response = await axios.get('http://localhost:8080/class-reservation/${id}');
            console.log(id);
            console.log(response.data);
            const data = response.data;
@@ -68,17 +68,17 @@ const ClassReservation = () => {
           <div className = "class-area">
               <div className= "class-info">
                   <div id="class-img-top">
-                    <img src="damda.png"/>
+                     <img src={classDetails.mainImg ? classDetails.mainImg : defaultImg} alt="클래스 이미지" />
                   </div>
                   <div id="class-img-top-small">
-                      <img src="damda.png"/><img src="damda.png"/><img src="damda.png"/>
+                      <img src={defaultImg}/><img src={defaultImg}/><img src={defaultImg}/>
                   </div>
 
                   <div id = "class-grade-line">
                     <div id= "red-button"><button>후기 작성</button></div>
                     <div id="class-grade">
-                        <img src="heart.png"/>{classDetails.totalLike}
-                        <img src="star.png"/>{classDetails.totalRating}
+                        <img src="https://firebasestorage.googleapis.com/v0/b/damda-30bee.appspot.com/o/heart.png?alt=media&token=66742275-d842-4849-b41e-7c49a0de8799"/>{classDetails.totalLike}
+                        <img src="https://firebasestorage.googleapis.com/v0/b/damda-30bee.appspot.com/o/star.png?alt=media&token=533d0a9d-b1f9-4cf7-9517-4f467e894ecf"/>{classDetails.totalRating}
                     </div>
                   </div>
                   <div>
@@ -86,28 +86,26 @@ const ClassReservation = () => {
                   </div>
                   지역 : {classDetails.address}<br/>
                   난이도 : 중급<br/>
-                  소요시간 : 1시간
+                  소요시간 : 1시간<br/>
                   카테고리 : 요리
               </div>
               <div className = "class-info2">
 
                   <b>클래스 소개글</b><br/>
                   <div id="class-img-bottom">
-                    <img src="damda.png"/>
+                    <img src={classDetails.mainImg ? classDetails.mainImg : defaultImg} alt="클래스 이미지" />
                   </div>
 
-                  <b>커리큘럼</b><br/>
+                  <br/><b>커리큘럼</b><br/>
                   <div id='curriculum-area'>
                     {classDetails.curriculum}
                   </div>
 
-                  <b>위치</b><br/>
+                  <br/><b>위치</b><br/>
                   <div id='location-area'>
-
-                    <img src="damda.png"/>
-                    {classDetails.address}
+                       <MapContent address={classDetails.address}/>
                   </div>
-                  <b>후기</b><br/>
+                  <br/><b>후기</b><br/>
                   <div id='review-area'>
                     후기가 없습니다.<br/>
                     직접 체험하고 멋진 후기를 남겨주세요!

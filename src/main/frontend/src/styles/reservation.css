@@ -79,6 +79,10 @@ display: inline-block;
     background-color: #FFFCF4;
     border-radius: 5px;
 }
+#map{
+    margin-top:10px;
+    border-radius: 10px;
+}
 #curriculum-area{
     margin:10px 0 10px 0;
     padding:15px;
