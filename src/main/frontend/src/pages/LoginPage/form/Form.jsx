@@ -5,6 +5,7 @@ import {useForm} from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {Checkbox} from "../../../components/Checkbox";
+import {login} from "../../../api/AuthAPI";
 
 const Form = ({title}) => {
 
@@ -13,9 +14,17 @@ const Form = ({title}) => {
     })
     const navigate = useNavigate();
 
-    const onSubmit = ({ email, password }) => {
-        console.log(email, password);
-        navigate('/home'); // 성공적인 폼 제출 후 리다이렉션할 페이지 경로
+    // const onSubmit = ({ email, password }) => {
+    //     console.log(email, password);
+    //     navigate('/home'); // 성공적인 폼 제출 후 리다이렉션할 페이지 경로
+    // };
+    const onSubmit = async ({ email, password }) => {
+        try {
+            await login(email, password);
+            navigate('/home'); // 성공적인 폼 제출 후 리다이렉션할 페이지 경로
+        } catch (error) {
+            console.error('로그인 실패:', error);
+        }
     };
 
     const userEmail = {
@@ -77,6 +86,7 @@ const Form = ({title}) => {
             <button type='submit'>{title}</button>
 
         </form>
+
     );
 };
 

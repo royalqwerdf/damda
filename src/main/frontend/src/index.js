@@ -4,6 +4,14 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import App from "./App";
 import './global.scss';
+import axios from 'axios';
+
+// Axios 기본 헤더 설정
+const accessToken = localStorage.getItem('accessToken');
+if (accessToken) {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+}
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

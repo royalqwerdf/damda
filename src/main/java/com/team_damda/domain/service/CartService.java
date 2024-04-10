@@ -14,14 +14,9 @@ import java.util.List;
 public class CartService {
     private final CartRepository cartRepository;
 
-    // 회원 카트 저장
-    public Cart saveForMember(Long memberId, CartDto cartDto) {
-        return cartRepository.saveForMember(memberId, cartDto);
-    }
-
-    // 비회원 카트 저장
-    public Cart saveForGuest(String cookieValue, CartDto cartDto) {
-        return cartRepository.saveForGuest(cookieValue, cartDto);
+    // 카트 저장
+    public Cart save(Cart cart) {
+        return cartRepository.save(cart);
     }
 
     // 회원 카트에 동일 클래스 시간이 이미 담겨있는지 확인
@@ -46,7 +41,7 @@ public class CartService {
 
     // 회원 카트 삭제하기 (성공하면 true)
     public boolean deleteCartForMember(Long memberId, Long cartId) {
-        Cart cart = cartRepository.getByMemberIdAndCartId(memberId, cartId);
+        Cart cart = cartRepository.getByMemberIdAndId(memberId, cartId);
         if(cart != null) {
             cartRepository.delete(cart);
             return true;
@@ -57,7 +52,7 @@ public class CartService {
 
     // 비회원 카트 삭제하기
     public boolean deleteCartForGuest(String cookieValue, Long cartId) {
-        Cart cart = cartRepository.getByCookieValueAndCartId(cookieValue, cartId);
+        Cart cart = cartRepository.getByCookieValueAndId(cookieValue, cartId);
         if(cart != null) {
             cartRepository.delete(cart);
             return true;
@@ -66,15 +61,13 @@ public class CartService {
         }
     }
     // 회원 카트 수정하기
-    public boolean updateCartForMember(Long memberId, Long cartId, int selectedCount) {
-        Cart cart = cartRepository.getByMemberIdAndCartId(memberId, cartId);
+    public boolean updateCartForMember(Long memberId, Long cartId, int selectedCount, int totalPrice) {
+        Cart cart = cartRepository.getByMemberIdAndId(memberId, cartId);
         if(cart != null) {
             // 인원수 변경
             cart.setSelectedCount(selectedCount);
-
             // 총 가격 변경
-            Class onedayClass = cart.getClassTime().getOnedayClass();
-            cart.setTotalPrice(onedayClass.getPrice() * selectedCount);
+            cart.setTotalPrice(totalPrice);
             return true;
         } else {
             return false;
@@ -82,15 +75,13 @@ public class CartService {
     }
 
     // 비회원 카트 수정하기
-    public boolean updateCartForGuest(String cookieValue, Long cartId, int selectedCount) {
-        Cart cart = cartRepository.getByCookieValueAndCartId(cookieValue, cartId);
+    public boolean updateCartForGuest(String cookieValue, Long cartId, int selectedCount, int totalPrice) {
+        Cart cart = cartRepository.getByCookieValueAndId(cookieValue, cartId);
         if(cart != null) {
             // 인원수 변경
             cart.setSelectedCount(selectedCount);
-
             // 총 가격 변경
-            Class onedayClass = cart.getClassTime().getOnedayClass();
-            cart.setTotalPrice(onedayClass.getPrice() * selectedCount);
+            cart.setTotalPrice(totalPrice);
             return true;
         } else {
             return false;
