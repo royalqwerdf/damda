@@ -80,11 +80,11 @@ public class Class extends BaseTimeEntity{
                 .price(this.price)
                 .totalRating(this.totalRating)
                 .totalLike(this.totalLike)
-                .categoryId(this.category.getId())
-                .categoryName(this.category.getCategoryName())
-                .managerName(this.manager.getName())
-                .managerPhone(this.manager.getPhone())
-                .mainImage(mainImage)
+//                .categoryId(this.category.getId())
+//                .categoryName(this.category.getCategoryName())
+//                .managerName(this.manager.getName())
+//                .managerPhone(this.manager.getPhone())
+//                .mainImage(mainImage)
                 .build();
     }
 

@@ -1,5 +1,6 @@
 package com.team_damda.domain.service;
 
+import com.google.api.gax.rpc.NotFoundException;
 import com.team_damda.domain.dto.ClassDto;
 import com.team_damda.domain.dto.ClassTimeDto;
 import com.team_damda.domain.entity.Category;
@@ -12,7 +13,11 @@ import com.team_damda.domain.repository.ClassTimeRepository;
 import com.team_damda.domain.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,4 +96,13 @@ public class ClassService {
         }
         return newClassDto;
     }
-}
+
+    @Transactional
+    public Class getClass(Long id){
+        return classRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Class not found with id: "));
+
+    }
+};
+
+

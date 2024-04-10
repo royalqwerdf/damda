@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-
+import React, { useEffect,useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 import useDetectClose from '../hooks/useDetectClose';
 import {LevelDropDown} from "../components/dropdown/LevelDropDown";
 import {CategoryDropDown} from "../components/dropdown/CategoryDropDown";
@@ -15,25 +16,57 @@ import moment from "moment";
 
 const ClassReservation = () => {
 
-  // 캘린더 날짜관리 상태
-  const [value, onChange] = useState(new Date());
-  // 인원수 관리 상태
-  const [peopleCount, setPeopleCount] = useState(1);
+  /*----------Class Control*/
+     const { id } = useParams(); // URL에서 classId가져오기???
+     const [classDetails, setClassDetails] = useState(null);
 
-  // 인원수 감소
-  const decreasePeople = () => {
-    setPeopleCount(prevCount => prevCount > 0 ? prevCount - 1 : 0); // 인원수가 0보다 작아지지 않도록 합니다.
-  };
+     useEffect(() => {
+       const fetchClassDetails = async () => {
+         try {
+           const response = await axios.get(`http://localhost:8080/class-reservation/${id}`);
+//           const response = await axios.get('http://localhost:8080/class-reservation/${id}');
+           console.log(id);
+           console.log(response.data);
+           const data = response.data;
+           setClassDetails(data);
 
-  // 인원수 증가
-  const increasePeople = () => {
-    setPeopleCount(prevCount => prevCount + 1);
-  };
+           //console.log(classDetails);
+         } catch (error) {
+           console.error('클래스 정보 가져오기 실패.', error);
+         }
+       };
+
+       fetchClassDetails();
+     }, [id]); // classId가 변경될 때마다 실행
+     console.log(classDetails);
+
+  /*----------Calender Control*/
+    // 캘린더 날짜관리 상태
+    const [value, onChange] = useState(new Date());
+
+  /*----------Person Control*/
+    // 인원수 관리 상태
+    const [peopleCount, setPeopleCount] = useState(1);
+    // 인원수 감소
+    const decreasePeople = () => {
+      setPeopleCount(prevCount => prevCount > 0 ? prevCount - 1 : 0); // 인원수가 0보다 작아지지 않도록 합니다.
+    };
+    // 인원수 증가
+    const increasePeople = () => {
+      setPeopleCount(prevCount => prevCount + 1);
+    };
+
+    // 딜레이 고려
+     if (!classDetails) {
+        return <div>Loading...</div>;
+     }
+
+
 
   return (
     <div className="class-reservation-page" style={{ height: "2048px" }}>
           <div className = "class-area">
-              <div class= "class-info">
+              <div className= "class-info">
                   <div id="class-img-top">
                     <img src="damda.png"/>
                   </div>
@@ -44,19 +77,19 @@ const ClassReservation = () => {
                   <div id = "class-grade-line">
                     <div id= "red-button"><button>후기 작성</button></div>
                     <div id="class-grade">
-                        <img src="heart.png"/>777
-                        <img src="star.png"/>4.5
+                        <img src="heart.png"/>{classDetails.totalLike}
+                        <img src="star.png"/>{classDetails.totalRating}
                     </div>
                   </div>
                   <div>
-                  <h3> 클래스 이름</h3>
+                  <h3>{classDetails.className}</h3>
                   </div>
-                  지역 : 서초구
+                  지역 : {classDetails.address}<br/>
                   난이도 : 중급<br/>
                   소요시간 : 1시간
                   카테고리 : 요리
               </div>
-              <div class = "class-info2">
+              <div className = "class-info2">
 
                   <b>클래스 소개글</b><br/>
                   <div id="class-img-bottom">
@@ -65,13 +98,14 @@ const ClassReservation = () => {
 
                   <b>커리큘럼</b><br/>
                   <div id='curriculum-area'>
-                    커리큘럼 소개글이 없습니다.<br/>
-                    자세한 사항은 클래스에 문의해주세요.
+                    {classDetails.curriculum}
                   </div>
 
                   <b>위치</b><br/>
                   <div id='location-area'>
+
                     <img src="damda.png"/>
+                    {classDetails.address}
                   </div>
                   <b>후기</b><br/>
                   <div id='review-area'>
@@ -99,7 +133,7 @@ const ClassReservation = () => {
                 <button onClick={decreasePeople}>-</button> &nbsp;
                 {peopleCount}&nbsp;
                 <button onClick={increasePeople}>+</button>
-                <br/>예약 금액 : 450000원
+                <br/>예약 금액 : {classDetails.price*peopleCount}원
              </div>
              <div id = "red-button">
                 <button>문의하기</button> <button>선택 CLASS찜</button>

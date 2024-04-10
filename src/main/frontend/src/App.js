@@ -17,7 +17,7 @@ function App(){
                     <Route path="/" element={<MainPage/>}></Route>
                     <Route path="/search" element={<SearchPage/>}></Route>
                     <Route path="/class-open" element={<ClassOpen/>}></Route>
-                    <Route path="/class-reservation" element={<ClassReservation/>}></Route>
+                    <Route path="/class-reservation/:id" element={<ClassReservation/>}></Route>
                 </Routes>
                 <Footer />
             </BrowserRouter>
