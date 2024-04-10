@@ -6,7 +6,18 @@ import SearchClassList from "./SearchClassList";
 
 function SearchPage(){
     const [data, setData] = useState([]);
-    const [locationView, setLocationView] = useState(false);
+    const [address,setAddress] = useState([]);
+    const [category,setCategory]=useState([]);
+    useEffect(() => {
+        axios.get('/category')
+            .then(response=>
+            {
+                setCategory(response.data);
+                setAddress(["서울","경기","인천","부천","충청","충북","충남","강원","세종","경북","경상","경남","전라","전북","전남","제주"]);
+                console.log(category);
+            })
+            .catch(error => console.log(error))
+    }, []);
     return(
         <div id="searchPage">
             <div id="searchOption">
@@ -16,26 +27,20 @@ function SearchPage(){
                     </div>
                     <div id="dropboxes">
                         <div id="addressDropdown">
-                            <ul onClick={() => {
-                                setLocationView(!locationView)
-                            }}>
-                                지역{" "}
-                                {locationView ? '⌃' : '⌄'}
-                                {locationView && <Dropdown/>}
-                            </ul>
+                            <Dropdown list={address} text={"지역"}/>
                         </div>
                         <div id="categoryDropdown">
-                            <Dropdown/>
+                            <Dropdown list={category} text={"카테고리"}/>
                         </div>
                         <div>
                             시간드롭다운
                         </div>
                     </div>
                     <div>
-                        <input id="inputNumber" type="number" placeholder="최소 가격"/>
+                        <input id="inputMinPrice" type="number" placeholder="최소 가격"/>
                         {" ~ "}
-                        <input id="inputNumber" type="number" placeholder="최대 가격"/>
-                        <button id="btnSearch" onClick={()=>onClick()}>검색</button>
+                        <input id="inputMaxPrice" type="number" placeholder="최대 가격"/>
+                        <button id="btnSearch" onClick={()=>search()}>검색</button>
                     </div>
                 </div>
             </div>
@@ -45,23 +50,30 @@ function SearchPage(){
         </div>
     );
 
-    function onClick(){
-        let categoryId = document.getElementById("categoryUl").value;
+    function search(){
         setData([]);
-            axios.get("/search",{
+
+        let keyword = document.getElementById("inputKeyword").value;
+        let address = document.getElementById("addressDropdown").innerText;
+        let categoryId = document.getElementById("dropdownUl").value;
+        let minPrice=Number(document.getElementById("inputMinPrice").value);
+        let maxPrice=Number(document.getElementById("inputMaxPrice").value);
+
+        console.log(address + " " + categoryId);
+        axios.get("/search",{
             params:{
-                keyword: "",
-                address: "",
-                categoryId: categoryId,
+                keyword: keyword !== undefined ? keyword : "",
+                //keyword || "" -> 위 코드를 줄일 수 있음
+                address: address !== undefined ? address : "",
+                categoryId: categoryId !== undefined ? categoryId : 0,
                 week: "",
-                minPrice: 0,
-                maxPrice: 0
+                minPrice: minPrice !== undefined ? minPrice : 0,
+                maxPrice: maxPrice !== undefined ? maxPrice : 0
             }
         })
             .then(response=>
             {
                 setData(response.data);
-                console.log(data);
             })
             .catch(error => console.log(error))
     }

@@ -7,7 +7,7 @@ function SearchClassList(props){
             <div id="classes">
                 {props.class?.map(onedayClass => {
                     return (
-                        <div id="classCard" key={onedayClass.categoryName}>
+                        <div id="classCard" key={onedayClass.id}>
                             <a href="#">
                                 <img src={onedayClass.mainImage}/>
                                 <div id="classManagerNameRatingLike">

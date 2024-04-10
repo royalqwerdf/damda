@@ -86,12 +86,16 @@ body{
   overflow-x: auto;
 }
 #resultSearch-container{
-  display: flex;
-  justify-content: center;
-  overflow-x: auto;
 }
 #category{
   height: 350px;
+}
+#new #classes{
+  display: grid;
+  place-items: center;
+  gap: 50px;
+  justify-content: center;
+  grid-template-columns: repeat(4, 200px);
 }
 #category #categories{
   display: flex;
@@ -240,8 +244,19 @@ input::-webkit-inner-spin-button {
   border-radius: 10px;
   margin: 0px 30px;
 }
-#categoryUl{
+#addressDropdown{
+  border: none;
+  background-color: white;
+  border-radius: 10px;
+  margin: 0px 30px;
+}
+#dropdownUl{
   width: 100px;
+  cursor: pointer;
+  font-weight: bold;
+}
+#dropdownUl li{
+  font-weight: normal;
 }
 #resultSearch{
   margin-top: 100px;

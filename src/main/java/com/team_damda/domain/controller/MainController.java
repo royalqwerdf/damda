@@ -59,7 +59,7 @@ public class MainController {
     public List<ClassDto> searchClass(@RequestParam String keyword,@RequestParam String address,
                                       @RequestParam Long categoryId,@RequestParam String week,
                                       @RequestParam Long minPrice,@RequestParam Long maxPrice){
-        log.info(keyword);
+        System.out.println(keyword + " " + address + " " + categoryId + " " + week + " " + minPrice + " " + maxPrice);
         return classService.getSearchClass(keyword,address,categoryId,week,minPrice,maxPrice);
     }
 }

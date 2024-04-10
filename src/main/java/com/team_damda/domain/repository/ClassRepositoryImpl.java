@@ -23,16 +23,22 @@ public class ClassRepositoryImpl implements ClassRepositoryCustom{
         String searchSql = " select c from Class c where 1=1 ";
 
         if(keyword!=null&& !keyword.isEmpty()){
-            searchSql += " and c.class_curriculum like '%" + keyword + "%' ";
+            searchSql += " and c.curriculum like '%" + keyword + "%' ";
         }
         if(address!=null&& !address.isEmpty()){
-            searchSql += " and c.class_address like '%" + address + "%' ";
+            searchSql += " and c.address like '%" + address + "%' ";
         }
         if(categoryId!=null&&categoryId!=0){
             searchSql += " and c.category.id = " + categoryId + " ";
         }
-        if(week!=null&& !week.isEmpty()){
-
+//        if(week!=null&& !week.isEmpty()){
+//
+//        }
+        if(minPrice!=null&&minPrice!=0){
+            searchSql += " and c.price >= " + minPrice + " ";
+        }
+        if(maxPrice!=null&&maxPrice!=0){
+            searchSql += " and c.price <= " + maxPrice + " ";
         }
         System.out.println(searchSql);
 
