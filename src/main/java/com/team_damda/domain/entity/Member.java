@@ -13,14 +13,14 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="user")
+@Table(name="member")
 @Builder
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name="user_email", nullable = false, unique = true, length = 30)
+    @Column(name="user_email", nullable = false, unique = true, length = 100)
     private String userEmail;
 
     @Column(name="password", nullable = true)
@@ -29,7 +29,7 @@ public class Member {
     @Column(name="name", nullable = false)
     private String name;
 
-    @Column(name="phone", nullable = false, length = 20)
+    @Column(name="phone", nullable = true, length = 20)
     private String phone;
 
     @Column(name="img_url")

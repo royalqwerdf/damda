@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Form from "../form/Form";
 
 
-const SignUp = () => {
+const Signup = () => {
     return (
         <Form
             title={"회원가입"}
@@ -10,4 +10,4 @@ const SignUp = () => {
     )
 }
 
-export default SignUp;
+export default Signup;

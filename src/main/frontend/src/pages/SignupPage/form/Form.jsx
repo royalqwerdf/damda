@@ -15,7 +15,7 @@ const Form = ({title}) => {
 
     const onSubmit = ({ email, password, name, phone }) => {
         console.log(email, password, name, phone);
-        navigate('./memberSaved'); // 성공적인 폼 제출 후 리다이렉션할 페이지 경로
+        navigate('../memberSaved'); // 성공적인 폼 제출 후 리다이렉션할 페이지 경로
     };
 
     const userEmail = {

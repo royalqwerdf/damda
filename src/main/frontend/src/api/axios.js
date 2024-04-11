@@ -1,12 +1,15 @@
 import axios from 'axios';
 
 // Axios 인스턴스 생성
-const api = axios.create({
-    baseURL: 'http://localhost3000/api',
+export const token = axios.create({
+    baseURL: 'http://localhost:3000/api',
+    headers: {
+        'Content-Type': 'application/json',
+    },
 });
 
 // 요청 인터셉터 추가
-api.interceptors.request.use(config => {
+token.interceptors.request.use(config => {
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
         config.headers['Authorization'] = `Bearer ${accessToken}`;
@@ -17,7 +20,7 @@ api.interceptors.request.use(config => {
 });
 
 // 응답 인터셉터 추가
-api.interceptors.response.use(response => {
+token.interceptors.response.use(response => {
     return response;
 }, error => {
     const originalRequest = error.config;
@@ -25,11 +28,11 @@ api.interceptors.response.use(response => {
         originalRequest._retry = true;
         const refreshToken = localStorage.getItem('refreshToken');
         // 여기서 refreshToken을 사용하여 새 accessToken을 요청하는 로직 구현
-        return axios.post('/refresh-token', { refreshToken })
+        return token.post('/refresh-token', { refreshToken })
             .then(res => {
                 if (res.status === 200) {
                     localStorage.setItem('accessToken', res.data.accessToken);
-                    axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.accessToken}`;
+                    token.defaults.headers.common['Authorization'] = `Bearer ${res.data.accessToken}`;
                     return axios(originalRequest);
                 }
             });

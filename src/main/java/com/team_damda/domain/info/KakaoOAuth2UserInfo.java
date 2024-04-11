@@ -25,7 +25,7 @@ public class KakaoOAuth2UserInfo extends OAuth2UserInfo{
         if (profile == null) {
             return null;
         }
-        return (String) profile.get("name");
+        return (String) profile.get("nickname");
     }
 
     @Override

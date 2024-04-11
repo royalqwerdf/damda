@@ -1,5 +1,6 @@
 package com.team_damda.domain.handler;
 
+import com.team_damda.domain.entity.Member;
 import com.team_damda.domain.enums.Role;
 import com.team_damda.domain.oauth2.CustomOAuth2User;
 import com.team_damda.domain.repository.MemberRepository;
@@ -29,11 +30,14 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         try {
             CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
 
-            if (oAuth2User.getRole() == Role.USER) {
+            if (oAuth2User.getRole() == Role.GUEST) {
                 String accessToken = jwtService.createAccessToken(oAuth2User.getUserEmail());
                 response.addHeader(jwtService.getAccessHeader(), "Bearer" + accessToken);
-                response.sendRedirect("/MemberSaved");
+                response.sendRedirect("http://localhost:3000/Oauth2Signup"); // 프론트의 회원가입 추가 정보 입력 폼으로 리다이렉트
                 jwtService.sendAccessAndRefreshToken(response, accessToken, null);
+                    Member getMember = memberRepository.getByUserEmail(oAuth2User.getUserEmail())
+                            .orElseThrow(() -> new IllegalArgumentException("이메일에 해당하는 유저가 없습니다."));
+                        getMember.authorizeUser();
             } else {
                 loginSuccess(response, oAuth2User);
             }

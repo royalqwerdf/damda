@@ -14,14 +14,10 @@ const Form = ({title}) => {
     })
     const navigate = useNavigate();
 
-    // const onSubmit = ({ email, password }) => {
-    //     console.log(email, password);
-    //     navigate('/home'); // 성공적인 폼 제출 후 리다이렉션할 페이지 경로
-    // };
     const onSubmit = async ({ email, password }) => {
         try {
             await login(email, password);
-            navigate('/home'); // 성공적인 폼 제출 후 리다이렉션할 페이지 경로
+            navigate('/'); // 성공적인 폼 제출 후 리다이렉션할 페이지 경로
         } catch (error) {
             console.error('로그인 실패:', error);
         }

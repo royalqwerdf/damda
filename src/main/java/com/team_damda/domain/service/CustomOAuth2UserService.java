@@ -24,7 +24,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private final MemberRepository memberRepository;
-
     private static final String NAVER = "naver";
     private static final String KAKAO = "kakao";
 

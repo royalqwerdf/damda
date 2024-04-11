@@ -18,9 +18,9 @@ const LoginPage = () => {
                 <div style={{width: '80%', marginBottom: '3rem'}}>
                     <h5 style={{marginBottom: "3rem"}}> 간편로그인 </h5>
                     <div style={{display: "flex", justifyContent: "space-around"}}>
-                        <a href="" style={{width: '75px'}}><img src="img/kakao.png" alt="카카오로그인"/></a>
-                        <a href="" style={{width: '75px%'}}><img src="img/naver.png" alt="네이버로그인"/></a>
-                        <a href="" style={{width: '75px%'}}><img src="img/google.png" alt="구글로그인"/></a>
+                        <a href="http://localhost:8080/oauth2/authorization/kakao" style={{width: '75px'}}><img src="img/kakao.png" alt="카카오로그인"/></a>
+                        <a href="http://localhost:8080/oauth2/authorization/naver" style={{width: '75px%'}}><img src="img/naver.png" alt="네이버로그인"/></a>
+                        <a href="http://localhost:8080/oauth2/authorization/google" style={{width: '75px%'}}><img src="img/google.png" alt="구글로그인"/></a>
                     </div>
                 </div>
             </div>
