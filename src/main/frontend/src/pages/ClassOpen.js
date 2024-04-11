@@ -9,8 +9,9 @@ import PopupDom from '../components/PopupDom';
 import PopupPostCode from '../components/PopupPostCode';
 import useUploadImage from '../hooks/useUploadImage';
 import axios from 'axios';
+import DatePicker from "react-datepicker";
 
-
+import "react-datepicker/dist/react-datepicker.css";
 import 'bootstrap/dist/js/bootstrap.bundle';
 
 const ClassOpen = () => {
@@ -125,6 +126,30 @@ const ClassOpen = () => {
             e.preventDefault();
     };
 
+    //날짜 기간 설정 관련
+    const [startDate, setStartDate] = useState(new Date());
+    const [lastDate, setLastDate] = useState(new Date());
+
+    useEffect(() => {
+        console.log("시작 날짜 선택", startDate);
+    }, [startDate]);
+
+    //요일 체크박스
+    const [selectedWeekdays, setSelectedWeekdays] = useState([]);
+
+    const weekdays = ['월', '화', '수', '목', '금', '토', '일'];
+
+    const handleCheckboxChange = (weekday) => {
+      if (selectedWeekdays.includes(weekday)) {
+        setSelectedWeekdays(selectedWeekdays.filter(day => day !== weekday));
+      } else {
+        setSelectedWeekdays([...selectedWeekdays, weekday]);
+      }
+    };
+
+    useEffect(() => {
+        console.log("체크박스 선택 목록", selectedWeekdays);
+    }, [selectedWeekdays]);
 
 
     //주소 검색 관련 코드
@@ -146,14 +171,10 @@ const ClassOpen = () => {
     const handleAddressSearch = (address) => {
         setFullAddress(address);
     }
-    const [memberAddress, setMemberAddress] = useState('');
-    useEffect(() => {
-        setMemberAddress(fullAddress + " " + detailaddress);
-    }, [fullAddress, detailaddress]);
 
     useEffect(() => {
-        console.log("진짜 풀 주소: " + memberAddress);
-    }, [memberAddress]);
+        console.log("진짜 풀 주소: " + fullAddress + " " + detailaddress);
+    }, [detailaddress]);
 
 
     //이미지 업로드 함수
@@ -214,12 +235,14 @@ const ClassOpen = () => {
     const handleClassSubmit = async (e) => {
         e.preventDefault();
 
-        if (!classname || !classExplanation || !memberAddress || !price || !curriculum) {
+        if (!classname || !classExplanation || !fullAddress || !detailaddress || !price || !curriculum || !startDate || !lastDate) {
             alert('필요한 모든 내용을 입력하세요');
             return;
         }
 
         try {
+            const selectedWeekdaysString = selectedWeekdays.join(' ');
+            console.log(selectedWeekdaysString);
             await onUpload();
 
             const classDto = {
@@ -227,7 +250,11 @@ const ClassOpen = () => {
                 classExplanation: classExplanation,
                 level: level,
                 longtime: longtime,
-                address: memberAddress,
+                startDate: startDate,
+                lastDate: lastDate,
+                weekdays: selectedWeekdaysString,
+                address: fullAddress,
+                detailAddress: detailaddress,
                 curriculum: curriculum,
                 price: price,
                 categoryName: category
@@ -446,6 +473,29 @@ const ClassOpen = () => {
                                                         placeholder="1인 기준 가격을 입력하세요" />
                                                 </div>
                                             </form>
+                                        </div>
+                                        <div className="date-start-setting" style={{ display: 'flex', alignItems: 'center', height: '40px'}}>
+                                            <div className="term-setting" style={{ marginRight: '20px', fontSize: '14px', fontWeight: 'bold',marginLeft: '80px' }}>운영 기간 설정</div>
+                                            <DatePicker selected={startDate} onChange={date => setStartDate(date)} selectsStart startDate={startDate} endDate={lastDate}/>
+                                            <DatePicker selected={lastDate} onChange={date => setLastDate(date)} selectsEnd startDate={startDate} endDate={lastDate} minDate={startDate}/>
+                                        </div>
+                                        <div className="week-select-setting" style={{ display: 'flex'}}>
+                                            <div className="week-select" style={{ marginRight: '20px', fontSize: '14px', fontWeight: 'bold',marginLeft: '80px' }}>운영 요일 선택</div>
+                                            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                              {weekdays.map((weekday, index) => (
+                                                <div key={index}>
+                                                  <input
+                                                    type="checkbox"
+                                                    id={weekday}
+                                                    value={weekday}
+                                                    checked={selectedWeekdays.includes(weekday)}
+                                                    onChange={() => handleCheckboxChange(weekday)}
+                                                  />
+                                                  <label htmlFor={weekday}>{weekday}</label>
+                                                </div>
+                                              ))}
+                                            </div>
+
                                         </div>
                             </div>
 

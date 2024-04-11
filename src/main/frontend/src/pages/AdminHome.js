@@ -13,7 +13,7 @@ import ReservationManage from "../components/admins/ReservationManage";
 
 function AdminHome() {
 
-    const [selectedComponent, setSelectedComponent] = useState("AdminMenu");
+    const [selectedComponent, setSelectedComponent] = useState("MemberManage");
 
     const handleMenuClick = (component) => {
         setSelectedComponent(component);
@@ -21,8 +21,6 @@ function AdminHome() {
 
     const renderComponent = () => {
         switch (selectedComponent) {
-            case "AdminMenu":
-                return <AdminMenu/>;
             case "MemberManage":
                 return <MemberManage />;
             case "ClassManage":
@@ -52,7 +50,7 @@ function AdminHome() {
                         <hr className="menu-line-1" />
                         <ul className="menu-1">
                             <div className="site-manage">사이트 관리</div>
-                            <p className="my-class" onClick={() => handleMenuClick("AdminMenu")} style={{cursor: 'pointer'}}>관리자 메뉴</p>
+                            <p className="my-class">관리자 메뉴</p>
                                 <li onClick={() => handleMenuClick("MemberManage")} style={{cursor: 'pointer'}}>회원 관리</li>
                                 <li onClick={() => handleMenuClick("ClassManage")} style={{cursor: 'pointer'}}>클래스 관리</li>
                                 <li onClick={() => handleMenuClick("ReservationManage")} style={{cursor: 'pointer'}}>예약 관리</li>

@@ -7,6 +7,8 @@ import com.team_damda.domain.entity.Member;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 @Builder
 public class ClassDto {
@@ -15,7 +17,11 @@ public class ClassDto {
     private String classExplanation;
     private String level;
     private String longtime;
+    private Date startDate;
+    private Date lastDate;
+    private String weekdays;
     private String address;
+    private String detailAddress;
     private String curriculum;
     private int price;
     private float totalRating;
@@ -36,7 +42,11 @@ public class ClassDto {
                 .classExplanation(this.classExplanation)
                 .level(this.level)
                 .longtime(this.longtime)
+                .startDate(this.startDate)
+                .lastDate(this.lastDate)
+                .weekdays(this.weekdays)
                 .address(this.address)
+                .detailAddress(this.detailAddress)
                 .curriculum(this.curriculum)
                 .price(this.price)
                 .totalRating(this.totalRating)

@@ -5,6 +5,8 @@ import com.team_damda.domain.entity.ClassTime;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 @Builder
 public class ClassTimeDto {
@@ -12,6 +14,7 @@ public class ClassTimeDto {
     private String classStartsAt;
     private String classEndsAt;
     private int headcount;
+    private Date classDate;
 
     private String className;
 
@@ -22,6 +25,7 @@ public class ClassTimeDto {
                 .classStartsAt(this.classStartsAt)
                 .classEndsAt(this.classEndsAt)
                 .headcount(this.headcount)
+                .classDate(this.classDate)
                 .onedayClass(onedayClass)
                 .build();
 

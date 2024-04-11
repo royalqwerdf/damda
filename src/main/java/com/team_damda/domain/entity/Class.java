@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -34,8 +35,18 @@ public class Class extends BaseTimeEntity{
     private String level;
     @Column (name="longtime")
     private String longtime;
+
+    @Column(name="start_date")
+    private Date startDate;
+    @Column(name="last_date")
+    private Date lastDate;
+    @Column(name="weekdays")
+    private String weekdays;
+
     @Column(name="class_address")
     private String address;
+    @Column(name="detail_address")
+    private String detailAddress;
     @Column(name="class_curriculum")
     private String curriculum;
     @Column(name="price")
@@ -78,7 +89,11 @@ public class Class extends BaseTimeEntity{
                 .classExplanation(this.classExplanation)
                 .level(this.level)
                 .longtime(this.longtime)
+                .startDate(this.startDate)
+                .lastDate(this.lastDate)
+                .weekdays(this.weekdays)
                 .address(this.address)
+                .detailAddress(this.detailAddress)
                 .curriculum(this.curriculum)
                 .price(this.price)
                 .totalRating(this.totalRating)

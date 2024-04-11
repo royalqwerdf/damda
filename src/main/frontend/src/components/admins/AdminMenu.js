@@ -11,7 +11,8 @@ function AdminMenu() {
                     <div style={{marginLeft: '30px', fontSize: '20px', fontWeight: 'bold', color: '#808000'}}>문의</div>
                 </div>
 
-                <div className="content-area" style={{marginTop: '10px', padding: '10px', width: '100%'}}>
+                <div className="content-area" style={{padding: '10px', width: '100%'}}>
+
                 </div>
 
             </div>
