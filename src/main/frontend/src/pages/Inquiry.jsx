@@ -1,9 +1,12 @@
 import Dropdown from "../components/dropdown/DropDown";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 
 function Inquiry(){
     let arr = ["클래스","수강","예약","결제/환불","이벤트","기타"];
+    const navigate = useNavigate();
+
     return(
         <div id="inquiry-container">
             <div id="inquiry-text">
@@ -40,6 +43,7 @@ function Inquiry(){
             console.log(response)
         })
             .catch((error) => console.log(error.response));
+        navigate("/");
     }
 
 }

@@ -20,7 +20,6 @@ function NoticeAndEventPage(){
                 </div>
                 <hr/>
             </div>
-
         </div>
     )
 
