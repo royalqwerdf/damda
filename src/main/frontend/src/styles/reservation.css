@@ -172,7 +172,7 @@ display: inline-block;
     border: 1px solid var(--festie-gray-400, #c8c8c8); /* 전체 틀: border, border-radius 조정*/
   }
 .react-calendar__label {
-   color : gray;
+   color: gray;
 }
   .react-calendar__navigation__label > span {
     /* 달력 상단 년/월 글씨 커스텀*/
@@ -192,13 +192,15 @@ display: inline-block;
     border-radius: 50px;
     background: var(--festie-primary-red, #F52334);
   }
+  /*오늘 날짜 하이라이트 커스텀*/
+  /*
   .react-calendar__tile--now {
-    /*오늘 날짜 하이라이트 커스텀*/
     background: #FFF5D9;
     border-radius: 50px;
     font-weight: bold;
     color: var(--festie-gray-800, #3a3a3a);
-  }
+  }*/
+
   .react-calendar__tile--active {
     background: #F52334;
     color: white;
@@ -214,7 +216,26 @@ display: inline-block;
     border-radius: 5px;
     padding:3px 3px;
 }
-
+#time-area button{
+    width :95%;
+    margin: 20px 0 5px 0;
+    font-weight: bold;
+    border: #F52334 2px solid;
+    color: #F52334;
+    border-radius: 8px;
+    background-color:transparent;
+    font-size: 20px;
+}
+#remaining-seats{
+    margin-bottom: 30px;
+}
+#time-area button:hover,
+#time-area button:active,
+#time-area button:focus{
+    background-color:#999999;
+    color: white;
+    border: black 2px solid;;
+}
 /*button styles*/
 #red-button button{
   margin-left: 5px;

@@ -7,18 +7,24 @@ import com.team_damda.domain.entity.Member;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 @Builder
 public class ClassDto {
     private long id;
     private String className;
     private String classExplanation;
-    private int headcount;
+    private String level;
+    private String longtime;
     private String address;
     private String curriculum;
     private int price;
     private float totalRating;
     private int totalLike;
+    private Date startDate;
+    private Date lastDate;
+    private String weekdays;
 
     private String categoryName;
     private String managerName;
@@ -33,7 +39,11 @@ public class ClassDto {
         return Class.builder()
                 .className(this.className)
                 .classExplanation(this.classExplanation)
-                .headcount(this.headcount)
+                .level(this.level)
+                .longtime(this.longtime)
+                .startDate(this.startDate)
+                .lastDate(this.lastDate)
+                .weekdays(this.weekdays)
                 .address(this.address)
                 .curriculum(this.curriculum)
                 .price(this.price)

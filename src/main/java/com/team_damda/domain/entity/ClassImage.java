@@ -1,5 +1,6 @@
 package com.team_damda.domain.entity;
 
+import com.team_damda.domain.dto.ClassImageDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,11 +25,18 @@ public class ClassImage {
     @Column(name="main_yn", length = 1)
     private String main_yn;
 
-    @Column(name="image_name")
-    private String imageName;
-
     @ManyToOne
     @JoinColumn(name="class_id")
     private Class onedayClass;
+
+    public ClassImageDto toDto() {
+        return ClassImageDto.builder()
+                .id(this.id)
+                .imageUrl(this.imageUrl)
+                .main_yn(this.main_yn)
+                .classId(this.onedayClass.getId())
+                .build();
+
+    }
 
 }
