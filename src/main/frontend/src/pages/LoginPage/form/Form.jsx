@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {Checkbox} from "../../../components/Checkbox";
 import {login} from "../../../api/AuthAPI";
+import {token} from "../../../api/axios";
 
 const Form = ({title}) => {
 
@@ -14,12 +15,13 @@ const Form = ({title}) => {
     })
     const navigate = useNavigate();
 
-    const onSubmit = async ({ email, password }) => {
+    const onSubmit = async ({ userEmail, password }) => {
         try {
-            await login(email, password);
+            const respon = await token.post('/login',{userEmail, password});
+            console.log("서버 응답: ", respon.data)
             navigate('/'); // 성공적인 폼 제출 후 리다이렉션할 페이지 경로
         } catch (error) {
-            console.error('로그인 실패:', error);
+            console.error('로그인 실패:', error.response || error.message);
         }
     };
 
@@ -52,7 +54,7 @@ const Form = ({title}) => {
                 <input
                     type="email"
                     placeholder="E-mail"
-                    {...register("email", userEmail)}
+                    {...register("userEmail", userEmail)}
                 />
                 {errors?.email &&
                     <div>

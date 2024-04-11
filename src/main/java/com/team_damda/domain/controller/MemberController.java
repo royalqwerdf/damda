@@ -2,15 +2,18 @@ package com.team_damda.domain.controller;
 
 import com.team_damda.domain.dto.MemberPhoneUpdateRequest;
 import com.team_damda.domain.dto.MemberSignupDto;
+import com.team_damda.domain.entity.Member;
+import com.team_damda.domain.enums.Role;
 import com.team_damda.domain.service.LoginService;
 import com.team_damda.domain.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RestController
 public class MemberController {
 
     private final MemberService memberService;
@@ -30,14 +33,10 @@ public class MemberController {
 
     @PostMapping("/Oauth2Signup")
     public ResponseEntity<?> updatePhoneNumber(@RequestBody MemberPhoneUpdateRequest request) {
-        memberService.updatePhoneNumber(request.getId(), request.getPhone());
+        // updatePhoneNumber 메서드를 호출할 때 LoginType과 snsId를 전달합니다.
+        memberService.updatePhoneNumber(request.getLoginType(), request.getSnsId(), request.getPhone());
         return ResponseEntity.ok().build();
     }
 
-//    @PostMapping("/login")
-//    public void login(@RequestBody LoginDto loginDto) throws Exception {
-//        loginService.loadUserByUsername(loginDto);
-//        return "/home";
-//    }
 
 }

@@ -60,14 +60,14 @@ public class SecurityConfiguration {
                 .requestMatchers("/my-page/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
                                 .anyRequest().permitAll()
                 )
-                .formLogin(formLogin -> formLogin
-                .loginPage("/login-form")
-                .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/", true)
-                .failureUrl("/login-form?error")
-                .usernameParameter("name")
-                .passwordParameter("password")
-                )
+//                .formLogin(formLogin -> formLogin
+//                .loginPage("/login-form")
+//                .loginProcessingUrl("/login")
+//                .defaultSuccessUrl("/", true)
+//                .failureUrl("/login-form?error")
+//                .usernameParameter("name")
+//                .passwordParameter("password")
+//                )
 
                 //== 소셜 로그인 설정 ==//
                 .oauth2Login((oauth2) -> oauth2

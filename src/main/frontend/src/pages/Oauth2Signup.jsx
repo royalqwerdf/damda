@@ -1,14 +1,31 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import '../global.scss';
 import styles from '../styles/Form.module.scss';
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
+import {token} from "../api/axios";
+
 
 const Oauth2Signup = () => {
     const { register, handleSubmit, formState: { errors } } = useForm({
         mode: 'onChange'
     });
     const navigate = useNavigate();
+
+    const [loginType, setLoginType] = useState('');
+    const [snsId, setSnsId] = useState('');
+
+    useEffect(() => {
+        const storedLoginType = localStorage.getItem('loginType');
+        const storedSnsId = localStorage.getItem('snsId');
+        if (storedLoginType && storedSnsId) {
+            setLoginType(storedLoginType);
+            setSnsId(storedSnsId);
+        } else {
+            console.log('No loginType or snsId in localStorage');
+        }
+    }, []);
+
 
     const phone = {
         required: "필수 필드입니다.",
@@ -18,11 +35,15 @@ const Oauth2Signup = () => {
         }
     }
 
-    const onSubmit = ({ phone }) => {
-        console.log(phone);
-        // 휴대폰 번호 제출 로직 구현
-        // 예: axios.post('/api/phone', { phone })...
-        navigate('../memberSaved'); // 제출 후 리다이렉션할 페이지 경로
+    const onSubmit = async ({ phone }) => {
+        try {
+            const response = await token.post('/Oauth2Signup', { phone, loginType, snsId });
+            console.log("서버 응답: ", response.data);
+            navigate('/memberSaved');
+        } catch (error) {
+            console.error('추가 정보 입력 실패:', error);
+            console.error('서버 응답 에러:', error.response ? error.response.data : "No server response");
+        }
     };
 
     return (

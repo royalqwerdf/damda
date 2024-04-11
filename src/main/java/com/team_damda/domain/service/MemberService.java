@@ -2,12 +2,15 @@ package com.team_damda.domain.service;
 
 import com.team_damda.domain.dto.MemberSignupDto;
 import com.team_damda.domain.entity.Member;
+import com.team_damda.domain.enums.LoginType;
 import com.team_damda.domain.enums.Role;
 import com.team_damda.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 @Service
 @Transactional
@@ -41,11 +44,11 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    public void updatePhoneNumber(Long memberId, String phone) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new RuntimeException("Member not found"));
-        member.setPhone(phone);
-        memberRepository.save(member);
-    }
-
+        public Member updatePhoneNumber(LoginType loginType, String snsId, String phone) {
+            Member member = memberRepository.getByLoginTypeAndSnsId(loginType, snsId)
+                    .orElseThrow(() -> new IllegalArgumentException("해당 사용자를 찾을 수 없습니다."));
+            member.setPhone(phone);
+            return memberRepository.save(member);
+        }
+    
 }

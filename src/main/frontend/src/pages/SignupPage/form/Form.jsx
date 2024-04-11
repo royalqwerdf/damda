@@ -3,8 +3,8 @@ import  '../../../global.scss';
 import styles from '../../../styles/Form.module.scss';
 import {useForm} from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import {Checkbox} from "../../../components/Checkbox";
+import {token} from "../../../api/axios";
 
 const Form = ({title}) => {
 
@@ -13,9 +13,20 @@ const Form = ({title}) => {
     })
     const navigate = useNavigate();
 
-    const onSubmit = ({ email, password, name, phone }) => {
-        console.log(email, password, name, phone);
-        navigate('../memberSaved'); // 성공적인 폼 제출 후 리다이렉션할 페이지 경로
+    const onSubmit = async ({userEmail, password, name, phone}) => {
+        try {
+            const response = await token.post('/signup', {
+                userEmail,
+                password,
+                name,
+                phone
+            });
+            console.log('서버 응답:', response.data);
+            navigate('../memberSaved');
+        } catch (error) {
+            console.error('요청 실패:', error.response || error.message);
+        }
+
     };
 
     const userEmail = {
@@ -87,7 +98,7 @@ const Form = ({title}) => {
                 <input
                     type="email"
                     placeholder="E-mail"
-                    {...register("email", userEmail)}
+                    {...register("userEmail", userEmail)}
                 />
                 {errors?.email &&
                     <div>
@@ -149,7 +160,7 @@ const Form = ({title}) => {
                     placeholder="Phone"
                     {...register("phone", phone)}
                 />
-                {errors?.phoneNumber &&
+                {errors?.phone &&
                     <div>
                         <span className={styles.form_error}>
                             {errors.phone.message}
