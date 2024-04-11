@@ -64,7 +64,7 @@ public class Class extends BaseTimeEntity{
     public ClassDto toDto(){
         String mainImage = "";
         for(ClassImage classImage:classImages){
-            if(classImage.getMain_yn().equals("Y")){
+            if(classImage.getMain_yn().equals("y")){
                 mainImage = classImage.getImageUrl();
             }
         }
