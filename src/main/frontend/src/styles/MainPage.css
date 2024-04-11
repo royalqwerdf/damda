@@ -86,6 +86,7 @@ body{
   overflow-x: auto;
 }
 #resultSearch-container{
+  margin-top: 100px;
 }
 #category{
   height: 350px;
@@ -254,12 +255,38 @@ input::-webkit-inner-spin-button {
   width: 100px;
   cursor: pointer;
   font-weight: bold;
+  list-style:none;
 }
 #dropdownUl li{
   font-weight: normal;
 }
 #resultSearch{
   margin-top: 100px;
+}
+#inquiry-container{
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+}
+#inquiry-text{
+  margin-right: 100px;
+  padding-top: 10px;
+}
+#inquiry-form{
+  text-align: center;
+}
+#inquiry-title,#inquiry-content{
+  font-size: 15px;
+}
+#inquiry-form textarea{
+  width: 500px;
+  height: 400px;
+  resize: none;
+}
+#inquiry-grid{
+  display: grid;
+  grid-template-columns: 100px 2fr;
+  gap: 20px;
 }
 #footer{
   background-color: #FFF5D9;

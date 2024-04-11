@@ -14,7 +14,6 @@ function SearchPage(){
             {
                 setCategory(response.data);
                 setAddress(["서울","경기","인천","부천","충청","충북","충남","강원","세종","경북","경상","경남","전라","전북","전남","제주"]);
-                console.log(category);
             })
             .catch(error => console.log(error))
     }, []);
@@ -59,12 +58,11 @@ function SearchPage(){
         let minPrice=Number(document.getElementById("inputMinPrice").value);
         let maxPrice=Number(document.getElementById("inputMaxPrice").value);
 
-        console.log(address + " " + categoryId);
         axios.get("/search",{
             params:{
                 keyword: keyword !== undefined ? keyword : "",
                 //keyword || "" -> 위 코드를 줄일 수 있음
-                address: address !== undefined ? address : "",
+                address: address !== "지역" ? address : "",
                 categoryId: categoryId !== undefined ? categoryId : 0,
                 week: "",
                 minPrice: minPrice !== undefined ? minPrice : 0,

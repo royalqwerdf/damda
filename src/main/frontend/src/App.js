@@ -6,6 +6,7 @@ import ClassOpen from "./pages/ClassOpen";
 import SearchPage from "./pages/SearchPage";
 import CategoryList from "./pages/CategoryList";
 import CategoryClassList from "./pages/CategoryClassList";
+import Inquiry from "./pages/Inquiry";
 
 function App(){
     return(
@@ -16,6 +17,7 @@ function App(){
                     <Route path="/" element={<MainPage/>}></Route>
                     <Route path="/search" element={<SearchPage/>}></Route>
                     <Route path="/class-open" element={<ClassOpen/>}></Route>
+                    <Route path="/inquiry" element={<Inquiry/>}></Route>
                 </Routes>
                 <Footer />
             </BrowserRouter>
