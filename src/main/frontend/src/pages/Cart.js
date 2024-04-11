@@ -5,56 +5,56 @@ import axios from "axios";
 
 function Cart() {
     const [carts, setCarts] = useState([]);
-    // useEffect(() => {
-    //     axios.get('/carts')
-    //         .then(response=>
-    //         {
-    //             // 받아온 데이터를 가공하여 Date 객체로 변환
-    //             const processedData = response.data.carts.map(cart => ({
-    //                 ...cart,
-    //                 classTime: {
-    //                     ...cart.classTime,
-    //                     classStartsAt: new Date(cart.classTime.classStartsAt)
-    //                 }
-    //             }));
-    //
-    //             // 변환된 데이터를 상태로 설정
-    //             setCarts(processedData);
-    //         })
-    //         .catch(error => console.log(error))
-    // }, []);
+    useEffect(() => {
+        axios.get('/carts')
+            .then(response=>
+            {
+                // 받아온 데이터를 가공하여 Date 객체로 변환
+                const processedData = response.data.carts.map(cart => ({
+                    ...cart,
+                    classTime: {
+                        ...cart.classTime,
+                        classStartsAt: new Date(cart.classTime.classStartsAt)
+                    }
+                }));
+
+                // 변환된 데이터를 상태로 설정
+                setCarts(processedData);
+            })
+            .catch(error => console.log(error))
+    }, []);
 
     // 예시 데이터
-    useEffect(() => {
-        setCarts([
-            {
-                id: 0,
-                classTime: {
-                    onedayClass: {
-                        id:0,
-                        className: "Class 1",
-                        price: 10000
-                    },
-                    classStartsAt: new Date(2024, 4, 8, 10, 0, 0)
-                },
-                selectedCount: 2,
-                totalPrice: 20000
-            },
-            {
-                id: 1,
-                classTime: {
-                    onedayClass: {
-                        id: 1,
-                        className: "Class 2",
-                        price: 15000
-                    },
-                    classStartsAt: new Date(2024, 4, 9, 10, 0, 0)
-                },
-                selectedCount: 1,
-                totalPrice: 15000
-            }
-        ]);
-    }, []);
+    // useEffect(() => {
+    //     setCarts([
+    //         {
+    //             id: 0,
+    //             classTime: {
+    //                 onedayClass: {
+    //                     id:0,
+    //                     className: "Class 1",
+    //                     price: 10000
+    //                 },
+    //                 classStartsAt: new Date(2024, 4, 8, 10, 0, 0)
+    //             },
+    //             selectedCount: 2,
+    //             totalPrice: 20000
+    //         },
+    //         {
+    //             id: 1,
+    //             classTime: {
+    //                 onedayClass: {
+    //                     id: 1,
+    //                     className: "Class 2",
+    //                     price: 15000
+    //                 },
+    //                 classStartsAt: new Date(2024, 4, 9, 10, 0, 0)
+    //             },
+    //             selectedCount: 1,
+    //             totalPrice: 15000
+    //         }
+    //     ]);
+    // }, []);
 
     // 체크박스
     const [checkboxes, setCheckboxes] = useState([]);
