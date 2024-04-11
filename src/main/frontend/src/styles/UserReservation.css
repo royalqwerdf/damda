@@ -1,0 +1,106 @@
+* {
+    white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
+    overflow-x: auto; /* 가로 스크롤이 필요한 경우에만 스크롤 표시 */
+}
+
+/*나의클래스 예약관리*/
+div.my-reservation{
+    margin-top: -500px;
+}
+
+/*나의클래스*/
+div.my-reservation p {
+    position: relative;
+    margin-left: 410px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+/*예약관리*/
+div.my-reservation a{
+    position: relative;
+    margin-left: 410px;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+/*진행중인 예약*/
+h3.now-reservation{
+    margin-left: 410px;
+    margin-top: 30px;
+    position: relative;
+}
+
+/*상자, 전체*/
+div.my-now-reservation{
+    position:relative;
+    margin-top: -530px;
+}
+
+/*상자*/
+div.now-reservation {
+    width: 800px;
+    height: 140px;
+    background-color: #FFFFFF;
+    border: 1px solid #FFFFFF;
+    border-radius: 2px;
+    padding: 20px;
+    margin-left: 310px;
+    margin-top: 530px;
+}
+
+
+/*이미지 들어갈 원형*/
+div.circle {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background-color: #FFF5D9;
+    border-radius: 50%; /* 원을 만들기 위해 반지름을 50%로 설정 */
+    margin-top: 10px;
+    margin-left: 100px;
+}
+
+/*상자 안 글자*/
+div.title {
+    position: absolute;
+    margin-left: 250px;
+    font-size: 15px;
+    font-weight: bolder;
+    align-content: center;
+}
+
+/*상자 안 글자 a태그 간격*/
+div.title a{
+    margin-right:50px;
+}
+
+/*버튼 모두*/
+div.reservation-update{
+    margin-left: 850px;
+}
+
+/*변경하기*/
+button.modify{
+    position: absolute;
+    background-color: #F52334;
+    border: 10px solid #F52334;
+    border-radius: 15px;
+    margin-top: 15px;
+    color: #FFFFFF;
+    font-size: 15px;
+
+}
+
+/*삭제하기*/
+button.delete{
+    position: absolute;
+    background-color: #FFFFFF;
+    border: 3px solid #F52334;
+    border-radius: 15px;
+    margin-top: 60px;
+    color: #F52334;
+    font-size: 15px;
+    padding: 7px 13px;
+}

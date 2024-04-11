@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/UserHome.css';
-import UserLeftMenu from "../components/UserLeftMenu";
+import '../../styles/UserHome.css';
+import UserLeftMenu from "../../components/UserLeftMenu";
 // npm jwt-decode 필요
 import { jwtDecode } from 'jwt-decode';
 import axios from "axios";

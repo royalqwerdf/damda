@@ -8,7 +8,7 @@ function UserLeftMenu() {
             <hr className="menu-line1" />
             <ul className="vertical-menu1">
                 <p id="myclass">나의 클래스</p>
-                <li><a href="/MainPage">예약 관리</a></li>
+                <li><a href="/User-Reservation">예약 관리</a></li>
                 <li><a href="/MainPage">클래스 관리</a></li>
                 <li><a href="/MainPage">결제 내역</a></li>
                 <li><a href="/MainPage">리뷰 관리</a></li>
