@@ -29,11 +29,13 @@ function Inquiry(){
     function postInquiry(){
         let title = document.getElementById("inquiry-title").value.toString();
         let content = document.getElementById("inquiry-content").value.toString();
-        console.log(title,content);
+        let type = document.getElementById("dropdownUl").innerText;
+        console.log(type);
         axios.post("/inquiry", {
-                //todo: 작성한 유저의 idx값도 넘겨줘야함(컬럼명 user_id)
+                //todo: 작성한 유저의 idx 값도 넘겨줘야함(컬럼명 user_id)
                 title: title,
-                content: content
+                content: content,
+                type: type
         }).then(response => {
             console.log(response)
         })

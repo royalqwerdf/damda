@@ -13,7 +13,7 @@ function Navigation(){
             </div>
             <div id="menu">
                 <a href="/search">클래스</a>
-                <a href="#" id="news">담다소식</a>
+                <a href="/news" id="news">담다소식</a>
                 <a href="/inquiry">문의하기</a>
             </div>
 

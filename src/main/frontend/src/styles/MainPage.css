@@ -29,7 +29,7 @@ body{
   padding-left: 5px;
 }
 #navibar #news{
-  margin:0px 30px;
+  margin:0 30px;
 }
 #navibar #rightbar{
   border-right: #401E20 1px solid;
@@ -59,7 +59,7 @@ body{
 }
 #best #text{
   display: flex;justify-content: center;margin-top: 100px;
-  padding: 30px 0px 10px 0px;
+  padding: 30px 0 10px 0;
 }
 #new #text{
 }
@@ -142,9 +142,9 @@ body{
   margin-top: 30px;
 }
 #classCard{
-  margin: 0px 30px 0px 30px;
+  margin: 0 30px 0 30px;
   border-radius: 20px;
-  border:0px solid white;
+  border:0 solid white;
   background-color: #FFF5D9;
   padding-bottom: 20px;
   overflow: hidden;
@@ -234,7 +234,7 @@ input::-webkit-inner-spin-button {
 #dropboxes{
   display: flex;
   justify-content: center;
-  margin: 40px 0px;
+  margin: 40px 0;
 }
 #dropboxes ul{
   list-style:none;
@@ -243,19 +243,33 @@ input::-webkit-inner-spin-button {
   border: none;
   background-color: white;
   border-radius: 10px;
-  margin: 0px 30px;
+  margin: 0 30px;
 }
 #addressDropdown{
   border: none;
   background-color: white;
   border-radius: 10px;
-  margin: 0px 30px;
+  margin: 0 30px;
 }
 #dropdownUl{
   width: 100px;
   cursor: pointer;
   font-weight: bold;
   list-style:none;
+}
+#newsPage-container{
+  margin-top: 100px;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  text-align: center;
+  padding-left: 20%;
+  padding-right: 20%;
+}
+#news-flex{
+  display: flex;
+  justify-content: space-between;
+  padding-left: 30px;
+  padding-right: 100px;
 }
 #dropdownUl li{
   font-weight: normal;

@@ -16,5 +16,4 @@ public class InquiryService {
     public void addInquiry(Inquiry inquiry) {
         inquiryRepository.save(inquiry);
     }
-
 }

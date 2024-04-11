@@ -13,7 +13,6 @@ public class ClassDto {
     private long id;
     private String className;
     private String classExplanation;
-    private int headcount;
     private String address;
     private String curriculum;
     private int price;
@@ -33,7 +32,6 @@ public class ClassDto {
         return Class.builder()
                 .className(this.className)
                 .classExplanation(this.classExplanation)
-                .headcount(this.headcount)
                 .address(this.address)
                 .curriculum(this.curriculum)
                 .price(this.price)

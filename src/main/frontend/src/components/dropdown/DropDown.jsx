@@ -38,7 +38,7 @@ function Dropdown(props) {
             document.getElementById("dropdownUl").value = list.id;
             console.log(document.getElementsByClassName("dropdownUl").value);
         }
-        else if(props.text==="지역"||props.text==="지역"){
+        else if(props.text==="지역"||props.text==="문의분류"){
             setText(list);
         }
     }
