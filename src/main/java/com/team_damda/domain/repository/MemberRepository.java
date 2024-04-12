@@ -17,6 +17,6 @@ public interface MemberRepository  extends JpaRepository<Member,Long> {
 
     Optional<Member> getByRefreshToken(String refreshToken);
 
-    Optional<Member> getByLoginTypeAndUserEmail(LoginType loginType, String UserEmail);
+    Optional<Member> getByLoginTypeAndSnsId(LoginType loginType, String snsId);
 
 }

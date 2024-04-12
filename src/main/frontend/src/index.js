@@ -3,6 +3,15 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import App from "./App";
+import './global.scss';
+import {token} from "./api/axios";
+
+// Axios 기본 헤더 설정
+const accessToken = localStorage.getItem('accessToken');
+if (accessToken) {
+    token.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+}
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
