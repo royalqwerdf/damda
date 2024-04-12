@@ -12,6 +12,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Date;
+
 
 
 @Entity
@@ -31,11 +33,15 @@ public class Class extends BaseTimeEntity{
     private String className;
     @Column(name="class_explanation")
     private String classExplanation;
+<<<<<<< HEAD
 
+=======
+>>>>>>> feature-BE-reservation
     @Column(name="level")
     private String level;
     @Column (name="longtime")
     private String longtime;
+<<<<<<< HEAD
 
     @Column(name="start_date")
     private Date startDate;
@@ -44,6 +50,8 @@ public class Class extends BaseTimeEntity{
     @Column(name="weekdays")
     private String weekdays;
 
+=======
+>>>>>>> feature-BE-reservation
     @Column(name="class_address")
     private String address;
     @Column(name="detail_address")
@@ -77,6 +85,13 @@ public class Class extends BaseTimeEntity{
     @OneToMany(mappedBy = "onedayClass", cascade = CascadeType.ALL)
     private List<ClassImage> classImages = new ArrayList<>();
 
+    @Column(name="start_date")
+    private Date startDate;
+    @Column(name="last_date")
+    private Date lastDate;
+    @Column(name="weekdays")
+    private String weekdays;
+
     public ClassDto toDto(){
         String mainImage = "";
         for(ClassImage classImage:classImages){
@@ -94,17 +109,18 @@ public class Class extends BaseTimeEntity{
                 .startDate(this.startDate)
                 .lastDate(this.lastDate)
                 .weekdays(this.weekdays)
-
                 .address(this.address)
                 .detailAddress(this.detailAddress)
                 .curriculum(this.curriculum)
                 .price(this.price)
                 .totalRating(this.totalRating)
                 .totalLike(this.totalLike)
-                .categoryId(this.category.getId())
-                .categoryName(this.category.getCategoryName())
-                .managerName(this.manager.getName())
-                .managerPhone(this.manager.getPhone())
+
+
+//                .categoryId(this.category.getId())
+//                .categoryName(this.category.getCategoryName())
+//                .managerName(this.manager.getName())
+//                .managerPhone(this.manager.getPhone())
                 .mainImage(mainImage)
                 .build();
     }

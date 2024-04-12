@@ -15,9 +15,7 @@ public class ClassTimeDto {
     private String classEndsAt;
     private int headcount;
     private Date classDate;
-
     private String className;
-
     private Class onedayClass;
 
     public ClassTime toEntity(Class onedayClass) {

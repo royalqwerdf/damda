@@ -4,7 +4,7 @@ import Footer from "./components/Footer";
 import MainPage from "./pages/MainPage";
 import ClassOpen from "./pages/ClassOpen";
 import SearchPage from "./pages/SearchPage";
-import CategoryList from "./pages/CategoryList";
+import ClassReservation from "./pages/ClassReservation";
 import CategoryClassList from "./pages/CategoryClassList";
 
 import UserHome from "./pages/UserHome";
@@ -28,7 +28,7 @@ function App(){
 
                     <Route path="/inquiry" element={<Inquiry/>}></Route>
                     <Route path="/news" element={<NoticeAndEventPage/>}></Route>
-
+                    <Route path="/class-reservation/:id" element={<ClassReservation/>}></Route>
                 </Routes>
                 <Footer />
             </BrowserRouter>

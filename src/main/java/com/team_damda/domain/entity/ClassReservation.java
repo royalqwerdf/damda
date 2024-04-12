@@ -1,18 +1,17 @@
 package com.team_damda.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Builder
 @Table(name="class_reservation")
 public class ClassReservation {
@@ -20,7 +19,8 @@ public class ClassReservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name="reservation_date_time")
+    @CreatedDate
+    @Column(name="reservation_date_time", nullable = false, updatable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime reservationDateTime;
 
     @Column(name="class_type")
@@ -33,7 +33,7 @@ public class ClassReservation {
     private int total_price;
 
     @Column(name="select_date")
-    private LocalDate select_date;
+    private Date select_date;
 
     @Column(name="select_time")
     private LocalDateTime select_time;
