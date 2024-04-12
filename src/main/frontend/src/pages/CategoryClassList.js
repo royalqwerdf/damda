@@ -1,36 +1,58 @@
 import React, {useEffect, useState} from 'react';
-import CategoryClassList2 from "./CategoryClassList2";
+import { Link, useParams } from 'react-router-dom';
+import axios from "axios";
+import ClassList from "./ClassList";
+
 
 function CategoryClassList(props) {
-    const [categoryId, setCategoryId] = useState(1);
-
-    function classList(id) {
-        setCategoryId(id);
-    }
-
+    const [classes, setClasses] = useState([]);
+    const [page,setPage]=useState(0);
+    let maxPage;
+    useEffect(() => {
+        axios.get(`/category/${props.categoryId}`)
+            .then(response=>
+            {
+                setClasses(response.data);
+            })
+            .catch(error => console.log(error))
+    }, []);
     return (
-        <div id="category">
-            <div id="text">
-                <span>
-                    CLASS
-                </span>
-            </div>
-            <ul id="categories">
-                {props.categories?.map(category =>{
-                    return (
-                        <li key={category.id}>
-                            <a href='javascript:void(0)' onClick={()=>classList(category.id)}>
-                                {category.categoryName}
-                            </a>
-                        </li>
-                    );
-                })}
-            </ul>
-            <div id="aa">
-                <CategoryClassList2 key={categoryId} categoryId={categoryId} />
-            </div>
+        <div id="class-list">
+            <button onClick={() => pageBtnClick("prev")}>{"<"}</button>
+            <ClassList class={classToArray(classes)}/>
+            <button onClick={() => pageBtnClick("next")}>{">"}</button>
         </div>
     );
+
+    function pageBtnClick(str) {
+        maxPage = Math.floor(classes.length/4);
+        if(str === "prev" && 0 < page){
+            setPage(page-1);
+        }
+        else if(str === "prev" && 0 === page){
+            setPage(maxPage)
+        }
+        else if(str === "next" && maxPage > page){
+            setPage(page+1);
+        }
+        else if(str === "next" && maxPage === page){
+            setPage(0);
+        }
+    }
+
+    function classToArray(classes){
+        let classArr = [];
+        let i = page*4;
+        let j = page*4+4;
+        for(i;i<j;i++){
+            if(i === classes.length){
+                return classArr;
+            }
+            classArr.push(classes[i]);
+        }
+        return classArr;
+    }
+
 }
 
 export default CategoryClassList;

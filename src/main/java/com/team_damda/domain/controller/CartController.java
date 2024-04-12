@@ -21,6 +21,7 @@ import java.util.UUID;
 public class CartController {
     private final CartService cartService;
 
+
     // 클래스 게시글에서 해당 클래스를 장바구니에 담기
     @PostMapping("/carts/{classTime_id}")
     public ResponseEntity<Cart> addCart(@PathVariable Long id, @RequestBody CartDto cartDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
@@ -54,8 +55,9 @@ public class CartController {
             }
 
             // 장바구니에 담겨 있지 않은 경우
-            Cart addedCart = cartService.saveForGuest(cookieValue, cartDto);
-            return ResponseEntity.status(HttpStatus.OK).body(addedCart);
+//            Cart addedCart = cartService.saveForGuest(cookieValue, cartDto);
+//            return ResponseEntity.status(HttpStatus.OK).body(addedCart);
+            return null;
         }
 
         // 회원인 경우
@@ -68,8 +70,9 @@ public class CartController {
             }
 
             // 장바구니에 담겨 있지 않은 경우
-            Cart addedCart = cartService.saveForMember(memberId, cartDto);
-            return ResponseEntity.status(HttpStatus.OK).body(addedCart);
+//            Cart addedCart = cartService.saveForMember(memberId, cartDto);
+//            return ResponseEntity.status(HttpStatus.OK).body(addedCart);
+            return null;
         }
     }
 

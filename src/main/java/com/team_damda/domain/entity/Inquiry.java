@@ -17,6 +17,9 @@ public class Inquiry {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name="type")
+    private String type;
+
     @Column(name="title")
     private String title;
 

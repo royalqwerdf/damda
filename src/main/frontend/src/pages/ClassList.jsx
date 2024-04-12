@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React from "react";
 
-function SearchClassList(props){
 
+function ClassList(props){
     return (
-        <div id="new">
-            <div id="classes">
+        <div id="bestClasses-container">
+            <div id="bestClasses">
                 {props.class?.map(onedayClass => {
                     return (
                         <div id="classCard" key={onedayClass.id}>
@@ -35,7 +35,7 @@ function SearchClassList(props){
                 })}
             </div>
         </div>
-    );
+    )
 }
 
-export default SearchClassList;
+export default ClassList;
