@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>담다</title>
+    <style>
+        a {
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+</head>
+<body style="width:100vw;margin-left: calc(-50vw + 50%);">
+    <nav id="navibar" style="font-size:20px; display: flex;justify-content: space-around;text-align: center;padding-top: 30px;margin-left: -6px;margin-top: -6px;">
+        <div>
+            <a href="/">
+                <img src="https://lh3.googleusercontent.com/fife/ALs6j_HmEX4WdWVNmFAXcxoccln3aTimTEfmmaJur0gvHHXD3FkYsiLH2p_6leIfk9KJ5_fNYakNxALd6xM9NcEPQuwuMHldKFpb2BFKUy_3Q_OTlj0umajU05IoNWRCzmsdhL1nio2ys-n8J4ScpSpepfjCHWLGqf8d6W-pBIk71FrtKjE12IfD1vk0Bg1ai9QAEBwjuvyr954ny9KwsQMtkHJ_T9S5uZwxqzE2U6_BYBqdzicQVuAkJYEtO_fVORsaMgxjTukwgIiTmPVTLavPX5fNFNfMfvbGrl7-xpP2sbjCN0h0CnBXpnJMRiM35ITJkvLLa2eKp3SpISvtTNzG3H-Ody8cy5uNE2oeWNFj3ddq8nrIbK-ad7_ZG7uGJDamkqPRlCoA2yrN7Ds-PsufprQ8whUb3RQsEiSVbUeZURAgKqSY1bHyZK9em0mqb82So34OdHy3YO7lL8Jw91mPOEaVaOozmcFR8qzvACbmQqXSzoWCvrL-5GpOcjaRq-kn4aLR8KVk6MeXMAIeY-wwZ4uFFYMCgomJymcU0LdvMUyiIxJudmH_s7aPxDLVVFI0TfNll7baMtorV931lap07qFlBa-PoA-4FabHwsnFtBvhyfiPZir-wqPbYcgkTg_Nw72E_dzi4K6AFk1STysg9ht2rqP8QmCy7_Q4IT-jtaTtKTzxUu5O4tly3aEteIL8ZF4HrEs5I3zSanPAXVof3MMcld-EMfTJoXwvzWsz9QvWG9MeEOw4i_fg5PoXItZf5_7RpjB09RaQptwNLtdZHnlhezwmLQzS5MLQrCN3vgU6tLQL4wsFjnRQQUMcsB2iPVyGud1q146pGR7k5tcc46ETNcDPA5MJRfV3yVYkRHmZXWzxPUt73z16_Yhi0o9eed6nymukYsJnhsZJg6gRaEoTzLA0dXtM99GPeXZ3cn1hY8MQXWVUfkzshLKLGpykNOLq3dykQt4VLoYRLOrQu9Fpwk8wCPcQRMT_5dQrAeyEEx2ipOeVE2uQwq3FA6eQp8xpqEwg3D0t7IrXoj4z3hEbq5cYwgOLxLTTqyhtKwDRaCf9E5jIQqmG3YykpEUALDML8ZNNY3ixh-0hJd89LdCj1U6xjDaYFxrhrWPhKCvrXMQ6cFqtvg9cw61oiWtlr1KDOKRopXekIghS-fYgMSirbhYHhek-SsYDtVDBmNsTs-g-8sCxxsrHFbjTpwNCZOhJdVDeKneTHawalvQENQEY7-Ql6VN0W_6mI5JlxBpM6INsbhLKFXf0OVRJjMtXOJbwb_EHbN_rS_lWqCdhmYf8_WomZi1MWCWJHLAnSn2yy-IPRaeRgO6pkfu04L3kHnuHFjvITfssoE0D8lmi4ZTxZ9Omo24HE2OdIm1sTvDVuFT5PKLNGd2apED498n1o5-TyVVGSU8hAOkQ9u3o1ul9IU3exuMgAYnmfp8m3mjZUtwYSqB2UGTqGQ8qihtx8UMscf1zxkxRw-ZJ2jELAJHA1LML56pRqlTlVjulT23sbkGqzvWeacU4_Tmo8m-9lQx_qG_X92pqzN3a_Nabu5sIguzcx5nB-FY6M2lTCKktR7ntzBY8gQc6MGD8H-gG0gK-VzgrF1MdnEMXB3DUnCjNrWxgKmsFxJNiy-vbO5nXRYrArv6dJA=w1920-h970">
+            </a>
+        </div>
+        <div>
+            <a href="#" style="margin-right:30px">지역</a>
+            <a href="#">클래스</a>
+        </div>
+        <div>
+            <input type="text">
+            <a href="#" style="color: #401E20;border-right: #401E20 1px solid;padding-right: 5px;">LOGIN</a>
+            <a href="#" style="color: #401E20">JOIN</a>
+            <button onclick="location.href='#'" style="background-color:transparent;border-radius: 5px;border: #F52334 1px solid; color: #F52334; ">클래스 등록</button>
+        </div>
+    </nav>
+    <div style="display: flex;justify-content: center;margin-top: 20px;background-color: #CCEADE;">
+        <img style="height: 60%;width: 60%;" src="https://lh3.googleusercontent.com/fife/ALs6j_G69dAP4PD0raqL6MPIFmNJDU31MxtpD2pGHOR9v1C1pgEX-efDNyQEDtWKFfdNLNBYhvPC5rN-uMmK2EpMP2nbFKmUa2srQKq7bYGtuCbeUwxvlS0krcI17y1U11kLNcCfPrQe6WiToEPw1hS050-Tnhb3juBQtVAOuuESuy9B2juwL7WSd1_C_DGHSS3AeLOko78bsRlbrP8S5xLGHGvy-YKTCgdY0i3dMW6X2FR6Q47mC074H8nhV_vppaIvHaNgvDPOeR591kxK8QEltxXvbbZRtQi_IMBzXgzVLCxbvarzD94xMX59UiMRx8NqMVpiw99w06Mx3ftrHAAnOoX4nC6CeUYyD_mONHRIALV_ZuX7S0_NAL0DP7k7FXoRApaRvKNubCiTRp4p0qg_XAC4ymVJ2eg5WUJY52-XR1nMOoqupuZ0xpt5ckHuN9CzPuxehWM6pt6hu15WG6F3xkBhfxeCZPTnO0xqIbukFTkNt5Obx6ygS0Wl0zdk_Bj5v49iAmTl8MdlwKYfKKPvCRewdrgdqq5Bbu7FxS2ELX_arlQoVYw0nQpKJwQ7KNN9ASySoxCXzU2dp3T7gXKQ08lCdRGZ0D4YVN3vRhsneda0f3aGxdb0CIl_BUQ383FGIafbZy7QVifrRIYmKUbme4qyvJWpQ1L7pYz3xvgpCQN49pTjh5Dp6Ejhc5KSf9xEd6ONFx575eg1-WrQcys6GuFZM0nb2SEZJccTkNLen1MTw8Ve2ndeSXr5EecBxLab5xEswVmMpm6HBEnR_l-0E7gBImWHCgA8YGo6dAHs-mDYv7EWjSofhdXYoctdBOJnb6k1EV7tnQRy0LV1_CGn_VBhCKrVNioaRfasy4UwCymtUZe7x_qZCly4xcY5Rv6LbNYVwoRzrrYZ5aK8TFEU7wATU4085KdJFvX-cEHOWcsLysIsnTy5XDQUBajnhqQ4VidMgZuPzVw4Sl9Th6zGODdwoprkw7Atnk7h-fPGJ8bthPXBFHrmy_aidOH-W-dzHdNMJYxXorusw1C-5ZJ8dO_Z6yGM7k-dMxVAjrPCWByEL4Ewap9qVx-YVELLzslIS6016uQyGM2CU-pm_hbHqxoBI5mRRBoUJn_9jtlBO-oJCOYuVmgZti8ukomDbTXEYg62dFMq4OjNHqaNxuv3Q7K7gtRYzIg1cLjEjUX2VTdKTu6eDCTB0B83MoX8PRpiF1nwktBUc3CT0cQogfX1TwtjN9urtAqIxGVsDz09E4XdlYQPuNyRQVkfTY9VbF2ir0mY2a0MD8G0O3tT3ZZqw6-DGtmP8Axjpp2oeHD3i4rwQt4Rc6ECSOYcK7YnWP3A4sslyPSJ8WYmliZ0d2t7CK-dhvklntvt121Nvxywa7QRmZERtccD_Dt3OuyNwT1bIEVeAudT9BhHDIi3Laptqg26oRE_dlLH326vKggxEkjOgh0jIJSl-6SMacoM9NNrLHWcy4gFGrf_04yx3OKSyLCBxDlbIJab6xMKukPubcu9b0hmTIBBzk9WfJ0jItuKAHI87MiJqkgCICXAi2hkccx_W-ciKxPPU2y-b2vvKZOT2zKdRqU_SiPA_Fo54lVllcog2QXbq-V2ptjVe1o5e8x_Cm_Np2aMaczsI7D6PKwhvNZ8nYFyhA=w1920-h970">
+    </div>
+    <div style="display: flex;justify-content: center;margin-top: 100px;">
+        <span style="color: #F52334;text-decoration-line: underline;text-decoration-color: currentColor;text-underline-offset:10px;font-size: 30px;font-weight: bold">
+            CLASS
+        </span>
+    </div>
+    <div style="display: flex;justify-content: center;margin-top: 30px">
+        <a style="margin: 10px 20px 10px 20px;" th:each="category:${categories}" href="#" th:text="${category.categoryName}"></a>
+    </div>
+
+
+    <div style="display: flex;justify-content: center;margin-top: 30px;">
+        <div style="margin: 0px 30px 0px 30px;border-radius: 20px;border:0px solid white;background-color: #FFF5D9;padding-bottom: 20px;overflow: hidden" th:each="class : ${classes}">
+            <a href="#">
+                <img style="width: 200px;height: 150px;" th:src="@{${class.getClassImages().get(0).getImageUrl()}}">
+            <div style="display: flex;justify-content: space-between">
+                <div>
+                    <span style="padding-left: 10px" th:text="${class.manager.name}"></span>
+
+                </div>
+                <div style="padding-right: 10px">
+                    <span th:text="${class.totalRating}"></span>
+                    <span th:text="${class.totalLike}"></span>
+                </div>
+            </div>
+            <div>
+                <span style="padding-left: 10px;font-weight: bold" th:text="${class.className}"></span>
+            </div>
+            <div style="display:flex;justify-content: flex-end;">
+                <span style="padding-right: 10px" th:text="${class.price}+원"></span>
+            </div>
+            </a>
+        </div>
+    </div>
+    <div style="display: flex;justify-content: center;margin-top: 60px;">
+        <span style="color: #F52334;text-decoration-line: underline;text-decoration-color: currentColor;text-underline-offset:10px;font-size: 30px;font-weight: bold">
+            DAMDA'S BEST
+        </span>
+    </div>
+    <div style="display: flex;justify-content: center;margin-top: 50px;">
+        <div style="margin: 0px 30px 0px 30px;border-radius: 20px;border:0px solid white;background-color: #FFF5D9;padding-bottom: 20px;overflow: hidden" th:each="class : ${classes}">
+            <a href="#">
+                <img style="width: 200px;height: 150px;" th:src="@{${class.getClassImages().get(0).getImageUrl()}}">
+                <div style="display: flex;justify-content: space-between">
+                    <div>
+                        <span style="padding-left: 10px" th:text="${class.manager.name}"></span>
+
+                    </div>
+                    <div style="padding-right: 10px">
+                        <span th:text="${class.totalRating}"></span>
+                        <span th:text="${class.totalLike}"></span>
+                    </div>
+                </div>
+                <div>
+                    <span style="padding-left: 10px;font-weight: bold;" th:text="${class.className}"></span>
+                </div>
+                <div style="display:flex;justify-content: flex-end;">
+                    <span style="padding-right: 10px" th:text="${class.price}+원"></span>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div style="background-color: #FFDCD1;padding: 10px 0px 90px 0px;margin-top: 30px">
+        <div style="display: flex;justify-content: center;margin-top: 60px;">
+        <span style="color: #F52334;text-decoration-line: underline;text-decoration-color: currentColor;text-underline-offset:10px;font-size: 30px;font-weight: bold">
+            DAMDA'S NEW
+        </span>
+        </div>
+        <div style="display:flex;justify-content:center;margin-top: 50px;">
+            <div style="margin: 0px 30px 0px 30px;border-radius: 20px;border:0px solid white;background-color: white;padding-bottom: 20px;overflow: hidden" th:each="class : ${classes}">
+                <a href="#">
+                    <img style="width: 200px;height: 150px;" th:src="@{${class.getClassImages().get(0).getImageUrl()}}">
+                    <div style="display: flex;justify-content: space-between">
+                        <div>
+                            <span style="padding-left: 10px" th:text="${class.manager.name}"></span>
+
+                        </div>
+                        <div style="padding-right: 10px">
+                            <span th:text="${class.totalRating}"></span>
+                            <span th:text="${class.totalLike}"></span>
+                        </div>
+                    </div>
+                    <div>
+                        <span style="padding-left: 10px;font-weight: bold;" th:text="${class.className}"></span>
+                    </div>
+                    <div style="display:flex;justify-content: flex-end;">
+                        <span style="padding-right: 10px" th:text="${class.price}+원"></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</body>
+<footer style="background-color: #FFF5D9;display: flex;justify-content: center;height: 300px">
+    footer
+</footer>
+</html>
