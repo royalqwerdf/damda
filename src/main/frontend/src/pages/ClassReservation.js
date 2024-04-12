@@ -9,6 +9,10 @@ import moment from "moment";
 import MapContent from '../components/MapContent';
 import Modal from "react-modal";
 const ClassReservation = () => {
+
+
+
+
   /*----------Modal Control*/
      const[isOpen, setIsOpen] = useState(false);
      const openModal =() =>{
@@ -17,7 +21,29 @@ const ClassReservation = () => {
      const closeModal =() =>{
         setIsOpen(false);
      }
-  /*----------Class Control*/
+     const customStyles = {
+         overlay : {
+            backgroundColor : "white",
+         },
+         content:{
+         width:"400px",
+             height: "200px",
+             top: '50%',
+             left: '50%',
+             right: 'auto',
+             bottom: 'auto',
+             marginRight: '-50%',
+             transform: 'translate(-50%, -50%)',
+             borderRadius:"10px",
+             boxShadow:"0 4px 6px rgba(0,0,0,0.1)",
+             padding:"20px",
+             display: 'flex',
+             flexDirection: 'column',
+             alignItems: 'center',
+         },
+     };
+
+  /*----------Class Control ----- GET*/
      const { id } = useParams(); // URL에서 classId가져오기??? -> mainpage에서 클래스 선택시 클래스 아이디 경로로 가야함
      const [classDetails, setClassDetails] = useState(null);
      const [classTimes, setClassTimes] = useState([]);
@@ -45,6 +71,32 @@ const ClassReservation = () => {
        fetchClassDetails();
      }, [id]); // classId가 변경될 때마다 실행
      console.log(classDetails);
+
+/*----------reservation Control ----- POST*/
+// 예약 정보를 서버로 전송하는 함수
+const submitReservation = async () => {
+  // 여기서 예약에 필요한 정보를 객체로 구성합니다.
+  const reservationData = {
+    id: id, // 현재 페이지의 클래스 ID
+//    userId: '사용자 ID', // 사용자 ID (로그인 구현 시 사용자의 ID로 대체)
+    reservationDate: moment(value).format('YYYY-MM-DD'), // 선택된 날짜
+//    startTime: selectedTime.start, // 선택된 시작 시간
+//    endTime: selectedTime.end, // 선택된 종료 시간
+    select_person: peopleCount, // 인원수
+    totalPrice: classDetails.price * peopleCount // 총 가격
+  };
+
+  try {
+    const response = await axios.post(`http://localhost:8080/class-reservation`, reservationData);
+    if (response.status === 200) {
+      // 예약 성공 시 처리 로직
+      console.log("예약이 성공적으로 완료되었습니다.");
+    }
+  } catch (error) {
+    // 에러 처리 로직
+    console.error("예약에 실패했습니다.", error);
+  }
+};
 
   /*----------Calender Control*/
     // 캘린더 날짜관리 상태
@@ -172,7 +224,15 @@ const ClassReservation = () => {
                 <button>문의하기</button> <button>선택 CLASS찜</button>
              </div>
              <div id = "red-button2">
-                <button>클래스 신청하기</button> <button>장바구니에 담기</button>
+                <button onClick={openModal}>클래스 신청하기</button>
+                    <Modal isOpen={isOpen} onRequestClose={closeModal} style={customStyles}>
+                      <h2>결제를 진행하시겠습니까?</h2>
+                      <div className="modal-buttons">
+                        <button onClick={closeModal} className="modal-close-btn">아니오</button>
+                        <button onClick={submitReservation} className="modal-confirm-btn">결제 동의하기</button>
+                      </div>
+                    </Modal>
+                <button>장바구니에 담기</button>
              </div>
              <h3>시간 선택</h3>
              <div id = "time-area">
