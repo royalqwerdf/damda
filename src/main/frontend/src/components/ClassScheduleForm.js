@@ -5,11 +5,13 @@ import {ClassEndDropDown} from "../components/dropdown/ClassEndDropDown";
 import {HeadcountDropDown} from "../components/dropdown/HeadcountDropDown";
 
 
-const ClassScheduleForm = ({ index, handleFieldChange, handleRemoveFields }) => {
+const ClassScheduleForm = ({ index, handleRemoveFields, handleFieldChange}) => {
     const [field, setField] = useState({ start: '', end: '', count: '' });
 
+    //field의 start, end, count를 각각 name에 대입해 setField하는 함수
     const handleInputChange = (name, value) => {
             setField(prevState => ({ ...prevState, [name]: value }));
+            console.log(index + "의 선택값 :" + value);
             handleFieldChange(index, name, value);
     };
 
@@ -28,20 +30,19 @@ const ClassScheduleForm = ({ index, handleFieldChange, handleRemoveFields }) => 
     //인원수 드롭다운 박스 설정
     const headcountRef = useRef();
     const [headcountIdentify, setHeadcountIdentify] = useState('');
-    const headcountList = ['1명', '2명', '3명', '4명', '5명', '6명', '7명', '8명', '9명']
+    const headcountList = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     const [isOpenHeadcount, setIsOpenHeadcount] = useDetectClose(headcountRef, false);
 
     return (
         <div className="schedule-group" style={{ width: '100%', height: '60px' }}>
             <div className="class-start-time-space">
                 <div className="start-time-bottom" style={{padding: '15px' }}>
-                    <div ref={classStartRef} name='start' value={field.start} onChange={(e) => handleInputChange(index, e)} style={{ position: 'relative'}}>
+                    <div ref={classStartRef} style={{ position: 'relative'}}>
 
                         <input
                             onClick={() => setIsOpenClassStart(!isOpenClassStart)}
                             type='button'
                             name='start'
-                            value={field.start}
                             value={classStartIdentify || '시작 시간'}
                             onChange={handleInputChange}
                             style={{ width: '100%', height: '40px', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px' }}
@@ -49,7 +50,13 @@ const ClassScheduleForm = ({ index, handleFieldChange, handleRemoveFields }) => 
                         {isOpenClassStart && (
                             <ul style={{ cursor: 'pointer', position: 'absolute', top: '100%', left: 0, listStyleType: 'none', padding: '10px', width: '90%', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)' }}>
                                 {classStartList.map((value, index) => (
-                                    <ClassStartDropDown key={index} value={value} setClassStartIdentify={setClassStartIdentify} setIsOpen={setIsOpenClassStart} isOpen={isOpenClassStart}/>
+                                    <ClassStartDropDown
+                                        key={index}
+                                        value={value}
+                                        setClassStartIdentify={setClassStartIdentify}
+                                        setIsOpen={setIsOpenClassStart}
+                                        isOpen={isOpenClassStart}
+                                        handleInputChange={handleInputChange}/>
                                 ))}
                             </ul>
                         )}
@@ -64,7 +71,6 @@ const ClassScheduleForm = ({ index, handleFieldChange, handleRemoveFields }) => 
                             onClick={() => setIsOpenClassEnd(!isOpenClassEnd)}
                             type='button'
                             name='end'
-                            value={field.end}
                             value={classEndIdentify || '종료 시간'}
                             onChange={handleInputChange}
                             style={{ width: '100%', height: '40px', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px' }}
@@ -72,7 +78,13 @@ const ClassScheduleForm = ({ index, handleFieldChange, handleRemoveFields }) => 
                         {isOpenClassEnd && (
                             <ul style={{ cursor: 'pointer', position: 'absolute', top: '100%', left: 0, listStyleType: 'none', padding: '10px', width: '90%', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)' }}>
                                 {classEndList.map((value, index) => (
-                                    <ClassEndDropDown key={index} value={value} setClassEndIdentify={setClassEndIdentify} setIsOpen={setIsOpenClassEnd} isOpen={isOpenClassEnd}/>
+                                    <ClassEndDropDown
+                                        key={index}
+                                        value={value}
+                                        setClassEndIdentify={setClassEndIdentify}
+                                        setIsOpen={setIsOpenClassEnd}
+                                        isOpen={isOpenClassEnd}
+                                        handleInputChange={handleInputChange}/>
                                 ))}
                             </ul>
                         )}
@@ -88,7 +100,6 @@ const ClassScheduleForm = ({ index, handleFieldChange, handleRemoveFields }) => 
                             onClick={() => setIsOpenHeadcount(!isOpenHeadcount)}
                             type='button'
                             name='count'
-                            value={field.count}
                             value={headcountIdentify || '인원수'}
                             onChange={handleInputChange}
                             style={{ width: '100%', height: '40px', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px' }}
@@ -97,7 +108,13 @@ const ClassScheduleForm = ({ index, handleFieldChange, handleRemoveFields }) => 
                         {isOpenHeadcount && (
                             <ul style={{ cursor: 'pointer', position: 'absolute', top: '100%', left: 0, zIndex: 2, listStyleType: 'none', padding: '10px', width: '90%', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)' }}>
                                 {headcountList.map((value, index) => (
-                                    <HeadcountDropDown key={index} value={value} setHeadcountIdentify={setHeadcountIdentify} setIsOpen={setIsOpenHeadcount} isOpen={isOpenHeadcount}/>
+                                    <HeadcountDropDown
+                                        key={index}
+                                        value={value}
+                                        setHeadcountIdentify={setHeadcountIdentify}
+                                        setIsOpen={setIsOpenHeadcount}
+                                        isOpen={isOpenHeadcount}
+                                        handleInputChange={handleInputChange}/>
                                 ))}
                             </ul>
                         )}

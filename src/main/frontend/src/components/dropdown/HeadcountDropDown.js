@@ -1,8 +1,9 @@
 
-export const HeadcountDropDown = ({value, setHeadcountIdentify, setIsOpen, isOpen, isLast}) => {
+export const HeadcountDropDown = ({value, setHeadcountIdentify, setIsOpen, isOpen, isLast, handleInputChange}) => {
     const valueClick = () => {
         setHeadcountIdentify(value)
         setIsOpen(!isOpen)
+        handleInputChange('count', value) // end 값을 설정
     }
 
     const listItemStyle = {

@@ -1,0 +1,81 @@
+
+.full-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    display: flex;
+    align_items: center;
+    width: 80%;
+    padding: 100px;
+}
+
+.user-left-menu {
+    flex: 3;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.left-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.site-manage {
+    font-size: 15px;
+    margin-bottom: 20px;
+    font-weight: inherit;
+    color: #696969;
+}
+
+.my-page{
+    font-size: 25px;
+    font-weight: inherit;
+}
+
+.menu-line-1{
+    margin: 0px;
+}
+
+.menu-line-2 {
+    margin: 0px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.my-class,
+.user-information {
+    margin: 0px;
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: bolder;
+}
+
+.menu-1,
+.menu-2 {
+    padding: 0px;
+    margin : 0px;
+    margin-top: 15px;
+}
+
+li {
+    margin-left: 0px;
+    font-size: 15px;
+}
+
+li:active {
+    margin-left: 0px;
+    font-size: 15px;
+    color: grey;
+}
+
+.detailed-admin-area {
+    flex : 7;
+    width: 100%;
+
+}

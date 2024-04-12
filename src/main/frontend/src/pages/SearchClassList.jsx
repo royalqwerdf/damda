@@ -1,23 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import axios from "axios";
+import React, {useState} from 'react';
 
-function SearchClassList(){
-    const [classes, setClasses] = useState([]);
-    useEffect(() => {
-        axios.get('/best')
-            .then(response=>
-            {
-                setClasses(response.data);
-                console.log(classes);
-            })
-            .catch(error => console.log(error))
-    }, []);
+function SearchClassList(props){
+
     return (
         <div id="new">
             <div id="classes">
-                {classes?.map(onedayClass => {
+                {props.class?.map(onedayClass => {
                     return (
-                        <div id="classCard" key={onedayClass.categoryName}>
+                        <div id="classCard" key={onedayClass.id}>
                             <a href="#">
                                 <img src={onedayClass.mainImage}/>
                                 <div id="classManagerNameRatingLike">

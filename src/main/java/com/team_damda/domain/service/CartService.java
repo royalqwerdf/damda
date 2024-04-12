@@ -4,6 +4,7 @@ import com.team_damda.domain.entity.Class;
 import com.team_damda.domain.dto.CartDto;
 import com.team_damda.domain.entity.Cart;
 import com.team_damda.domain.repository.CartRepository;
+import com.team_damda.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,16 +14,22 @@ import java.util.List;
 @Service
 public class CartService {
     private final CartRepository cartRepository;
-
+    private final MemberRepository memberRepository;
     // 회원 카트 저장
-    public Cart saveForMember(Long memberId, CartDto cartDto) {
-        return cartRepository.saveForMember(memberId, cartDto);
+
+    public Cart save(Cart cart) {
+        return cartRepository.save(cart);
     }
 
-    // 비회원 카트 저장
-    public Cart saveForGuest(String cookieValue, CartDto cartDto) {
-        return cartRepository.saveForGuest(cookieValue, cartDto);
-    }
+//    public Cart saveForMember(Long memberId, CartDto cartDto) {
+//        return cartRepository.saveForMember(memberId, cartDto);
+//    }
+//
+//    // 비회원 카트 저장
+//    public Cart saveForGuest(String cookieValue, CartDto cartDto) {
+//        return cartRepository.saveForGuest(cookieValue, cartDto);
+//    }
+
 
     // 회원 카트에 동일 클래스 시간이 이미 담겨있는지 확인
     public Cart getByMemberIdAndClassTimeId(Long memberId, Long classTimeId) {
@@ -46,7 +53,7 @@ public class CartService {
 
     // 회원 카트 삭제하기 (성공하면 true)
     public boolean deleteCartForMember(Long memberId, Long cartId) {
-        Cart cart = cartRepository.getByMemberIdAndCartId(memberId, cartId);
+        Cart cart = cartRepository.getByMemberIdAndId(memberId, cartId);
         if(cart != null) {
             cartRepository.delete(cart);
             return true;
@@ -57,7 +64,7 @@ public class CartService {
 
     // 비회원 카트 삭제하기
     public boolean deleteCartForGuest(String cookieValue, Long cartId) {
-        Cart cart = cartRepository.getByCookieValueAndCartId(cookieValue, cartId);
+        Cart cart = cartRepository.getByCookieValueAndId(cookieValue, cartId);
         if(cart != null) {
             cartRepository.delete(cart);
             return true;
@@ -67,7 +74,7 @@ public class CartService {
     }
     // 회원 카트 수정하기
     public boolean updateCartForMember(Long memberId, Long cartId, int selectedCount) {
-        Cart cart = cartRepository.getByMemberIdAndCartId(memberId, cartId);
+        Cart cart = cartRepository.getByMemberIdAndId(memberId, cartId);
         if(cart != null) {
             // 인원수 변경
             cart.setSelectedCount(selectedCount);
@@ -83,7 +90,7 @@ public class CartService {
 
     // 비회원 카트 수정하기
     public boolean updateCartForGuest(String cookieValue, Long cartId, int selectedCount) {
-        Cart cart = cartRepository.getByCookieValueAndCartId(cookieValue, cartId);
+        Cart cart = cartRepository.getByCookieValueAndId(cookieValue, cartId);
         if(cart != null) {
             // 인원수 변경
             cart.setSelectedCount(selectedCount);

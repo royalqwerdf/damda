@@ -1,14 +1,17 @@
-import { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import '../styles/manageClass.css';
 import useDetectClose from '../hooks/useDetectClose';
 import {LevelDropDown} from "../components/dropdown/LevelDropDown";
 import {CategoryDropDown} from "../components/dropdown/CategoryDropDown";
 import {LongtimeDropDown} from "../components/dropdown/LongtimeDropDown";
 import ClassScheduleForm from '../components/ClassScheduleForm';
-import { v4 as uuidv4 } from 'uuid';
 import PopupDom from '../components/PopupDom';
 import PopupPostCode from '../components/PopupPostCode';
+import useUploadImage from '../hooks/useUploadImage';
+import axios from 'axios';
+import DatePicker from "react-datepicker";
 
+import "react-datepicker/dist/react-datepicker.css";
 import 'bootstrap/dist/js/bootstrap.bundle';
 
 const ClassOpen = () => {
@@ -31,6 +34,31 @@ const ClassOpen = () => {
         console.log('커리큘럼 입력:', curriculum);
     }, [curriculum]);
 
+    const [price, setPrice] = useState('');
+    useEffect(() => {
+        console.log('가격 입력:', price);
+    }, [price]);
+
+    const [level, setLevel] = useState('');
+    const [category, setCategory] = useState('');
+    const [longtime, setLongtime] = useState('');
+
+    const handleSelectChange = (name, value) => {
+        switch(name) {
+            case 'level':
+                setLevel(value);
+                break;
+            case 'category':
+                setCategory(value);
+                break;
+            case 'longtime':
+                setLongtime(value);
+                break;
+            default:
+                console.error('Invalid name:', name);
+        }
+         console.log(name + "의 선택값 :" + value);
+    };
 
 
     //난이도 드롭다운 박스 설정
@@ -53,11 +81,11 @@ const ClassOpen = () => {
 
 
     useEffect(() => {
-        //백엔드에서 카테고리 이름 목록을 가져옴
-        const fetchCategories = async() => {
+        // 백엔드에서 카테고리 이름 목록을 가져옴
+        const fetchCategories = async () => {
             try {
-                const response = await fetch('/classes');
-                const data = await response.json();
+                const response = await axios.get('http://localhost:8080/class-open');
+                const data = response.data;
                 setCategoryList(data);
                 console.log('Fetched categories:', data);
             } catch (error) {
@@ -67,50 +95,62 @@ const ClassOpen = () => {
         fetchCategories();
     }, []);
 
-    //클래스 일정 등록 폼들을 저장할 리스트
-    const [formList, setFormList] = useState([]);
 
 
     //클래스 일정 등록 동적 생성
     const [formFields, setFormFields] = useState([]);
 
+    useEffect(() => {
+        console.log("formFields:", formFields);
+    }, [formFields]);
+
         const handleAddFields = () => {
-            const newField = { id: uuidv4(), start: '', end: '', count: '' };
-            setFormList(prevList => [...prevList, newField]); // formList 상태를 업데이트
+            const newField = { start: '', end: '', count: '' };
             setFormFields(prevFields => [...prevFields, newField]); // formFields 상태를 업데이트
-            console.log("이건가?" + formList.map(item => `start: ${item.start}, end: ${item.end}, count: ${item.count}`).join(', '));
+        };
+
+        const handleFieldChange = (index, fieldName, value) => {
+            const updatedFormFields = [...formFields];
+            updatedFormFields[index][fieldName] = value;
+            setFormFields(updatedFormFields);
         };
 
 
         const handleRemoveFields = (index) => {
-            setFormFields(prevState => {
-                const updatedFields = prevState.filter((_, i) => i !== index);
-                // 인덱스 재조정
-                const updatedFormList = updatedFields.map((field, idx) => ({ ...field, index: idx }));
-                // formList 업데이트
-                setFormList(updatedFormList);
-                console.log("삭제됐나?" + formList.map(item => `start: ${item.start}, end: ${item.end}, count: ${item.count}`).join(', '));
-                return updatedFields;
-            });
+            setFormFields(prevFormFields => prevFormFields.filter((_, i) => i !== index));
+            console.log("동적생성폼 삭제:", formFields);
         };
+
 
         const handleSubmit = (e) => {
             e.preventDefault();
-            console.log(formList);
     };
 
-    const handleFieldChange = (index, fieldName, value) => {
-            // 해당 인덱스의 폼에 대한 값 변경
-            const updatedFormFields = [...formFields];
-            updatedFormFields[index][fieldName] = value;
-            setFormFields(updatedFormFields);
+    //날짜 기간 설정 관련
+    const [startDate, setStartDate] = useState(new Date());
+    const [lastDate, setLastDate] = useState(new Date());
 
-            // 전체 폼 리스트 업데이트
-            const updatedFormList = [...formList];
-            updatedFormList[index][fieldName] = value;
-            setFormList(updatedFormList);
+    useEffect(() => {
+        console.log("시작 날짜 선택", startDate);
+    }, [startDate]);
 
+    //요일 체크박스
+    const [selectedWeekdays, setSelectedWeekdays] = useState([]);
+
+    const weekdays = ['월', '화', '수', '목', '금', '토', '일'];
+
+    const handleCheckboxChange = (weekday) => {
+      if (selectedWeekdays.includes(weekday)) {
+        setSelectedWeekdays(selectedWeekdays.filter(day => day !== weekday));
+      } else {
+        setSelectedWeekdays([...selectedWeekdays, weekday]);
+      }
     };
+
+    useEffect(() => {
+        console.log("체크박스 선택 목록", selectedWeekdays);
+    }, [selectedWeekdays]);
+
 
     //주소 검색 관련 코드
     const [isPopupOpen, setIsPopupOpen] = useState(false)
@@ -131,6 +171,120 @@ const ClassOpen = () => {
     const handleAddressSearch = (address) => {
         setFullAddress(address);
     }
+
+    useEffect(() => {
+        console.log("진짜 풀 주소: " + fullAddress + " " + detailaddress);
+    }, [detailaddress]);
+
+
+    //이미지 업로드 함수
+    const uploadedUrls = [];
+    const [imageFiles, setImageFiles] = useState([]);
+    const [lastIdx, setLastIdx] = useState(0);
+
+    const uploadImage = useUploadImage(); // 이미지 업로드 훅 사용
+
+    const onUpload = async () => {
+
+        try {
+                if (lastIdx === 0) {
+                    // 이미지 파일이 없는 경우
+                    alert("이미지를 업로드하지 않았습니다.")
+                    return;
+                }
+
+                for (let i = 0; i < lastIdx; i++) {
+                    if (imageFiles[i] != null) {
+                        console.log("원본 이미지:", imageFiles[i]);
+                        const downloadUrl = await uploadImage(imageFiles[i]);
+                        console.log("업로드된 이미지의 다운로드 URL:", downloadUrl);
+                        uploadedUrls.push(downloadUrl);
+                        console.log("URL모음 배열:", uploadedUrls);
+                        setImageFiles[i] = null;
+                    }
+                }
+
+                console.log("All files uploaded successfully");
+            } catch (error) {
+                console.error("Error uploading files:", error);
+            }
+    };
+
+
+    const onChange = (e) => {
+        const files = e.target.files;
+        if (!files) return null;
+        const selectedFiles = Array.from(files).slice(0, 5 - imageFiles.length);
+        if(selectedFiles.length === 0) {
+            alert("파일은 5개까지 첨부 가능합니다.")
+            return;
+        }
+
+        setImageFiles(prevFiles => [...prevFiles, ...selectedFiles]);
+        setLastIdx(prevLastIdx => prevLastIdx + 1);
+        console.log("Selected Image Files:", imageFiles);
+        console.log("인덱스:", lastIdx);
+    };
+
+    const removeImage = (indexToRemove) => {
+        setImageFiles(prevFiles => prevFiles.filter((_, index) => index !== indexToRemove));
+        console.log("delete after Image Files:", imageFiles);
+    };
+
+
+    const handleClassSubmit = async (e) => {
+        e.preventDefault();
+
+        if (!classname || !classExplanation || !fullAddress || !detailaddress || !price || !curriculum || !startDate || !lastDate) {
+            alert('필요한 모든 내용을 입력하세요');
+            return;
+        }
+
+        try {
+            const selectedWeekdaysString = selectedWeekdays.join(' ');
+            console.log(selectedWeekdaysString);
+            await onUpload();
+
+            const classDto = {
+                className: classname,
+                classExplanation: classExplanation,
+                level: level,
+                longtime: longtime,
+                startDate: startDate,
+                lastDate: lastDate,
+                weekdays: selectedWeekdaysString,
+                address: fullAddress,
+                detailAddress: detailaddress,
+                curriculum: curriculum,
+                price: price,
+                categoryName: category
+            };
+
+            const classTimeDtos = formFields.map(time => ({
+                classStartsAt: time.start,
+                classEndsAt: time.end,
+                headcount: time.count,
+                // 다른 필드 값들 설정
+            }));
+
+            const classImageDtos = uploadedUrls.map((url, index) => ({
+                imageUrl: url,
+                main_yn: index === 0 ? 'y' : 'n'
+            }));
+
+            const requestData = {
+                classDto : classDto,
+                classTimeDtos : classTimeDtos,
+                classImageDtos : classImageDtos
+            };
+
+            const response = await axios.post('http://localhost:8080/class-open', requestData);
+            console.log('클래스 생성 성공:', response.data);
+
+        } catch (error) {
+            console.error('클래스 생성 오류:', error);
+        }
+    };
 
 
 
@@ -188,13 +342,20 @@ const ClassOpen = () => {
                                                         onClick={() => setIsOpen(!isOpen)}
                                                         type='button'
                                                         value={levelIdentify || '난이도'}
+                                                        onChange={handleSelectChange}
                                                         style={{ width: '100%', height: '40px', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px' }}
                                                     />
 
                                                     {isOpen &&
                                                         <ul style={{ cursor: 'pointer', position: 'absolute', top: '100%', left: 0, zIndex: 2, listStyleType: 'none', padding: '10px', width: '90%', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)' }}>
                                                             {levelList.map((value, index) => (
-                                                                <LevelDropDown key={index} value={value} setIsOpen={setIsOpen} setLevelIdentify={setLevelIdentify} isOpen={isOpen}/>
+                                                                <LevelDropDown
+                                                                    key={index}
+                                                                    value={value}
+                                                                    setIsOpen={setIsOpen}
+                                                                    setLevelIdentify={setLevelIdentify}
+                                                                    isOpen={isOpen}
+                                                                    handleSelectChange={handleSelectChange}/>
                                                             ))}
                                                         </ul>
                                                     }
@@ -212,13 +373,20 @@ const ClassOpen = () => {
                                                         onClick={() => setIsOpenCategory(!isOpenCategory)}
                                                         type='button'
                                                         value={categoryIdentify || '카테고리'}
+                                                        onChange={handleSelectChange}
                                                         style={{ width: '100%', height: '40px', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px' }}
                                                     />
 
                                                     {isOpenCategory && (
                                                         <ul style={{ cursor: 'pointer', position: 'absolute', top: '100%', left: 0, zIndex: 2, listStyleType: 'none', padding: '10px', width: '90%', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)' }}>
                                                             {categoryList.map((value, index) => (
-                                                                <CategoryDropDown key={index} value={value} setCategoryIdentify={setCategoryIdentify} setIsOpen={setIsOpenCategory} isOpen={isOpenCategory}/>
+                                                                <CategoryDropDown
+                                                                    key={index}
+                                                                    value={value}
+                                                                    setCategoryIdentify={setCategoryIdentify}
+                                                                    setIsOpen={setIsOpenCategory}
+                                                                    isOpen={isOpenCategory}
+                                                                    handleSelectChange={handleSelectChange}/>
                                                             ))}
                                                         </ul>
                                                     )}
@@ -236,13 +404,20 @@ const ClassOpen = () => {
                                                         onClick={() => setIsOpenLongtime(!isOpenLongtime)}
                                                         type='button'
                                                         value={longtimeIdentify || '시간'}
+                                                        onChange={handleSelectChange}
                                                         style={{ width: '100%', height: '40px', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px' }}
                                                     />
 
                                                     {isOpenLongtime && (
                                                         <ul style={{ cursor: 'pointer', position: 'absolute', top: '100%', left: 0, zIndex: 2, listStyleType: 'none', padding: '10px', width: '90%', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)' }}>
                                                             {longtimeList.map((value, index) => (
-                                                                <LongtimeDropDown key={index} value={value} setLongtimeIdentify={setLongtimeIdentify} setIsOpen={setIsOpenLongtime} isOpen={isOpenLongtime}/>
+                                                                <LongtimeDropDown
+                                                                    key={index}
+                                                                    value={value}
+                                                                    setLongtimeIdentify={setLongtimeIdentify}
+                                                                    setIsOpen={setIsOpenLongtime}
+                                                                    isOpen={isOpenLongtime}
+                                                                    handleSelectChange={handleSelectChange}/>
                                                             ))}
                                                         </ul>
                                                     )}
@@ -266,7 +441,6 @@ const ClassOpen = () => {
                                         <form className="detail-setting-zone" onSubmit={handleSubmit} style={{marginRight: '10px', width: '100%' }}>
                                             {formFields.map((field, index) => (
                                                 <ClassScheduleForm
-                                                    key={index}
                                                     index={index}
                                                     handleRemoveFields={handleRemoveFields}
                                                     handleFieldChange={handleFieldChange}
@@ -287,12 +461,41 @@ const ClassOpen = () => {
                             <div className="class-open-date-info-area" style={{ width: '100%', marginTop: '50px' }}>
                                         <div className="class-open-info" style={{ fontSize: '18px', fontWeight: 'bold', marginLeft: '80px' }}>운영 정보</div>
                                         <div className="close-date-setting-space" style={{ padding: '30px' }}>
-                                            <div className="close-setting" style={{ fontSize: '14px', fontWeight: 'bold', marginLeft: '60px' }}>휴무일 지정</div>
-                                            <button className="schedule-add-btn"
-                                                    type="button"
-                                                    style={{ width: '200px', height: '30px', backgroundColor: '#c0c0c0', border: '2px solid #808080', borderRadius: '10px', marginLeft: '20px' }}>
-                                                캘린더
-                                            </button>
+                                            <div className="close-setting" style={{ fontSize: '14px', fontWeight: 'bold', marginLeft: '60px' }}>클래스 가격</div>
+                                            <form className="class-name-input-group" method="get" action="">
+                                                <div className="input-group">
+                                                    <input className="price-form-control"
+                                                        name="price"
+                                                        type="text"
+                                                        required
+                                                        value={price}
+                                                        onChange={e => setPrice(e.target.value)}
+                                                        placeholder="1인 기준 가격을 입력하세요" />
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div className="date-start-setting" style={{ display: 'flex', alignItems: 'center', height: '40px'}}>
+                                            <div className="term-setting" style={{ marginRight: '20px', fontSize: '14px', fontWeight: 'bold',marginLeft: '80px' }}>운영 기간 설정</div>
+                                            <DatePicker selected={startDate} onChange={date => setStartDate(date)} selectsStart startDate={startDate} endDate={lastDate}/>
+                                            <DatePicker selected={lastDate} onChange={date => setLastDate(date)} selectsEnd startDate={startDate} endDate={lastDate} minDate={startDate}/>
+                                        </div>
+                                        <div className="week-select-setting" style={{ display: 'flex'}}>
+                                            <div className="week-select" style={{ marginRight: '20px', fontSize: '14px', fontWeight: 'bold',marginLeft: '80px' }}>운영 요일 선택</div>
+                                            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                              {weekdays.map((weekday, index) => (
+                                                <div key={index}>
+                                                  <input
+                                                    type="checkbox"
+                                                    id={weekday}
+                                                    value={weekday}
+                                                    checked={selectedWeekdays.includes(weekday)}
+                                                    onChange={() => handleCheckboxChange(weekday)}
+                                                  />
+                                                  <label htmlFor={weekday}>{weekday}</label>
+                                                </div>
+                                              ))}
+                                            </div>
+
                                         </div>
                             </div>
 
@@ -357,8 +560,43 @@ const ClassOpen = () => {
                                 </div>
                             </div>
 
+                            <div className="image-upload-url">
+
+                                <form style={{padding: '20px', marginLeft: '20px'}}>
+                                    <label htmlFor="input-file">
+                                        <div>
+                                            <p>{}</p>
+                                        </div>
+                                    </label>
+                                    <input type="file" onChange={onChange} accept="image/*" style={{ width: '250px'}} multiple/>
+
+                                </form>
+                                <div className="attached-image-files" style={{ marginLeft: '30px', width: '250px', height: '30px'}}>
+                                    {imageFiles.map((file, index) => (
+                                        <p key={index} style={{fontSize: '10px', color:'#c0c0c0'}}>{file.name}<div type="button" style={{cursor: 'pointer', size: '5px', marginLeft: '10px'}} onClick={() => removeImage(index)}>x</div></p>
+                                    ))}
+                                </div>
+
+                            </div>
+
                         </div>
                     </div>
+
+                    <div className="cancel-submit-button-area">
+                        <button className="cancel-button"
+                                type="button"
+                                style={{cursor: 'pointer', fontWeight: 'bold', color: '#FFFFFF', width: '120px', height: '40px', backgroundColor: '#c0c0c0', border: '2px solid #808080', borderRadius: '10px', marginLeft: '780px'}}>
+                                취  소
+                         </button>
+
+                         <button className="submit-button"
+                                 type="button"
+                                 onClick={handleClassSubmit}
+                                 style={{cursor: 'pointer', fontWeight: 'bold', color: '#FFFFFF', width: '120px', height: '40px', backgroundColor: '#cd5c5c', border: '2px solid #e9967a', borderRadius: '10px', marginLeft: '20px' }}>
+                                 등  록
+                         </button>
+                    </div>
+
                 </div>
     );
 };

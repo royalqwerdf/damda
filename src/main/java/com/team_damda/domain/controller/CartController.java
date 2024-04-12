@@ -2,6 +2,10 @@ package com.team_damda.domain.controller;
 
 import com.team_damda.domain.dto.CartDto;
 import com.team_damda.domain.entity.Cart;
+import com.team_damda.domain.entity.Member;
+import com.team_damda.domain.entity.ClassTime;
+import com.team_damda.domain.repository.ClassTimeRepository;
+import com.team_damda.domain.repository.MemberRepository;
 import com.team_damda.domain.service.CartService;
 import com.team_damda.domain.util.CookieUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,6 +24,10 @@ import java.util.UUID;
 @RestController
 public class CartController {
     private final CartService cartService;
+    private final ClassTimeRepository classTimeRepository;
+    private final MemberRepository memberRepository;
+
+
 
     // 클래스 게시글에서 해당 클래스를 장바구니에 담기
     @PostMapping("/carts/{classTime_id}")
@@ -29,6 +37,8 @@ public class CartController {
         Long memberId = (Long) session.getAttribute("memberId");
         // 이미 장바구니에 담긴 클래스인지 확인
         Cart existingCart = null;
+        //클래스 시간
+        ClassTime classTime = classTimeRepository.findById(classTimeId).orElse(null);
 
         // 비회원인 경우
         if(memberId == null) {
@@ -54,7 +64,13 @@ public class CartController {
             }
 
             // 장바구니에 담겨 있지 않은 경우
-            Cart addedCart = cartService.saveForGuest(cookieValue, cartDto);
+            Cart cart = Cart.builder()
+                    .classTime(classTime)
+                    .cookieValue(cookieValue)
+                    .selectedCount(cartDto.getSelectedCount())
+                    .totalPrice(cartDto.getTotalPrice())
+                    .build();
+            Cart addedCart = cartService.save(cart);
             return ResponseEntity.status(HttpStatus.OK).body(addedCart);
         }
 
@@ -68,7 +84,18 @@ public class CartController {
             }
 
             // 장바구니에 담겨 있지 않은 경우
-            Cart addedCart = cartService.saveForMember(memberId, cartDto);
+            Member member = memberRepository.findById(memberId).orElse(null);
+            if (member == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // 회원을 찾을 수 없음
+            }
+
+            Cart cart = Cart.builder()
+                    .classTime(classTime)
+                    .member(member)
+                    .selectedCount(cartDto.getSelectedCount())
+                    .totalPrice(cartDto.getTotalPrice())
+                    .build();
+            Cart addedCart = cartService.save(cart);
             return ResponseEntity.status(HttpStatus.OK).body(addedCart);
         }
     }
