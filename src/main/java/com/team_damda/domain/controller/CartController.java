@@ -3,8 +3,9 @@ package com.team_damda.domain.controller;
 
 import com.team_damda.domain.dto.CartDto;
 import com.team_damda.domain.entity.Cart;
-import com.team_damda.domain.entity.Member;
 import com.team_damda.domain.entity.ClassTime;
+import com.team_damda.domain.entity.Member;
+import com.team_damda.domain.repository.CartRepository;
 import com.team_damda.domain.repository.ClassTimeRepository;
 import com.team_damda.domain.repository.MemberRepository;
 import com.team_damda.domain.service.CartService;
@@ -27,19 +28,21 @@ public class CartController {
     private final CartService cartService;
     private final ClassTimeRepository classTimeRepository;
     private final MemberRepository memberRepository;
-
-
+    private final CartRepository cartRepository;
 
     // 클래스 게시글에서 해당 클래스를 장바구니에 담기
-    @PostMapping("/carts/{classTime_id}")
-    public ResponseEntity<Cart> addCart(@PathVariable Long id, @RequestBody CartDto cartDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
-        Long classTimeId = cartDto.getClassTime().getId();
+    @PostMapping("/carts/{classTimeId}")
+    public ResponseEntity<Cart> addCart(@PathVariable Long classTimeId, @RequestBody CartDto cartDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
         // 로그인 한 사용자인지 확인
         Long memberId = (Long) session.getAttribute("memberId");
         // 이미 장바구니에 담긴 클래스인지 확인
         Cart existingCart = null;
-        //클래스 시간
+        // 클래스 시간
         ClassTime classTime = classTimeRepository.findById(classTimeId).orElse(null);
+        if (classTime == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // 클래스를 찾을 수 없음
+        }
+
 
         // 비회원인 경우
         if(memberId == null) {
@@ -127,18 +130,18 @@ public class CartController {
 
     // 카트 삭제
     @DeleteMapping("/carts/{cartId}")
-    public ResponseEntity<Void> deleteCart(@PathVariable Long id, HttpSession session, HttpServletRequest request){
+    public ResponseEntity<Void> deleteCart(@PathVariable Long cartId, HttpSession session, HttpServletRequest request){
         Long memberId = (Long) session.getAttribute("memberId");
         // 삭제 성공 여부
         boolean isDeleted = false;
 
         if (memberId != null) { // 회원인 경우
-            isDeleted = cartService.deleteCartForMember(memberId, id);
+            isDeleted = cartService.deleteCartForMember(memberId, cartId);
         } else { // 비회원인 경우
             // 쿠키값 확인
             String cookieValue = CookieUtils.getCookieValue(request, "cookieValue");
             if (cookieValue != null) {
-                isDeleted = cartService.deleteCartForGuest(cookieValue, id);
+                isDeleted = cartService.deleteCartForGuest(cookieValue, cartId);
             }
         }
 
@@ -148,19 +151,19 @@ public class CartController {
     }
 
     // 카트 수정
-    @PutMapping("/carts/{cart_id}")
-    public ResponseEntity<Void> updateCart(@PathVariable Long id, int selectedCount, HttpSession session, HttpServletRequest request) {
+    @PutMapping("/carts/{cartId}")
+    public ResponseEntity<Void> updateCart(@PathVariable Long cartId, int selectedCount, int totalPrice, HttpSession session, HttpServletRequest request) {
         Long memberId = (Long) session.getAttribute("memberId");
         // 수정 성공 여부
         boolean isUpdated = false;
 
         if (memberId != null) { // 회원인 경우
-            isUpdated = cartService.updateCartForMember(memberId, id, selectedCount);
+            isUpdated = cartService.updateCartForMember(memberId, cartId, selectedCount, totalPrice);
         } else { // 비회원인 경우
             // 쿠키값 확인
             String cookieValue = CookieUtils.getCookieValue(request, "cookieValue");
             if (cookieValue != null) {
-                isUpdated = cartService.updateCartForGuest(cookieValue, id, selectedCount);
+                isUpdated = cartService.updateCartForGuest(cookieValue, cartId, selectedCount, totalPrice);
             }
         }
 
@@ -178,12 +181,12 @@ public class CartController {
 
         if(memberId != null) {
             List<Cart> carts = cartService.getAllCartsByMemberId(memberId);
-            if(carts.size() == 0) isEmpty = true;
+            if(carts.isEmpty()) isEmpty = true;
         } else {
             String cookieValue = CookieUtils.getCookieValue(request, "cookieValue");
             if(cookieValue != null) {
                 List<Cart> carts = cartService.getAllCartsByCookieValue(cookieValue);
-                if(carts.size() == 0) isEmpty = true;
+                if(carts.isEmpty()) isEmpty = true;
             } else {
                 return ResponseEntity.notFound().build();
             }

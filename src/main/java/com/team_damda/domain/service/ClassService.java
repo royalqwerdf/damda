@@ -21,6 +21,7 @@ import com.team_damda.domain.repository.MemberRepository;
 import com.team_damda.domain.repository.*;
 >>>>>>> feature-BE-reservation
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ClassService {
     private final ClassRepository classRepository;
     private final CategoryRepository categoryRepository;
@@ -41,7 +43,7 @@ public class ClassService {
     private final ClassTimeRepository classTimeRepository;
     private final ClassImageRepository classImageRepository;
 
-    private final ClassImageRepository classImageRepository;
+
 
     @Autowired
 
@@ -54,6 +56,7 @@ public class ClassService {
         this.classTimeRepository = classTimeRepository;
         this.classImageRepository = classImageRepository;
     }
+
 
     @Transactional
         public Long saveForClass(Long memberId, ClassDto classDto, List<ClassTimeDto> classTimeDtos, List<ClassImageDto> classImageDtos) {

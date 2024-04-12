@@ -36,6 +36,7 @@ out/
 application.properties
 /src/main/resources/application-oauth.properties
 
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
