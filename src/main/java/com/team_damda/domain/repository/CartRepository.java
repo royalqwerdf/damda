@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface CartRepository extends JpaRepository<Cart, Long> {
-
     Cart save(Cart cart);
     Cart getByMemberIdAndClassTimeId(Long memberId, Long classTimeId);
     Cart getByCookieValueAndClassTimeId(String cookieValue, Long classTimeId);
@@ -15,5 +14,4 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     List<Cart> getAllCartsByCookieValue(String cookieValue);
     Cart getByMemberIdAndId(Long memberId, Long cartId);
     Cart getByCookieValueAndId(String cookieValue, Long cartId);
-
 }

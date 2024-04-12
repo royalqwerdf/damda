@@ -3,6 +3,8 @@ import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
 import MainPage from "./pages/MainPage";
 import ClassOpen from "./pages/ClassOpen";
+import Cart from "./pages/Cart";
+import CartReservationComplete from "./pages/CartReservationComplete";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import MemberSaved from "./pages/MemberSaved";
@@ -20,7 +22,6 @@ import AdminHome from "./pages/AdminHome";
 import Inquiry from "./pages/Inquiry";
 import NoticeAndEventPage from "./pages/NoticeAndEventPage";
 
-
 function App(){
     return(
         <div>
@@ -30,6 +31,8 @@ function App(){
                     <Route path="/" element={<MainPage/>}></Route>
                     <Route path="/search" element={<SearchPage/>}></Route>
                     <Route path="/class-open" element={<ClassOpen/>}></Route>
+                    <Route path="/carts" element={<Cart/>}></Route>
+                    <Route path="/carts/reservation-complete" element={<CartReservationComplete/>}></Route>
                     <Route path="/user-home" element={<UserHome/>}></Route>
                     <Route path="/admin-home" element={<AdminHome/>}></Route>
                     <Route path="/inquiry" element={<Inquiry/>}></Route>
@@ -42,7 +45,6 @@ function App(){
                     <Route path="/admin-home" element={<AdminHome/>}></Route>
                     <Route path="/inquiry" element={<Inquiry/>}></Route>
                     <Route path="/news" element={<NoticeAndEventPage/>}></Route>
-
                 </Routes>
                 <Footer />
             </BrowserRouter>
