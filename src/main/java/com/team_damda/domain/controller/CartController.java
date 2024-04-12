@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package com.team_damda.domain.controller;
 
 import com.team_damda.domain.dto.CartDto;

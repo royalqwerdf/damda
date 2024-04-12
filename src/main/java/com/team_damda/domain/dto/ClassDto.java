@@ -15,27 +15,17 @@ public class ClassDto {
     private long id;
     private String className;
     private String classExplanation;
-<<<<<<< HEAD
-
     private String level;
     private String longtime;
     private Date startDate;
     private Date lastDate;
     private String weekdays;
-
-=======
-    private String level;
-    private String longtime;
->>>>>>> feature-BE-reservation
     private String address;
     private String detailAddress;
     private String curriculum;
     private int price;
     private float totalRating;
     private int totalLike;
-    private Date startDate;
-    private Date lastDate;
-    private String weekdays;
 
     private String categoryName;
     private String managerName;

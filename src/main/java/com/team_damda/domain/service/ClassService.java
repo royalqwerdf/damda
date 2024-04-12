@@ -1,12 +1,10 @@
 package com.team_damda.domain.service;
 
-import com.google.api.gax.rpc.NotFoundException;
 import com.team_damda.domain.dto.ClassDto;
 import com.team_damda.domain.dto.ClassImageDto;
 import com.team_damda.domain.dto.ClassTimeDto;
 import com.team_damda.domain.entity.*;
 import com.team_damda.domain.entity.Class;
-<<<<<<< HEAD
 
 import com.team_damda.domain.repository.*;
 
@@ -17,9 +15,6 @@ import com.team_damda.domain.repository.ClassRepository;
 import com.team_damda.domain.repository.ClassTimeRepository;
 import com.team_damda.domain.repository.MemberRepository;
 
-=======
-import com.team_damda.domain.repository.*;
->>>>>>> feature-BE-reservation
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,20 +37,6 @@ public class ClassService {
     private final MemberRepository memberRepository;
     private final ClassTimeRepository classTimeRepository;
     private final ClassImageRepository classImageRepository;
-
-
-
-    @Autowired
-
-    public ClassService(ClassRepository classRepository, CategoryRepository categoryRepository,
-                        MemberRepository memberRepository, ClassTimeRepository classTimeRepository,
-                        ClassImageRepository classImageRepository){
-        this.classRepository = classRepository;
-        this.categoryRepository = categoryRepository;
-        this.memberRepository = memberRepository;
-        this.classTimeRepository = classTimeRepository;
-        this.classImageRepository = classImageRepository;
-    }
 
 
     @Transactional
