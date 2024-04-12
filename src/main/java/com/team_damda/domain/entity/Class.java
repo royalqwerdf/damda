@@ -104,7 +104,7 @@ public class Class extends BaseTimeEntity{
 
 //                .categoryId(this.category.getId())
 //                .categoryName(this.category.getCategoryName())
-//                .managerName(this.manager.getName())
+                .managerName(this.manager.getName())
 //                .managerPhone(this.manager.getPhone())
                 .mainImage(mainImage)
                 .build();

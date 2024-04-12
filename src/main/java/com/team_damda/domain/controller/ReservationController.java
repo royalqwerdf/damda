@@ -17,7 +17,6 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@CrossOrigin(origins = "*")
 @Slf4j
 public class ReservationController {
     private final ClassService classService;

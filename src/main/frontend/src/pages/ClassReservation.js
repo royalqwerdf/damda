@@ -53,7 +53,7 @@ const ClassReservation = () => {
      useEffect(() => {
        const fetchClassDetails = async () => {
          try {
-           const response = await axios.get(`http://localhost:8080/class-reservation/${id}`);
+           const response = await axios.get(`/class-reservation/${id}`);
            console.log(id);
            console.log(response.data);
            const { classDetails, classTimes, classImages } = response.data;

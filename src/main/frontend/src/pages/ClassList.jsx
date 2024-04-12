@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router-dom";
 
 
 function ClassList(props){
@@ -8,7 +9,7 @@ function ClassList(props){
                 {props.class?.map(onedayClass => {
                     return (
                         <div id="classCard" key={onedayClass.id}>
-                            <a href="#">
+                            <Link to={`/class-reservation/${onedayClass.id}`}>
                                 <img src={onedayClass.mainImage}/>
                                 <div id="classManagerNameRatingLike">
                                     <div id="left">
@@ -29,7 +30,7 @@ function ClassList(props){
                                 <div id="classPrice">
                                     <span>{onedayClass.price} 원</span>
                                 </div>
-                            </a>
+                            </Link>
                         </div>
                     )
                 })}

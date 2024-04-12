@@ -278,7 +278,7 @@ const ClassOpen = () => {
                 classImageDtos : classImageDtos
             };
 
-            const response = await axios.post('http://localhost:8080/class-open', requestData);
+            const response = await axios.post('/class-open', requestData);
             console.log('클래스 생성 성공:', response.data);
 
         } catch (error) {
