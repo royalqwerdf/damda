@@ -73,6 +73,7 @@ public class Member {
         this.role = Role.USER;
     }
 
+
     // 비밀번호 암호화 메소드
     public void passwordEncode(PasswordEncoder passwordEncoder) {
         this.password = passwordEncoder.encode(this.password);

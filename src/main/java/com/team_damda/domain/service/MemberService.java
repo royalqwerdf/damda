@@ -38,6 +38,7 @@ public class MemberService {
                 .name(memberSignupDto.getName())
                 .phone(memberSignupDto.getPhone())
                 .role(Role.USER)
+                .loginType(LoginType.BASIC)
                 .build();
 
         member.passwordEncode(passwordEncoder);
