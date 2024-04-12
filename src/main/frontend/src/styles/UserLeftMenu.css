@@ -1,13 +1,3 @@
-/*폰트
-@import url('링크');
-
-body {
-    font-family: 'Nanum Gothic', serif
-}
-*/
-
-
-/*구분선*/
 hr {
     width: 170px;
     margin-left: 130px;
@@ -16,7 +6,7 @@ hr {
 /*MyPage*/
 p#mypage{
     margin-left: 140px;
-    margin-top: 140px;
+    margin-top: 195px;
     margin-bottom: 30px;
     font-size: 30px;
     font-weight: inherit;

@@ -49,6 +49,5 @@ application.properties
 # Ignore serviceAccountKey.json file
 resources/serviceAccountKey.json
 
-
 resources/application.properties
 resources/application-oauth.properties

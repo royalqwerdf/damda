@@ -8,16 +8,16 @@ function UserLeftMenu() {
             <hr className="menu-line1" />
             <ul className="vertical-menu1">
                 <p id="myclass">나의 클래스</p>
-                <li><a href="/User-Reservation">예약 관리</a></li>
-                <li><a href="/User-Class">클래스 관리</a></li>
-                <li><a href="/User-Payment">결제 내역</a></li>
-                <li><a href="/User-Review">리뷰 관리</a></li>
+                <li><a href="/MainPage">예약 관리</a></li>
+                <li><a href="/MainPage">클래스 관리</a></li>
+                <li><a href="/MainPage">결제 내역</a></li>
+                <li><a href="/MainPage">리뷰 관리</a></li>
             </ul>
             <hr className="menu-line2" />
             <ul className="vertical-menu1">
                 <p id="userinformation">회원정보</p>
-                <li><a href="/User-Information">개인정보변경</a></li>
-                <li><a href="/User-Delete">회원탈퇴</a></li>
+                <li><a href="/MainPage">개인정보변경</a></li>
+                <li><a href="/MainPage">회원탈퇴</a></li>
             </ul>
         </div>
     );

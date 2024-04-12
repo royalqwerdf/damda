@@ -19,10 +19,6 @@ configurations {
 
 repositories {
     mavenCentral()
-    maven {
-        url "http://3.36.28.140/"
-        allowInsecureProtocol = true
-    }
 }
 
 dependencies {
@@ -38,13 +34,6 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
-    //runtimeOnly 'com.mysql:mysql-connector-j'
-    runtimeOnly 'com.mariaDB:mariaDB-connector-j'
-    implementation 'org.mariadb.jdbc:mariadb-java-client'
-    //implementation 'mariaDB:mariaDB-connector-java'
-
-    //implementation 'mysql:mysql-connector-java:8.0.28'
-
     runtimeOnly 'com.mysql:mysql-connector-j'
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.4.1'
@@ -66,7 +55,6 @@ dependencies {
     implementation 'com.auth0:java-jwt:4.2.1'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-    implementation 'org.mariadb.jdbc:mariadb-java-client'
     // OAuth2
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
