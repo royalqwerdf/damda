@@ -47,7 +47,7 @@ public class OrderDetailService {
 
     // 예약 ID로 주문 상세 정보 가져오기
     public List<OrderDetail> getOrderDetailByClassReservationId(Long classReservationId) {
-        return orderDetailRepository.findByClassReservationId(classReservationId);
+        return orderDetailRepository.findByClassReservation_Id(classReservationId);
     }
 
     // 예약 정보 확인하여 주문 상세 정보 수정
@@ -81,7 +81,7 @@ public class OrderDetailService {
             Optional<ClassReservation> optionalReservation = classReservationRepository.findById(orderDetail.getClassReservationId());
             if (optionalReservation.isPresent()) {
                 // 다른 사람이 예약 정보를 변경하지 않았다면 주문 상세 정보 삭제 (?)
-                orderDetailRepository.deleteOrderDetail(orderDetailId);
+                orderDetailRepository.deleteById(orderDetailId);
             } else {
                 // 예약 정보가 없는 경우 예외 처리
                 throw new NotFoundException("Reservation not found for reservationId: " + orderDetail.getClassReservationId());

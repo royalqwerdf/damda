@@ -28,7 +28,6 @@ function App(){
             <BrowserRouter>
                 <Navigation />
                 <Routes>
-                    <Route path="/" element={<MainPage/>}></Route>
                     <Route path="/search" element={<SearchPage/>}></Route>
                     <Route path="/class-open" element={<ClassOpen/>}></Route>
                     <Route path="/carts" element={<Cart/>}></Route>
@@ -51,6 +50,7 @@ function App(){
                     <Route path="/User-Reservation" element={<UserReservation/>}></Route>
                     <Route path="/User-ReservationUpdate" element={<UserReservationUpdate/>}></Route>
                     <Route path="/User-Review" element={<UserReview/>}></Route>
+                    <Route path="/" element={<MainPage/>}></Route>
 
                 </Routes>
                 <Footer />
