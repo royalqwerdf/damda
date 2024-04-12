@@ -36,6 +36,8 @@
 
     "scss": "^0.2.4",
 
+    "styled-components": "^6.1.8",
+
     "web-vitals": "^2.1.4"
 
   },
