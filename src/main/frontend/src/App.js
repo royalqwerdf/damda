@@ -15,7 +15,10 @@ import AdminHome from "./pages/AdminHome";
 import Inquiry from "./pages/Inquiry";
 import NoticeAndEventPage from "./pages/NoticeAndEventPage";
 import Oauth2Signup from "./pages/Oauth2Signup";
-
+import UserHome from "./pages/UserHome";
+import AdminHome from "./pages/AdminHome";
+import Inquiry from "./pages/Inquiry";
+import NoticeAndEventPage from "./pages/NoticeAndEventPage";
 
 
 function App(){
@@ -35,6 +38,10 @@ function App(){
                     <Route path="/signup" element={<SignupPage />} />
                     <Route path="/Oauth2Signup" element={<Oauth2Signup />} />
                     <Route path="/memberSaved" element={<MemberSaved />} />
+                    <Route path="/user-home" element={<UserHome/>}></Route>
+                    <Route path="/admin-home" element={<AdminHome/>}></Route>
+                    <Route path="/inquiry" element={<Inquiry/>}></Route>
+                    <Route path="/news" element={<NoticeAndEventPage/>}></Route>
 
                 </Routes>
                 <Footer />
