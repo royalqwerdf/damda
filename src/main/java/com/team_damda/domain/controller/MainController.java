@@ -7,6 +7,7 @@ import com.team_damda.domain.service.CategoryService;
 import com.team_damda.domain.service.ClassService;
 import com.team_damda.domain.service.InquiryService;
 import com.team_damda.domain.service.MainService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,18 +16,14 @@ import java.util.*;
 
 @RestController
 @Slf4j
+@RequiredArgsConstructor
 public class MainController {
     private final MainService mainService;
     private final ClassService classService;
     private final CategoryService categoryService;
     private final InquiryService inquiryService;
 
-    public MainController(MainService mainService,ClassService classService,CategoryService categoryService,InquiryService inquiryService){
-        this.mainService = mainService;
-        this.classService = classService;
-        this.categoryService = categoryService;
-        this.inquiryService = inquiryService;
-    }
+
 
     @GetMapping("/home")
     public Map<String, List<?>> mainPage(){
