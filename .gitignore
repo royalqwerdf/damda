@@ -17,6 +17,12 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
+### MAC DS_Store exclude
+.DS_Store
+._.DS_Store
+**/.DS_Store
+**/._.DS_Store
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
@@ -25,9 +31,11 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+/src/main/resources/static/static/css
+/src/main/resources/static/static/js
 application.properties
 /src/main/resources/application-oauth.properties
-/src/test/java/com/team_damda/CartControllerTest.java
+
 
 ### NetBeans ###
 /nbproject/private/
@@ -38,3 +46,9 @@ application.properties
 
 ### VS Code ###
 .vscode/
+
+# Ignore serviceAccountKey.json file
+resources/serviceAccountKey.json
+
+resources/application.properties
+resources/application-oauth.properties

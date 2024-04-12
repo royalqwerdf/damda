@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -30,10 +31,23 @@ public class Class extends BaseTimeEntity{
     private String className;
     @Column(name="class_explanation")
     private String classExplanation;
-    @Column(name="headcount")
-    private int headcount;
+
+    @Column(name="level")
+    private String level;
+    @Column (name="longtime")
+    private String longtime;
+
+    @Column(name="start_date")
+    private Date startDate;
+    @Column(name="last_date")
+    private Date lastDate;
+    @Column(name="weekdays")
+    private String weekdays;
+
     @Column(name="class_address")
     private String address;
+    @Column(name="detail_address")
+    private String detailAddress;
     @Column(name="class_curriculum")
     private String curriculum;
     @Column(name="price")
@@ -66,7 +80,7 @@ public class Class extends BaseTimeEntity{
     public ClassDto toDto(){
         String mainImage = "";
         for(ClassImage classImage:classImages){
-            if(classImage.getMain_yn().equals("Y")){
+            if(classImage.getMain_yn().equals("y")){
                 mainImage = classImage.getImageUrl();
             }
         }
@@ -74,12 +88,20 @@ public class Class extends BaseTimeEntity{
                 .id(this.id)
                 .className(this.className)
                 .classExplanation(this.classExplanation)
-                .headcount(this.headcount)
+
+                .level(this.level)
+                .longtime(this.longtime)
+                .startDate(this.startDate)
+                .lastDate(this.lastDate)
+                .weekdays(this.weekdays)
+
                 .address(this.address)
+                .detailAddress(this.detailAddress)
                 .curriculum(this.curriculum)
                 .price(this.price)
                 .totalRating(this.totalRating)
                 .totalLike(this.totalLike)
+                .categoryId(this.category.getId())
                 .categoryName(this.category.getCategoryName())
                 .managerName(this.manager.getName())
                 .managerPhone(this.manager.getPhone())

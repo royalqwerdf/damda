@@ -1,8 +1,9 @@
 
-export const LongtimeDropDown = ({value, setLongtimeIdentify, setIsOpen, isOpen, isLast}) => {
+export const LongtimeDropDown = ({value, setLongtimeIdentify, setIsOpen, isOpen, isLast, handleSelectChange}) => {
     const valueClick = () => {
         setLongtimeIdentify(value)
         setIsOpen(!isOpen)
+        handleSelectChange('longtime', value)
     }
 
     const listItemStyle = {

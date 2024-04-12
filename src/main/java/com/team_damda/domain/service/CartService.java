@@ -22,6 +22,16 @@ public class CartService {
         return cartRepository.save(cart);
     }
 
+//    public Cart saveForMember(Long memberId, CartDto cartDto) {
+//        return cartRepository.saveForMember(memberId, cartDto);
+//    }
+//
+//    // 비회원 카트 저장
+//    public Cart saveForGuest(String cookieValue, CartDto cartDto) {
+//        return cartRepository.saveForGuest(cookieValue, cartDto);
+//    }
+
+
     // 회원 카트에 동일 클래스 시간이 이미 담겨있는지 확인
     public Cart getByMemberIdAndClassTimeId(Long memberId, Long classTimeId) {
         return cartRepository.getByMemberIdAndClassTimeId(memberId, classTimeId);

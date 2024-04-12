@@ -1,8 +1,9 @@
 
-export const LevelDropDown = ({value, setLevelIdentify, setIsOpen, isOpen, isLast}) => {
+export const LevelDropDown = ({value, setLevelIdentify, setIsOpen, isOpen, isLast, handleSelectChange}) => {
     const valueClick = () => {
         setLevelIdentify(value)
         setIsOpen(!isOpen)
+        handleSelectChange('level', value)
     }
 
     const listItemStyle = {
