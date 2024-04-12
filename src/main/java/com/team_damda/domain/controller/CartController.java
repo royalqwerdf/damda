@@ -28,6 +28,7 @@ public class CartController {
     private final MemberRepository memberRepository;
 
 
+
     // 클래스 게시글에서 해당 클래스를 장바구니에 담기
     @PostMapping("/carts/{classTime_id}")
     public ResponseEntity<Cart> addCart(@PathVariable Long id, @RequestBody CartDto cartDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
@@ -71,7 +72,6 @@ public class CartController {
                     .build();
             Cart addedCart = cartService.save(cart);
             return ResponseEntity.status(HttpStatus.OK).body(addedCart);
-
         }
 
         // 회원인 경우
@@ -97,7 +97,6 @@ public class CartController {
                     .build();
             Cart addedCart = cartService.save(cart);
             return ResponseEntity.status(HttpStatus.OK).body(addedCart);
-
         }
     }
 

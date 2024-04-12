@@ -5,7 +5,16 @@ import com.team_damda.domain.dto.ClassImageDto;
 import com.team_damda.domain.dto.ClassTimeDto;
 import com.team_damda.domain.entity.*;
 import com.team_damda.domain.entity.Class;
+
 import com.team_damda.domain.repository.*;
+
+import com.team_damda.domain.entity.ClassTime;
+import com.team_damda.domain.entity.Member;
+import com.team_damda.domain.repository.CategoryRepository;
+import com.team_damda.domain.repository.ClassRepository;
+import com.team_damda.domain.repository.ClassTimeRepository;
+import com.team_damda.domain.repository.MemberRepository;
+
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -127,6 +136,23 @@ public class ClassService {
             allClassDto.add(classDto);
         }
         return allClassDto;
+    }
+
+    @Transactional
+    public List<ClassDto> getSearchClass(String keyword,String address,Long categoryId,
+                                         String week,Long minPrice,Long maxPrice){
+
+        System.out.println(keyword+address+categoryId+week+minPrice+maxPrice);
+        List<ClassDto> searchClassDto = new ArrayList<>();
+        List<Class> searchClass = classRepository.searchClass(keyword,address,categoryId,
+                week,minPrice,maxPrice);
+
+        for(Class onedayClass:searchClass){
+            ClassDto classDto = onedayClass.toDto();
+            searchClassDto.add(classDto);
+        }
+        return searchClassDto;
+
     }
 
 

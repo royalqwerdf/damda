@@ -4,8 +4,6 @@ a {
 }
 body{
   padding-top: 65px;
-  width:100vw;
-  margin-left: calc(-50vw + 50%);
 }
 #navibar{
   position: fixed;
@@ -31,7 +29,7 @@ body{
   padding-left: 5px;
 }
 #navibar #news{
-  margin:0px 30px;
+  margin:0 30px;
 }
 #navibar #rightbar{
   border-right: #401E20 1px solid;
@@ -61,7 +59,7 @@ body{
 }
 #best #text{
   display: flex;justify-content: center;margin-top: 100px;
-  padding: 30px 0px 10px 0px;
+  padding: 30px 0 10px 0;
 }
 #new #text{
 }
@@ -73,14 +71,41 @@ body{
   font-size: 30px;
   font-weight: bold;
 }
+#category-container{
+  display: flex;
+  justify-content: center;
+}
+#bestClasses-container {
+  display: flex;
+  justify-content: center;
+  overflow-x: hidden;
+}
+#newClass-container{
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+}
+#resultSearch-container{
+  margin-top: 100px;
+}
 #category{
   height: 350px;
+}
+#new #classes{
+  display: grid;
+  place-items: center;
+  gap: 50px;
+  justify-content: center;
+  grid-template-columns: repeat(4, 200px);
 }
 #category #categories{
   display: flex;
   justify-content: center;
   margin-top: 30px;
   text-align: center;
+}
+#category #categories li a{
+  cursor: pointer;
 }
 #category #categories li{
   list-style-type : none;
@@ -90,7 +115,21 @@ body{
 #best {
   background-color: #FFDCD1;
 }
-
+#class-list{
+  display: flex;
+  justify-content: center;
+}
+#class-list button{
+  border: none;
+  background-color: transparent;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100px;
+  font-size: 20px;
+}
+#class-list button:hover{
+  font-size: 40px;
+}
 #bestClasses{
   display: flex;
   justify-content: center;
@@ -103,9 +142,9 @@ body{
   margin-top: 30px;
 }
 #classCard{
-  margin: 0px 30px 0px 30px;
+  margin: 0 30px 0 30px;
   border-radius: 20px;
-  border:0px solid white;
+  border:0 solid white;
   background-color: #FFF5D9;
   padding-bottom: 20px;
   overflow: hidden;
@@ -195,7 +234,7 @@ input::-webkit-inner-spin-button {
 #dropboxes{
   display: flex;
   justify-content: center;
-  margin: 40px 0px;
+  margin: 40px 0;
 }
 #dropboxes ul{
   list-style:none;
@@ -204,13 +243,64 @@ input::-webkit-inner-spin-button {
   border: none;
   background-color: white;
   border-radius: 10px;
-  margin: 0px 30px;
+  margin: 0 30px;
 }
-#categoryUl{
+#addressDropdown{
+  border: none;
+  background-color: white;
+  border-radius: 10px;
+  margin: 0 30px;
+}
+#dropdownUl{
   width: 100px;
+  cursor: pointer;
+  font-weight: bold;
+  list-style:none;
+}
+#newsPage-container{
+  margin-top: 100px;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  text-align: center;
+  padding-left: 20%;
+  padding-right: 20%;
+}
+#news-flex{
+  display: flex;
+  justify-content: space-between;
+  padding-left: 30px;
+  padding-right: 100px;
+}
+#dropdownUl li{
+  font-weight: normal;
 }
 #resultSearch{
   margin-top: 100px;
+}
+#inquiry-container{
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+}
+#inquiry-text{
+  margin-right: 100px;
+  padding-top: 10px;
+}
+#inquiry-form{
+  text-align: center;
+}
+#inquiry-title,#inquiry-content{
+  font-size: 15px;
+}
+#inquiry-form textarea{
+  width: 500px;
+  height: 400px;
+  resize: none;
+}
+#inquiry-grid{
+  display: grid;
+  grid-template-columns: 100px 2fr;
+  gap: 20px;
 }
 #footer{
   background-color: #FFF5D9;

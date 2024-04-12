@@ -31,6 +31,7 @@ public class Class extends BaseTimeEntity{
     private String className;
     @Column(name="class_explanation")
     private String classExplanation;
+
     @Column(name="level")
     private String level;
     @Column (name="longtime")
@@ -79,7 +80,7 @@ public class Class extends BaseTimeEntity{
     public ClassDto toDto(){
         String mainImage = "";
         for(ClassImage classImage:classImages){
-            if(classImage.getMain_yn().equals("Y")){
+            if(classImage.getMain_yn().equals("y")){
                 mainImage = classImage.getImageUrl();
             }
         }
@@ -87,11 +88,13 @@ public class Class extends BaseTimeEntity{
                 .id(this.id)
                 .className(this.className)
                 .classExplanation(this.classExplanation)
+
                 .level(this.level)
                 .longtime(this.longtime)
                 .startDate(this.startDate)
                 .lastDate(this.lastDate)
                 .weekdays(this.weekdays)
+
                 .address(this.address)
                 .detailAddress(this.detailAddress)
                 .curriculum(this.curriculum)

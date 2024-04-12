@@ -20,6 +20,9 @@ public class Inquiry extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name="type")
+    private String type;
+
     @Column(name="title")
     private String title;
 
@@ -31,9 +34,6 @@ public class Inquiry extends BaseTimeEntity {
 
     @Column(name="comment_yn")
     private String comment_yn;
-
-    @Column(name="type")
-    private String type;
 
     @ManyToOne
     @JoinColumn(name="user_id")

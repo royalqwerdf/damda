@@ -1,10 +1,7 @@
 import '../styles/MainPage.css';
-import CategoryClassList from "./CategoryClassList";
-import Navigation from "./Navigation";
-import Banner from "./Banner";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import CategoryList from "./CategoryList";
+import Banner from "../components/Banner";
 import BestClassList from "./BestClassList";
-import Footer from "./Footer";
 import NewClassList from "./NewClassList";
 import {useEffect, useState} from "react";
 import axios from "axios";
@@ -19,15 +16,13 @@ function MainPage() {
             {
                 setClasses(response.data.classes);
                 setCategories(response.data.categories);
-                console.log(classes);
-                console.log(categories);
             })
             .catch(error => console.log(error))
     }, []);
     return (
         <div>
             <Banner />
-            <CategoryClassList categories={categories} classes={classes}/>
+            <CategoryList categories={categories} classes={classes}/>
             <BestClassList />
             <NewClassList />
         </div>
