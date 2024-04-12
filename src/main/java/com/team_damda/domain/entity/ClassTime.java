@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name="class_time")
@@ -27,6 +28,12 @@ public class ClassTime {
     @Column(name="class_end_at")
     private String classEndsAt;
 
+    @Column(name="headcount")
+    private int headcount;
+
+    @Column(name="class_date")
+    private Date classDate;
+
     @ManyToOne
     @JoinColumn(name="class_id")
     private Class onedayClass;
@@ -36,6 +43,8 @@ public class ClassTime {
                 .id(this.id)
                 .classStartsAt(this.classStartsAt)
                 .classEndsAt(this.classEndsAt)
+                .headcount(this.headcount)
+                .classDate(this.classDate)
                 .className(this.onedayClass.getClassName())
                 .build();
     }
