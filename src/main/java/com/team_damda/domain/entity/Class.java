@@ -102,10 +102,10 @@ public class Class extends BaseTimeEntity{
                 .totalLike(this.totalLike)
 
 
-//                .categoryId(this.category.getId())
-//                .categoryName(this.category.getCategoryName())
-//                .managerName(this.manager.getName())
-//                .managerPhone(this.manager.getPhone())
+                .categoryId(this.category.getId())
+                .categoryName(this.category.getCategoryName())
+                .managerName(this.manager.getName())
+                .managerPhone(this.manager.getPhone())
                 .mainImage(mainImage)
                 .build();
     }

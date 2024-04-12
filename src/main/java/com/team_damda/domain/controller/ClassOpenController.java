@@ -23,7 +23,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:8080/class-open")
 public class ClassOpenController {
 
     private final ClassService classOpenService;
