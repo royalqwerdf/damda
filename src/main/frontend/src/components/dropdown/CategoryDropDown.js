@@ -1,8 +1,9 @@
 
-export const CategoryDropDown = ({value, setCategoryIdentify, setIsOpen, isOpen, isLast}) => {
+export const CategoryDropDown = ({value, setCategoryIdentify, setIsOpen, isOpen, isLast, handleSelectChange}) => {
     const valueClick = () => {
         setCategoryIdentify(value)
         setIsOpen(!isOpen)
+        handleSelectChange('category', value)
     }
 
     const listItemStyle = {

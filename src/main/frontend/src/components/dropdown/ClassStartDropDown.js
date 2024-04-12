@@ -1,8 +1,9 @@
 
-export const ClassStartDropDown = ({value, setClassStartIdentify, setIsOpen, isOpen, isLast}) => {
+export const ClassStartDropDown = ({value, setClassStartIdentify, setIsOpen, isOpen, isLast, handleInputChange}) => {
     const valueClick = () => {
         setClassStartIdentify(value)
         setIsOpen(!isOpen)
+        handleInputChange('start', value) // start 값을 설정
     }
 
     const listItemStyle = {
