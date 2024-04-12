@@ -51,5 +51,12 @@ public class MemberService {
             member.setPhone(phone);
             return memberRepository.save(member);
         }
-    
+
+//    public void updateUserPhone(String userEmail, String phone) {
+//        Member member = memberRepository.getByUserEmail(userEmail)
+//                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+//
+//        member.setPhone(phone);
+//        memberRepository.save(member);
+//    }
 }

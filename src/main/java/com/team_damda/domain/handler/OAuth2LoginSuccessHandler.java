@@ -1,5 +1,6 @@
 package com.team_damda.domain.handler;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team_damda.domain.entity.Member;
 import com.team_damda.domain.enums.Role;
 import com.team_damda.domain.oauth2.CustomOAuth2User;
@@ -15,6 +16,8 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @Component
@@ -45,6 +48,24 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
             throw e;
         }
     }
+
+//    @Override
+//    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+//        CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
+//        String accessToken = jwtService.createAccessToken(oAuth2User.getUserEmail());
+//        String refreshToken = jwtService.createRefreshToken();
+//        jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
+//
+//        if (oAuth2User.getRole() == Role.GUEST) {
+//            Map<String, Object> tokenInfo = new HashMap<>();
+//            tokenInfo.put("accessToken", accessToken);
+//            tokenInfo.put("refreshToken", refreshToken);
+//            tokenInfo.put("redirect", "/Oauth2Signup"); // 클라이언트 사이드 라우팅 경로
+//
+//            response.setContentType("application/json");
+//            new ObjectMapper().writeValue(response.getOutputStream(), tokenInfo);
+//        }
+//    }
 
     private void loginSuccess(HttpServletResponse response, CustomOAuth2User oAuth2User) throws IOException {
         String accessToken = jwtService.createAccessToken(oAuth2User.getUserEmail());

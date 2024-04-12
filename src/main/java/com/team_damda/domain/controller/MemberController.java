@@ -38,5 +38,15 @@ public class MemberController {
         return ResponseEntity.ok().build();
     }
 
+//    @PostMapping("/Oauth2Signup")
+//    public ResponseEntity<?> updatePhoneNumber(@RequestBody MemberPhoneUpdateRequest request) {
+//        log.info("Received update request with phone: {}, loginType: {}, snsId: {}", request.getPhone(), request.getLoginType(), request.getSnsId());
+//        if (request.getPhone() == null || request.getLoginType() == null || request.getSnsId() == null) {
+//            return ResponseEntity.badRequest().body("필수 필드가 누락되었습니다.");
+//        }
+//        memberService.updatePhoneNumber(request.getLoginType(), request.getSnsId(), request.getPhone());
+//        return ResponseEntity.ok().build();
+//    }
+
 
 }
