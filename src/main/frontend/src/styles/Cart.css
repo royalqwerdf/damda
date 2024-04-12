@@ -1,0 +1,159 @@
+#cart #title{
+    display: flex;
+    margin-top: 100px;
+    margin-left: 10%;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+#cart #step{
+    display: flex;
+    margin-top: 50px;
+    margin-left: 55%;
+    font-size: 20px;
+    color: #B6B6B6;
+}
+
+#cart #step .now {
+    font-weight: bold;
+    color: black;
+}
+
+#cart #row {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+    margin-left: 15%;
+    width: 70%;
+    height: 50px;
+    border-top: 2px solid black;
+    border-bottom: 1px solid #d9d9d9;
+    font-size: 18px;
+}
+
+#cart #row span {
+    color: #776F6F;
+    margin: 0 70px 0 70px;
+}
+
+#cart #row span.class {
+    color: black;
+    font-weight: bold;
+    margin: 0 200px 0 100px;
+    font-size: 20px;
+}
+
+#cart input {
+    height: 25px;
+    width: 25px;
+    vertical-align: middle;
+}
+
+#cart #cart-list {
+    width: 70%;
+    margin-left: 15%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+#cart #cart-list .cart-item {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    vertical-align: middle;
+}
+
+#cart #cart-list .cart-item span {
+    margin-left: 20px;
+    margin-right: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#cart #cart-list .cart-item span.class-name {
+    display: inline-block;
+    width: 340px;
+    text-align: left;
+    margin-left: 50px;
+    font-size: 18px;
+    font-weight: normal;
+}
+
+#cart #cart-list .cart-item span.count {
+    display: inline-block;
+    width: 35px;
+    text-align: center;
+}
+
+#cart #cart-list .cart-item span.date {
+    display: inline-block;
+    width: 230px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#cart #cart-list .cart-item span.price {
+    display: inline-block;
+    width: 130px;
+    text-align: center;
+}
+
+#cart #cart-list .cart-item button {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+#cart #cart-list .cart-item button.minus {
+    border-radius: 50%;
+    background-color: #F5F5F5;
+}
+
+#cart #cart-list .cart-item button.plus {
+    border-radius: 50%;
+    background-color: #FFF5D9;
+}
+
+#cart .button-select {
+    margin-left: 15%;
+}
+
+#cart .button-select button {
+    margin: 15px 10px 0 0;
+    height: 47px;
+    width: 152px;
+    border-radius: 9px;
+    background-color: white;
+    font-size: 16px;
+    color: #F52334;
+    border: 2px solid #F52334;
+    cursor: pointer;
+}
+
+#cart .button-reservation {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 15%;
+    margin-top: 20px;
+    margin-bottom: 150px;
+}
+
+#cart .button-reservation button {
+    margin: 15px 10px 0 0;
+    height: 72px;
+    width: 209px;
+    border-radius: 9px;
+    background-color: white;
+    font-size: 18px;
+    color: #F52334;
+    border: 2px solid #F52334;
+    cursor: pointer;
+}
+
+#cart .button-reservation button.whole {
+    background-color: #f52334;
+    color: white;
+}
