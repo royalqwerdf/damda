@@ -1,11 +1,13 @@
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import Navigation from "./pages/Navigation";
-import Footer from "./pages/Footer";
+import Navigation from "./components/Navigation";
+import Footer from "./components/Footer";
 import MainPage from "./pages/MainPage";
 import ClassOpen from "./pages/ClassOpen";
 import SearchPage from "./pages/SearchPage";
+import CategoryList from "./pages/CategoryList";
 import CategoryClassList from "./pages/CategoryClassList";
-import CategoryClassList2 from "./pages/CategoryClassList2";
+import Inquiry from "./pages/Inquiry";
+import NoticeAndEventPage from "./pages/NoticeAndEventPage";
 
 function App(){
     return(
@@ -16,6 +18,8 @@ function App(){
                     <Route path="/" element={<MainPage/>}></Route>
                     <Route path="/search" element={<SearchPage/>}></Route>
                     <Route path="/class-open" element={<ClassOpen/>}></Route>
+                    <Route path="/inquiry" element={<Inquiry/>}></Route>
+                    <Route path="/news" element={<NoticeAndEventPage/>}></Route>
                 </Routes>
                 <Footer />
             </BrowserRouter>
