@@ -1,19 +1,47 @@
+* {
+    white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
+    overflow-x: auto; /* 가로 스크롤이 필요한 경우에만 스크롤 표시 */
+}
+/*님 환영합니다*/
+div.welcome-user{
+    margin-top: -40px;
+    font-size: 25px;
+}
+/*님*/
 div.welcome-user p {
+    position: absolute;
     margin-left: 610px;
-    margin-top: -410px;
+    margin-top: -450px;
     margin-bottom: 10px;
     font-weight: bold;
-    font-size: 30px;
 }
-
+/*환영합니다*/
 div.welcome-user a{
+    position: absolute;
+    margin-top: -410px;
     margin-left: 610px;
     font-weight: bold;
-    font-size: 30px;
-
+}
+/*모든 진행중인 상자*/
+div.now{
+    margin-top: -150px;
+    margin-bottom: 150px;
 }
 
+/*진행중인 예약*/
+h3.reservation-now {
+    position: absolute;
+    margin-left: 430px;
+    margin-top: -150px;
+    margin-bottom: -40px;
+    font-size: 20px;
+}
+
+
+
+/*진행중인 예약 상자*/
 div.reservation-now {
+        display: inline-block;
         width: 800px;
         height: 140px;
         background-color: #FFFFFF;
@@ -21,9 +49,23 @@ div.reservation-now {
         border-radius: 2px;
         padding: 20px;
         margin-left: 430px;
-        margin-top: 50px;
+        margin-top: -120px;
 }
 
+/*상자 안 원형 - 주석처리해도 살아있음
+div.reservation-now circle {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background-color: #FFF5D9;
+    border-radius: 50%;
+    margin-top: 20px;
+    margin-left: -130px;
+}
+*/
+
+
+/*진행중인 클래스 상자*/
 div.class-now {
     width: 800px;
     height: 140px;
@@ -35,36 +77,26 @@ div.class-now {
     margin-top: 80px;
 }
 
-div.circle {
-    display: inline-block;
-    width: 100px;
-    height: 100px;
-    background-color: #FFF5D9;
-    border-radius: 50%; /* 원을 만들기 위해 반지름을 50%로 설정 */
-    margin-top: 20px;
-    margin-left: 30px;
-}
 
-h3.reservation-now {
-    margin-left: 430px;
-    margin-top: 70px;
-    margin-bottom: -30px;
-    font-size: 24px;
-}
-
+/*진행중인 클래스*/
 h3.class-now{
     margin-left: 430px;
-    margin-top: 70px;
-    margin-bottom: -60px;
-    font-size: 24px;
+    margin-top: 30px;
+    margin-bottom: -70px;
+    font-size: 20px;
     position: relative; /* 위치를 조정하기 위해 부모 요소를 relative로 설정 */
     display: flex;
 
 }
-
-div.class-now a {
-
-    margin-left: 20px;
-    align-items: center;
+/*모든 진행중인 안의 글자*/
+div.now a {
+    margin-left: 130px;
     font-size: 18px;
+    font-weight: bold;
+    align-content: center;
+}
+/*모든 진행중인 안의 글자전체위치*/
+div.title {
+    margin-left: 100px;
+    margin-top: 20px;
 }
