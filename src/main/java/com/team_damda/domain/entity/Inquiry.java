@@ -32,6 +32,9 @@ public class Inquiry extends BaseTimeEntity {
     @Column(name="comment_yn")
     private String comment_yn;
 
+    @Column(name="type")
+    private String type;
+
     @ManyToOne
     @JoinColumn(name="user_id")
     private Member member;
@@ -43,6 +46,7 @@ public class Inquiry extends BaseTimeEntity {
                 .content(this.content)
                 .reply(this.reply)
                 .comment_yn(this.comment_yn)
+                .type(this.type)
                 .createdAt(this.getCreatedAt())
                 .memberId(this.member.getId())
                 .build();

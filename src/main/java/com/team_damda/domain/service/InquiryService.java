@@ -22,6 +22,7 @@ public class InquiryService {
         List<InquiryDto> inquiryDtoList = new ArrayList<>();
 
         for(Inquiry inquiry : inquiries) {
+            System.out.println("Inquiry content : " + inquiry.getTitle());
             inquiryDtoList.add(inquiry.toDto());
         }
         return inquiryDtoList;

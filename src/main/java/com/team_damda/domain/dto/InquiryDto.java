@@ -16,6 +16,7 @@ public class InquiryDto {
     private String content;
     private String reply;
     private String comment_yn;
+    private String type;
     private Date createdAt;
 
     private long memberId;
@@ -28,6 +29,7 @@ public class InquiryDto {
                 .content(this.content)
                 .reply(this.reply)
                 .comment_yn(this.comment_yn)
+                .type(this.type)
                 .member(member)
                 .build();
     }
