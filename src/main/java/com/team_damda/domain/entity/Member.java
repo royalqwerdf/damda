@@ -13,14 +13,14 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="user")
+@Table(name="member")
 @Builder
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name="user_email", nullable = false, unique = true, length = 30)
+    @Column(name="user_email", nullable = false, unique = true, length = 100)
     private String userEmail;
 
     @Column(name="password", nullable = true)
@@ -29,14 +29,14 @@ public class Member {
     @Column(name="name", nullable = false)
     private String name;
 
-    @Column(name="phone", nullable = false, length = 20)
+    @Column(name="phone", nullable = true, length = 20)
     private String phone;
 
     @Column(name="img_url")
     private String imageUrl;
 
-    @Column(name="sns_ny", length = 1)
-    private String snsNy;
+    @Column(name="sns_id")
+    private String snsId;
 
     @Column(name="role")
     @Enumerated(EnumType.STRING)
@@ -72,6 +72,7 @@ public class Member {
     public void authorizeUser() {
         this.role = Role.USER;
     }
+
 
     // 비밀번호 암호화 메소드
     public void passwordEncode(PasswordEncoder passwordEncoder) {
