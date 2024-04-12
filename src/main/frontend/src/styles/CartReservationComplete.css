@@ -1,0 +1,64 @@
+#complete #title{
+    display: flex;
+    margin-top: 100px;
+    margin-left: 10%;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+#complete #step{
+    display: flex;
+    margin-top: 50px;
+    margin-left: 55%;
+    font-size: 20px;
+    color: #B6B6B6;
+}
+
+#complete #step .now {
+    font-weight: bold;
+    color: black;
+}
+
+#complete #row {
+    margin-top: 15px;
+    margin-left: 15%;
+    width: 70%;
+    border-top: 2px solid black;
+}
+
+#complete #message{
+    display: flex;
+    justify-content: center;
+    margin-top: 65px;
+    margin-bottom: 65px;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+#complete .buttons {
+    display: flex;
+    justify-content: center;
+}
+
+#complete .buttons button {
+    margin-bottom: 270px;
+    height: 72px;
+    width: 209px;
+    border-radius: 9px;
+    font-size: 18px;
+}
+
+#complete .buttons .mainPage {
+    margin-right: 25px;
+    background-color: white;
+    color: #F52334;
+    border: 2px solid #F52334;
+    cursor: pointer;
+}
+
+#complete .buttons .reservation {
+    background-color: #f52334;
+    color: white;
+    border: 2px solid #F52334;
+    cursor: pointer;
+}

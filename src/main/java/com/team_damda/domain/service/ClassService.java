@@ -16,6 +16,7 @@ import com.team_damda.domain.repository.ClassTimeRepository;
 import com.team_damda.domain.repository.MemberRepository;
 
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,22 +26,13 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ClassService {
     private final ClassRepository classRepository;
     private final CategoryRepository categoryRepository;
     private final MemberRepository memberRepository;
     private final ClassTimeRepository classTimeRepository;
-
     private final ClassImageRepository classImageRepository;
-
-    @Autowired
-    public ClassService(ClassRepository classRepository, CategoryRepository categoryRepository, MemberRepository memberRepository, ClassTimeRepository classTimeRepository, ClassImageRepository classImageRepository){
-        this.classRepository = classRepository;
-        this.categoryRepository = categoryRepository;
-        this.memberRepository = memberRepository;
-        this.classTimeRepository = classTimeRepository;
-        this.classImageRepository = classImageRepository;
-    }
 
     @Transactional
         public Long saveForClass(Long memberId, ClassDto classDto, List<ClassTimeDto> classTimeDtos, List<ClassImageDto> classImageDtos) {
