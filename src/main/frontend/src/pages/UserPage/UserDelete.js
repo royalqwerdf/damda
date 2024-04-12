@@ -13,7 +13,7 @@ function UserDelete() {
 
     return (
 
-        <div>
+        <div className="user-delete-container">
             <div className="user-left-menu">
                 <UserLeftMenu/>
             </div>
@@ -21,7 +21,7 @@ function UserDelete() {
 
             <div className="my-delete">
                 <p>회원정보</p>
-                <a>회원탈퇴</a>
+                <p className="delete-user-menu">회원탈퇴</p>
             </div>
 
 

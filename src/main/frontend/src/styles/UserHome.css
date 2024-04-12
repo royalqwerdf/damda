@@ -1,70 +1,78 @@
-div.welcome-user p {
+div.user-home-container {
+    margin-bottom: 200px;
+}
+
+
+/*님, 반갑습니다*/
+div.welcome-user-home {
     margin-left: 610px;
-    margin-top: -410px;
+    margin-top: -460px;
     margin-bottom: 10px;
     font-weight: bold;
     font-size: 30px;
 }
 
-div.welcome-user a{
-    margin-left: 610px;
-    font-weight: bold;
-    font-size: 30px;
-
+/*님 반갑습니다 줄 간격*/
+.user-hello{
+    margin-top: -20px;
+}
+ /*모든 진행중인 해당하는 요소*/
+div.now{
+    margin-left: 430px;
 }
 
+/*'진행중인 예약' 글씨*/
+h3.reservation-now {
+
+    margin-top: 70px;
+    margin-bottom: -30px;
+    font-size: 20px;
+}
+
+/*'진행중인 예약' 박스*/
 div.reservation-now {
         width: 800px;
         height: 140px;
         background-color: #FFFFFF;
-        border: 1px solid #D9D9D9;
-        border-radius: 2px;
-        padding: 20px;
-        margin-left: 430px;
+        border: 2px solid #D9D9D9;
         margin-top: 50px;
+        border-radius: 10px;
 }
 
-div.class-now {
-    width: 800px;
-    height: 140px;
-    background-color: #FFFFFF;
-    border: 1px solid #D9D9D9;
-    border-radius: 2px;
-    padding: 20px;
-    margin-left: 430px;
-    margin-top: 80px;
-}
-
-div.circle {
+/*원형div, 이미지 담기는 곳*/
+div.now-circle {
     display: inline-block;
     width: 100px;
     height: 100px;
     background-color: #FFF5D9;
     border-radius: 50%; /* 원을 만들기 위해 반지름을 50%로 설정 */
     margin-top: 20px;
-    margin-left: 30px;
+    margin-left: 60px;
 }
 
-h3.reservation-now {
-    margin-left: 430px;
+/*진행중인 클래스 글씨*/
+h3.class-now{
     margin-top: 70px;
     margin-bottom: -30px;
-    font-size: 24px;
-}
-
-h3.class-now{
-    margin-left: 430px;
-    margin-top: 70px;
-    margin-bottom: -60px;
-    font-size: 24px;
-    position: relative; /* 위치를 조정하기 위해 부모 요소를 relative로 설정 */
-    display: flex;
+    font-size: 20px;
 
 }
 
-div.class-now a {
+/*진행중인 클래스 박스*/
+div.class-now {
+    width: 800px;
+    height: 140px;
+    background-color: #FFFFFF;
+    border: 2px solid #D9D9D9;
+    margin-top: 50px;
+    border-radius: 10px;
+}
 
-    margin-left: 20px;
-    align-items: center;
+/*클래스이름, 예약날짜, 결제금액*/
+/*데이터는 span태그 또는 p태그에 동일한 className으로 동일하게 정렬*/
+div.now p {
+    float: left; /*왼쪽부터 가로정렬*/
+    margin-top: -5px;
+    margin-right: 95px;
     font-size: 18px;
 }

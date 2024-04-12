@@ -1,24 +1,4 @@
-/*가장 바깥을 감싸는 div*/
-.user-reservation-container{
-    margin-bottom: 300px;
-}
 
-/*나의클래스 예약관리*/
-div.my-reservation-menu{
-    margin-top: -500px;
-}
-
-/*나의클래스, 예약관리*/
-div.my-reservation-menu p {
-    margin-left: 410px;
-    font-weight: bold;
-    font-size: 25px;
-}
-
-/*예약관리 글씨 위 간격*/
-.reservation-2{
-    margin-top: -20px;
-}
 
 /*진행중인 예약 글씨*/
 h3.now-reservation{
@@ -28,7 +8,7 @@ h3.now-reservation{
 
 }
 
-/*예약현황 상자 + 전체*/
+/*예약현황 상자 전체*/
 div.my-now-reservation{
     display: flex; /*스크롤 문제있으면 여기 수정해보기*/
     width: 100%;

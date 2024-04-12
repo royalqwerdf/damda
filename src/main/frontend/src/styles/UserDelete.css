@@ -1,24 +1,20 @@
+div.user-delete-container{
+    margin-bottom: 300px;
+}
 
 div.my-delete{
     margin-top: -500px;
 }
 
-/*회원정보*/
-div.my-delete p {
-    position: relative;
+/*회원탈퇴*/
+div.my-delete p{
     margin-left: 410px;
-    margin-bottom: 10px;
     font-weight: bold;
     font-size: 25px;
-    align-content: center;
 }
 
-/*회원탈퇴*/
-div.my-delete a{
-    position: relative;
-    margin-left: 410px;
-    font-weight: bold;
-    font-size: 25px;
+.delete-user-menu{
+    margin-top: -20px;
 }
 
 /*탈퇴안내 전부*/

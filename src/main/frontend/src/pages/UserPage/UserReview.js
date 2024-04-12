@@ -9,6 +9,19 @@ function UserReview() {
                 <UserLeftMenu/>
             </div>
 
+
+            <div className="user-review-container">
+
+
+                <div className="my-review">
+                    <p>나의클래스</p>
+                    <p className="user-review-menu">리뷰 관리</p>
+                </div>
+
+
+            </div>
+
+
         </div>
     )
 

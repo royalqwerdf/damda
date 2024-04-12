@@ -28,10 +28,10 @@ public class OrderDetailController {
         private ClassReservationService classReservationService;
 
         // 예약목록
-        @GetMapping("/list")
+        @GetMapping("/listreservation")
         public String list(@PageableDefault Pageable pageable, Model model) {
                 model.addAttribute("orderDetailList", orderDetailService.getOrderDetailList(pageable));
-                return "/OrderDetail/list"; // 수정 필요, react 작업해보고 정하기
+                return "/listreservation"; // 수정 필요, react 작업해보고 정하기
         }
 
         // 예약삭제

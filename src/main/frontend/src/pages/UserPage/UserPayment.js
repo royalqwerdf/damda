@@ -9,6 +9,18 @@ function UserPayment() {
                 <UserLeftMenu/>
             </div>
 
+            <div className="user-payment-container">
+
+
+                <div className="my-payment">
+                    <p>나의클래스</p>
+                    <p className="user-payment-menu">결제 내역</p>
+                </div>
+
+
+            </div>
+
+
         </div>
     )
 

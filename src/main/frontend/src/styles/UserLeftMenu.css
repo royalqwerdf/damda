@@ -1,28 +1,32 @@
-hr {
-    width: 170px;
+div.leftmenu{
+    margin-top: 220px;
     margin-left: 130px;
+    position: sticky;
 }
 
-/*MyPage*/
-p#mypage{
-    margin-left: 140px;
-    margin-top: 195px;
-    margin-bottom: 30px;
+/*menu-line*/
+div.leftmenu hr {
+    width: 170px;
+    display: inline-block;
+}
+
+/*마이페이지 글씨*/
+.mypage{
+    margin-bottom: 20px;
     font-size: 30px;
-    font-weight: inherit;
+    font-weight: initial;
 }
 
-/*나의클래스, 회원정보*/
-p#myclass, p#userinformation{
-    margin-left: 100px;
+/*나의클래스, 회원정보 카테고리 글씨*/
+.mypage-category1, .mypage-category2{
     margin-top: 10px;
     font-size: 22px;
     font-weight: bolder;
 }
 
+/*li태그 리스트*/
 li{
-    list-style-type: none;
+    list-style-type: none; /*앞에붙는 동그라미 제거*/
     font-size: 20px;
-    margin-left: 100px;
     margin-bottom: 10px;
 }

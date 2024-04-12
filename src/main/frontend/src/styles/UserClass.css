@@ -1,0 +1,17 @@
+div.user-class-container{
+    margin-bottom: 500px;
+}
+
+div.my-class{
+    margin-top: -500px;
+}
+
+div.my-class p{
+    margin-left: 410px;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.user-class-menu {
+    margin-top: -20px;
+}

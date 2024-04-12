@@ -1,0 +1,17 @@
+div.user-userinformation-container {
+    margin-bottom: 500px;
+}
+
+div.my-userinformation{
+    margin-top: -500px;
+}
+
+div.my-userinformation p{
+    margin-left: 410px;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.user-information-menu {
+    margin-top: -20px;
+}

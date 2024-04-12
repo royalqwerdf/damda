@@ -9,6 +9,18 @@ function UserInformation() {
                 <UserLeftMenu/>
             </div>
 
+            <div className="user-userinformation-container">
+
+
+                <div className="my-userinformation">
+                    <p>회원정보</p>
+                    <p className="user-information-menu">개인정보변경</p>
+                </div>
+
+
+            </div>
+
+
         </div>
     )
 

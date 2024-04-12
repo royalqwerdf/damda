@@ -25,9 +25,11 @@ function UserReservation() {
                 <UserLeftMenu/>
             </div>
 
-            <div className="my-reservation">
-                <p>나의클래스</p>
-                <a>예약 관리</a>
+            <div className="user-reservation-container">
+
+            <div className="my-reservation-menu">
+                <p className="myclass-1">나의클래스</p>
+                <p className="reservation-2">예약 관리</p>
             </div>
 
             {/*예약 생길시마다 새로 추가되는 로직 필요*/}
@@ -55,7 +57,7 @@ function UserReservation() {
                 </div>
             </div>
 
-
+            </div>
         </div>
     );
 }
