@@ -24,6 +24,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private final MemberRepository memberRepository;
+
+    private final JwtService jwtService;
+
     private static final String NAVER = "naver";
     private static final String KAKAO = "kakao";
 
@@ -72,9 +75,16 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         return getMember;
     }
 
+//    private Member saveMember(OAuthAttributesDTO attributes, LoginType loginType) {
+//        Member createdUser = attributes.toEntity(loginType, attributes.getOauth2UserInfo());
+//        return memberRepository.save(createdUser);
+//    }
+
     private Member saveMember(OAuthAttributesDTO attributes, LoginType loginType) {
+        String refreshToken = jwtService.createRefreshToken();  // Refresh Token 생성
         Member createdUser = attributes.toEntity(loginType, attributes.getOauth2UserInfo());
-        return memberRepository.save(createdUser);
+        createdUser.setRefreshToken(refreshToken);  // 생성된 Refresh Token 설정
+        return memberRepository.save(createdUser);  // 데이터베이스에 저장
     }
 
 }

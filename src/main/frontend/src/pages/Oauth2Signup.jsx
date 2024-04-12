@@ -35,29 +35,6 @@ const Oauth2Signup = () => {
         }
     }
 
-    // const onSubmit = async ({ phone }) => {
-    //     try {
-    //         const response = await token.post('/Oauth2Signup', { phone });
-    //         console.log("서버 응답: ", response.data);
-    //         navigate('/memberSaved');  // 성공 후 네비게이션 변경
-    //     } catch (error) {
-    //         console.error('추가 정보 입력 실패:', error);
-    //         console.error('서버 응답 에러:', error.response ? error.response.data : "No server response");
-    //     }
-    // };
-
-    // const onSubmit = async ({ phone }) => {
-    //     try {
-    //         const response = await token.post('/Oauth2Signup', { phone });
-    //         console.log("서버 응답: ", response.data);
-    //         navigate('/memberSaved');  // 성공 후 네비게이션 변경
-    //     } catch (error) {
-    //         console.error('추가 정보 입력 실패:', error);
-    //         console.error('서버 응답 에러:', error.response ? error.response.data : "No server response");
-    //     }
-    // };
-
-
 
     const onSubmit = async ({ phone }) => {
         try {
@@ -69,20 +46,6 @@ const Oauth2Signup = () => {
             console.error('서버 응답 에러:', error.response ? error.response.data : "No server response");
         }
     };
-    // const onSubmit = async ({ phone }) => {
-    //     if (!loginType || !snsId) {
-    //         console.error('loginType 또는 snsId가 제공되지 않았습니다.');
-    //         return; // 이 경우 함수를 종료합니다.
-    //     }
-    //     try {
-    //         const response = await token.post('/Oauth2Signup', { phone, loginType, snsId });
-    //         console.log("서버 응답: ", response.data);
-    //         navigate('/memberSaved');
-    //     } catch (error) {
-    //         console.error('추가 정보 입력 실패:', error);
-    //         console.error('서버 응답 에러:', error.response ? error.response.data : "No server response");
-    //     }
-    // };
 
     return (
         <div className="page">

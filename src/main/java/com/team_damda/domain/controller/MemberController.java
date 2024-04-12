@@ -31,12 +31,12 @@ public class MemberController {
         return "redirect:/memberSaved";
     }
 
-    @PostMapping("/Oauth2Signup")
-    public ResponseEntity<?> updatePhoneNumber(@RequestBody MemberPhoneUpdateRequest request) {
-        // updatePhoneNumber 메서드를 호출할 때 LoginType과 snsId를 전달합니다.
-        memberService.updatePhoneNumber(request.getLoginType(), request.getSnsId(), request.getPhone());
-        return ResponseEntity.ok().build();
-    }
+//    @PostMapping("/Oauth2Signup")
+//    public ResponseEntity<?> updatePhoneNumber(@RequestBody MemberPhoneUpdateRequest request) {
+//        // updatePhoneNumber 메서드를 호출할 때 LoginType과 snsId를 전달합니다.
+//        memberService.updatePhoneNumber(request.getLoginType(), request.getSnsId(), request.getPhone());
+//        return ResponseEntity.ok().build();
+//    }
 
 //    @PostMapping("/Oauth2Signup")
 //    public ResponseEntity<?> updatePhoneNumber(@RequestBody MemberPhoneUpdateRequest request) {

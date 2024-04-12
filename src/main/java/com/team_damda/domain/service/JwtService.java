@@ -36,12 +36,12 @@ public class JwtService {
     private String refreshHeader;
 
     /**
-     * JWT의 subject와 Claim으로 email 사용 > 클레임 name을 email로 설정
+     * JWT의 subject와 Claim으로 email 사용 > 클레임 name을 userEmail로 설정
      * JWT의 헤더에 들어오는 값  'Authorization(Key) = Bearer {토큰} (Value)' 형식
      */
     private static final String ACCESS_TOKEN_SUBJECT = "AccessToken";
     private static final String REFRESH_TOKEN_SUBJECT = "RefreshToken";
-    private static final String EMAIL_CLAIM = "email";
+    private static final String EMAIL_CLAIM = "userEmail";
     private static final String BEARER = "Bearer ";
 
     private final MemberRepository memberRepository;
@@ -49,7 +49,7 @@ public class JwtService {
     /**
      * AccessToken 생성 메소드
      */
-    public String createAccessToken(String email) {
+    public String createAccessToken(String userEmail) {
         Date now = new Date();
         return JWT.create()
                 //JWT 토큰 생성 빌더 반환
@@ -57,7 +57,7 @@ public class JwtService {
                 // JWT의 Subject 지정 > AccessToken이므로 AccessToken
                 .withExpiresAt(new Date(now.getTime() + accessTokenExpirationPeriod))
                 // 클레임으로 email 하나만 사용
-                .withClaim(EMAIL_CLAIM, email)
+                .withClaim(EMAIL_CLAIM, userEmail)
                 // HMAC512 알고리즘 사용, application.properties에 지정한 secret 키로 암호화
                 .sign(Algorithm.HMAC512(secretKey));
 
