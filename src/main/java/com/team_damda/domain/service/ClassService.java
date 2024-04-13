@@ -18,7 +18,11 @@ import com.team_damda.domain.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,6 +37,7 @@ public class ClassService {
     private final MemberRepository memberRepository;
     private final ClassTimeRepository classTimeRepository;
     private final ClassImageRepository classImageRepository;
+
 
     @Transactional
         public Long saveForClass(Long memberId, ClassDto classDto, List<ClassTimeDto> classTimeDtos, List<ClassImageDto> classImageDtos) {
@@ -180,4 +185,33 @@ public class ClassService {
         }
         return newClassDto;
     }
-}
+    //reservation part
+    @Transactional
+    public Class getClass(Long id){
+        return classRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Class not found with id: "));
+    }
+    @Transactional
+    public List<ClassTimeDto> getClassTimes(Long id){
+        List<ClassTimeDto> newClassTimeDto = new ArrayList<>();
+        List<ClassTime> classTimes = classTimeRepository.findByOnedayClassId(id);
+        for(ClassTime classtime: classTimes){
+            ClassTimeDto classTimeDto = classtime.toDto();
+            newClassTimeDto.add(classTimeDto);
+        }
+            return newClassTimeDto;
+    }
+
+    @Transactional
+    public List<ClassImageDto> getClassImages(Long id) {
+        List<ClassImageDto> newClassImageDto = new ArrayList<>();
+        List<ClassImage> classimages = classImageRepository.findByOnedayClassId(id);
+        for(ClassImage classimage : classimages){
+            ClassImageDto classImageDto = classimage.toDto();
+            newClassImageDto.add(classImageDto);
+        }
+        return newClassImageDto;
+    }
+};
+
+

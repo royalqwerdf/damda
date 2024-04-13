@@ -1,3 +1,4 @@
+
 package com.team_damda.domain.dto;
 
 import com.team_damda.domain.entity.Cart;
@@ -18,3 +19,4 @@ public class CartDto {
     private int selectedCount;
     private int totalPrice;
 }
+

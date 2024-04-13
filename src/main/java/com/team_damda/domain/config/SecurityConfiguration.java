@@ -55,7 +55,7 @@ public class SecurityConfiguration {
 
                 .authorizeHttpRequests((authorizeRequests) ->
                         authorizeRequests
-                                .requestMatchers("/", "/login","/home","/category","/search").permitAll()
+                                .requestMatchers("/", "/login","/home","/category","/search","/class-open").permitAll()
                                 .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
                 .requestMatchers("/my-page/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
                                 .anyRequest().permitAll()

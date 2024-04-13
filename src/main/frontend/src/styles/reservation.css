@@ -1,0 +1,297 @@
+a {
+  text-decoration: none;
+  color: black;
+}
+h3{
+border-bottom: 2px solid black;
+display: inline-block;
+}
+
+.class-reservation-page {
+    display: flex;
+    margin-top:50px;
+    justify-content: center;
+
+}
+
+.class-area{
+    margin:1rem 20px 0 0;
+}
+#class-img-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f8f8f8; /* 아이보리색과 유사 */
+  padding: 20px; /* 이미지 주변에 패딩을 줍니다. */
+  border-radius: 10px; /* 모서리를 둥글게 처리합니다. */
+}
+
+#class-img-top img {
+  max-width: 100%; /* 컨테이너의 너비에 맞춰 이미지 크기를 조정합니다. */
+  max-height: 300px; /* 이미지의 최대 높이를 설정합니다. */
+}
+
+#class-img-top-small {
+  display: flex;
+  justify-content: space-around; /* 이미지들 사이에 공간을 균등하게 배분합니다. */
+  padding: 15px; /* 이미지 주변에 패딩을 줍니다. */
+}
+
+#class-img-top-small img {
+  width: 100px; /* 소형 이미지의 너비를 설정합니다. */
+  height: auto; /* 이미지의 원래 비율을 유지하면서 높이를 자동으로 조정합니다. */
+  margin: 0 10px; /* 이미지 사이의 마진을 줍니다. */
+  border-radius: 5px; /* 이미지의 모서리를 둥글게 처리합니다. */
+  background-color: #f8f8f8; /* 아이보리색과 유사 */
+  padding: 5px;
+}
+#class-grade-line{
+    display: flex;
+    align-items: center; /* 세로축 가운데 정렬 */
+    justify-content: space-between;
+    gap: 10px; /* 아이템 간격 */
+}
+#class-grade-line button{
+    margin-right: 150px;
+}
+#class-grade-line img{
+      width: 30px; /* 소형 이미지의 너비를 설정합니다. */
+      height: auto; /* 이미지의 원래 비율을 유지하면서 높이를 자동으로 조정합니다. */
+}
+#class-grade{
+       display: flex;
+       align-items: center; /* 세로축 가운데 정렬 */
+       margin-right:10px;
+}
+.class-info2{
+
+    align-items: center; /* 세로축 가운데 정렬 */
+    justify-content: center;
+    margin-top: 20px;
+    background-color: #FFFCF4;
+    border-radius: 5px;
+    padding: 20px;
+}
+.class-info2 img{
+    margin:10px 0 10px 0;
+    width: 100%; /* 컨테이너의 너비에 맞춰 이미지 크기를 조정합니다. */
+    max-height: 300px; /* 이미지의 최대 높이를 설정합니다. */
+    background-color: #FFFCF4;
+    border-radius: 5px;
+}
+#map{
+    margin-top:10px;
+    border-radius: 10px;
+}
+#curriculum-area{
+    margin:10px 0 10px 0;
+    padding:15px;
+    width:92%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color:white;
+    border-radius: 5px;
+}
+#review-area{
+    margin:10px 0 10px 0;
+    padding:15px;
+    width:92%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color:white;
+    border-radius: 5px;
+}
+
+
+
+
+#highlight-red{
+    color: red;
+}
+
+
+.input-area {
+    width:100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.class-registration {
+    display: flex;
+    justify-content: center;
+    height: 80px;
+    margin-top: 20px;
+}
+
+.class-name-input-area {
+    display: flex;
+    justify-content: center;
+    align_items: center;
+    height: 40px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.class-name {
+    display: flex;
+    justify-content: center;
+    flex: 3; /* 너비 비율 지정 */
+    text-align: center;
+    flex-direction: column;
+    margin-left: 30px;
+}
+
+.class-name-input-group {
+    justify-content: center;
+    flex: 7; /* 너비 비율 지정 */
+    margin-right: 70px;
+}
+
+.input-group {
+    width: 100%;
+}
+
+.form-control {
+    width: 100%;
+    height: 40px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    border: 2px solid #dcdcdc;
+}
+
+.calender-area{
+    margin-left:20px;
+}
+/* 캘린더 */
+.react-calendar {
+    background: #FFFCF4;
+    border-radius: 10px;
+    border: 1px solid var(--festie-gray-400, #c8c8c8); /* 전체 틀: border, border-radius 조정*/
+  }
+.react-calendar__label {
+   color: gray;
+}
+  .react-calendar__navigation__label > span {
+    /* 달력 상단 년/월 글씨 커스텀*/
+    color: var(--festie-gray-800, #3a3a3a);
+    font-family: SUIT Variable;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 140%;
+  }
+  .react-calendar__month-view__days__day--weekend {
+    /* 주말 글씨 빨간색 없애기*/
+    color: var(--festie-gray-800, #3a3a3a);
+  }
+  .react-calendar__tile:enabled:hover,
+  .react-calendar__tile:enabled:focus {
+    /*hover 했을 때 색상 변경*/
+    border-radius: 50px;
+    background: var(--festie-primary-red, #F52334);
+  }
+  /*오늘 날짜 하이라이트 커스텀*/
+  /*
+  .react-calendar__tile--now {
+    background: #FFF5D9;
+    border-radius: 50px;
+    font-weight: bold;
+    color: var(--festie-gray-800, #3a3a3a);
+  }*/
+
+  .react-calendar__tile--active {
+    background: #F52334;
+    color: white;
+    border-radius: 50px;
+  }
+#person-price{
+    margin-bottom:15px;
+}
+#calender-notice{
+    font-weight:bold;
+    text-align: center;
+    background-color: #FFF5D9;
+    border-radius: 5px;
+    padding:3px 3px;
+}
+#time-area button{
+    width :95%;
+    margin: 20px 0 5px 0;
+    font-weight: bold;
+    border: #F52334 2px solid;
+    color: #F52334;
+    border-radius: 8px;
+    background-color:transparent;
+    font-size: 20px;
+}
+#remaining-seats{
+    margin-bottom: 30px;
+}
+#time-area button:hover,
+#time-area button:active,
+#time-area button:focus{
+    background-color:#999999;
+    color: white;
+    border: black 2px solid;;
+}
+/*button styles*/
+#red-button button{
+  margin-left: 5px;
+  background-color:transparent;
+  border-radius: 5px;
+  border: #F52334 2px solid;
+  color: #F52334;
+  padding: 5px;
+  font-size: 9px;
+  font-weight: bold;
+}
+#person-price button{
+    border-radius: 50px;
+    background: #FFF5D9;
+    font-weight: bold;
+    border:none;
+ }
+#red-button2{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap:10px;
+    margin-top: 10px;
+}
+#red-button2 button{
+  margin: 10px 0 30px 5px;
+  background-color:#F52334;
+  border-radius: 5px;
+  border: none;
+  color: white;
+  padding: 10px 25px 10px 25px;
+  font-weight: bold;
+  font-size: 15px;
+}
+.modal-buttons {
+  display: flex;
+  width:auto;
+  justify-content: space-between;
+  gap:30px;
+  margin-top: 60px;
+}
+
+.modal-close-btn,
+.modal-confirm-btn {
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.modal-close-btn {
+  background-color: #ccc; /* 회색 배경 */
+}
+
+.modal-confirm-btn {
+  background-color: red; /* 빨간색 배경 */
+}

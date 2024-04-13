@@ -15,13 +15,11 @@ public class ClassDto {
     private long id;
     private String className;
     private String classExplanation;
-
     private String level;
     private String longtime;
     private Date startDate;
     private Date lastDate;
     private String weekdays;
-
     private String address;
     private String detailAddress;
     private String curriculum;
@@ -42,7 +40,6 @@ public class ClassDto {
         return Class.builder()
                 .className(this.className)
                 .classExplanation(this.classExplanation)
-
                 .level(this.level)
                 .longtime(this.longtime)
                 .startDate(this.startDate)

@@ -23,7 +23,6 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@CrossOrigin(origins = "*")
 public class ClassOpenController {
 
     private final ClassService classOpenService;
