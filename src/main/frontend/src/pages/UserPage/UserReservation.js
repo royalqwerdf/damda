@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../styles/UserReservation.css';
 import UserLeftMenu from "../../components/UserLeftMenu";
-import jwt_decode from 'jwt-decode'; // jwt_decode로 수정
+//import jwt_decode from 'jwt-decode'; // jwt_decode로 수정
 import axios from "axios";
 import UserHome from "./UserHome";
 import UserButton from "../../components/UserButton";
