@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../../styles/UserHome.css';
 import UserLeftMenu from "../../components/UserLeftMenu";
 // npm jwt-decode install 필요
-import { jwtDecode } from 'jwt-decode';
+//import { jwtDecode } from 'jwt-decode';
 import axios from "axios";
 const baseUrl = "http://localhost:8080/User-Home";
 function UserHome() {
