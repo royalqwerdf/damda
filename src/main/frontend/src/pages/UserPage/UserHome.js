@@ -50,7 +50,7 @@ function UserHome() {
                 <h3 className="reservation-now">진행중인 예약</h3>
                 <div className="reservation-now">
                     <div className="now-circle"></div>
-                    <div className="title">
+                    <div className="title-user-home">
                         <p>클래스 이름</p>
                         <p>예약 날짜</p>
                         <p>결제 금액</p>
@@ -60,7 +60,7 @@ function UserHome() {
                 <h3 className="class-now">진행중인 클래스</h3>
                 <div className="class-now">
                     <div className="now-circle"></div>
-                    <div className="title">
+                    <div className="title-user-home">
                     <p>클래스 이름</p>
                     <p>예약 날짜</p>
                     <p>결제 금액</p>

@@ -1,9 +1,9 @@
-/*가장 바깥을 감싸는 div*/
+/*가장 바깥을 감싸는 컨테이너*/
 .user-reservation-container{
     margin-bottom: 300px;
 }
 
-/*나의클래스 예약관리*/
+/*나의클래스 예약관리 전체*/
 div.my-reservation-menu{
     margin-top: -500px;
 }
@@ -28,7 +28,7 @@ h3.now-reservation{
 
 }
 
-/*예약현황 상자 + 전체*/
+/*예약현황 전체*/
 div.my-now-reservation{
     display: flex; /*스크롤 문제있으면 여기 수정해보기*/
     width: 100%;
@@ -51,7 +51,7 @@ div.now-reservation {
 
 
 /*이미지 들어갈 원형*/
-div.circle {
+div.reservation-circle {
     width: 100px;
     height: 100px;
     background-color: #FFF5D9;
@@ -61,7 +61,7 @@ div.circle {
 }
 
 /*상자 안 글자*/
-div.title {
+div.title-reservation {
     margin-top: -100px;
     margin-left: 250px;
     font-size: 15px;
@@ -71,7 +71,7 @@ div.title {
 }
 
 /*상자 안 글자 a태그 간격*/
-div.title a{
+div.title-reservation a{
     width: 100%;
     margin-right:50px;
 }

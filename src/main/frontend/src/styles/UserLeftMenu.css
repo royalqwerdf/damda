@@ -1,7 +1,9 @@
 div.leftmenu{
     margin-top: 220px;
     margin-left: 130px;
-    position: sticky;
+    position: relative;
+    width: 200px;
+    z-index: 9999;
 }
 
 /*menu-line*/

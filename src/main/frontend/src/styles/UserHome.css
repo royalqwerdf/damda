@@ -1,3 +1,4 @@
+/*가장 바깥을 감싸는 컨테이너*/
 div.user-home-container {
     margin-bottom: 200px;
 }
@@ -23,7 +24,6 @@ div.now{
 
 /*'진행중인 예약' 글씨*/
 h3.reservation-now {
-
     margin-top: 70px;
     margin-bottom: -30px;
     font-size: 20px;
@@ -31,6 +31,7 @@ h3.reservation-now {
 
 /*'진행중인 예약' 박스*/
 div.reservation-now {
+
         width: 800px;
         height: 140px;
         background-color: #FFFFFF;
@@ -41,7 +42,7 @@ div.reservation-now {
 
 /*원형div, 이미지 담기는 곳*/
 div.now-circle {
-    display: inline-block;
+    /*display: flex;*/
     width: 100px;
     height: 100px;
     background-color: #FFF5D9;
@@ -68,11 +69,20 @@ div.class-now {
     border-radius: 10px;
 }
 
+/*예약관련 글자 전체*/
+div.title-user-home {
+    /* 내부 요소들 가운데 정렬 */
+    margin-left: 170px;
+    margin-top: -120px;
+}
+
 /*클래스이름, 예약날짜, 결제금액*/
 /*데이터는 span태그 또는 p태그에 동일한 className으로 동일하게 정렬*/
-div.now p {
+div.title-user-home p {
     float: left; /*왼쪽부터 가로정렬*/
-    margin-top: -5px;
+    margin-left: 30px;
     margin-right: 95px;
     font-size: 18px;
+    font-weight: bold;
 }
+

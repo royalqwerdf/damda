@@ -1,17 +1,21 @@
+/*가장 바깥을 감싸는 컨테이너*/
 div.user-userinformation-container {
     margin-bottom: 500px;
 }
-
+/*회원정보, 개인정보변경 글씨 전부*/
 div.my-userinformation{
     margin-top: -500px;
 }
 
+/*회원정보, 개인정보변경 글씨*/
 div.my-userinformation p{
     margin-left: 410px;
     font-weight: bold;
     font-size: 25px;
 }
 
+/*회원정보 개인정보변경 줄 간격*/
 .user-information-menu {
     margin-top: -20px;
 }
+

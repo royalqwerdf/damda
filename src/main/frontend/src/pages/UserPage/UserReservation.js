@@ -14,9 +14,8 @@ function UserReservation() {
         // 여기에 탈퇴하기 버튼이 클릭되었을 때 수행할 동작을 구현합니다.
         console.log('예약취소가 완료되었습니다.');
     };
-
+    {/*임시 기능, 빈동작. 추후에 수정*/}
     const emptyFunction = () => {};
-
 
 
     return (
@@ -36,8 +35,8 @@ function UserReservation() {
             <h3 className="now-reservation">진행중인 예약</h3>
             <div className="my-now-reservation">
                 <div className="now-reservation">
-                    <div className="circle"></div>
-                    <div className="title">
+                    <div className="reservation-circle"></div>
+                    <div className="title-reservation">
                         <a>클래스 이름</a>
                         <a>예약 날짜</a>
                         <a>예약 시간</a>
@@ -45,7 +44,7 @@ function UserReservation() {
                         <a>결제 금액</a>
                     </div>
                     <div className="reservation-button">
-                        {/*예약변경 화면으로 이동하는 로직 필요*/}
+                        {/*예약변경 화면으로 이동*/}
                         <Link to="/User-ReservationUpdate">
                             <UserButton onClick={emptyFunction} type="button"  variant="reservation-update">예약변경</UserButton>
                         </Link>
