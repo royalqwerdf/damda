@@ -18,7 +18,6 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@CrossOrigin(origins = "http://localhost:8080/reservation/*")
 @Slf4j
 public class ReservationController {
     private final ClassService classService;
