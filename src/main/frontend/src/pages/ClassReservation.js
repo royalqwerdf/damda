@@ -76,18 +76,22 @@ const ClassReservation = () => {
 // 예약 정보를 서버로 전송하는 함수
 const submitReservation = async () => {
   // 여기서 예약에 필요한 정보를 객체로 구성합니다.
+  console.log(classDetails.price); // classDetails가 제대로 출력되는지 확인
+  console.log(peopleCount); // peopleCount가 제대로 출력되는지 확인
+
   const reservationData = {
     id: id, // 현재 페이지의 클래스 ID
 //    userId: '사용자 ID', // 사용자 ID (로그인 구현 시 사용자의 ID로 대체)
-    reservationDate: moment(value).format('YYYY-MM-DD'), // 선택된 날짜
-//    startTime: selectedTime.start, // 선택된 시작 시간
+    select_date: moment(value).format('YYYY-MM-DD'), // 선택된 날짜
+    select_time: selectedTime.classStartsAt, // 선택된 시작 시간
 //    endTime: selectedTime.end, // 선택된 종료 시간
+
     select_person: peopleCount, // 인원수
-    totalPrice: classDetails.price * peopleCount // 총 가격
+    total_price: classDetails.price * peopleCount // 총 가격
   };
 
   try {
-    const response = await axios.post(`http://localhost:8080/class-reservation`, reservationData);
+    const response = await axios.post(`http://localhost:8080/class-reservation/${id}`, reservationData);
     if (response.status === 200) {
       // 예약 성공 시 처리 로직
       console.log("예약이 성공적으로 완료되었습니다.");
@@ -101,8 +105,19 @@ const submitReservation = async () => {
   /*----------Calender Control*/
     // 캘린더 날짜관리 상태
     const [value, onChange] = useState(new Date());
-    const [selectedClassTimes, setSelectedClassTimes] = useState([]);
     const [time, setTime] = useState();
+    const [selectedDateTime, setSelectedDateTime] = useState([]);
+    const [selectedTime, setSelectedTime] = useState();
+
+    //선택 날짜 저장
+    const handleTimeSelection = (classTime) => {
+      // 이미 선택된 시간이라면 선택 해제, 그렇지 않다면 선택
+      if (selectedTime === classTime) {
+        setSelectedTime([]); // 선택 해제
+      } else {
+        setSelectedTime(classTime); // 새 시간 선택
+      }
+    };
 
     // 날짜 클릭 이벤트 처리
     const handleDateChange = (value) => {
@@ -116,8 +131,10 @@ const submitReservation = async () => {
         return classDate === selectedDate && classTime.headcount > 0;
       });
       console.log(timesForThisDay);
-      setSelectedClassTimes(timesForThisDay); // 상태 업데이트
+      setSelectedDateTime(timesForThisDay); // 상태 업데이트
     };
+
+
   /*----------Person Control*/
     // 인원수 관리 상태
     const [peopleCount, setPeopleCount] = useState(1);
@@ -142,12 +159,12 @@ const submitReservation = async () => {
           <div className = "class-area">
               <div className= "class-info">
                   <div id="class-img-top">
-                     <img src={classDetails.mainImg ? classDetails.mainImg : defaultImg} alt="클래스 이미지" main />
+                     <img src={classImages[0] ? classImages[0].imageUrl : defaultImg } alt="클래스 이미지" main />
                   </div>
                   <div id="class-img-top-small">
-                      <img src={classImages[1] ? classImages[0] : defaultImg }  alt="클래스 이미지2"/>
-                      <img src={classImages[2] ? classImages[0] : defaultImg }  alt="클래스 이미지3"/>
-                      <img src={classImages[3] ? classImages[0] : defaultImg }  alt="클래스 이미지4"/>
+                      <img src={classImages[1] ? classImages[1].imageUrl : defaultImg }  alt="클래스 이미지2"/>
+                      <img src={classImages[2] ? classImages[2].imageUrl : defaultImg }  alt="클래스 이미지3"/>
+                      <img src={classImages[3] ? classImages[3].imageUrl : defaultImg }  alt="클래스 이미지4"/>
                   </div>
 
                   <div id = "class-grade-line">
@@ -169,7 +186,7 @@ const submitReservation = async () => {
 
                   <b>클래스 소개글</b><br/>
                   <div id="class-img-bottom">
-                    <img src={classDetails.mainImg ? classDetails.mainImg : defaultImg} alt="클래스 이미지" />
+                    <img src={classImages[0] ? classImages[0].imageUrl : defaultImg } alt="클래스 이미지" />
                   </div>
 
                   <br/><b>커리큘럼</b><br/>
@@ -236,13 +253,14 @@ const submitReservation = async () => {
              </div>
              <h3>시간 선택</h3>
              <div id = "time-area">
-              {/* 선택된 날짜에 대한 클래스 타임을 렌더링 */}
-               {selectedClassTimes.map((classTime, index) => (
-                 <div key={index}>
-                   <button> {classTime.classStartsAt} - {classTime.classEndsAt}</button>
-                    <div id='remaining-seats'> &nbsp;(잔여 자리: {classTime.headcount})</div>
-                 </div>
-               ))}
+                  {selectedDateTime.map((classTime, index) => (
+                    <div key={index}>
+                      <button onClick={() => handleTimeSelection(classTime)}>
+                        {classTime.classStartsAt} - {classTime.classEndsAt}
+                      </button>
+                      <div id='remaining-seats'>잔여 자리: {classTime.headcount}</div>
+                    </div>
+                  ))}
              </div>
            </div>
     </div>

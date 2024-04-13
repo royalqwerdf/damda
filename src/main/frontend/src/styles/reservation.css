@@ -9,7 +9,7 @@ display: inline-block;
 
 .class-reservation-page {
     display: flex;
-    margin-top:50px;
+    margin-top:100px;
     justify-content: center;
 
 }
@@ -68,7 +68,7 @@ display: inline-block;
     align-items: center; /* 세로축 가운데 정렬 */
     justify-content: center;
     margin-top: 20px;
-    background-color: #FFFCF4;
+   background-color: #FFFCF4;
     border-radius: 5px;
     padding: 20px;
 }
@@ -76,7 +76,7 @@ display: inline-block;
     margin:10px 0 10px 0;
     width: 100%; /* 컨테이너의 너비에 맞춰 이미지 크기를 조정합니다. */
     max-height: 300px; /* 이미지의 최대 높이를 설정합니다. */
-    background-color: #FFFCF4;
+   /* background-color: #FFFCF4;*/
     border-radius: 5px;
 }
 #map{
@@ -93,6 +93,7 @@ display: inline-block;
     background-color:white;
     border-radius: 5px;
 }
+
 #review-area{
     margin:10px 0 10px 0;
     padding:15px;

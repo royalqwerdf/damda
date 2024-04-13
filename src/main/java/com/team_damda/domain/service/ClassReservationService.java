@@ -18,9 +18,9 @@ public class ClassReservationService {
         this.classRepository = classRepository;
         this.classReservationRepository = classReservationRepository;
     }
-    public void createReservation(ClassReservationDto reservationDto,Long classId) {
+    public void createReservation(ClassReservationDto reservationDto) {
         // DTO를 Entity로 변환
-        Class reservationClass = classRepository.findById(classId).orElse(null);
+        Class reservationClass = classRepository.findById(reservationDto.getId()).orElse(null);
         ClassReservation reservation = reservationDto.toEntity(reservationClass);
         // 예약 데이터 저장
         classReservationRepository.save(reservation);
