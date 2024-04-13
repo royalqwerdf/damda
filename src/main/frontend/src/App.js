@@ -18,6 +18,7 @@ import AdminHome from "./pages/AdminHome";
 import Inquiry from "./pages/Inquiry";
 import NoticeAndEventPage from "./pages/NoticeAndEventPage";
 import Oauth2Signup from "./pages/Oauth2Signup";
+import Oauth2Saved from "./pages/OauthSaved";
 
 function App(){
     return(
@@ -43,6 +44,7 @@ function App(){
                     <Route path="/inquiry" element={<Inquiry/>}></Route>
                     <Route path="/news" element={<NoticeAndEventPage/>}></Route>
                     <Route path="/class-reservation/:id" element={<ClassReservation/>}></Route>
+                    <Route path="/Oauth2Saved" element={<Oauth2Saved/>}></Route>
                 </Routes>
                 <Footer />
             </BrowserRouter>

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Axios 인스턴스 생성
 export const token = axios.create({
-    baseURL: 'http://localhost:8080',
+    baseURL: 'http://localhost:3000',
     headers: {
         'Content-Type': 'application/json',
     },

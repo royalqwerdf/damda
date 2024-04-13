@@ -53,14 +53,14 @@ public class MemberService {
 //            return memberRepository.save(member);
 //        }
 
-    public Member updatePhoneNumber(LoginType loginType, String snsId, String phone) {
-        Member member = memberRepository.getByLoginTypeAndSnsId(loginType, snsId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 사용자를 찾을 수 없습니다."));
-        String newRefreshToken = jwtService.createRefreshToken();  // 새 Refresh Token 생성
-        member.setPhone(phone);
-        member.setRefreshToken(newRefreshToken);  // 새로운 Refresh Token 설정
-        return memberRepository.save(member);  // 변경 사항 저장
-    }
+//    public Member updatePhoneNumber(LoginType loginType, String snsId, String phone) {
+//        Member member = memberRepository.getByLoginTypeAndSnsId(loginType, snsId)
+//                .orElseThrow(() -> new IllegalArgumentException("해당 사용자를 찾을 수 없습니다."));
+//        String newRefreshToken = jwtService.createRefreshToken();  // 새 Refresh Token 생성
+//        member.setPhone(phone);
+//        member.setRefreshToken(newRefreshToken);  // 새로운 Refresh Token 설정
+//        return memberRepository.save(member);  // 변경 사항 저장
+//    }
 
 //    public void updateUserPhone(String userEmail, String phone) {
 //        Member member = memberRepository.getByUserEmail(userEmail)
@@ -69,4 +69,12 @@ public class MemberService {
 //        member.setPhone(phone);
 //        memberRepository.save(member);
 //    }
+
+    public Member updateUserPhoneNumber(String email, String phoneNumber) {
+        Member member = memberRepository.getByUserEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
+        member.setPhone(phoneNumber);
+        return memberRepository.save(member);
+    }
+
 }

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import  '../global.scss';
 import styles from '../styles/Form.module.scss';
 
-const MemberSaved = () => {
+const Oauth2Saved = () => {
     return (
         <div className="page">
             <div className="form_container">
@@ -23,4 +23,4 @@ const MemberSaved = () => {
         </div>
     )
 }
-export default MemberSaved;
+export default Oauth2Saved;
