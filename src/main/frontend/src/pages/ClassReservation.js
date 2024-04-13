@@ -400,10 +400,16 @@ const submitCart = async () => {
                 tileDisabled={({ date, view }) => {
                     // 클래스가 시작되는 날짜와 끝나는 날짜를 'moment' 객체로 변환
                       if (view === 'month') {
-                        // date가 startDate 이전이거나 lastDate 이후이면 비활성화
+                        // date가 startDate , 오늘 이전이거나 lastDate 이후이면 비활성화
+                        const currentDate = moment();
+                        const isBeforeToday = moment(date).isBefore(currentDate, 'day');
                         const isBeforeStart = moment(date).isBefore(moment(classDetails.startDate), 'day');
                         const isAfterEnd = moment(date).isAfter(moment(classDetails.lastDate), 'day');
-                        return isBeforeStart || isAfterEnd;
+                        //headcount가 없어도 비활성화
+                        const selectedDate = moment(date).format('YYYY-MM-DD');
+                        const hasClassTimes = classTimes.some(classTime =>
+                                moment(classTime.classDate).format('YYYY-MM-DD') === selectedDate && classTime.headcount > 0);
+                        return isBeforeToday || isBeforeStart || isAfterEnd || !hasClassTimes;
                       }
                   }}>
              </Calendar></div>

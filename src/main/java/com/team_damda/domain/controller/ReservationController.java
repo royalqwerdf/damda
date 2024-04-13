@@ -54,6 +54,7 @@ public class ReservationController {
         log.info("data: {}",reservationDto);
         return ResponseEntity.ok("예약이 완료되었습니다.");
     }
+
     // 예약-> 장바구니 담기 데이터 처리
     @PostMapping("/class-reservation/{id}/add-to-cart")
     public ResponseEntity<String> createReservation(@RequestBody CartDto cartDto) {
@@ -63,7 +64,7 @@ public class ReservationController {
         Cart cart = new Cart();
         cart.setSelectedCount(cartDto.getSelectedCount());
         cart.setTotalPrice(cartDto.getTotalPrice());
-        cart.setClassTime(classTime); // 이미 영속성 컨텍스트에 있는 엔티티를 사용
+        cart.setClassTime(classTime); // 영속성 컨텍스트 고려(있던 내용으로)
 
         cartService.save(cart);
         log.info("data: {}",cartDto);
