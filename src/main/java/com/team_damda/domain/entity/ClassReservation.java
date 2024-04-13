@@ -35,8 +35,9 @@ public class ClassReservation {
     @Column(name="select_date")
     private Date select_date;
 
+
     @Column(name="select_time")
-    private String select_time;
+    private Long select_time;
 
     @ManyToOne
     @JoinColumn(name="class_id")

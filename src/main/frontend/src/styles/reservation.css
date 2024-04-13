@@ -6,7 +6,9 @@ h3{
 border-bottom: 2px solid black;
 display: inline-block;
 }
-
+button{
+ cursor:pointer;
+}
 .class-reservation-page {
     display: flex;
     margin-top:100px;
@@ -15,37 +17,43 @@ display: inline-block;
 }
 
 .class-area{
-    margin:1rem 20px 0 0;
+      margin:1rem 0 0 0;
+      justify-content: center;
+      align-items: center;
 }
 #class-img-top {
+ max-width:70%;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #f8f8f8; /* 아이보리색과 유사 */
-  padding: 20px; /* 이미지 주변에 패딩을 줍니다. */
-  border-radius: 10px; /* 모서리를 둥글게 처리합니다. */
+  padding: 20px;
+  border-radius: 10px;
+
 }
 
 #class-img-top img {
-  max-width: 100%; /* 컨테이너의 너비에 맞춰 이미지 크기를 조정합니다. */
-  max-height: 300px; /* 이미지의 최대 높이를 설정합니다. */
+  width: 100%;
+  height: 300px;
 }
 
 #class-img-top-small {
   display: flex;
-  justify-content: space-around; /* 이미지들 사이에 공간을 균등하게 배분합니다. */
-  padding: 15px; /* 이미지 주변에 패딩을 줍니다. */
+   max-width:70%;
+  justify-content: space-around; /* 이미지들 사이에 공간을 균등하게 배분 */
+  padding: 15px;
 }
 
 #class-img-top-small img {
-  width: 100px; /* 소형 이미지의 너비를 설정합니다. */
-  height: auto; /* 이미지의 원래 비율을 유지하면서 높이를 자동으로 조정합니다. */
-  margin: 0 10px; /* 이미지 사이의 마진을 줍니다. */
-  border-radius: 5px; /* 이미지의 모서리를 둥글게 처리합니다. */
-  background-color: #f8f8f8; /* 아이보리색과 유사 */
+  width: 100px;
+  height: auto;
+  margin: 0 10px;
+  border-radius: 5px;
+  background-color: #f8f8f8;
   padding: 5px;
 }
 #class-grade-line{
+      max-width:70%;
     display: flex;
     align-items: center; /* 세로축 가운데 정렬 */
     justify-content: space-between;
@@ -55,17 +63,17 @@ display: inline-block;
     margin-right: 150px;
 }
 #class-grade-line img{
-      width: 30px; /* 소형 이미지의 너비를 설정합니다. */
-      height: auto; /* 이미지의 원래 비율을 유지하면서 높이를 자동으로 조정합니다. */
+      width: 30px;
+      height: auto;
 }
 #class-grade{
        display: flex;
-       align-items: center; /* 세로축 가운데 정렬 */
+       align-items: center;
        margin-right:10px;
 }
 .class-info2{
-
-    align-items: center; /* 세로축 가운데 정렬 */
+    max-width:70%;
+    align-items: center;
     justify-content: center;
     margin-top: 20px;
    background-color: #FFFCF4;
@@ -73,15 +81,18 @@ display: inline-block;
     padding: 20px;
 }
 .class-info2 img{
+
     margin:10px 0 10px 0;
-    width: 100%; /* 컨테이너의 너비에 맞춰 이미지 크기를 조정합니다. */
-    max-height: 300px; /* 이미지의 최대 높이를 설정합니다. */
-   /* background-color: #FFFCF4;*/
+    width: 100%;
+    max-height: 300px;
+
     border-radius: 5px;
 }
 #map{
+
     margin-top:10px;
     border-radius: 10px;
+    max-width: 100%;
 }
 #curriculum-area{
     margin:10px 0 10px 0;
@@ -106,66 +117,12 @@ display: inline-block;
 }
 
 
-
-
 #highlight-red{
     color: red;
 }
 
 
-.input-area {
-    width:100%;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-}
 
-.class-registration {
-    display: flex;
-    justify-content: center;
-    height: 80px;
-    margin-top: 20px;
-}
-
-.class-name-input-area {
-    display: flex;
-    justify-content: center;
-    align_items: center;
-    height: 40px;
-    width: 100%;
-    margin-top: 20px;
-}
-
-.class-name {
-    display: flex;
-    justify-content: center;
-    flex: 3; /* 너비 비율 지정 */
-    text-align: center;
-    flex-direction: column;
-    margin-left: 30px;
-}
-
-.class-name-input-group {
-    justify-content: center;
-    flex: 7; /* 너비 비율 지정 */
-    margin-right: 70px;
-}
-
-.input-group {
-    width: 100%;
-}
-
-.form-control {
-    width: 100%;
-    height: 40px;
-    box-sizing: border-box;
-    border-radius: 10px;
-    border: 2px solid #dcdcdc;
-}
-
-.calender-area{
-    margin-left:20px;
-}
 /* 캘린더 */
 .react-calendar {
     background: #FFFCF4;
@@ -174,6 +131,7 @@ display: inline-block;
   }
 .react-calendar__label {
    color: gray;
+
 }
   .react-calendar__navigation__label > span {
     /* 달력 상단 년/월 글씨 커스텀*/
@@ -182,7 +140,11 @@ display: inline-block;
     font-size: 13px;
     font-weight: bold;
     line-height: 140%;
+
   }
+   .react-calendar__month-view{
+        border-radius: 10px;
+   }
   .react-calendar__month-view__days__day--weekend {
     /* 주말 글씨 빨간색 없애기*/
     color: var(--festie-gray-800, #3a3a3a);
@@ -211,6 +173,7 @@ display: inline-block;
     margin-bottom:15px;
 }
 #calender-notice{
+    margin: 30px 0 10px 0;
     font-weight:bold;
     text-align: center;
     background-color: #FFF5D9;
@@ -231,11 +194,15 @@ display: inline-block;
     margin-bottom: 30px;
 }
 #time-area button:hover,
-#time-area button:active,
-#time-area button:focus{
-    background-color:#999999;
+#time-area button:focus,
+#time-area button:active{
+    background-color:#F52334;
     color: white;
-    border: black 2px solid;;
+}
+
+#time-area button.on{
+     background-color:#F52334;
+     color: white;
 }
 /*button styles*/
 #red-button button{
@@ -245,7 +212,7 @@ display: inline-block;
   border: #F52334 2px solid;
   color: #F52334;
   padding: 5px;
-  font-size: 9px;
+  font-size: 13px;
   font-weight: bold;
 }
 #person-price button{
@@ -258,19 +225,23 @@ display: inline-block;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap:10px;
+    gap:15px;
     margin-top: 10px;
 }
 #red-button2 button{
-  margin: 10px 0 30px 5px;
+  margin: 10px 0 30px 0px;
   background-color:#F52334;
   border-radius: 5px;
   border: none;
   color: white;
   padding: 10px 25px 10px 25px;
   font-weight: bold;
-  font-size: 15px;
+  font-size: 16px;
 }
+
+
+
+/* 모달 CSS */
 .modal-buttons {
   display: flex;
   width:auto;
@@ -296,3 +267,61 @@ display: inline-block;
 .modal-confirm-btn {
   background-color: red; /* 빨간색 배경 */
 }
+
+
+.review-modal h3 {
+    border:none;
+}
+.review-modal p,
+.review-modal h2{
+    color: #F52334;
+}
+.review-header {
+  /* 모달 헤더를 위한 스타일 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.close-button {
+  /* 닫기 버튼을 위한 스타일 */
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.review-body {
+  /* 모달 본문을 위한 스타일 */
+  display: flex;
+}
+
+.review-left-area, .review-right-area {
+  /* 왼쪽, 오른쪽 영역을 위한 스타일 */
+  flex: 1;
+  padding: 10px;
+}
+
+#input-review {
+  /* 텍스트 입력 영역을 위한 스타일 */
+  width: 100%;
+  height: 120px;
+  margin-top: 10px;
+}
+
+.review-footer {
+  /* 모달 푸터를 위한 스타일 */
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+.modal-close-btn, .modal-confirm-btn {
+  /* 버튼들을 위한 스타일 */
+  padding: 5px 20px;
+  margin: 0 10px;
+  border: none;
+  cursor: pointer;
+}
+

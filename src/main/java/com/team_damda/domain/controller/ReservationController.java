@@ -2,12 +2,16 @@ package com.team_damda.domain.controller;
 
 
 import com.team_damda.domain.dto.*;
+import com.team_damda.domain.entity.Cart;
+import com.team_damda.domain.entity.ClassTime;
 import com.team_damda.domain.repository.CategoryRepository;
 import com.team_damda.domain.repository.ClassRepository;
 import com.team_damda.domain.repository.ClassTimeRepository;
 import com.team_damda.domain.repository.MemberRepository;
+import com.team_damda.domain.service.CartService;
 import com.team_damda.domain.service.ClassReservationService;
 import com.team_damda.domain.service.ClassService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,11 +30,11 @@ public class ReservationController {
     private final CategoryRepository categoryRepository;
     private final MemberRepository memberRepository;
     private final ClassTimeRepository classTimeRepository;
+    private final CartService cartService;
 
 
 
-
-
+    // 클래스 관련 데이터를 전부가져옴
     @GetMapping("/class-reservation/{id}")
     public ResponseEntity<ClassReservationResponse> getClass(@PathVariable("id") Long id) {
         log.info("id값1: {}",id);
@@ -42,16 +46,28 @@ public class ReservationController {
         ClassReservationResponse response = new ClassReservationResponse(classDetails, classTimes,classImages);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    // 예약 데이터를 받아서 처리하는 API 엔드포인트
-    @PostMapping("/class-reservation/{id}")
+
+    // 예약 -> 결제 데이터를 처리
+    @PostMapping("/class-reservation/{id}/reserve")
     public ResponseEntity<String> createReservation(@RequestBody ClassReservationDto reservationDto) {
-        // ReservationDto 객체를 사용하여 예약 로직을 처리
-        // 예약 데이터를 데이터베이스에 저장
-        // 성공적으로 저장되면, ResponseEntity로 성공 메시지를 전송
         classReservationService.createReservation(reservationDto);
         log.info("data: {}",reservationDto);
         return ResponseEntity.ok("예약이 완료되었습니다.");
     }
+    // 예약-> 장바구니 담기 데이터 처리
+    @PostMapping("/class-reservation/{id}/add-to-cart")
+    public ResponseEntity<String> createReservation(@RequestBody CartDto cartDto) {
+        log.info("data: {}",cartDto);
+        ClassTime classTime = classTimeRepository.findById(cartDto.getClassTimeId())
+                .orElseThrow(() -> new EntityNotFoundException("ClassTime not found"));
+        Cart cart = new Cart();
+        cart.setSelectedCount(cartDto.getSelectedCount());
+        cart.setTotalPrice(cartDto.getTotalPrice());
+        cart.setClassTime(classTime); // 이미 영속성 컨텍스트에 있는 엔티티를 사용
 
+        cartService.save(cart);
+        log.info("data: {}",cartDto);
+        return ResponseEntity.ok("담기가 완료되었습니다.");
+    }
 
 }

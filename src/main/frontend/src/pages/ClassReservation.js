@@ -1,5 +1,5 @@
 import React, { useEffect,useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import Calendar from 'react-calendar';
@@ -8,19 +8,99 @@ import '../styles/reservation.css';
 import moment from "moment";
 import MapContent from '../components/MapContent';
 import Modal from "react-modal";
+import useUploadImage from '../hooks/useUploadImage';
 const ClassReservation = () => {
 
+    //이미지 업로드 함수
+    const uploadedUrls = [];
+    const [imageFiles, setImageFiles] = useState([]);
+    const [lastIdx, setLastIdx] = useState(0);
+
+    const uploadImage = useUploadImage(); // 이미지 업로드 훅 사용
+
+    const onUpload = async () => {
+
+        try {
+                if (lastIdx === 0) {
+                    // 이미지 파일이 없는 경우
+                    alert("이미지를 업로드하지 않았습니다.")
+                    return;
+                }
+
+                for (let i = 0; i < lastIdx; i++) {
+                    if (imageFiles[i] != null) {
+                        console.log("원본 이미지:", imageFiles[i]);
+                        const downloadUrl = await uploadImage(imageFiles[i]);
+                        console.log("업로드된 이미지의 다운로드 URL:", downloadUrl);
+                        uploadedUrls.push(downloadUrl);
+                        console.log("URL모음 배열:", uploadedUrls);
+                        setImageFiles[i] = null;
+                    }
+                }
+
+                console.log("All files uploaded successfully");
+            } catch (error) {
+                console.error("Error uploading files:", error);
+            }
+    };
+
+
+    const onChangeImage = (e) => {
+        const files = e.target.files;
+        if (!files) return null;
+        const selectedFiles = Array.from(files).slice(0, 5 - imageFiles.length);
+        if(selectedFiles.length === 0) {
+            alert("파일은 5개까지 첨부 가능합니다.")
+            return;
+        }
+
+        setImageFiles(prevFiles => [...prevFiles, ...selectedFiles]);
+        setLastIdx(prevLastIdx => prevLastIdx + 1);
+        console.log("Selected Image Files:", imageFiles);
+        console.log("인덱스:", lastIdx);
+    };
+
+    const removeImage = (indexToRemove) => {
+        setImageFiles(prevFiles => prevFiles.filter((_, index) => index !== indexToRemove));
+        console.log("delete after Image Files:", imageFiles);
+    };
 
 
 
   /*----------Modal Control*/
      const[isOpen, setIsOpen] = useState(false);
+     const[isCartOpen, setIsCartOpen] = useState(false);
+     /*reserve*/
      const openModal =() =>{
+        if (!selectedTime) {
+            alert('예약 날짜와 시간을 선택해주세요');
+            return;
+        }
         setIsOpen(true);
      }
      const closeModal =() =>{
         setIsOpen(false);
      }
+     /*cart*/
+     const openCartModal =() =>{
+        if (!selectedTime) {
+            alert('예약 날짜와 시간을 선택해주세요');
+            return;
+        }
+        setIsCartOpen(true);
+     }
+     const closeCartModal =() =>{
+        setIsCartOpen(false);
+     }
+     /*review*/
+     const[isReviewOpen, setIsReviewOpen] = useState(false);
+     const openReviewModal =() =>{
+        setIsReviewOpen(true);
+     }
+     const closeReviewModal =() =>{
+        setIsReviewOpen(false);
+     }
+
      const customStyles = {
          overlay : {
             backgroundColor : "white",
@@ -43,6 +123,25 @@ const ClassReservation = () => {
          },
      };
 
+    const customReviewStyles = {
+        content: {
+            width: "60%", // 모달의 너비를 화면의 60%로 설정
+            height: "auto", // 높이는 자동으로 내용에 맞춤
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
+            border: "1px solid #ccc", // 테두리 설정
+            background: "#fff", // 배경색 설정
+            overflow: "auto", // 내용이 넘치면 스크롤바 생성
+            WebkitOverflowScrolling: "touch",
+            borderRadius: "10px", // 테두리 둥글게
+            outline: "none",
+            padding: "20px", // 내부 패딩 설정
+        },
+    };
   /*----------Class Control ----- GET*/
      const { id } = useParams(); // URL에서 classId가져오기??? -> mainpage에서 클래스 선택시 클래스 아이디 경로로 가야함
      const [classDetails, setClassDetails] = useState(null);
@@ -72,33 +171,75 @@ const ClassReservation = () => {
      }, [id]); // classId가 변경될 때마다 실행
      console.log(classDetails);
 
+
+
 /*----------reservation Control ----- POST*/
-// 예약 정보를 서버로 전송하는 함수
+// 예약 정보를 서버로 전송
+const navigate = useNavigate();
 const submitReservation = async () => {
   // 여기서 예약에 필요한 정보를 객체로 구성합니다.
-  console.log(classDetails.price); // classDetails가 제대로 출력되는지 확인
-  console.log(peopleCount); // peopleCount가 제대로 출력되는지 확인
+  console.log(classDetails.price); //
+  console.log(peopleCount);
 
   const reservationData = {
     id: id, // 현재 페이지의 클래스 ID
-//    userId: '사용자 ID', // 사용자 ID (로그인 구현 시 사용자의 ID로 대체)
+//    member_id: '사용자 ID', // 사용자 ID (로그인 구현 시 사용자의 토큰?ID?로 대체)
     select_date: moment(value).format('YYYY-MM-DD'), // 선택된 날짜
-    select_time: selectedTime.classStartsAt, // 선택된 시작 시간
-//    endTime: selectedTime.end, // 선택된 종료 시간
-
+    select_time: selectedTime.id, // 선택 시간ID
     select_person: peopleCount, // 인원수
-    total_price: classDetails.price * peopleCount // 총 가격
+    total_price: classDetails.price * peopleCount, // 총 가격
+    classType : classDetails.categoryName,
   };
 
   try {
-    const response = await axios.post(`http://localhost:8080/class-reservation/${id}`, reservationData);
+    const response = await axios.post(`http://localhost:8080/class-reservation/${id}/reserve`, reservationData);
     if (response.status === 200) {
       // 예약 성공 시 처리 로직
       console.log("예약이 성공적으로 완료되었습니다.");
+      closeModal();
+      navigate('/carts/reservation-complete');
+
     }
   } catch (error) {
     // 에러 처리 로직
     console.error("예약에 실패했습니다.", error);
+    window.location.reload();
+  }
+};
+
+
+/*----------Cart Control ----- POST*/
+const submitCart = async () => {
+  // 여기서 예약에 필요한 정보를 객체로 구성합니다.
+  console.log(classDetails.price); //
+  console.log(peopleCount);
+
+  const CartData = {
+//    member_id: '사용자 ID', // 사용자 ID (로그인 구현 시 사용자의 토큰?ID?로 대체)
+    select_date: moment(value).format('YYYY-MM-DD'), // 선택된 날짜
+    classTimeId: selectedTime.id, // 선택 시간ID
+    selectedCount: peopleCount, // 인원수
+    totalPrice: classDetails.price * peopleCount, // 총 가격
+  };
+  if (!selectedTime) {
+      alert('예약 날짜와 시간을 선택해주세요');
+      return;
+  }
+  try {
+    const response = await axios.post(`http://localhost:8080/class-reservation/${id}/add-to-cart`, CartData);
+    if (response.status === 200) {
+      // 예약 성공 시 처리 로직
+      console.log("담기가 성공적으로 완료되었습니다.");
+      alert('장바구니 담았습니다.');
+      closeModal();
+      window.location.reload();
+
+    }
+  } catch (error) {
+    // 에러 처리 로직
+    console.error("담기에 실패했습니다.", error);
+    alert('장바구니 담기에 실패했습니다.');
+    window.location.reload();
   }
 };
 
@@ -168,7 +309,51 @@ const submitReservation = async () => {
                   </div>
 
                   <div id = "class-grade-line">
-                    <div id= "red-button"><button>후기 작성</button></div>
+                    <div id= "red-button">
+                    <button onClick={openReviewModal}>후기 작성</button></div>
+                    <Modal isOpen={isReviewOpen} onRequestClose={closeReviewModal} style={customReviewStyles}>
+                     <div className="review-modal">
+                       <div className="review-header">
+                         <h2>후기 작성</h2>
+                         <button onClick={closeReviewModal} className="close-button">X</button>
+                       </div>
+                       <div className="review-body">
+                         <div className="review-left-area">
+                           <h3>체험 클래스 : </h3>&nbsp;<strong>{classDetails.className}</strong>
+                           <textarea id="input-review" placeholder="체험 후기..."></textarea>
+                              <div className="image-upload-url">
+
+                                  <form style={{padding: '20px', marginLeft: '20px'}}>
+                                      <label htmlFor="input-file">
+                                          <div>
+                                              <p>{}</p>
+                                          </div>
+                                      </label>
+                                      <input type="file" onChangeImage={onChangeImage} accept="image/*" style={{ width: '250px'}} multiple/>
+                                  </form>
+                                  <div className="attached-image-files" style={{ marginLeft: '30px', width: '250px', height: '30px'}}>
+                                      {imageFiles.map((file, index) => (
+                                          <p key={index} style={{fontSize: '10px', color:'#c0c0c0'}}>{file.name}<div type="button" style={{cursor: 'pointer', size: '5px', marginLeft: '10px'}} onClick={() => removeImage(index)}>x</div></p>
+                                      ))}
+                                  </div>
+                              </div>
+
+
+                         </div>
+                         <div className="review-right-area">
+                           <h3>예약정보</h3>
+                           <p><strong>참가자 정보</strong> </p>{"user-id"} {/* 'user-id'를 실제 사용자 ID로 대체 */}
+                           <p><strong>예약 시간 </strong></p> {"예약시간"}
+                           <p><strong>결제 금액 </strong></p>{"결제 금액"}
+                         </div>
+                       </div>
+                       <div className="review-footer">
+                         <button onClick={closeReviewModal} className="modal-close-btn">취소</button>
+                         <button onClick={closeReviewModal} className="modal-confirm-btn">등록하기</button>
+                       </div>
+                     </div>
+
+                    </Modal>
                     <div id="class-grade">
                         <img src="https://firebasestorage.googleapis.com/v0/b/damda-30bee.appspot.com/o/heart.png?alt=media&token=66742275-d842-4849-b41e-7c49a0de8799"/>{classDetails.totalLike}
                         <img src="https://firebasestorage.googleapis.com/v0/b/damda-30bee.appspot.com/o/star.png?alt=media&token=533d0a9d-b1f9-4cf7-9517-4f467e894ecf"/>{classDetails.totalRating}
@@ -180,7 +365,7 @@ const submitReservation = async () => {
                   <b>지역</b> : {classDetails.address}<br/>
                   <b>난이도</b> : {classDetails.level}<br/>
                   <b>소요시간</b> : {classDetails.longtime}<br/>
-                  <b>카테고리</b> : 요리
+                  <b>카테고리</b> : {classDetails.categoryName}
               </div>
               <div className = "class-info2">
 
@@ -223,9 +408,7 @@ const submitReservation = async () => {
                   }}>
              </Calendar></div>
 
-             <div>
-                {moment(value).format("YYYY년 MM월 DD일")}
-             </div>
+
              <div id="calender-notice">
                 <span id="highlight-red">예약 가능한 </span>
                  날짜만 선택가능합니다!
@@ -234,7 +417,7 @@ const submitReservation = async () => {
                 <br/><b>예약 인원</b> &nbsp;
                 <button onClick={decreasePeople}>-</button> &nbsp;
                 {peopleCount}&nbsp;
-                <button onClick={increasePeople}>+</button>
+                <button onClick={increasePeople} >+</button>
                 <br/><b>예약 금액</b> : {classDetails.price*peopleCount}원
              </div>
              <div id = "red-button">
@@ -249,13 +432,23 @@ const submitReservation = async () => {
                         <button onClick={submitReservation} className="modal-confirm-btn">결제 동의하기</button>
                       </div>
                     </Modal>
-                <button>장바구니에 담기</button>
+
+                <button onClick={openCartModal}>장바구니에 담기</button>
+                    <Modal isOpen={isCartOpen} onRequestClose={closeCartModal} style={customStyles}>
+                      <h2>장바구니에 담으시겠습니까?</h2>
+                      <div className="modal-buttons">
+                        <button onClick={closeCartModal} className="modal-close-btn">아니오</button>
+                        <button onClick={submitCart} className="modal-confirm-btn">장바구니 담기</button>
+                      </div>
+                    </Modal>
              </div>
              <h3>시간 선택</h3>
              <div id = "time-area">
                   {selectedDateTime.map((classTime, index) => (
                     <div key={index}>
-                      <button onClick={() => handleTimeSelection(classTime)}>
+                      <button onClick={() => handleTimeSelection(classTime)}
+                      className={selectedTime === classTime ? 'on' : ''}
+                      type="button">
                         {classTime.classStartsAt} - {classTime.classEndsAt}
                       </button>
                       <div id='remaining-seats'>잔여 자리: {classTime.headcount}</div>
