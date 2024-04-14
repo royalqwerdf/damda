@@ -1,0 +1,17 @@
+div.user-review-container{
+    margin-bottom: 500px;
+}
+
+div.my-review{
+    margin-top: -500px;
+}
+
+div.my-review p{
+    margin-left: 410px;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.user-review-menu {
+    margin-top: -20px;
+}
