@@ -20,7 +20,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
-    public void signUp(MemberSignupDto memberSignupDto) throws Exception {
+    public Member signUp(MemberSignupDto memberSignupDto) throws Exception {
         System.out.println(memberSignupDto.getName());
         System.out.println(memberSignupDto.getUserEmail());
         System.out.println(memberSignupDto.getPassword());
@@ -44,31 +44,9 @@ public class MemberService {
 
         member.passwordEncode(passwordEncoder);
         memberRepository.save(member);
+        return member;
     }
 
-//        public Member updatePhoneNumber(LoginType loginType, String snsId, String phone) {
-//            Member member = memberRepository.getByLoginTypeAndSnsId(loginType, snsId)
-//                    .orElseThrow(() -> new IllegalArgumentException("해당 사용자를 찾을 수 없습니다."));
-//            member.setPhone(phone);
-//            return memberRepository.save(member);
-//        }
-
-//    public Member updatePhoneNumber(LoginType loginType, String snsId, String phone) {
-//        Member member = memberRepository.getByLoginTypeAndSnsId(loginType, snsId)
-//                .orElseThrow(() -> new IllegalArgumentException("해당 사용자를 찾을 수 없습니다."));
-//        String newRefreshToken = jwtService.createRefreshToken();  // 새 Refresh Token 생성
-//        member.setPhone(phone);
-//        member.setRefreshToken(newRefreshToken);  // 새로운 Refresh Token 설정
-//        return memberRepository.save(member);  // 변경 사항 저장
-//    }
-
-//    public void updateUserPhone(String userEmail, String phone) {
-//        Member member = memberRepository.getByUserEmail(userEmail)
-//                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-//
-//        member.setPhone(phone);
-//        memberRepository.save(member);
-//    }
 
     public Member updateUserPhoneNumber(String email, String phoneNumber) {
         Member member = memberRepository.getByUserEmail(email)

@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.Map;
 
 @Slf4j
@@ -32,10 +33,19 @@ public class MemberController {
      * @return 회원가입
      * @throws Exception
      */
+//    @PostMapping("/signup")
+//    public String signUp(@RequestBody MemberSignupDto memberSignupDto) throws Exception {
+//        memberService.signUp(memberSignupDto);
+//        return "redirect:/memberSaved";
+//    }
     @PostMapping("/signup")
-    public String signUp(@RequestBody MemberSignupDto memberSignupDto) throws Exception {
-        memberService.signUp(memberSignupDto);
-        return "redirect:/memberSaved";
+    public ResponseEntity<?> signUp(@RequestBody MemberSignupDto memberSignupDto) throws Exception {
+        Member member = memberService.signUp(memberSignupDto);
+        if (member != null) {
+            return ResponseEntity.ok(Collections.singletonMap("name", member.getName()));
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원가입 실패");
+        }
     }
 
 
