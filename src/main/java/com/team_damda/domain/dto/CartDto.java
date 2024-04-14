@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CartDto {
+    private long classTimeId;
     private int selectedCount;
     private int totalPrice;
 }
