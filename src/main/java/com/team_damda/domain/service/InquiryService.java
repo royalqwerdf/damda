@@ -6,6 +6,8 @@ import com.team_damda.domain.entity.Inquiry;
 import com.team_damda.domain.repository.InquiryRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,19 +21,13 @@ public class InquiryService {
     private final InquiryRepository inquiryRepository;
 
     @Transactional
-    public List<InquiryDto> getInquiryList() {
-        List<Inquiry> inquiries = inquiryRepository.findAll();
-        List<InquiryDto> inquiryDtoList = new ArrayList<>();
+    public Page<InquiryDto> getInquiryByOrder(PageRequest pageRequest) {
+        Page<Inquiry> inquiryPage = inquiryRepository.findAllByOrderByCreatedAtDesc(pageRequest);
 
-        for(Inquiry inquiry : inquiries) {
-            System.out.println("Inquiry content : " + inquiry.getTitle());
-            inquiryDtoList.add(inquiry.toDto());
-        }
-        return inquiryDtoList;
-
-
+        return inquiryPage.map(Inquiry::toDto); // 각 Inquiry 객체를 InquiryDto로 변환
     }
 
+    @Transactional
     public void addInquiry(Inquiry inquiry) {
         inquiryRepository.save(inquiry);
 

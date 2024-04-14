@@ -4,6 +4,7 @@ import com.team_damda.domain.entity.Class;
 import com.team_damda.domain.dto.CartDto;
 import com.team_damda.domain.entity.Cart;
 import com.team_damda.domain.repository.CartRepository;
+import com.team_damda.domain.repository.ClassTimeRepository;
 import com.team_damda.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,12 +17,16 @@ import java.util.Objects;
 public class CartService {
     private final CartRepository cartRepository;
     private final MemberRepository memberRepository;
+    private final ClassTimeRepository classTimeRepository;
 
     // 카트 저장
     public Cart save(Cart cart) {
         return cartRepository.save(cart);
     }
-
+//    public Cart saveForReservation(Cart cart, Long id){
+//        cart.setClassTime(classTimeRepository.findById(id));
+//        return cartRepository.save(cart);
+//    }
 
 //    public Cart saveForMember(Long memberId, CartDto cartDto) {
 //        return cartRepository.saveForMember(memberId, cartDto);

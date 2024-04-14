@@ -21,7 +21,7 @@ public class ClassReservation {
 
     @CreatedDate
     @Column(name="reservation_date_time", nullable = false, updatable = false, columnDefinition = "TIMESTAMP")
-    private LocalDateTime reservationDateTime;
+    private Date reservationDateTime;
 
     @Column(name="class_type")
     private String classType;
@@ -35,8 +35,9 @@ public class ClassReservation {
     @Column(name="select_date")
     private Date select_date;
 
+
     @Column(name="select_time")
-    private LocalDateTime select_time;
+    private Long select_time;
 
     @ManyToOne
     @JoinColumn(name="class_id")

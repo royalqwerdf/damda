@@ -17,7 +17,10 @@ public class InquiryDto {
     private String reply;
     private String comment_yn;
     private String type;
-    private Date createdAt;
+    private String createdAt;
+
+    private String memberRole;
+    private String emailId;
 
     private long memberId;
 

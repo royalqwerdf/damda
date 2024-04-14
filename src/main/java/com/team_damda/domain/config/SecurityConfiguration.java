@@ -49,13 +49,16 @@ public class SecurityConfiguration {
                 .formLogin(f->f.disable()) // FormLogin 사용 X
                 .httpBasic(h -> h.disable()) //HTTP 기본 인증을 비활성화
                 .csrf(AbstractHttpConfigurer::disable)//CSRF 보호 기능 비활성화
+//                .sessionManagement((sessionManagement) ->
+//                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                ) //세션관리 정책을 STATELESS(세션이 있으면 쓰지도 않고, 없으면 만들지도 않는다)
                 .sessionManagement((sessionManagement) ->
-                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                ) //세션관리 정책을 STATELESS(세션이 있으면 쓰지도 않고, 없으면 만들지도 않는다)
+                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                )
 
                 .authorizeHttpRequests((authorizeRequests) ->
                         authorizeRequests
-                                .requestMatchers("/", "/login","/home","/category","/search","/class-open").permitAll()
+                                .requestMatchers("/", "/login","/home","/category","/search","/class-open", "/Oauth2Signup" ,"/memberSaved").permitAll()
                                 .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
                 .requestMatchers("/my-page/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
                                 .anyRequest().permitAll()

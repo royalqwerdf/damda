@@ -15,7 +15,7 @@ const Form = ({title}) => {
 
     const onSubmit = async ({userEmail, password, name, phone}) => {
         try {
-            const response = await token.post('/signup', {
+            const response = await token.post('/api/signup', {
                 userEmail,
                 password,
                 name,

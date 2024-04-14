@@ -9,6 +9,5 @@ import lombok.Setter;
 @Setter
 public class MemberPhoneUpdateRequest {
     private String phone;
-    private LoginType loginType; // 추가된 필드
-    private String snsId; // 추가된 필드
+    private String userEmail;
 }

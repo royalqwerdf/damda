@@ -17,11 +17,23 @@ const Form = ({title}) => {
 
     const onSubmit = async ({ userEmail, password }) => {
         try {
-            const respon = await token.post('/login',{userEmail, password});
-            console.log("서버 응답: ", respon.data)
-            navigate('/'); // 성공적인 폼 제출 후 리다이렉션할 페이지 경로
+            const response = await token.post('/login', { userEmail, password });
+            console.log("응답 헤더: ", response.headers);
+
+            const accessToken = response.headers['authorization'];
+            const refreshToken = response.headers['authorization-refresh'];
+
+            if (accessToken && refreshToken) {
+                localStorage.setItem('accessToken', accessToken);
+                localStorage.setItem('refreshToken', refreshToken);
+                token.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+                console.log('로그인 성공:', accessToken);
+                navigate('/'); // 성공적인 로그인 후 리다이렉션
+            } else {
+                console.error('로그인 실패: 액세스 토큰을 받지 못했습니다.');
+            }
         } catch (error) {
-            console.error('로그인 실패:', error.response || error.message);
+            console.error('로그인 실패:', error.response ? error.response.data : error.message);
         }
     };
 

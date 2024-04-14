@@ -84,7 +84,7 @@ const ClassOpen = () => {
         // 백엔드에서 카테고리 이름 목록을 가져옴
         const fetchCategories = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/class-open');
+                const response = await axios.get('/class-open');
                 const data = response.data;
                 setCategoryList(data);
                 console.log('Fetched categories:', data);
@@ -284,6 +284,7 @@ const ClassOpen = () => {
         } catch (error) {
             console.error('클래스 생성 오류:', error);
         }
+
     };
 
 
