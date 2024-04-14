@@ -15,3 +15,8 @@ div.my-payment p{
 .user-payment-menu{
     margin-top: -20px;
 }
+
+div.user-payment-none{
+    text-align: center;
+    margin-top: 200px;
+}

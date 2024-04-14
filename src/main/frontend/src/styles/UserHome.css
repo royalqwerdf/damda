@@ -18,19 +18,25 @@ div.welcome-user-home {
     margin-top: -20px;
 }
  /*모든 진행중인 해당하는 요소*/
-div.now{
+div.user-home-now{
+    margin-left: 430px;
+}
+
+
+/*모든 진행중인 해당하는 요소*/
+div.userhome-none{
     margin-left: 430px;
 }
 
 /*'진행중인 예약' 글씨*/
-h3.reservation-now {
+h3.userhome-reservation-nowh3 {
     margin-top: 70px;
     margin-bottom: -30px;
     font-size: 20px;
 }
 
 /*'진행중인 예약' 박스*/
-div.reservation-now {
+div.userhome-reservation-now {
 
         width: 800px;
         height: 140px;
@@ -41,18 +47,18 @@ div.reservation-now {
 }
 
 /*원형div, 이미지 담기는 곳*/
-div.now-circle {
+div.userhome-now-circle {
     /*display: flex;*/
     width: 100px;
     height: 100px;
     background-color: #FFF5D9;
     border-radius: 50%; /* 원을 만들기 위해 반지름을 50%로 설정 */
     margin-top: 20px;
-    margin-left: 60px;
+    margin-left: 40px;
 }
 
 /*진행중인 클래스 글씨*/
-h3.class-now{
+h3.userhome-class-nowh3{
     margin-top: 70px;
     margin-bottom: -30px;
     font-size: 20px;
@@ -60,7 +66,7 @@ h3.class-now{
 }
 
 /*진행중인 클래스 박스*/
-div.class-now {
+div.userhome-class-now {
     width: 800px;
     height: 140px;
     background-color: #FFFFFF;
@@ -86,3 +92,28 @@ div.title-user-home p {
     font-weight: bold;
 }
 
+
+/*'진행중인 예약' 없을때 박스*/
+div.userhome-reservation-none {
+
+    width: 800px;
+    height: 140px;
+    background-color: #FFFFFF;
+    border: 2px solid #D9D9D9;
+    margin-top: 50px;
+    border-radius: 10px;
+    text-align: center;
+    align-content: center;
+}
+
+/*'진행중인 클래스' 없을때 박스*/
+div.userhome-class-none {
+    width: 800px;
+    height: 140px;
+    background-color: #FFFFFF;
+    border: 2px solid #D9D9D9;
+    margin-top: 50px;
+    border-radius: 10px;
+    text-align: center;
+    align-content: center;
+}

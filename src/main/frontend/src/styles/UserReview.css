@@ -15,3 +15,43 @@ div.my-review p{
 .user-review-menu {
     margin-top: -20px;
 }
+
+
+
+
+/*리뷰 전체*/
+div.user-review-list{
+    display: flex; /*스크롤 문제있으면 여기 수정해보기*/
+    width: 100%;
+    margin-top: -400px;
+    margin-bottom: 20px;
+
+}
+
+/*상자*/
+div.user-review-box {
+    position: relative;
+    overflow: visible; /*스크롤바 없이 위로 올림*/
+    background-color: #FFFFFF;
+    border: 1px solid #FFFFFF;
+    padding: 20px;
+    left: 150px;
+    margin-top: 530px;
+
+}
+
+/*상자 안 글자*/
+div.title-reviewlist {
+    margin-top: -100px;
+    margin-left: 250px;
+    font-size: 15px;
+    font-weight: bolder;
+    align-content: center;
+
+}
+
+/*상자 안 글자 a태그 간격*/
+div.title-reviewlist a{
+    width: 100%;
+    margin-right:100px;
+}

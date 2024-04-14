@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../styles/UserReservation.css';
 import UserLeftMenu from "../../components/UserLeftMenu";
-import jwt_decode from 'jwt-decode'; // jwt_decode로 수정
+//import jwt_decode from 'jwt-decode'; // jwt_decode로 수정
 import axios from "axios";
 import UserHome from "./UserHome";
 import UserButton from "../../components/UserButton";
@@ -11,7 +11,6 @@ const baseUrl = "http://localhost:8080/User-Reservation";
 
 function UserReservation() {
     const reservationDeleteClick = () => {
-        // 여기에 탈퇴하기 버튼이 클릭되었을 때 수행할 동작을 구현합니다.
         console.log('예약취소가 완료되었습니다.');
     };
     {/*임시 기능, 빈동작. 추후에 수정*/}
@@ -32,7 +31,8 @@ function UserReservation() {
             </div>
 
             {/*예약 생길시마다 새로 추가되는 로직 필요*/}
-            <h3 className="now-reservation">진행중인 예약</h3>
+
+            <h3 className="now-reservationh3">진행중인 예약</h3>
             <div className="my-now-reservation">
                 <div className="now-reservation">
                     <div className="reservation-circle"></div>

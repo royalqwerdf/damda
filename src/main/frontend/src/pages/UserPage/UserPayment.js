@@ -17,6 +17,13 @@ function UserPayment() {
                     <p className="user-payment-menu">결제 내역</p>
                 </div>
 
+                <div className="user-payment-list">
+
+                </div>
+
+
+                <div className="user-payment-none">결제내역이 없습니다.</div>
+
 
             </div>
 

@@ -13,7 +13,7 @@ import SearchPage from "./pages/SearchPage";
 import ClassReservation from "./pages/ClassReservation";
 import CategoryClassList from "./pages/CategoryClassList";
 
-import UserHome from "./pages/UserHome";
+import UserHome from "./pages/UserPage/UserHome";
 import AdminHome from "./pages/AdminHome";
 import Inquiry from "./pages/Inquiry";
 import NoticeAndEventPage from "./pages/NoticeAndEventPage";
