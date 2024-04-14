@@ -23,6 +23,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
+
 public class ClassOpenController {
 
     private final ClassService classOpenService;

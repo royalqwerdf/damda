@@ -1,0 +1,91 @@
+/*가장 바깥을 감싸는 컨테이너*/
+div.user-class-container{
+    margin-bottom: 500px;
+}
+
+/*나의클래스 클래스관리 전체*/
+div.my-class{
+    margin-top: -500px;
+}
+
+/*글씨 전체*/
+div.my-class p{
+    margin-left: 410px;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+/*클래스관리 글씨 위 간격*/
+.user-class-menu {
+    margin-top: -20px;
+}
+
+
+/*진행 중인 클래스 글씨*/
+h3.now-class{
+    margin-left: 410px;
+    margin-top: 50px;
+    font-size: 20px;
+}
+
+/*클래스 삭제 안내문-관리자에게 문의하세요*/
+h4.class-delete-notice{
+    margin-left: 410px;
+    margin-top: -15px;
+    font-size: 15px;
+}
+
+/*클래스 현황 전체*/
+div.my-now-class{
+    display: flex; /*스크롤 문제있으면 여기 수정해보기*/
+    width: 100%;
+    margin-top: -530px;
+    margin-bottom: 20px;
+
+}
+
+/*클래스 현황 상자*/
+div.now-class {
+    position: relative;
+    overflow: visible; /*스크롤바 없이 위로 올림*/
+    background-color: #FFFFFF;
+    border: 1px solid #FFFFFF;
+    padding: 20px;
+    left: 310px;
+    margin-top: 530px;
+
+}
+
+
+/*이미지 들어갈 원형*/
+div.class-circle {
+    width: 100px;
+    height: 100px;
+    background-color: #FFF5D9;
+    border-radius: 50%; /* 원을 만들기 위해 반지름을 50%로 설정 */
+    margin-top: 10px;
+    margin-left: 100px;
+}
+
+/*상자 안 글자*/
+div.title-class {
+    margin-top: -100px;
+    margin-left: 250px;
+    font-size: 15px;
+    font-weight: bolder;
+    align-content: center;
+
+}
+
+/*상자 안 글자 a태그 간격*/
+div.title-class a{
+    width: 100%;
+    margin-right:50px;
+}
+
+/*버튼 모두*/
+div.class-button{
+    margin-left: 850px;
+    margin-top: -5px;
+}
+
