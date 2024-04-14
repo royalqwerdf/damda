@@ -9,16 +9,13 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import MemberSaved from "./pages/MemberSaved";
 import SearchPage from "./pages/SearchPage";
-
 import ClassReservation from "./pages/ClassReservation";
 import CategoryClassList from "./pages/CategoryClassList";
-
 import UserHome from "./pages/UserHome";
 import AdminHome from "./pages/AdminHome";
 import Inquiry from "./pages/Inquiry";
 import NoticeAndEventPage from "./pages/NoticeAndEventPage";
 import Oauth2Signup from "./pages/Oauth2Signup";
-import Oauth2Saved from "./pages/OauthSaved";
 import UserDelete from "./pages/UserPage/UserDelete";
 import UserInformation from "./pages/UserPage/UserInformation";
 import UserReview from "./pages/UserPage/UserReview";
@@ -26,6 +23,7 @@ import UserReservationUpdate from "./pages/UserPage/UserReservationUpdate";
 import UserReservation from "./pages/UserPage/UserReservation";
 import UserPayment from "./pages/UserPage/UserPayment";
 import UserClass from "./pages/UserPage/UserClass";
+import Oauth2Saved from "./pages/OauthSaved";
 
 function App(){
     return(
