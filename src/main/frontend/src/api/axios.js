@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Axios 인스턴스 생성
 export const token = axios.create({
-    baseURL: 'http://localhost:8080',
+    baseURL: 'http://localhost:3000',
     headers: {
         'Content-Type': 'application/json',
     },
@@ -27,7 +27,7 @@ token.interceptors.response.use(response => {
     if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
         const refreshToken = localStorage.getItem('refreshToken');
-        // 여기서 refreshToken을 사용하여 새 accessToken을 요청하는 로직 구현
+        // 리프레시 토큰을 사용하여 새 액세스 토큰을 요청하는 로직 구현
         return token.post('/refresh-token', { refreshToken })
             .then(res => {
                 if (res.status === 200) {
@@ -39,3 +39,4 @@ token.interceptors.response.use(response => {
     }
     return Promise.reject(error);
 });
+
