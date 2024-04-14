@@ -10,6 +10,7 @@
     align_items: center;
     width: 80%;
     padding: 100px;
+    position: relative;
 }
 
 .user-left-menu {

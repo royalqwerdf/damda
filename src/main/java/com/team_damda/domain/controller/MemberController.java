@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.Map;
 
 @Slf4j
@@ -33,9 +34,13 @@ public class MemberController {
      * @throws Exception
      */
     @PostMapping("/signup")
-    public String signUp(@RequestBody MemberSignupDto memberSignupDto) throws Exception {
-        memberService.signUp(memberSignupDto);
-        return "redirect:/memberSaved";
+    public ResponseEntity<?> signUp(@RequestBody MemberSignupDto memberSignupDto) throws Exception {
+        Member member = memberService.signUp(memberSignupDto);
+        if (member != null) {
+            return ResponseEntity.ok(Collections.singletonMap("name", member.getName()));
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원가입 실패");
+        }
     }
 
 
@@ -55,14 +60,14 @@ public class MemberController {
 
         log.info("핸드폰 번호 업데이트 요청: email={}, phone={}", userEmail, request.getPhone());
         try {
+            // 서버의 Oauth2Signup 메서드 수정 예시
             Member updatedMember = memberService.updateUserPhoneNumber(userEmail, request.getPhone());
-            return ResponseEntity.ok(Map.of("message", "핸드폰 번호가 업데이트 되었습니다: " + updatedMember.getUserEmail()));
+            return ResponseEntity.ok(Map.of("name", updatedMember.getName(), "message", "핸드폰 번호가 업데이트 되었습니다: " + updatedMember.getUserEmail()));
         } catch (Exception e) {
             log.error("사용자 업데이트 중 오류 발생: ", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "사용자 업데이트 오류"));
         }
     }
-
 
 
 }

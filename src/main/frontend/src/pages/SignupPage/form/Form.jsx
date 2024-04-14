@@ -22,7 +22,8 @@ const Form = ({title}) => {
                 phone
             });
             console.log('서버 응답:', response.data);
-            navigate('../memberSaved');
+            navigate('/memberSaved', { state: { name: response.data.name } });
+
         } catch (error) {
             console.error('요청 실패:', error.response || error.message);
         }
