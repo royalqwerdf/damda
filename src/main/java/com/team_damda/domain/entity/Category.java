@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Table(name="category")
-public class Category {
+public class Category extends BaseTimeEntity  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -31,6 +31,8 @@ public class Category {
         return CategoryDto.builder()
                 .id(this.id)
                 .categoryName(this.categoryName)
+                .createdAt(this.getCreatedAt())
+                .updatedAt(this.getUpdatedAt())
                 .build();
     }
 

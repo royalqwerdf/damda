@@ -5,6 +5,7 @@ import com.team_damda.domain.entity.Inquiry;
 import com.team_damda.domain.repository.InquiryRepository;
 import com.team_damda.domain.service.InquiryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,13 @@ public class InquiryController {
         result.put("totalElements", inquiryPage.getTotalElements());
 
         return result;
+    }
+
+    @PostMapping("/inquiry")
+    public void AddInquiry(@RequestBody Inquiry inquiry) {
+        //todo: 프론트 단에서 멤버 받아서 inquiry객체에 넣어줘야 함
+        inquiry.setComment_yn("n");
+        inquiryService.addInquiry(inquiry);
     }
 
 }

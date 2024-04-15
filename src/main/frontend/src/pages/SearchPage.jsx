@@ -35,7 +35,7 @@ function SearchPage(){
                             시간드롭다운
                         </div>
                     </div>
-                    <div>
+                    <div id="price-container">
                         <input id="inputMinPrice" type="number" placeholder="최소 가격"/>
                         {" ~ "}
                         <input id="inputMaxPrice" type="number" placeholder="최대 가격"/>
