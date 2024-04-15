@@ -1,12 +1,15 @@
 package com.team_damda.domain.entity;
 
 import com.team_damda.domain.dto.InquiryDto;
+import com.team_damda.domain.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+
+import java.text.SimpleDateFormat;
 
 @Entity
 @Table(name="inquiry")
@@ -39,7 +42,18 @@ public class Inquiry extends BaseTimeEntity {
     @JoinColumn(name="user_id")
     private Member member;
 
+    @Column(name="user_email")
+    private String userEmail;
+
+    @Column(name="user_role")
+    private String memberRole;
+
+
     public InquiryDto toDto() {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String formattedDate = dateFormat.format(this.getCreatedAt());
+
         return InquiryDto.builder()
                 .id(this.id)
                 .title(this.title)
@@ -47,10 +61,10 @@ public class Inquiry extends BaseTimeEntity {
                 .reply(this.reply)
                 .comment_yn(this.comment_yn)
                 .type(this.type)
-                .createdAt(this.getCreatedAt())
+                .createdAt(formattedDate)
+                .memberRole(this.memberRole)
+                .userEmail(this.userEmail)
                 .memberId(this.member.getId())
                 .build();
     }
-
-
 }

@@ -284,6 +284,7 @@ const ClassOpen = () => {
         } catch (error) {
             console.error('클래스 생성 오류:', error);
         }
+
     };
 
 
