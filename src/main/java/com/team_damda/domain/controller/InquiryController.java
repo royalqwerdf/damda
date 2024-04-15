@@ -5,10 +5,7 @@ import com.team_damda.domain.entity.Inquiry;
 import com.team_damda.domain.repository.InquiryRepository;
 import com.team_damda.domain.service.InquiryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +13,6 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
-@CrossOrigin(origins = "*")
 public class InquiryController {
 
     private final InquiryService inquiryService;
@@ -27,6 +23,13 @@ public class InquiryController {
         List<InquiryDto> inquiryList = inquiryService.getInquiryList();
         result.put("inquiryList", inquiryList);
         return result;
+    }
+
+    @PostMapping("/inquiry")
+    public void AddInquiry(@RequestBody Inquiry inquiry) {
+        //todo: 프론트 단에서 멤버 받아서 inquiry객체에 넣어줘야 함
+        inquiry.setComment_yn("n");
+        inquiryService.addInquiry(inquiry);
     }
 
 }

@@ -9,10 +9,7 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import MemberSaved from "./pages/MemberSaved";
 import SearchPage from "./pages/SearchPage";
-
 import ClassReservation from "./pages/ClassReservation";
-import CategoryClassList from "./pages/CategoryClassList";
-
 import UserHome from "./pages/UserPage/UserHome";
 import AdminHome from "./pages/AdminHome";
 import Inquiry from "./pages/Inquiry";
@@ -25,6 +22,9 @@ import UserReservationUpdate from "./pages/UserPage/UserReservationUpdate";
 import UserReservation from "./pages/UserPage/UserReservation";
 import UserPayment from "./pages/UserPage/UserPayment";
 import UserClass from "./pages/UserPage/UserClass";
+import Oauth2Saved from "./pages/OauthSaved";
+import AnnouncePage from "./pages/AnnouncePage";
+import EventPage from "./pages/EventPage";
 
 function App(){
     return(
@@ -45,6 +45,8 @@ function App(){
                     <Route path="/memberSaved" element={<MemberSaved />} />
                     <Route path="/admin-home" element={<AdminHome/>}></Route>
                     <Route path="/inquiry" element={<Inquiry/>}></Route>
+                    <Route path="/announce/:id" element={<AnnouncePage/>}></Route>
+                    <Route path="/event/:id" element={<EventPage/>}></Route>
 
 
                     <Route path="/User-Home" element={<UserHome/>}></Route>
@@ -58,6 +60,7 @@ function App(){
                     <Route path="/" element={<MainPage/>}></Route>
 
                     <Route path="/class-reservation/:id" element={<ClassReservation/>}></Route>
+                    <Route path="/Oauth2Saved" element={<Oauth2Saved/>}></Route>
                 </Routes>
                 <Footer />
             </BrowserRouter>

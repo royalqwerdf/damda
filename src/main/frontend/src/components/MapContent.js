@@ -1,7 +1,7 @@
 /*global kakao*/
 import React, { useEffect } from "react";
 import '../styles/reservation.css';
-//const{ kakao } = window;
+// const{ kakao } = window;
 
 function MapContent({address}){
 
@@ -45,8 +45,8 @@ function MapContent({address}){
 
         return(
             <div id ='map' style = {{
-                width: '380px',
-                height: '300px',
+                width: '550px',
+                height: '400px',
             }}></div>
         )
     }

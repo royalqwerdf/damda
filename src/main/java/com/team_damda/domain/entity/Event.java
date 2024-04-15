@@ -1,5 +1,6 @@
 package com.team_damda.domain.entity;
 
+import com.team_damda.domain.dto.EventDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,4 +33,14 @@ public class Event {
 
     @OneToMany(mappedBy = "event")
     private List<EventImage> eventImages = new ArrayList<>();
+
+    public EventDto toDto(){
+        String image = eventImages.get(0).getImageUrl();
+        return EventDto.builder()
+                .id(this.id)
+                .title(this.title)
+                .content(this.content)
+                .image(image)
+                .build();
+    }
 }

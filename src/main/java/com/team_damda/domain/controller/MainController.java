@@ -63,10 +63,4 @@ public class MainController {
                                       @RequestParam Long minPrice,@RequestParam Long maxPrice){
         return classService.getSearchClass(keyword,address,categoryId,week,minPrice,maxPrice);
     }
-
-    @PostMapping("/inquiry")
-    public void AddInquiry(@RequestBody Inquiry inquiry) {
-        //todo: 프론트 단에서 멤버 받아서 inquiry객체에 넣어줘야 함
-        inquiryService.addInquiry(inquiry);
-    }
 }

@@ -113,4 +113,104 @@
   }
 }
 
+.link_b{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: #F52334;
+  height: inherit;
+  border-radius: 0 0 0 25px;
+  a{
+    line-height: 2.8;
+    color: #fff;
+  }
+}
+
+
+.modal {
+  z-index: 9;
+  max-width: 500px;
+  width: 100%;
+  background-color: #fff;
+  margin: 0 auto;
+  display: flex;
+  border-radius: 10px;
+  position: absolute;
+  justify-content: center;
+  box-shadow: rgb(0 0 0 / 35%) 0 5px 15px;
+}
+
+.categoryTable {
+  width: 100%;
+  margin-top: 2rem;
+
+  thead {
+    position: relative;
+    :after {
+      content: "";
+      width: 100%;
+      bottom: 0px;
+      left: 0;
+      right: 0;
+      border-bottom: 0.5px solid rgb(192, 192, 192);
+      position: absolute;
+    }
+  }
+
+  th {
+    font-weight: 300;
+    color: #776F6F;
+    line-height: 1.6rem;
+    font-size: 0.8rem;
+  }
+
+
+  tbody {
+      tr {
+        line-height: 2.2;
+      }
+  }
+
+  td {
+    font-size: 0.8rem;
+    text-align: center;
+  }
+}
+
+.editOptions {
+  img {
+    width: 40%;
+  }
+}
+
+.editOptions:hover .editIcons {
+  display: flex;
+  flex-direction: column;
+  width: 70px;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.15) 0 5px 15px;
+
+}
+
+.editIcons {
+  display: none; /* 기본적으로 숨김 */
+  position: absolute;
+  right: 0;
+  cursor: pointer;
+  transform: translate(20px, 0px);
+}
+
+.edit, .delete {
+  line-height: 1.8;
+  color: #401E20; /* 삭제는 빨간색 */
+  background-color: #fff;
+  border: transparent;
+}
+.edit:hover {
+  color: #F52334;
+}
+.delete:hover {
+  color: #F52334;
+}
 
