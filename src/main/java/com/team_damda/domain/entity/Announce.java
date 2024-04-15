@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Table(name="announce")
-public class Announce {
+public class Announce extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,9 +26,6 @@ public class Announce {
 
     @Column(name="content")
     private String content;
-
-    @Column(name="upload_date")
-    private LocalDateTime uploadDate;
 
     @ManyToOne
     @JoinColumn(name="user_id")
