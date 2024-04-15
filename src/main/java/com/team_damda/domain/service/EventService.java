@@ -14,6 +14,7 @@ import java.util.List;
 public class EventService {
 
     private final EventRepository eventRepository;
+
     public List<EventDto> getEvent() {
         List<Event> event = eventRepository.findAll();
         List<EventDto> eventDto = new ArrayList<>();
@@ -22,5 +23,16 @@ public class EventService {
             eventDto.add(eDto);
         }
         return eventDto;
+    }
+
+    public EventDto getEventById(Long id) {
+        Event event = eventRepository.findById(id).orElse(null);
+        if(event != null)
+        {
+            return event.toDto();
+        }
+        else {
+            return null;
+        }
     }
 }

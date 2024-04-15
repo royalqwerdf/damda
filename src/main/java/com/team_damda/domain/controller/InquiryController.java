@@ -13,7 +13,6 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
-@CrossOrigin(origins = "*")
 public class InquiryController {
 
     private final InquiryService inquiryService;
