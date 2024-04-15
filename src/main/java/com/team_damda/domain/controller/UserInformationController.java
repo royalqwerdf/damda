@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/UserHome")
+@RequestMapping("/userinformation")
 public class UserInformationController {
 
     @Autowired
     private UserInformationService userInformationService;
 
-    @GetMapping("/profile")
+    @GetMapping("/get-userinformation")
     public ResponseEntity<UserInformationDTO> getUserInformation(@RequestParam("userId") Long userId) {
         UserInformationDTO userProfile = userInformationService.getUserInformation(userId);
         return ResponseEntity.ok(userProfile);
@@ -24,6 +24,18 @@ public class UserInformationController {
     else {
         return ResponseEntity.notFound().build();
     } */
+    // 사용자 정보 수정
+    @PostMapping("/modify-userinformation")
+    public ResponseEntity<UserInformationDTO> updateUserInformation(@RequestParam("userId") Long userId, @RequestBody UserInformationDTO updatedUserInformation) {
+        // 클라이언트에서 받은 수정된 사용자 정보를 기반으로 업데이트합니다.
+        UserInformationDTO updatedUserProfile = userInformationService.updateUserInformation(userId, updatedUserInformation);
+
+        // 업데이트된 정보를 클라이언트에 응답으로 반환합니다.
+        return ResponseEntity.ok(updatedUserProfile);
+    }
+
+
+
     @DeleteMapping("/{memberId}")
     public ResponseEntity<?> deleteUserInformation(@PathVariable("memberId") Long memberId) {
         try {
