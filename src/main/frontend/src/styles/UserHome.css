@@ -92,6 +92,17 @@ div.title-user-home p {
     font-weight: bold;
 }
 
+/*예약데이터 값*/
+div.data-user-home {
+    margin-top: 20px;
+    margin-left: 170px;
+}
+
+/*클래스 운영 데이터*/
+div.data-user-home-class{
+    margin-top: 20px;
+    margin-left: 170px;
+}
 
 /*'진행중인 예약' 없을때 박스*/
 div.userhome-reservation-none {

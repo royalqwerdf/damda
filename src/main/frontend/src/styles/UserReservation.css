@@ -81,3 +81,22 @@ div.reservation-button{
     margin-left: 820px;
     margin-top: -15px;
 }
+
+/*예약이 하나도 없을 때*/
+div.user-reservation-list-none{
+
+        margin-top: 70px;
+        margin-left: 750px;
+
+}
+
+/*데이터 값 글자*/
+div.data-reservation {
+    div.title-reservation {
+        margin-top: 30px;
+        margin-left: 250px;
+        font-size: 15px;
+        font-weight: bolder;
+        align-content: center;
+    }
+}

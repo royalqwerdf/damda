@@ -10,6 +10,7 @@ const baseUrl = "http://localhost:8080/User-Home";
 function UserHome() {
 
     const navigate = useNavigate();
+
     /* 토큰이 유효하지 않다는 오류가 뜸, 나중에 "님"글자 앞에 {memberName} 삽입
     const [memberName, setMemberName] = useState('');
 
@@ -83,8 +84,8 @@ function UserHome() {
                         <p className="user-name-on">님</p>
                         <p className="user-hello">반갑습니다.</p>
                     </div>
-                    {/*예약목록이 있으면 예약현황 템플릿 반환*/}
-                    {userReservationList.length > 0 ? (
+                    {/*예약목록이 있으면 예약현황 템플릿 반환, 작업편의를 위해 ===로 변경해두었으나, 실제 로직 완료되면 >로 변경*/}
+                    {userReservationList.length === 0 ? (
                         <div className="user-home-now">
                             <h3 className="userhome-reservation-nowh3">진행중인 예약</h3>
                             <div className="userhome-reservation-now">
@@ -109,13 +110,18 @@ function UserHome() {
                                     <p>예약 날짜</p>
                                     <p>결제 금액</p>
                                 </div>
+                                <div className="data-user-home-class">
+                                    <p>{userReservationList.className}</p>
+                                    <p>{userReservationList.reservationDate}</p>
+                                    <p>{userReservationList.totalPrice}</p>
+                                </div>
                             </div>
                         </div>) : ( /*예약이 없으면 없을때 템플릿 반환*/
                         <div className="userhome-none">
 
                             <h3 className="userhome-reservation-nowh3">진행중인 예약</h3>
                             <div onClick={() => navigate('/')} className="userhome-reservation-none">
-                                <div>
+                            <div>
                                 <div>예약한 클래스가 없습니다.</div>
                                 <div>담다의 다양한 클래스들을 만나보세요!</div>
                                 </div>
