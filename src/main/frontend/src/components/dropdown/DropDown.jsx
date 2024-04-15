@@ -12,7 +12,6 @@ function Dropdown(props) {
         }}>
             {Text}
             {View ? setList(props.list) : null}
-
         </ul>
     );
 
@@ -24,7 +23,7 @@ function Dropdown(props) {
                 <li key = {list.id} onClick={() => onClick(list)}>{list.categoryName}</li>
             )
         }
-        else if(props.text==="지역"||props.text==="문의분류"){
+        else if(props.text==="지역"||props.text==="문의분류선택"){
             li = list?.map(list =>
                 <li onClick={() => onClick(list)}>{list}</li>
             )
@@ -36,9 +35,8 @@ function Dropdown(props) {
         if(props.text==="카테고리") {
             setText(list.categoryName);
             document.getElementById("dropdownUl").value = list.id;
-            console.log(document.getElementsByClassName("dropdownUl").value);
         }
-        else if(props.text==="지역"||props.text==="문의분류"){
+        else if(props.text==="지역"||props.text==="문의분류선택"){
             setText(list);
         }
     }

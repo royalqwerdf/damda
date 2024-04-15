@@ -9,10 +9,7 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import MemberSaved from "./pages/MemberSaved";
 import SearchPage from "./pages/SearchPage";
-
 import ClassReservation from "./pages/ClassReservation";
-import CategoryClassList from "./pages/CategoryClassList";
-
 import UserHome from "./pages/UserHome";
 import AdminHome from "./pages/AdminHome";
 import Inquiry from "./pages/Inquiry";

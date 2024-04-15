@@ -1,7 +1,7 @@
 /*global kakao*/
 import React, { useEffect } from "react";
 import '../styles/reservation.css';
-//const{ kakao } = window;
+// const{ kakao } = window;
 
 function MapContent({address}){
 
