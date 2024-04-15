@@ -1,0 +1,17 @@
+div.user-payment-container{
+    margin-bottom: 500px;
+}
+
+div.my-payment{
+    margin-top: -500px;
+}
+
+div.my-payment p{
+    margin-left: 410px;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.user-payment-menu{
+    margin-top: -20px;
+}

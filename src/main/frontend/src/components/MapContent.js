@@ -45,8 +45,8 @@ function MapContent({address}){
 
         return(
             <div id ='map' style = {{
-                width: '380px',
-                height: '300px',
+                width: '550px',
+                height: '400px',
             }}></div>
         )
     }
