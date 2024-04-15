@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class AdminMemberService {
@@ -34,5 +36,13 @@ public class AdminMemberService {
             isUpdated = true;
         }
         return isUpdated;
+    }
+
+    public List<Member> findMembersByUserEmail(String userEmail) {
+        return adminMemberRepository.findMembersByUserEmail(userEmail);
+    }
+
+    public List<Member> findMembersByName(String name) {
+        return adminMemberRepository.findMembersByName(name);
     }
 }

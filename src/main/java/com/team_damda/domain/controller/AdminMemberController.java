@@ -44,4 +44,17 @@ public class AdminMemberController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/admin/members/search")
+    public ResponseEntity<List<Member>> searchMembers(@RequestParam(required = false) String userEmail,
+                                                      @RequestParam(required = false) String name) {
+        List<Member> searchedMembers;
+        if(userEmail != null) {
+            searchedMembers = adminMemberService.findMembersByUserEmail(userEmail);
+            return ResponseEntity.ok(searchedMembers);
+        } else if (name != null) {
+            searchedMembers = adminMemberService.findMembersByName(name);
+            return ResponseEntity.ok(searchedMembers);
+        } else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    }
 }
