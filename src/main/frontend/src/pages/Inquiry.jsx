@@ -14,15 +14,16 @@ function Inquiry(){
             </div>
             <div id="inquiry-form">
                 <hr/>
-                <Dropdown list={arr} text="문의분류"/>
-                <div id="inquiry-grid">
-                    <span>제목</span>
-                    <input type="text" id="inquiry-title"/>
-                    <span>문의 내용</span>
-                    <textarea id="inquiry-content"/>
+                <div id="inquiry-dropdown">
+                    <Dropdown list={arr} text="문의분류선택"/>
                 </div>
-                <div>
-                    <button onClick={()=>postInquiry()}>문의하기</button>
+                <hr/>
+                <div id="inquiry-grid">
+                    <input type="text" id="inquiry-title" placeholder="제목을 입력해 주세요"/>
+                    <textarea id="inquiry-content" placeholder="내용을 입력해 주세요"/>
+                </div>
+                <div id="inquiry-btn-div">
+                    <button id="inquiry-btn" onClick={()=>postInquiry()}>문의하기</button>
                 </div>
             </div>
 
