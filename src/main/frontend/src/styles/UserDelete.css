@@ -27,7 +27,7 @@ div.damda-delete-img{
     display: flex;
     justify-content: center; /* 수평 가운데 정렬 */
     align-items: center;
-    margin-top: 70px;
+    margin-top: 130px;
     font-size: 20px;
     font-weight: bolder;
 }

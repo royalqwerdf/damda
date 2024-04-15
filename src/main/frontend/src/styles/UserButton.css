@@ -31,6 +31,21 @@
 
 }
 
+/*예약변경화면 예약변경(실제업데이트)*/
+.reservation-modify-update {
+    background-color: #F52334;
+    border: 1px solid #F52334;
+    color: #FFFFFF;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    width: 120px;
+    height: 40px;
+    margin-bottom: 5px;
+
+}
+
+
 
 
 /*클래스 수정*/
@@ -52,6 +67,7 @@
     color: #FFFFFF;
     font-size: 15px;
     font-weight: bold;
+    width: 120px;
 
 }
 
