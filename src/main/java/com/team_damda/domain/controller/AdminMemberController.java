@@ -45,6 +45,7 @@ public class AdminMemberController {
         }
     }
 
+    // 이메일 or 이름으로 회원 검색
     @GetMapping("/admin/members/search")
     public ResponseEntity<List<Member>> searchMembers(@RequestParam(required = false) String userEmail,
                                                       @RequestParam(required = false) String name) {

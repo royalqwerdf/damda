@@ -38,10 +38,6 @@ function App(){
                     <Route path="/signup" element={<SignupPage />} />
                     <Route path="/Oauth2Signup" element={<Oauth2Signup />} />
                     <Route path="/memberSaved" element={<MemberSaved />} />
-                    <Route path="/user-home" element={<UserHome/>}></Route>
-                    <Route path="/admin-home" element={<AdminHome/>}></Route>
-                    <Route path="/inquiry" element={<Inquiry/>}></Route>
-                    <Route path="/news" element={<NoticeAndEventPage/>}></Route>
                     <Route path="/class-reservation/:id" element={<ClassReservation/>}></Route>
                 </Routes>
                 <Footer />
