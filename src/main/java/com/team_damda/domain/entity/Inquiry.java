@@ -42,38 +42,28 @@ public class Inquiry extends BaseTimeEntity {
     @JoinColumn(name="user_id")
     private Member member;
 
+    @Column(name="user_email")
+    private String userEmail;
+
+    @Column(name="user_role")
+    private String memberRole;
+
+
     public InquiryDto toDto() {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String formattedDate = dateFormat.format(this.getCreatedAt());
-
-        String memberRole;
-        Role role = this.member.getRole();
-        if (role == Role.MANAGER) {
-            memberRole = "운영자";
-        } else if (role == Role.USER) {
-            memberRole = "일반";
-        } else {
-            memberRole = "Unknown";
-        }
-
-        String comment;
-        if(this.comment_yn.equals("y")) {
-            comment = "완료";
-        } else {
-            comment = " ";
-        }
 
         return InquiryDto.builder()
                 .id(this.id)
                 .title(this.title)
                 .content(this.content)
                 .reply(this.reply)
-                .comment_yn(comment)
+                .comment_yn(this.comment_yn)
                 .type(this.type)
                 .createdAt(formattedDate)
-                .memberRole(memberRole)
-                .emailId(this.member.getUserEmail())
+                .memberRole(this.memberRole)
+                .userEmail(this.userEmail)
                 .memberId(this.member.getId())
                 .build();
     }

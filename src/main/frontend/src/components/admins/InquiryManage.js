@@ -1,7 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import axios from 'axios';
 import {Link, Switch, Route, BrowserRouter} from 'react-router-dom';
 import Pagination from '../Pagination';
+import DatePicker from "react-datepicker";
+import useDetectClose from '../../hooks/useDetectClose';
+import InquiryDropDown from '../dropdown/InquiryDropDown';
+import UserIdDropDown from '../dropdown/UserIdDropDown';
+
+import "react-datepicker/dist/react-datepicker.css";
 
 function InquiryManage() {
 
@@ -22,6 +28,92 @@ function InquiryManage() {
             .catch(error => console.log("에러! :" + error))
     }, [currentPage]);
 
+    //회원 설정 드롭다운 박스 설정
+    const inquiryRef = useRef();
+    const [inquiryIdentify, setInquiryIdentify] = useState('');
+    const classifyList = ["클래스", "수강", "예약", "결제/환불", "이벤트", "기타"];
+    const [isOpenInquiry, setIsOpenInquiry] = useDetectClose(inquiryRef, false);
+
+    const userIdRef = useRef();
+    const [userIdIdentify, setUserIdIdentify] = useState('');
+    const userIdList = ["아이디", "제목"];
+    const [isOpenUserId, setIsOpenUserId] = useDetectClose(userIdRef, false);
+
+    const[classify, setClassify] = useState('');
+    const[userId, setUserId] = useState('');
+
+    const handleSelectChange = (name, value) => {
+        switch(name) {
+            case 'classify':
+                setClassify(value);
+                break;
+            case 'userId':
+                setUserId(value);
+                break;
+            default:
+                console.error('Invalid name:', name);
+        }
+        console.log(name + "의 선택값 :" + value);
+    };
+
+    //라디오박스 설정
+    const [selectedUser, setSelectedUser] = useState("전체");
+    const users = ["전체", "일반", "호스트"];
+
+    const handleRadioBoxChange = (user) => {
+        setSelectedUser(user);
+        console.log("라디오박스 선택 : " + user);
+    };
+
+    //검색 입력값
+    const [searchContent, setSearchContent] = useState('');
+    useEffect(() => {
+        console.log("검색 입력 : " + searchContent);
+    }, [searchContent]);
+
+    //날짜 기간 설정
+    const [startDay, setStartDay] = useState(new Date());
+    const [endDay, setEndDay] = useState(new Date());
+
+    useEffect(() => {
+        console.log("기간 시작 날짜 : " + startDay)
+    }, [startDay]);
+
+    useEffect(() => {
+        console.log("기간 종료 날짜 : " + endDay)
+    }, [endDay]);
+
+
+    //문의 검색조건 설정 후 해당하는 데이터만 불러오기
+    const handleInquirySubmit = async () => {
+        console.log("분류 : " + classify);
+        console.log("검색값 : " + userId);
+        console.log("작성자 분류 : " + selectedUser);
+        console.log("검색내용 : " + searchContent);
+        console.log("시작일 : " + startDay);
+        console.log("종료일 : " + endDay);
+
+        try {
+            const data = {
+                classify: classify,
+                userId: userId,
+                selectedUser: selectedUser,
+                searchContent: searchContent,
+                startDay: startDay,
+                endDay: endDay
+            };
+
+            await axios.post('/admin-home', data, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            console.log("문의 검색 설정 조건 요청완료");
+        } catch (error) {
+            console.error("요청 오류 :" + error);
+        }
+    };
+
     return (
         <div className="container" style={{padding: '0px'}}>
             <div className="admin-menu-area" style={{width: '100%'}}>
@@ -32,6 +124,103 @@ function InquiryManage() {
                 </div>
 
                 <div className="content-area" style={{marginTop: '10px', padding: '10px', width: '100%'}}>
+                    <div className="inquiry-search-area" style={{marginTop: '10px', width: '100%', borderBottom: '2px solid #c0c0c0'}}>
+
+
+                        <div className="inquiry-category-area" style={{padding: '5px', display: 'flex'}}>
+                            <div className="inquiry-category" style={{textAlign: 'center', lineHeight: '30px', height: '30px', fontSize: '15px', fontWeight: 'bold', color: '#424242'}}>분류</div>
+                            <div ref={inquiryRef} style={{ position: 'relative'}} className="dropdown-inquiry-category">
+                                <input
+                                    onClick={() => setIsOpenInquiry(!isOpenInquiry)}
+                                    type='button'
+                                    value={inquiryIdentify || '분류 ▼'}
+                                    onChange={handleSelectChange}
+                                    style={{cursor: 'pointer', marginLeft: '20px', width: '100px', height: '30px', backgroundColor: '#FFFFFF', border: '1px solid #dcdcdc', borderRadius: '10px'}}
+                                />
+
+                                {isOpenInquiry &&
+                                    <ul style={{ zIndex: 1, cursor: 'pointer', position: 'absolute', top: '100%', left: 0, listStyleType: 'none', padding: '10px', width: '90%', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)' }}>
+                                        {classifyList.map((value, index) => (
+                                            <InquiryDropDown
+                                                key={index}
+                                                value={value}
+                                                setInquiryIdentify={setInquiryIdentify}
+                                                setIsOpen={setIsOpenInquiry}
+                                                isOpen={isOpenInquiry}
+                                                handleSelectChange={handleSelectChange}
+                                            />
+                                        ))}
+                                    </ul>
+                                }
+                            </div>
+                        </div>
+
+
+                        <div className="member-classify-area" style={{padding: '5px', display: 'flex'}}>
+                            <div className="classify-setting" style={{ display: 'flex'}} >
+                                <div className="member-classify" style={{textAlign: 'center', lineHeight: '30px', height: '30px', fontSize: '15px', fontWeight: 'bold', color: '#424242'}}>회원 구분</div>
+                                <div style={{ textAlign: 'center', lineHeight: '30px', marginLeft: '10px', display: 'flex', flexDirection: 'row' }}>
+                                    {users.map((user, index) => (
+                                        <div key={index}>
+                                            <input
+                                                type="radio"
+                                                name="selectedUser"
+                                                id={user}
+                                                value={user}
+                                                checked={selectedUser.includes(user)}
+                                                onChange={() => handleRadioBoxChange(user)}
+                                            />
+                                            <label htmlFor={user}>{user}</label>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="text-searching" style={{marginLeft: '20px', display: 'flex'}}>
+                                <div style={{textAlign: 'center', lineHeight: '30px', height: '30px', fontSize: '15px', fontWeight: 'bold', color: '#424242'}}>검색어</div>
+                                <div ref={userIdRef} style={{ position: 'relative'}}>
+                                    <input
+                                        onClick={() => setIsOpenUserId(!isOpenUserId)}
+                                        type='button'
+                                        value={userIdIdentify || '검색값 ▼'}
+                                        onChange={handleSelectChange}
+                                        style={{cursor: 'pointer', marginLeft: '10px', width: '100px', height: '30px', backgroundColor: '#FFFFFF', border: '1px solid #dcdcdc', borderRadius: '10px'}}
+                                    />
+
+                                    {isOpenUserId &&
+                                        <ul style={{ zIndex: 1, cursor: 'pointer', position: 'absolute', top: '100%', left: 0, listStyleType: 'none', padding: '10px', width: '90%', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)' }}>
+                                            {userIdList.map((value, index) => (
+                                                <UserIdDropDown
+                                                    key={index}
+                                                    value={value}
+                                                    setUserIdIdentify={setUserIdIdentify}
+                                                    setIsOpen={setIsOpenUserId}
+                                                    isOpen={isOpenUserId}
+                                                    handleSelectChange={handleSelectChange}/>
+                                            ))}
+                                        </ul>
+                                    }
+                                </div>
+                                <div>
+                                    <input
+                                        type='text'
+                                        value={searchContent}
+                                        onChange={e => setSearchContent(e.target.value)}
+                                        style={{marginLeft: '10px', width: '200px', height: '30px', backgroundColor: '#FFFFFF', border: '2px solid #dcdcdc', borderRadius: '10px'}}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div className="inquiry-date-area" style={{padding: '5px', display: 'flex', marginBottom: '40px'}}>
+                            <div className="inquiry-date" style={{ marginRight: '20px', textAlign: 'center', lineHeight: '30px', height: '30px', fontSize: '15px', fontWeight: 'bold', color: '#424242'}}>문의 일시</div>
+                            <DatePicker selected={startDay} onChange={date => setStartDay(date)} selectsStart startDate={startDay} endDate={endDay} />
+                            <div> ~ </div>
+                            <DatePicker selected={endDay} onChange={date => setEndDay(date)} selectsEnd startDate={startDay} endDate={endDay} minDate={startDay} />
+                            <button style={{marginLeft: '10px', width: '60px', color: '#FFFFFF', height: '30px', backgroundColor: '#cd5c5c', border: '2px solid #e9967a', borderRadius: '10px'}} onClick={handleInquirySubmit}>검색</button>
+                        </div>
+                    </div>
+
                     <table className="inquiry-area" style={{width: '100%', borderBottom: '1px solid #000000'}}>
                         <thead style={{padding: '10px', width: '100%'}}>
                         <tr className="column-title-area" >
@@ -53,7 +242,7 @@ function InquiryManage() {
                                     <td style={{flex: '1', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{inquiry.type}</td>
                                     <td style={{flex: '2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{inquiry.memberRole}</td>
                                     <td style={{flex: '2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{inquiry.title}</td>
-                                    <td style={{flex: '2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{inquiry.emailId}</td>
+                                    <td style={{flex: '2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{inquiry.userEmail}</td>
                                     <td style={{flex: '2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{inquiry.createdAt}</td>
                                     <td style={{flex: '1', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{inquiry.comment_yn}</td>
                                 </tr>
