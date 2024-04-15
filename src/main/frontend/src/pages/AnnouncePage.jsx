@@ -12,11 +12,10 @@ function AnnouncePage(){
         axios.get(`/announce/${id}`)
             .then(response =>
             {
-                console.log(response.data);
                 setData(response.data);
             })
             .catch(error => console.log(error));
-    }, [id,data]);
+    }, [id]);
 
     return (
         <div style={{marginTop:"200px",textAlign:"center"}}>

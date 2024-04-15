@@ -10,7 +10,7 @@ import SignupPage from "./pages/SignupPage";
 import MemberSaved from "./pages/MemberSaved";
 import SearchPage from "./pages/SearchPage";
 import ClassReservation from "./pages/ClassReservation";
-import UserHome from "./pages/UserHome";
+import UserHome from "./pages/UserPage/UserHome";
 import AdminHome from "./pages/AdminHome";
 import Inquiry from "./pages/Inquiry";
 import NoticeAndEventPage from "./pages/NoticeAndEventPage";
