@@ -218,12 +218,11 @@ body{
 }
 #btnSearch{
   color: white;
-  width: 150px;
+  width: 200px;
   height: 40px;
   background-color: #f52334;
   border: none;
   border-radius: 10px;
-  margin-left: 50px;
   font-size: 20px;
   cursor: pointer;
 }
@@ -258,6 +257,16 @@ input::-webkit-inner-spin-button {
   border-radius: 10px;
   margin: 0 30px;
   z-index: 2;
+}
+#weekDropdown{
+  border: none;
+  background-color: white;
+  border-radius: 10px;
+  margin: 0 30px;
+  z-index: 2;
+}
+#searchBtn-container{
+  margin-top: 50px;
 }
 #dropdownUl {
   width: 200px;

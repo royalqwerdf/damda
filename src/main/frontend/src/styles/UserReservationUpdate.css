@@ -1,0 +1,99 @@
+/*가장 바깥을 감싸는 컨테이너*/
+div.user-reservationUpdate-container {
+    margin-bottom: 200px;
+}
+
+/*나의 클래스, 예약관리 전체*/
+div.my-reservation-update{
+    margin-top: -500px;
+}
+
+/*나의 클래스, 예약관리 글씨*/
+div.my-reservation-update p{
+    margin-left: 410px;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+/*윗줄간격 위한 리뷰관리 글씨*/
+.user-reservation-2 {
+    margin-top: -20px;
+}
+
+/*예약변경 글씨*/
+h3.user-reservation-updateh3{
+    margin-left: 410px;
+    margin-top: 50px;
+    font-size: 20px;
+}
+
+/*예약변경관련 안내글씨*/
+h4.user-reservation-update-notice{
+    margin-left: 410px;
+    margin-top: -10px;
+    font-size: 15px;
+}
+
+/*상자 모두*/
+div.reservation-Update-box{
+    margin-left: 410px;
+}
+
+/*'현재 예약현황' 박스*/
+div.reservation-update-now {
+    width: 800px;
+    height: 140px;
+    background-color: #FFFFFF;
+    border: 2px solid #D9D9D9;
+    margin-top: 50px;
+    border-radius: 10px;
+}
+
+
+/*예약현황 글자 모두*/
+/*데이터는 span태그 또는 p태그에 동일한 className으로 동일하게 정렬*/
+div.title-user-reservationUpdate {
+
+}
+
+/*예약현황 글자*/
+div.title-user-reservationUpdate p{
+    float: left; /*왼쪽부터 가로정렬*/
+    margin-left: 30px;
+    margin-right: 40px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+/*수정할 예약 글자 모두*/
+div.title-user-reservationModify {
+
+}
+
+/*'수정할 예약' 내용 글자'*/
+/*데이터는 span태그 또는 p태그에 동일한 className으로 동일하게 정렬*/
+div.title-user-reservationModify p {
+    float: left; /*왼쪽부터 가로정렬*/
+    margin-left: 30px;
+    margin-right: 40px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/*'수정할 예약' 박스*/
+div.reservation-update-modify {
+    width: 800px;
+    height: 140px;
+    background-color: #FFFFFF;
+    border: 2px solid #D9D9D9;
+    margin-top: 50px;
+    border-radius: 10px;
+}
+
+
+/*개인정보변경 버튼*/
+div.user-reservation-modify-button {
+    margin-left: 750px;
+    margin-top: 50px;
+}

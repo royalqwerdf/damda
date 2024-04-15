@@ -15,5 +15,6 @@ public class AnnounceService {
     public List<Announce> getAnnounce(){
         return announceRepository.findAll();
     }
+    public Announce getAnnounceById(Long id){return announceRepository.findById(id).orElse(null);}
 
 }

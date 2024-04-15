@@ -21,6 +21,27 @@ function ListReservation(){
     }, []);
     */
 
+    /* 올라가면 색상변환 및 클릭 시 해당 링크 이동
+    css에는 .hovered{}
+        const [hovered, setHovered] = useState(false);
+
+        const handleMouseEnterNow = () => {
+            setHovered(true);
+        };
+
+
+        const handleMouseLeaveNow = () => {
+            setHovered(false);
+        };
+
+        const navigate = useNavigate();
+        const userhomeReservationClick = () => {
+            // 클릭 이벤트 처리 로직
+            navigate('/main-page');
+        }
+
+    */
+
     return (
         <div>
             <div className="my-now-reservation">
@@ -40,7 +61,7 @@ function ListReservation(){
                         <a></a>
                     </div>
                     <div className="reservation-button">
-                        {/*예약변경 화면으로 이동하는 로직 필요*/}
+                        {/*예약변경 화면으로 이동하는 로직 필요*
                         <Link to="/User-ReservationUpdate">
                             <UserButton onClick={emptyFunction} type="button"  variant="reservation-update">예약변경</UserButton>
                         </Link>
@@ -48,6 +69,7 @@ function ListReservation(){
                         <div>
                             <UserButton onClick={reservationDeleteClick} type="submit" variant="reservation-delete">예약취소</UserButton>
                         </div>
+                        */}
                     </div>
                 </div>
         </div>

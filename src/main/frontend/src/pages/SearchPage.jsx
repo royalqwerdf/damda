@@ -8,12 +8,14 @@ function SearchPage(){
     const [data, setData] = useState([]);
     const [address,setAddress] = useState([]);
     const [category,setCategory]=useState([]);
+    const [week,setWeek] = useState([]);
     useEffect(() => {
         axios.get('/category')
             .then(response=>
             {
                 setCategory(response.data);
                 setAddress(["서울","경기","인천","대전","대구","부산","광주","울산","충청","충북","충남","강원","세종","경북","경상","경남","전라","전북","전남","제주"]);
+                setWeek(["평일","주말"]);
             })
             .catch(error => console.log(error))
     }, []);
@@ -31,16 +33,19 @@ function SearchPage(){
                         <div id="categoryDropdown">
                             <Dropdown list={category} text={"카테고리"}/>
                         </div>
-                        <div>
-                            시간드롭다운
+                        <div id="weekDropdown">
+                            <Dropdown list={week} text={"시간"}/>
                         </div>
                     </div>
                     <div id="price-container">
                         <input id="inputMinPrice" type="number" placeholder="최소 가격"/>
                         {" ~ "}
                         <input id="inputMaxPrice" type="number" placeholder="최대 가격"/>
-                        <button id="btnSearch" onClick={()=>search()}>검색</button>
                     </div>
+                    <div id="searchBtn-container">
+                        <button id="btnSearch" onClick={() => search()}>검색</button>
+                    </div>
+
                 </div>
             </div>
             <div id="resultSearch-container">
@@ -57,6 +62,7 @@ function SearchPage(){
         let categoryId = document.getElementById("dropdownUl").value;
         let minPrice=Number(document.getElementById("inputMinPrice").value);
         let maxPrice=Number(document.getElementById("inputMaxPrice").value);
+        let week = document.getElementById("weekDropdown").innerText;
 
         axios.get("/search",{
             params:{
@@ -64,7 +70,7 @@ function SearchPage(){
                 //keyword || "" -> 위 코드를 줄일 수 있음
                 address: address !== "지역" ? address : "",
                 categoryId: categoryId !== undefined ? categoryId : 0,
-                week: "",
+                week: week !== undefined ? week : "",
                 minPrice: minPrice !== undefined ? minPrice : 0,
                 maxPrice: maxPrice !== undefined ? maxPrice : 0
             }

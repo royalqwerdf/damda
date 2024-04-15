@@ -51,8 +51,8 @@ public class OrderDetailController {
                 model.addAttribute("orderDetail", orderDetailService.getOrderDetailByClassReservationId(id));
                 return "/OrderDetail/update";
         }
-
-        @PutMapping("/{orderDetailId}")
+        /*에약수정*/
+        @PutMapping("/modify-userinformation")
         public OrderDetail updateOrderDetail(@PathVariable Long orderDetailId, @RequestBody OrderDetail updatedOrderDetail) {
                 return orderDetailService.updateOrderDetail(orderDetailId, updatedOrderDetail);
         }
