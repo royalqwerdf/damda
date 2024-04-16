@@ -37,8 +37,8 @@ function Navigation(){
                     </>
                 ) : (
                     <>
-                        <Link to="/login" id="rightbar">LOGIN</Link>
-                        <Link to="/signup">JOIN</Link>
+                        <Link to="/login" id="rightbar">Login</Link>
+                        <Link to="/signup">Signup</Link>
                     </>
                 )}
                 <Link to="/class-open">
