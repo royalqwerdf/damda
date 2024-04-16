@@ -58,4 +58,9 @@ public class InquiryService {
             System.out.println(inquiry.getTitle());
         }
     }
+
+    @Transactional
+    public List<Inquiry> getInquiry(Long memberId){
+        return inquiryRepository.findAllByMember_Id(memberId);
+    }
 }
