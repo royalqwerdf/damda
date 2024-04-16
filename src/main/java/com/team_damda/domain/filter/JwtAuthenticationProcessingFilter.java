@@ -38,121 +38,66 @@ import java.util.Optional;
  */
 
 
-//@RequiredArgsConstructor
-//@Slf4j
-//public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
-//
-//    private static final String NO_CHECK_URL = "login";
-//
-//    private final JwtService jwtService;
-//    private final MemberRepository memberRepository;
-//
-//    private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
-//
-//    @Override
-//    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-//        if (request.getRequestURI().equals(NO_CHECK_URL)) {
-//            filterChain.doFilter(request, response);
-//            return;
-//        }
-//
-//        String refreshToken = jwtService.extractRefreshToken(request)
-//                .filter(jwtService::isTokenValid)
-//                .orElse(null);
-//
-//        if (refreshToken != null) {
-//            checkRefreshTokenAndReIssueAccessToken(response, refreshToken);
-//            return;
-//        }
-//
-//        if (refreshToken == null) {
-//            checkAccessTokenAndAuthentication(request, response, filterChain);
-//        }
-//    }
-//
-//    public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
-//        memberRepository.getByRefreshToken(refreshToken)
-//                .ifPresent(member -> {
-//                    String reIssuedRefreshToken = reIssueRefreshToken(member);
-//                    jwtService.sendAccessAndRefreshToken(response, jwtService.createAccessToken(member.getUserEmail()), reIssuedRefreshToken);
-//                });
-//    }
-//
-//    public String reIssueRefreshToken(Member member) {
-//        String reIssueRefreshToken = jwtService.createRefreshToken();
-//        member.updateRefreshToken(reIssueRefreshToken);
-//        memberRepository.saveAndFlush(member);
-//        return reIssueRefreshToken;
-//    }
-//
-//    public void checkAccessTokenAndAuthentication(HttpServletRequest request, HttpServletResponse response,
-//                                                  FilterChain filterChain) throws ServletException, IOException {
-//        log.info("checkAccessTokenAndAuthentication() 호출");
-//        jwtService.extractAccessToken(request)
-//                .filter(jwtService::isTokenValid)
-//                .ifPresent(accessToken -> jwtService.extractEmail(accessToken)
-//                        .ifPresent(email -> memberRepository.getByUserEmail(email)
-//                                .ifPresent(this::saveAuthentication)));
-//
-//        filterChain.doFilter(request, response);
-//    }
-//    public void saveAuthentication(Member myUser) {
-//        String password = myUser.getPassword();
-//        if (password == null) { // 소셜 로그인 유저의 비밀번호 임의로 설정 하여 소셜 로그인 유저도 인증 되도록 설정
-//            password = PasswordUtil.generateRandomPassword();
-//        }
-//        UserDetails userDetailsUser = org.springframework.security.core.userdetails.User.builder()
-//                .username(myUser.getUserEmail())
-//                .password(password)
-//                .roles(myUser.getRole().name())
-//                .build();
-//
-//        Authentication authentication =
-//                new UsernamePasswordAuthenticationToken(userDetailsUser, null,
-//                        authoritiesMapper.mapAuthorities(userDetailsUser.getAuthorities()));
-//
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//    }
-//
-//
-//}
-
 @RequiredArgsConstructor
 @Slf4j
 public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 
     private static final String NO_CHECK_URL = "/login";
+    private static final String LOGOUT_URL = "/logout";
+
     private final JwtService jwtService;
     private final MemberRepository memberRepository;
     private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (request.getRequestURI().contains(NO_CHECK_URL)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
 
-        Optional<String> refreshTokenOptional = Optional.empty();
-        Optional<String> accessTokenOptional = Optional.empty();
 
-        // 로그인 타입에 따른 토큰 추출 로직 구분 (예시: 쿠키 vs. 헤더)
-        if ("social".equals(request.getParameter("loginType"))) {
-            refreshTokenOptional = extractTokenFromCookie(request, "refreshToken");
-            accessTokenOptional = extractTokenFromCookie(request, "accessToken");
-        } else {
-            refreshTokenOptional = jwtService.extractRefreshToken(request);
-            accessTokenOptional = jwtService.extractAccessToken(request);
-        }
+//    @Override
+//    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+//        if (request.getRequestURI().contains(NO_CHECK_URL) || request.getRequestURI().equals(LOGOUT_URL)) {
+//            filterChain.doFilter(request, response);
+//            return;
+//        }
+//
+//        Optional<String> accessTokenOptional = Optional.empty();
+//
+//        // 로그인 타입에 따른 토큰 추출 로직 구분 (예시: 쿠키 vs. 헤더)
+//        if ("social".equals(request.getParameter("loginType"))) {
+//            accessTokenOptional = extractTokenFromCookie(request, "accessToken");
+//        } else {
+//            accessTokenOptional = jwtService.extractAccessToken(request);
+//        }
+//
+//        if (accessTokenOptional.isPresent() && jwtService.isTokenValid(accessTokenOptional.get())) {
+//            checkAccessTokenAndAuthentication(request, response, filterChain, accessTokenOptional.get());
+//        } else {
+//            filterChain.doFilter(request, response);
+//        }
+//    }
 
-        if (refreshTokenOptional.isPresent() && jwtService.isTokenValid(refreshTokenOptional.get())) {
-            checkRefreshTokenAndReIssueAccessToken(response, refreshTokenOptional.get());
-        } else if (accessTokenOptional.isPresent() && jwtService.isTokenValid(accessTokenOptional.get())) {
-            checkAccessTokenAndAuthentication(request, response, filterChain, accessTokenOptional.get());
-        } else {
-            filterChain.doFilter(request, response);
-        }
+@Override
+protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    if (request.getRequestURI().contains(NO_CHECK_URL) || request.getRequestURI().equals(LOGOUT_URL)) {
+        filterChain.doFilter(request, response);
+        return;
     }
+
+    Optional<String> accessTokenOptional = Optional.empty();
+
+    // 로그인 타입에 따른 토큰 추출 로직 구분 (예시: 쿠키 vs. 헤더)
+    if ("social".equals(request.getParameter("loginType"))) {
+        accessTokenOptional = extractTokenFromCookie(request, "accessToken");
+    } else {
+        accessTokenOptional = jwtService.extractAccessToken(request);
+    }
+
+    if (accessTokenOptional.isPresent() && jwtService.isTokenValid(accessTokenOptional.get())) {
+        checkAccessTokenAndAuthentication(request, response, filterChain, accessTokenOptional.get());
+    } else {
+        filterChain.doFilter(request, response);
+    }
+}
+
+
 
     private Optional<String> extractTokenFromCookie(HttpServletRequest request, String tokenName) {
         if (request.getCookies() != null) {
@@ -165,13 +110,16 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
         return Optional.empty();
     }
 
+
     private void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
         memberRepository.getByRefreshToken(refreshToken)
                 .ifPresent(member -> {
                     String reIssuedRefreshToken = reIssueRefreshToken(member);
-                    jwtService.sendAccessAndRefreshToken(response, jwtService.createAccessToken(member.getUserEmail()), reIssuedRefreshToken);
+                    jwtService.sendAccessAndRefreshToken(response, jwtService.createAccessToken(member), reIssuedRefreshToken);
                 });
     }
+
+
 
     private String reIssueRefreshToken(Member member) {
         String reIssuedRefreshToken = jwtService.createRefreshToken();

@@ -2,7 +2,10 @@ package com.team_damda.domain.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.team_damda.domain.entity.Member;
+import com.team_damda.domain.enums.LoginType;
 import com.team_damda.domain.repository.MemberRepository;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
@@ -49,7 +52,7 @@ public class JwtService {
     /**
      * AccessToken 생성 메소드
      */
-    public String createAccessToken(String userEmail) {
+    public String createAccessToken(Member member) {
         Date now = new Date();
         return JWT.create()
                 //JWT 토큰 생성 빌더 반환
@@ -57,7 +60,11 @@ public class JwtService {
                 // JWT의 Subject 지정 > AccessToken이므로 AccessToken
                 .withExpiresAt(new Date(now.getTime() + accessTokenExpirationPeriod))
                 // 클레임으로 email 하나만 사용
-                .withClaim(EMAIL_CLAIM, userEmail)
+                .withClaim(EMAIL_CLAIM, member.getUserEmail())
+                // 로그인 유형 추가
+                .withClaim("loginType", member.getLoginType().name())
+                // member 엔티티 id 값추가
+                .withClaim("memberId", member.getId())
                 // HMAC512 알고리즘 사용, application.properties에 지정한 secret 키로 암호화
                 .sign(Algorithm.HMAC512(secretKey));
 
@@ -165,6 +172,44 @@ public class JwtService {
             log.error("유효하지 않은 토큰입니다. {}", e.getMessage());
             return false;
         }
+    }
+
+    /**
+     * AccessToken과 관련된 클라이언트 토큰 데이터를 삭제합니다.
+     *
+     * @param response    HttpServletResponse 객체
+     * @param loginType   로그인 타입
+     */
+    public void clearClientTokenData(HttpServletResponse response, LoginType loginType) {
+        switch (loginType) {
+            case BASIC:
+                clearLocalStorage(response);
+                break;
+            case KAKAO:
+                clearCookie(response);
+                break;
+            case NAVER:
+                clearCookie(response);
+                break;
+            case GOOGLE:
+                clearCookie(response);
+                break;
+            default:
+                log.error("Unsupported login type: {}", loginType);
+                break;
+        }
+    }
+
+    private void clearLocalStorage(HttpServletResponse response) {
+
+    }
+
+    private void clearCookie(HttpServletResponse response) {
+
+        Cookie cookie = new Cookie("accessToken", null); // 동일한 이름의 빈 값을 가진 쿠키 생성
+        cookie.setMaxAge(0); // 쿠키의 만료 기간을 0으로 설정하여 즉시 만료되도록 함
+        cookie.setPath("/"); // 쿠키의 경로 설정 (쿠키가 유효한 경로 지정)
+        response.addCookie(cookie); // 응답 헤더에 쿠키 추가
     }
 
 }
