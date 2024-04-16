@@ -24,11 +24,12 @@ import UserReservation from "./pages/UserPage/UserReservation";
 import UserPayment from "./pages/UserPage/UserPayment";
 import UserClass from "./pages/UserPage/UserClass";
 import Oauth2Saved from "./pages/OauthSaved";
+import { AuthProvider } from './api/AuthProvider';
 
 function App(){
     return(
-        <div>
-            <BrowserRouter>
+        <BrowserRouter>
+            <AuthProvider>
                 <Navigation />
                 <Routes>
                     <Route path="/search" element={<SearchPage/>}></Route>
@@ -60,8 +61,8 @@ function App(){
                     <Route path="/Oauth2Saved" element={<Oauth2Saved/>}></Route>
                 </Routes>
                 <Footer />
-            </BrowserRouter>
-        </div>
+            </AuthProvider>
+        </BrowserRouter>
     );
 }
 

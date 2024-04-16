@@ -35,7 +35,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
 
         // AccessToken과 RefreshToken 생성
-        String accessToken = jwtService.createAccessToken(oAuth2User.getUserEmail());
+        String accessToken = jwtService.createAccessToken(oAuth2User.getUserEmail(), oAuth2User.getLoginType());
         String refreshToken = jwtService.createRefreshToken();
 
         // 쿠키에 토큰 설정
@@ -43,6 +43,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         // 로그 정보 추가
         log.info("로그인에 성공하였습니다. 이메일 : {}", oAuth2User.getUserEmail());
+        log.info("로그인에 성공하였습니다. 로그인타입 : {}", oAuth2User.getLoginType());
         log.info("로그인에 성공하였습니다. AccessToken : {}", accessToken);
         log.info("로그인에 성공하였습니다. RefreshToken : {}", refreshToken);
 

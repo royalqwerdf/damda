@@ -1,5 +1,6 @@
 package com.team_damda.domain.controller;
 
+import com.team_damda.domain.enums.LoginType;
 import com.team_damda.domain.repository.MemberRepository;
 import com.team_damda.domain.service.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,8 +25,8 @@ public class TokenController {
     }
 
     @PostMapping("/token")
-    public ResponseEntity<?> provideInitialToken(@RequestParam String userEmail) {
-        String accessToken = jwtService.createAccessToken(userEmail);
+    public ResponseEntity<?> provideInitialToken(@RequestParam String userEmail, LoginType loginType) {
+        String accessToken = jwtService.createAccessToken(userEmail, loginType);
         String refreshToken = jwtService.createRefreshToken();
         return ResponseEntity.ok()
                 .header("accessToken", accessToken)
@@ -34,13 +35,13 @@ public class TokenController {
     }
 
     @GetMapping("/token/initial")
-    public ResponseEntity<Map<String, String>> provideInitialToken(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<Map<String, String>> provideInitialToken(HttpServletRequest request, HttpServletResponse response, LoginType loginType) {
         String userEmail = (String) request.getSession().getAttribute("userEmail");
         if (userEmail == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "No user email found in session"));
         }
 
-        String accessToken = jwtService.createAccessToken(userEmail);
+        String accessToken = jwtService.createAccessToken(userEmail, loginType);
         String refreshToken = jwtService.createRefreshToken();
 
         jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
@@ -53,8 +54,8 @@ public class TokenController {
         return ResponseEntity.ok(tokens);
     }
 
-    @GetMapping("/token/refresh")
-    public ResponseEntity<?> refreshToken(HttpServletRequest request) {
+    @PostMapping("/token/refresh")
+    public ResponseEntity<?> refreshToken(HttpServletRequest request, LoginType loginType) {
         Optional<String> refreshTokenOptional = jwtService.extractRefreshToken(request);
         if (refreshTokenOptional.isEmpty() || !jwtService.isTokenValid(refreshTokenOptional.get())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired refresh token");
@@ -65,7 +66,7 @@ public class TokenController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User email not found");
         }
 
-        String newAccessToken = jwtService.createAccessToken(userEmail);
+        String newAccessToken = jwtService.createAccessToken(userEmail, loginType);
         return ResponseEntity.ok()
                 .header(jwtService.getAccessHeader(), "Bearer " + newAccessToken)
                 .body("New access token issued.");
