@@ -4,6 +4,10 @@ import UserLeftMenu from "../../components/UserLeftMenu";
 import UserButton from "../../components/UserButton";
 
 function UserDelete() {
+
+    //회원탈퇴 버튼 누르면 데이터 삭제되는 로직 필요
+    //탈퇴가 완료되었습니다 alert
+
     const userDeleteClick = () => {
         // 여기에 탈퇴하기 버튼이 클릭되었을 때 수행할 동작을 구현합니다.
         console.log('탈퇴가 완료되었습니다.');
