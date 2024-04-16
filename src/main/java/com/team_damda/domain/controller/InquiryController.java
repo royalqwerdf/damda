@@ -15,10 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -66,6 +63,16 @@ public class InquiryController {
 
         return result;
     }
+    @GetMapping("/inquiry/{memberId}")
+    public List<InquiryDto> getInquiry(@PathVariable("memberId") Long memberId) {
+        List<InquiryDto> inquiryDtos = new ArrayList<>();
+        List<Inquiry> inquiry = inquiryService.getInquiry(memberId);
+        for (Inquiry i : inquiry) {
+            InquiryDto inquiryDto = i.toDto();
+            inquiryDtos.add(inquiryDto);
+        }
+        return inquiryDtos;
+    }
 
     @PostMapping("/inquiry/{memberId}")
     public void AddInquiry(@RequestBody Inquiry inquiry,@PathVariable Long memberId) {
@@ -95,5 +102,7 @@ public class InquiryController {
         inquiryService.sortInquiry(classify, userId, selectedUser, searchContent, startDay, endDay);
     }
      */
+
+
 
 }

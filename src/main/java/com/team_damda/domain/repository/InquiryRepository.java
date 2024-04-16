@@ -15,5 +15,7 @@ public interface InquiryRepository extends JpaRepository<Inquiry, Long> {
 
     Page<Inquiry> findAllByOrderByCreatedAtDesc(Pageable pageable);
 
+    List<Inquiry> findAllByMember_Id(Long memberId);
+
 
 }

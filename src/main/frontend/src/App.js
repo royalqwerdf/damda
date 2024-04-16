@@ -25,6 +25,7 @@ import UserClass from "./pages/UserPage/UserClass";
 import Oauth2Saved from "./pages/OauthSaved";
 import AnnouncePage from "./pages/AnnouncePage";
 import EventPage from "./pages/EventPage";
+import UserInquiry from "./pages/UserPage/UserInquiry";
 
 function App(){
     return(
@@ -57,6 +58,7 @@ function App(){
                     <Route path="/User-Reservation" element={<UserReservation/>}></Route>
                     <Route path="/User-ReservationUpdate" element={<UserReservationUpdate/>}></Route>
                     <Route path="/User-Review" element={<UserReview/>}></Route>
+                    <Route path="/user-inquiry" element={<UserInquiry/>}></Route>
                     <Route path="/" element={<MainPage/>}></Route>
 
                     <Route path="/class-reservation/:id" element={<ClassReservation/>}></Route>
