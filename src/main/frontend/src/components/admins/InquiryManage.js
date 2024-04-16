@@ -28,6 +28,7 @@ function InquiryManage() {
             .catch(error => console.log("에러! :" + error))
     }, [currentPage]);
 
+
     const handleSubmit = async () => {
         console.log("분류 : " + classify);
         console.log("검색값 : " + userId);
@@ -36,13 +37,12 @@ function InquiryManage() {
         console.log("시작일 : " + startDay);
         console.log("종료일 : " + endDay);
 
-        await axios.get(`/admin-home?page=${currentPage}`, {
-
+        await axios.post('/admin-home',{
             params: {
-                classify: classify.trim() !== '' ? classify.trim() : "",
+                classify: classify,
                 userId: userId,
                 selectedUser: selectedUser,
-                searchContent: searchContent.trim() !== '' ? searchContent.trim() : "",
+                searchContent: searchContent,
                 startDay: startDay,
                 endDay: endDay
             }
@@ -130,12 +130,16 @@ function InquiryManage() {
                 endDay: endDay
             };
 
-            await axios.post('/admin-home', data, {
+            const response = await axios.post('/admin-home', data, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
             console.log("문의 검색 설정 조건 요청완료");
+            const {inquiryList, totalPages} = response.data;
+            setInquiryList(inquiryList);
+            setTotalPages(totalPages);
+
         } catch (error) {
             console.error("요청 오류 :" + error);
         }
@@ -244,7 +248,7 @@ function InquiryManage() {
                             <DatePicker selected={startDay} onChange={date => setStartDay(date)} selectsStart startDate={startDay} endDate={endDay} />
                             <div> ~ </div>
                             <DatePicker selected={endDay} onChange={date => setEndDay(date)} selectsEnd startDate={startDay} endDate={endDay} minDate={startDay} />
-                            <button style={{marginLeft: '10px', width: '60px', color: '#FFFFFF', height: '30px', backgroundColor: '#cd5c5c', border: '2px solid #e9967a', borderRadius: '10px'}} onClick={handleSubmit}>검색</button>
+                            <button style={{marginLeft: '10px', width: '60px', color: '#FFFFFF', height: '30px', backgroundColor: '#cd5c5c', border: '2px solid #e9967a', borderRadius: '10px'}} onClick={handleInquirySubmit}>검색</button>
                         </div>
                     </div>
 
@@ -267,7 +271,7 @@ function InquiryManage() {
 
                                 <tr key={inquiry.id}>
                                     <td style={{flex: '1', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{inquiry.type}</td>
-                                    <td style={{flex: '2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{inquiry.memberRole}</td>
+                                    <td style={{flex: '2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{inquiry.user_role}</td>
                                     <td style={{flex: '2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{inquiry.title}</td>
                                     <td style={{flex: '2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{inquiry.userEmail}</td>
                                     <td style={{flex: '2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{inquiry.createdAt}</td>
