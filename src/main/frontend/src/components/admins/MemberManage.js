@@ -9,36 +9,36 @@ function MemberManage() {
     const [members, setMembers] = useState([]);
     // 회원 검색 결과
     const [filteredMembers, setFilteredMembers] = useState([]);
-    // useEffect(() => {
-    //     axios.get('http://localhost:8080/admin/members')
-    //         .then(response => {
-    //             setMembers(response.data);
-    //             setFilteredMembers(response.data);
-    //         })
-    //         .catch(error => {
-    //             console.error(error);
-    //         })
-    // }, []);
+    useEffect(() => {
+        axios.get('http://localhost:8080/admin/members')
+            .then(response => {
+                setMembers(response.data);
+                setFilteredMembers(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            })
+    }, []);
 
     // 테스트용 데이터
-    useEffect(() => {
-        setMembers([
-            {
-                id: 0,
-                userEmail: "email123456@elice.com",
-                name: "엘리스",
-                createdAt: new Date(2024, 4, 15)
-            }
-        ]);
-        setFilteredMembers([
-            {
-                id: 0,
-                userEmail: "email123456@elice.com",
-                name: "엘리스",
-                createdAt: new Date(2024, 4, 15)
-            }
-        ])
-    })
+    // useEffect(() => {
+    //     setMembers([
+    //         {
+    //             id: 0,
+    //             userEmail: "email123456@elice.com",
+    //             name: "엘리스",
+    //             createdAt: new Date(2024, 4, 15)
+    //         }
+    //     ]);
+    //     setFilteredMembers([
+    //         {
+    //             id: 0,
+    //             userEmail: "email123456@elice.com",
+    //             name: "엘리스",
+    //             createdAt: new Date(2024, 4, 15)
+    //         }
+    //     ])
+    // })
 
     // 드롭다운
     const [selectedOption, setSelectedOption] = useState('email');
@@ -76,6 +76,24 @@ function MemberManage() {
     const navigate = useNavigate();
     const handleUpdateButtonClick = (memberId) => {
         navigate(`/member-update/${memberId}`);
+    }
+
+    // 삭제 모달창
+    const [showModal, setShowModal] = useState(false);
+
+    const onDelete = (deletedMemberId) => {
+        setMembers(prevMembers => prevMembers.filter(member => member.id !== deletedMemberId));
+    };
+
+    const handleDelete = (memberId) => {
+        axios.delete(`http://localhost:8080/admin/members/${memberId}`)
+            .then(response => {
+                onDelete(memberId);
+            })
+            .catch(error => {
+                console.error(error);
+            })
+        setShowModal(false);
     }
     
     return(
@@ -116,8 +134,23 @@ function MemberManage() {
                                 <span>{moment(member.createdAt).format("YY.MM.DD")}</span>
                                 <span className="buttons">
                                     <button className="update" onClick={() => handleUpdateButtonClick(member.id)}>수정</button>
-                                    <button className="delete">삭제</button>
+                                    <button className="delete" onClick={() => setShowModal(true)}>삭제</button>
                                 </span>
+                                {/* 모달 창 */}
+                                {showModal && (
+                                    <div>
+                                        <div className="modal">
+                                            <div className="modal-content">
+                                                <p>회원을 삭제하시겠습니까?</p>
+                                                <div className="buttons">
+                                                    <button onClick={() => setShowModal(false)}>취소</button>
+                                                    <button className="delete" onClick={() => handleDelete(member.id)}>삭제</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="modal-background" onClick={() => setShowModal(false)}></div>
+                                    </div>
+                                    )}
                             </li>
                         ))}
                     </ul>
