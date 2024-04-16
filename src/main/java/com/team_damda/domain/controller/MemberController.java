@@ -69,5 +69,10 @@ public class MemberController {
         }
     }
 
+    @GetMapping("/member/{email}")
+    public Long getMemberId(@PathVariable("email") String email) {
+        return memberService.getMemberId(email);
+    }
+
 
 }

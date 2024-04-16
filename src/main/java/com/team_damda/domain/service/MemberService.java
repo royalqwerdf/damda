@@ -55,4 +55,9 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
+    public Long getMemberId(String email) {
+        Member member = memberRepository.findByUserEmail(email);
+        return member.getId();
+    }
+
 }
