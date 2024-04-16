@@ -68,7 +68,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         String refreshToken = jwtService.createRefreshToken();
 
         // 쿠키에 토큰 설정
-        setTokenCookies(response, accessToken, refreshToken);
+        setTokenCookies(response, accessToken);
 
         // 로그 정보 추가
         log.info("로그인에 성공하였습니다. 아이디 : {}", member.getId());
@@ -81,17 +81,12 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         response.sendRedirect("http://localhost:3000/Oauth2Signup");
     }
 
-    private void setTokenCookies(HttpServletResponse response, String accessToken, String refreshToken) {
+    private void setTokenCookies(HttpServletResponse response, String accessToken) {
         Cookie accessTokenCookie = new Cookie("accessToken", accessToken);
         accessTokenCookie.setHttpOnly(true);
         accessTokenCookie.setSecure(true); // HTTPS 환경에서만 쿠키 전송
         accessTokenCookie.setPath("/");
         response.addCookie(accessTokenCookie);
 
-        Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
-        refreshTokenCookie.setHttpOnly(true);
-        refreshTokenCookie.setSecure(true);
-        refreshTokenCookie.setPath("/");
-        response.addCookie(refreshTokenCookie);
     }
 }
