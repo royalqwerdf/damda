@@ -14,4 +14,5 @@ public interface InquiryRepositoryCustom {
     List<Inquiry> searchInquiryByTitle(String classify, String user, String searchContent, Date startDay, Date endDay);
     List<Inquiry> searchAllInquiryByTitle(String c, String sr, Date sday, Date eday);
 
+
 }

@@ -82,4 +82,11 @@ public class InquiryService {
 
         return new PageImpl<>(inquiryDtos, PageRequest.of(currentPage, pageSize), totalItems);
     }
+
+    @Transactional
+    public List<Inquiry> getInquiry(Long memberId){
+        return inquiryRepository.findAllByMember_Id(memberId);
+    }
+
+
 }
