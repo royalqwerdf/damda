@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
@@ -222,46 +223,50 @@ public class JwtService {
         });
     }
 
-//    public void clearClientTokenData(HttpServletResponse response, LoginType loginType) {
-//        // 클라이언트에서 사용되는 토큰 데이터 삭제 로직을 여기에 구현합니다.
-//        // 예를 들어, 클라이언트에 설정된 쿠키를 삭제하는 등의 작업이 필요합니다.
-//        if (loginType != LoginType.BASIC) {
-//            // 회원정보 리스트를 갖고옴
-//            List<Member> members =  memberRepository.getByLoginType(loginType);
-//
-//            // 가져온 회원 정보를 순회하면서 만료된 엑세스 토큰의 만료 시간을 삭제
-//            for (Member member : members) {
-//                // 만료된 엑세스 토큰의 만료 시간을 null로 설정
-//                member.setAccessTokenExpiration(null);
-//                memberRepository.save(member);
-//            }
-//        }
-//
-//        if (loginType == LoginType.BASIC) {
-//            // 로컬 스토리지에서 삭제하는 로직을 구현
-//        } else {
-//            // 쿠키에서 삭제하는 로직을 구현
-//            Cookie cookie = new Cookie("accessToken", null); // 액세스 토큰을 담고 있는 쿠키를 삭제합니다.
-//            cookie.setMaxAge(0); // 쿠키의 만료 기간을 0으로 설정하여 즉시 만료시킵니다.
-//            cookie.setPath("/"); // 쿠키의 경로를 설정합니다.
-//            response.addCookie(cookie); // 응답 헤더에 쿠키를 추가하여 클라이언트에게 전달합니다.
-//        }
-//    }
 
     public void clearClientTokenData(HttpServletResponse response, LoginType loginType) {
-        // 클라이언트에서 사용되는 토큰 데이터 삭제 로직을 여기에 구현합니다.
-        // 예를 들어, 클라이언트에 설정된 쿠키를 삭제하는 등의 작업이 필요합니다.
         if (loginType == LoginType.BASIC) {
-            // 로컬 스토리지에서 삭제하는 로직을 구현
+            // 자사 로그인일 때의 처리: 로컬 스토리지에서 토큰 삭제
+            // 여기에 해당 로직을 구현
         } else {
-            // 쿠키에서 삭제하는 로직을 구현
+            // 소셜 로그인일 때의 처리: 소셜 플랫폼의 로그아웃 엔드포인트 호출하여 토큰 무효화
+            String socialLogoutUrl = getSocialLogoutUrl(loginType);
+            // 쿠키를 먼저 삭제한 후 리다이렉트
             Cookie cookie = new Cookie("accessToken", null); // 액세스 토큰을 담고 있는 쿠키를 삭제합니다.
             cookie.setMaxAge(0); // 쿠키의 만료 기간을 0으로 설정하여 즉시 만료시킵니다.
             cookie.setPath("/"); // 쿠키의 경로를 설정합니다.
             response.addCookie(cookie); // 응답 헤더에 쿠키를 추가하여 클라이언트에게 전달합니다.
-        }
 
+            // 소셜 플랫폼의 로그아웃 URL로 리다이렉트
+            try {
+                response.sendRedirect(socialLogoutUrl);
+            } catch (IOException e) {
+                log.error("소셜 로그아웃 중 오류 발생: {}", e.getMessage());
+            }
+        }
     }
+
+
+
+
+    /**
+     * 소셜 로그인 타입에 따라 해당 소셜 플랫폼의 로그아웃 URL을 반환
+     */
+    private String getSocialLogoutUrl(LoginType loginType) {
+        switch (loginType) {
+            case KAKAO:
+                return "https://kauth.kakao.com/oauth/logout";
+            case NAVER:
+                return "https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id={CLIENT_ID}&client_secret={CLIENT_SECRET}&access_token={ACCESS_TOKEN}&service_provider=NAVER";
+            case GOOGLE:
+                return "https://www.google.com/accounts/Logout";
+            default:
+                throw new IllegalArgumentException("Unsupported login type: " + loginType);
+        }
+    }
+
+
+
 
     /**
      * 만료된 토큰의 만료 시간을 데이터베이스에서 삭제합니다.
@@ -275,13 +280,6 @@ public class JwtService {
             log.error("Failed to clear access token expiration from database: {}", e.getMessage());
         }
     }
-
-
-
-
-
-
-
 
 
 }

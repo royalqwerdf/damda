@@ -12,6 +12,7 @@ export const AuthProvider = ({ children, loginType }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        console.log("AuthProvider useEffect is triggered");
         const checkAuthStatus = () => {
             const accessToken = localStorage.getItem('accessToken') || Cookies.get('accessToken');
             setIsLoggedIn(!!accessToken);
@@ -41,7 +42,7 @@ export const AuthProvider = ({ children, loginType }) => {
             window.removeEventListener('storage', checkAuthStatus);
             clearInterval(intervalId);
         };
-    }, []);
+    }, [loginType]);
 
     const logout = () => {
         const accessToken = localStorage.getItem('accessToken');
@@ -59,6 +60,7 @@ export const AuthProvider = ({ children, loginType }) => {
 
     const login = (token) => {
         localStorage.setItem('accessToken', token);
+        Cookies.set('accessToken', token); // 쿠키에도 토큰 저장
         setIsLoggedIn(true);
     };
 
