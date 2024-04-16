@@ -4,6 +4,7 @@ import com.team_damda.domain.dto.InquiryDto;
 import com.team_damda.domain.dto.InquiryRequest;
 import com.team_damda.domain.entity.Inquiry;
 import com.team_damda.domain.entity.Member;
+import com.team_damda.domain.enums.Role;
 import com.team_damda.domain.repository.InquiryRepository;
 import com.team_damda.domain.repository.MemberRepository;
 import com.team_damda.domain.service.InquiryService;
@@ -72,7 +73,12 @@ public class InquiryController {
         inquiry.setMember(member);
         inquiry.setComment_yn("n");
         inquiry.setUserEmail(member.getUserEmail());
-        inquiry.setMemberRole(member.getRole().getKey());
+        if(member.getRole() == Role.USER) {
+            inquiry.setMemberRole("일반");
+        } else if(member.getRole() == Role.MANAGER) {
+            inquiry.setMemberRole("호스트");
+        }
+
         inquiryService.addInquiry(inquiry);
     }
 
