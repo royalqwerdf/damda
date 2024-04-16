@@ -28,6 +28,33 @@ function InquiryManage() {
             .catch(error => console.log("에러! :" + error))
     }, [currentPage]);
 
+    const handleSubmit = async () => {
+        console.log("분류 : " + classify);
+        console.log("검색값 : " + userId);
+        console.log("작성자 분류 : " + selectedUser);
+        console.log("검색내용 : " + searchContent);
+        console.log("시작일 : " + startDay);
+        console.log("종료일 : " + endDay);
+
+        await axios.get(`/admin-home?page=${currentPage}`, {
+
+            params: {
+                classify: classify.trim() !== '' ? classify.trim() : "",
+                userId: userId,
+                selectedUser: selectedUser,
+                searchContent: searchContent.trim() !== '' ? searchContent.trim() : "",
+                startDay: startDay,
+                endDay: endDay
+            }
+        })
+            .then(res => {
+                setInquiryList(res.data.inquiryList);
+                setTotalPages(res.data.totalPages);
+            })
+            .catch(error => console.log("에러! :" + error))
+
+    };
+
     //회원 설정 드롭다운 박스 설정
     const inquiryRef = useRef();
     const [inquiryIdentify, setInquiryIdentify] = useState('');
@@ -35,12 +62,12 @@ function InquiryManage() {
     const [isOpenInquiry, setIsOpenInquiry] = useDetectClose(inquiryRef, false);
 
     const userIdRef = useRef();
-    const [userIdIdentify, setUserIdIdentify] = useState('');
+    const [userIdIdentify, setUserIdIdentify] = useState('아이디');
     const userIdList = ["아이디", "제목"];
     const [isOpenUserId, setIsOpenUserId] = useDetectClose(userIdRef, false);
 
     const[classify, setClassify] = useState('');
-    const[userId, setUserId] = useState('');
+    const[userId, setUserId] = useState('아이디');
 
     const handleSelectChange = (name, value) => {
         switch(name) {
@@ -181,7 +208,7 @@ function InquiryManage() {
                                     <input
                                         onClick={() => setIsOpenUserId(!isOpenUserId)}
                                         type='button'
-                                        value={userIdIdentify || '검색값 ▼'}
+                                        value={userIdIdentify + ' ▼'}
                                         onChange={handleSelectChange}
                                         style={{cursor: 'pointer', marginLeft: '10px', width: '100px', height: '30px', backgroundColor: '#FFFFFF', border: '1px solid #dcdcdc', borderRadius: '10px'}}
                                     />
@@ -217,7 +244,7 @@ function InquiryManage() {
                             <DatePicker selected={startDay} onChange={date => setStartDay(date)} selectsStart startDate={startDay} endDate={endDay} />
                             <div> ~ </div>
                             <DatePicker selected={endDay} onChange={date => setEndDay(date)} selectsEnd startDate={startDay} endDate={endDay} minDate={startDay} />
-                            <button style={{marginLeft: '10px', width: '60px', color: '#FFFFFF', height: '30px', backgroundColor: '#cd5c5c', border: '2px solid #e9967a', borderRadius: '10px'}} onClick={handleInquirySubmit}>검색</button>
+                            <button style={{marginLeft: '10px', width: '60px', color: '#FFFFFF', height: '30px', backgroundColor: '#cd5c5c', border: '2px solid #e9967a', borderRadius: '10px'}} onClick={handleSubmit}>검색</button>
                         </div>
                     </div>
 
