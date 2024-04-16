@@ -6,6 +6,10 @@ import UserButton from "../../components/UserButton";
 import axios from "axios";
 
 function UserReview() {
+    //리뷰 데이터 값 가져오기
+    //리뷰데이터가 있을때마다 리뷰상자 추가 (열)
+    //리뷰데이터가 있을때와 없을때 템플릿 변경(이건 제가 합니다!-윤희)
+
     {/* 리뷰리스트 가져오면 주석 모두 해제*/}
     const [userReviewList, setUserReviewList] = useState([]);
 

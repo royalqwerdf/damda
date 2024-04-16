@@ -8,6 +8,9 @@ import axios from "axios";
 import ListReservation from "../../components/ListReservation";
 const baseUrl = "http://localhost:8080/User-Home";
 function UserHome() {
+    //가장 예약날짜가 가까운 예약 불러오기
+    //가장 예약날짜가 가까운 클래스 불러오기
+    //클래스 대표 이미지 가져오기(진행중)
 
     const navigate = useNavigate();
 
@@ -51,6 +54,7 @@ function UserHome() {
             console.error('Error fetching reservations:', error);
         }
     };
+
     {/* 오픈한 클래스 내용을 불러와야하는데 로직을 모르겠음
     const [userClassList, setUserClassList] = useState([]);
 
@@ -66,9 +70,8 @@ function UserHome() {
             console.error('Error fetching Class:', error);
         }
     };
-*/
 
-    }
+주석입니다  */}
 
 
         return (
@@ -89,7 +92,10 @@ function UserHome() {
                         <div className="user-home-now">
                             <h3 className="userhome-reservation-nowh3">진행중인 예약</h3>
                             <div className="userhome-reservation-now">
-                                <div className="userhome-now-circle"></div>
+                                <div className="userhome-now-circle">
+                                    {/* src에는 임시 데이터*/}
+                                    <img src="../../logo.svg" alt="클래스_이미지" className="resrvation-now-circle-image"/>
+                                </div>
                                 <div className="title-user-home">
                                     <p>클래스 이름</p>
                                     <p>예약 날짜</p>
@@ -104,7 +110,11 @@ function UserHome() {
 
                             <h3 className="userhome-class-nowh3">진행중인 클래스</h3>
                             <div className="userhome-class-now">
-                                <div className="userhome-now-circle"></div>
+                                <div className="userhome-now-circle">
+                                    {/* src에는 임시 데이터*/}
+                                    <img src="../../logo.svg" alt="클래스_이미지" className="class-now-circle-image"/>
+
+                                </div>
                                 <div className="title-user-home">
                                     <p>클래스 이름</p>
                                     <p>예약 날짜</p>

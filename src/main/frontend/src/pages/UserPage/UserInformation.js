@@ -5,13 +5,9 @@ import axios from "axios";
 import UserButton from "../../components/UserButton";
 
 function UserInformation() {
-
-    const [password, setPassword] = useState('');
-    const [name, setName] = useState('');
-    const [phone, setPhone] = useState('');
-
-    const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
-    const [phoneErrorMessage, setPhoneErrorMessage] = useState('');
+    //현재 비밀번호와 실제 비밀번호가 맞는지 비교 - 동일하지않으면 안내 또는 수정불가 로직 필요
+    //변경하려는 비밀번호와 확인하려는 비밀번호가 맞는지 확인 필요 - 동일하지않으면 안내 또는 수정불가 로직 필요
+    //input이 입력되지 않은 칸의 데이터는 유지되는 로직, 입력한 부분만 변경
 
     const [userInformation, setUserInformation] = useState([]);
 
@@ -29,7 +25,9 @@ function UserInformation() {
     };
 
 
-
+    const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
 
     const userinformationNameChange = (event) => {
         setName(event.target.value);
@@ -60,14 +58,22 @@ function UserInformation() {
         }
     };
 
+
     useEffect(() => {
         validatePassword(password);
         validatePhone(phone);
     }, [password, phone]);
 
+    /*비밀번호 입력양식, 현재 작동안함*/
     const userinformationPassworOption = (event) => {
         setPassword(event.target.value);
     };
+
+
+    //에러메세지
+    const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
+    const [phoneErrorMessage, setPhoneErrorMessage] = useState('');
+
 
     const validatePassword = (value) => {
         const regex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+])[a-zA-Z0-9!@#$%^&*()_+]{8,}$/;
@@ -78,7 +84,7 @@ function UserInformation() {
         }
     };
 
-
+    /*핸드폰번호 입력양식*/
     const userinformationPhoneOption = (event) => {
         setPhone(event.target.value);
     };

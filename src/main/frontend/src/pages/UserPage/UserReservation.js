@@ -9,12 +9,17 @@ import { Link } from 'react-router-dom';
 
 const baseUrl = "http://localhost:8080/User-Reservation";
 
+    //예약취소시 예약삭제 필요 + 예약취소 완료 alert
+    //예약 데이터 있을때마다 예약 상자 늘어나기
+    //클래스 이미지 불러오기(진행중)
+
 function UserReservation() {
     const reservationDeleteClick = () => {
         console.log('예약취소가 완료되었습니다.');
     };
 
-    {/* orderdetail controller에서 가져온 내용*/}
+    {/* orderdetail controller에서 가져온 내용
+    orderdetail내용 가져오기*/}
     const [userReservationList, setUserReservationList] = useState([]);
 
     useEffect(() => {
@@ -30,7 +35,7 @@ function UserReservation() {
         }
     };
 
-
+    {/*reservation에서 예약한시간 select_time 가져오기*/}
     const [userReservationTimeList, setUserReservationTimeList] = useState([]);
 
     useEffect(() => {
@@ -65,7 +70,10 @@ function UserReservation() {
                 {userReservationList.length === 0 ? (
                 <div className="my-now-reservation">
                 <div className="now-reservation">
-                    <div className="reservation-circle"></div>
+                    <div className="reservation-circle">
+                        {/* src에는 임시 데이터*/}
+                        <img src="../../logo.svg" alt="클래스_이미지" className="reservation-circle-image"/>
+                    </div>
                     <div className="title-reservation">
                         <a>클래스 이름</a>
                         <a>예약 날짜</a>
@@ -94,6 +102,7 @@ function UserReservation() {
                 </div>
             </div>
                     ):(
+                        //예약이 없을 때
                     <div className="user-reservation-list-none">예약이 없습니다.</div>
                 )}
 
