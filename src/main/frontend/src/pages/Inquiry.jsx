@@ -21,7 +21,6 @@ function Inquiry(){
             .then(response=>
             {
                 setMember(response.data);
-                console.log(response.data);
             })
             .catch(error => console.log(error))
     }, []);
