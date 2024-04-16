@@ -21,6 +21,7 @@ function UserLeftMenu() {
             <hr className="menu-line2"/>
             <ul className="vertical-menu1">
                 <p className="mypage-category2">회원정보</p>
+                <li><Link to="/user-inquiry">내 문의보기</Link></li>
                 <li><Link to="/User-Information">개인정보변경</Link></li>
                 <li><Link to="/User-Delete">회원탈퇴</Link></li>
             </ul>
