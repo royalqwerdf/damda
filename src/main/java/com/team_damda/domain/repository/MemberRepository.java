@@ -39,5 +39,5 @@ public interface MemberRepository  extends JpaRepository<Member,Long> {
     void clearExpiredAccessTokens(@Param("currentTime") Instant currentTime);
 
 
-
+    boolean existsByUserEmail(String userEmail);
 }
