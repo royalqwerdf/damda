@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 
 @Service
 @Transactional
@@ -53,6 +55,10 @@ public class MemberService {
                 .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
         member.setPhone(phoneNumber);
         return memberRepository.save(member);
+    }
+
+    public Member getMember(String email) {
+        return memberRepository.getByUserEmail(email).orElse(null);
     }
 
 }
