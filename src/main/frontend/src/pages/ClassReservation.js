@@ -11,6 +11,9 @@ import Modal from "react-modal";
 import useUploadImage from '../hooks/useUploadImage';
 const ClassReservation = () => {
 
+
+
+
     //이미지 업로드 함수
     const uploadedUrls = [];
     const [imageFiles, setImageFiles] = useState([]);
@@ -293,7 +296,35 @@ const submitCart = async () => {
         return <div>Loading...</div>;
      }
 
+    const ClickChargeBtn = (pg_method, price, peopleCount, redirect_url) => {
+        const { IMP } = window; // I'mport 라이브러리 추출
+        IMP.init('imp32586130'); // 가맹점 식별코드
 
+        // 결제 정보를 설정하고 결제 창을 띄움
+        IMP.request_pay({
+            pg: 'kakaopay',
+            pay_method: 'card',
+            merchant_uid: `mid_${new Date().getTime()}`, // 고유 주문번호 생성
+            name: '결제 테스트 상품명',
+            amount: `${classDetails.price * peopleCount}`,
+            buyer_email: '구매자 이메일',
+            buyer_name: `{테스터}`,
+            buyer_tel: '010-1234-5678',
+            buyer_addr: '구매자 주소',
+            buyer_postcode: '123-456',
+            m_redirect_url: `${redirect_url}`
+        }, function (rsp) {
+            if (rsp.success) {
+                // 결제 성공 시 로직
+                console.log(rsp); // 결제 성공 결과 데이터 확인 가능
+                alert("결제 성공");
+            } else {
+                // 결제 실패 시 로직
+                console.error(rsp); // 결제 실패 결과 데이터 확인 가능
+                alert("결제 실패");
+            }
+        });
+    };
 
   return (
     <div className="class-reservation-page" style={{ height: "2048px" }}>
@@ -435,7 +466,7 @@ const submitCart = async () => {
                       <h2>결제를 진행하시겠습니까?</h2>
                       <div className="modal-buttons">
                         <button onClick={closeModal} className="modal-close-btn">아니오</button>
-                        <button onClick={submitReservation} className="modal-confirm-btn">결제 동의하기</button>
+                        <button onClick={() => ClickChargeBtn('kakaopay', classDetails.price,peopleCount,'http://localhost:300/carts/reservation-complete/redirect')} className="modal-confirm-btn">결제 동의하기</button>
                       </div>
                     </Modal>
 
