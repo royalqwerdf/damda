@@ -15,14 +15,15 @@ const Form = ({title}) => {
 
     const onSubmit = async ({userEmail, password, name, phone}) => {
         try {
-            const response = await token.post('/signup', {
+            const response = await token.post('/api/signup', {
                 userEmail,
                 password,
                 name,
                 phone
             });
             console.log('서버 응답:', response.data);
-            navigate('../memberSaved');
+            navigate('/memberSaved', { state: { name: response.data.name } });
+
         } catch (error) {
             console.error('요청 실패:', error.response || error.message);
         }

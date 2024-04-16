@@ -1,6 +1,5 @@
-import {useParams} from "react-router-dom";
-import React, {useEffect, useState} from "react";
-import axios from "axios";
+import React, {useState} from "react";
+
 
 
 function Dropdown(props) {
@@ -12,7 +11,6 @@ function Dropdown(props) {
         }}>
             {Text}
             {View ? setList(props.list) : null}
-
         </ul>
     );
 
@@ -24,7 +22,7 @@ function Dropdown(props) {
                 <li key = {list.id} onClick={() => onClick(list)}>{list.categoryName}</li>
             )
         }
-        else if(props.text==="지역"||props.text==="문의분류"){
+        else if(props.text==="지역"||props.text==="문의분류선택"||props.text==="시간"){
             li = list?.map(list =>
                 <li onClick={() => onClick(list)}>{list}</li>
             )
@@ -36,9 +34,8 @@ function Dropdown(props) {
         if(props.text==="카테고리") {
             setText(list.categoryName);
             document.getElementById("dropdownUl").value = list.id;
-            console.log(document.getElementsByClassName("dropdownUl").value);
         }
-        else if(props.text==="지역"||props.text==="문의분류"){
+        else if(props.text==="지역"||props.text==="문의분류선택"||props.text==="시간"){
             setText(list);
         }
     }

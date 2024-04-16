@@ -54,4 +54,12 @@ public class OrderDetail {
     @ManyToOne
     @JoinColumn(name="user_id")
     private Member member;
+
+    public Long getClassReservationId() {
+        // OrderDetail 엔티티와 연관된 ClassReservation 엔티티가 있으면 해당 엔티티의 예약 ID 반환
+        if (classReservation != null) {
+            return classReservation.getId();
+        }
+        return null; // 연관된 ClassReservation 엔티티가 없는 경우 null 반환
+    }
 }

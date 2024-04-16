@@ -1,0 +1,63 @@
+/*가장 바깥쪽을 감싸는 컨테이너*/
+div.user-payment-container{
+    margin-bottom: 500px;
+}
+
+/*나의클래스 결제내역 글씨 전체위치*/
+div.my-payment{
+    margin-top: -500px;
+}
+
+/*나의클래스, 결제내역 글씨 설정*/
+div.my-payment p{
+    margin-left: 410px;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+/*윗간격을 위한 설정*/
+.user-payment-menu{
+    margin-top: -20px;
+    margin-bottom: 50px;
+}
+
+/*결제내역 상자 전체*/
+div.user-payment-list {
+    margin-left: 350px;
+}
+
+
+/*내역이 없을때 표시되는 내용*/
+div.user-payment-none{
+    text-align: center;
+    margin-top: 200px;
+    margin-left: 200px;
+}
+
+
+/*이미지 들어갈 원형*/
+div.payment-circle {
+    width: 100px;
+    height: 100px;
+    background-color: #FFF5D9;
+    border-radius: 50%; /* 원을 만들기 위해 반지름을 50%로 설정 */
+    margin-top: 10px;
+    margin-left: 100px;
+}
+
+/*상자 안 글자*/
+div.title-payment {
+    margin-top: -100px;
+    margin-left: 250px;
+    font-size: 15px;
+    font-weight: bolder;
+    align-content: center;
+
+}
+
+/*상자 안 글자 a태그 간격*/
+div.title-payment a{
+    width: 100%;
+    margin-right:50px;
+}
+

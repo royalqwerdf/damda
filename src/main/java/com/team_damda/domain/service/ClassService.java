@@ -139,7 +139,6 @@ public class ClassService {
     public List<ClassDto> getSearchClass(String keyword,String address,Long categoryId,
                                          String week,Long minPrice,Long maxPrice){
 
-        System.out.println(keyword+address+categoryId+week+minPrice+maxPrice);
         List<ClassDto> searchClassDto = new ArrayList<>();
         List<Class> searchClass = classRepository.searchClass(keyword,address,categoryId,
                 week,minPrice,maxPrice);
@@ -185,6 +184,8 @@ public class ClassService {
         }
         return newClassDto;
     }
+
+
     //reservation part
     @Transactional
     public Class getClass(Long id){

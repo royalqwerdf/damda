@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 
 @Service
 @Transactional
@@ -18,8 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
-    public void signUp(MemberSignupDto memberSignupDto) throws Exception {
+    public Member signUp(MemberSignupDto memberSignupDto) throws Exception {
         System.out.println(memberSignupDto.getName());
         System.out.println(memberSignupDto.getUserEmail());
         System.out.println(memberSignupDto.getPassword());
@@ -43,13 +46,19 @@ public class MemberService {
 
         member.passwordEncode(passwordEncoder);
         memberRepository.save(member);
+        return member;
     }
 
-        public Member updatePhoneNumber(LoginType loginType, String snsId, String phone) {
-            Member member = memberRepository.getByLoginTypeAndSnsId(loginType, snsId)
-                    .orElseThrow(() -> new IllegalArgumentException("해당 사용자를 찾을 수 없습니다."));
-            member.setPhone(phone);
-            return memberRepository.save(member);
-        }
-    
+
+    public Member updateUserPhoneNumber(String email, String phoneNumber) {
+        Member member = memberRepository.getByUserEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
+        member.setPhone(phoneNumber);
+        return memberRepository.save(member);
+    }
+
+    public Member getMember(String email) {
+        return memberRepository.getByUserEmail(email).orElse(null);
+    }
+
 }

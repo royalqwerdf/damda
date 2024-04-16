@@ -8,8 +8,9 @@
 .container {
     display: flex;
     align_items: center;
-    width: 80%;
+    width: 100%;
     padding: 100px;
+    position: relative;
 }
 
 .user-left-menu {

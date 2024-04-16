@@ -1,0 +1,102 @@
+/*가장 바깥을 감싸는 컨테이너*/
+.user-reservation-container{
+    margin-bottom: 300px;
+}
+
+/*나의클래스 예약관리 전체*/
+div.my-reservation-menu{
+    margin-top: -500px;
+}
+
+/*나의클래스, 예약관리*/
+div.my-reservation-menu p {
+    margin-left: 410px;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+/*예약관리 글씨 위 간격*/
+.reservation-2{
+    margin-top: -20px;
+}
+
+/*진행중인 예약 글씨*/
+h3.now-reservationh3{
+    margin-left: 410px;
+    margin-top: 50px;
+    font-size: 20px;
+
+}
+
+/*예약현황 전체*/
+div.my-now-reservation{
+    display: flex; /*스크롤 문제있으면 여기 수정해보기*/
+    width: 100%;
+    margin-top: -530px;
+    margin-bottom: 20px;
+
+}
+
+/*상자*/
+div.now-reservation {
+    position: relative;
+    overflow: visible; /*스크롤바 없이 위로 올림*/
+    background-color: #FFFFFF;
+    border: 1px solid #FFFFFF;
+    padding: 20px;
+    left: 310px;
+    margin-top: 530px;
+
+}
+
+
+/*이미지 들어갈 원형*/
+div.reservation-circle {
+    width: 100px;
+    height: 100px;
+    background-color: #FFF5D9;
+    border-radius: 50%; /* 원을 만들기 위해 반지름을 50%로 설정 */
+    margin-top: 10px;
+    margin-left: 100px;
+}
+
+/*상자 안 글자*/
+div.title-reservation {
+    margin-top: -100px;
+    margin-left: 250px;
+    font-size: 15px;
+    font-weight: bolder;
+    align-content: center;
+
+}
+
+/*상자 안 글자 a태그 간격*/
+div.title-reservation a{
+    width: 100%;
+    margin-right:50px;
+}
+
+/*버튼 모두*/
+div.reservation-button{
+    margin-left: 820px;
+    margin-top: -15px;
+}
+
+/*예약이 하나도 없을 때*/
+div.user-reservation-list-none{
+
+        margin-top: 70px;
+        margin-left: 750px;
+
+}
+
+/*데이터 값 글자*/
+div.data-reservation {
+    div.title-reservation {
+        margin-top: 30px;
+        margin-left: 250px;
+        font-size: 15px;
+        font-weight: bolder;
+        align-content: center;
+    }
+}
