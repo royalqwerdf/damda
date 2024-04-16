@@ -18,6 +18,7 @@ import AdminHome from "./pages/AdminHome";
 import Inquiry from "./pages/Inquiry";
 import NoticeAndEventPage from "./pages/NoticeAndEventPage";
 import Oauth2Signup from "./pages/Oauth2Signup";
+import MemberUpdate from "./components/admins/MemberUpdate";
 
 function App(){
     return(
@@ -39,6 +40,7 @@ function App(){
                     <Route path="/Oauth2Signup" element={<Oauth2Signup />} />
                     <Route path="/memberSaved" element={<MemberSaved />} />
                     <Route path="/class-reservation/:id" element={<ClassReservation/>}></Route>
+                    <Route path="/member-update/:id" element={<MemberUpdate/>}></Route>
                 </Routes>
                 <Footer />
             </BrowserRouter>

@@ -1,5 +1,6 @@
 import '../../styles/MemberManage.css'
 import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import moment from "moment";
 import axios from "axios";
 
@@ -23,6 +24,7 @@ function MemberManage() {
     // useEffect(() => {
     //     setMembers([
     //         {
+    //              id: 0,
     //             userEmail: "email123456@elice.com",
     //             name: "엘리스",
     //             createdAt: new Date(2024, 4, 15)
@@ -30,6 +32,7 @@ function MemberManage() {
     //     ]);
     //     setFilteredMembers([
     //         {
+    //              id: 0,
     //             userEmail: "email123456@elice.com",
     //             name: "엘리스",
     //             createdAt: new Date(2024, 4, 15)
@@ -68,6 +71,12 @@ function MemberManage() {
                 console.error('검색 중 오류 발생:', error);
             });
     };
+
+    // 정보 수정 페이지로 이동
+    const navigate = useNavigate();
+    const handleUpdateButtonClick = (memberId) => {
+        navigate(`/member-update/${memberId}`);
+    }
     
     return(
         <div className="container" style={{padding: '0px'}}>
@@ -106,7 +115,7 @@ function MemberManage() {
                                 <span>{member.name}</span>
                                 <span>{moment(member.createdAt).format("YY.MM.DD")}</span>
                                 <span className="buttons">
-                                    <button className="update">수정</button>
+                                    <button className="update" onClick={() => handleUpdateButtonClick(member.id)}>수정</button>
                                     <button className="delete">삭제</button>
                                 </span>
                             </li>
