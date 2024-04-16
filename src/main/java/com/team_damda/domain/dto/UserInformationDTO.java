@@ -24,6 +24,7 @@ public class UserInformationDTO {
         }
 
         UserInformationDTO userInformationDTO = new UserInformationDTO();
+        userInformationDTO.setId(member.getId());
         userInformationDTO.setPassword(member.getPassword());
         userInformationDTO.setName(member.getName());
         userInformationDTO.setPhone(member.getPhone());
