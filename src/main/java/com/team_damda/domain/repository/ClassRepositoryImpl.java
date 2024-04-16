@@ -22,7 +22,7 @@ public class ClassRepositoryImpl implements ClassRepositoryCustom{
         String searchSql = " select c from Class c where 1=1 ";
 
         if(keyword!=null&& !keyword.isEmpty()){
-            searchSql += " and c.curriculum like '%" + keyword + "%' ";
+            searchSql += " and (c.curriculum like '%" + keyword + "%' or c.className like '%" + keyword + "%' or c.classExplanation like '%" + keyword + "%') ";
         }
         if(address!=null&& !address.isEmpty()){
             searchSql += " and c.address like '%" + address + "%' ";
@@ -34,7 +34,7 @@ public class ClassRepositoryImpl implements ClassRepositoryCustom{
             if(week.equals("평일")){
                 searchSql += " and (c.weekdays like '%월%' or c.weekdays like '%화%' or c.weekdays like '%수%' or c.weekdays like '%목%' or c.weekdays like '%금%') ";
             }
-            else{
+            else if(week.equals("주말")){
                 searchSql += " and (c.weekdays like '%토%' or c.weekdays like '%일%') ";
             }
         }
