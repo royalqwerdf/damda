@@ -23,6 +23,14 @@ public class AdminMemberController {
         return ResponseEntity.status(HttpStatus.OK).body(adminMemberRepository.findAll());
     }
 
+    // 회원 정보 가져오기
+    @GetMapping("/admin/members/{memberId}")
+    public ResponseEntity<Member> getMember(@PathVariable Long memberId) {
+        Member member = adminMemberRepository.findById(memberId).orElse(null);
+        if(member != null) return ResponseEntity.status(HttpStatus.OK).body(member);
+        else return ResponseEntity.notFound().build();
+    }
+
     // 회원 삭제
     @DeleteMapping("/admin/members/{memberId}")
     public ResponseEntity<Void> deleteMember(@PathVariable Long memberId) {

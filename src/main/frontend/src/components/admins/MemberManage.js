@@ -9,36 +9,36 @@ function MemberManage() {
     const [members, setMembers] = useState([]);
     // 회원 검색 결과
     const [filteredMembers, setFilteredMembers] = useState([]);
-    useEffect(() => {
-        axios.get('http://localhost:8080/admin/members')
-            .then(response => {
-                setMembers(response.data);
-                setFilteredMembers(response.data);
-            })
-            .catch(error => {
-                console.error(error);
-            })
-    }, []);
+    // useEffect(() => {
+    //     axios.get('http://localhost:8080/admin/members')
+    //         .then(response => {
+    //             setMembers(response.data);
+    //             setFilteredMembers(response.data);
+    //         })
+    //         .catch(error => {
+    //             console.error(error);
+    //         })
+    // }, []);
 
     // 테스트용 데이터
-    // useEffect(() => {
-    //     setMembers([
-    //         {
-    //              id: 0,
-    //             userEmail: "email123456@elice.com",
-    //             name: "엘리스",
-    //             createdAt: new Date(2024, 4, 15)
-    //         }
-    //     ]);
-    //     setFilteredMembers([
-    //         {
-    //              id: 0,
-    //             userEmail: "email123456@elice.com",
-    //             name: "엘리스",
-    //             createdAt: new Date(2024, 4, 15)
-    //         }
-    //     ])
-    // })
+    useEffect(() => {
+        setMembers([
+            {
+                id: 0,
+                userEmail: "email123456@elice.com",
+                name: "엘리스",
+                createdAt: new Date(2024, 4, 15)
+            }
+        ]);
+        setFilteredMembers([
+            {
+                id: 0,
+                userEmail: "email123456@elice.com",
+                name: "엘리스",
+                createdAt: new Date(2024, 4, 15)
+            }
+        ])
+    })
 
     // 드롭다운
     const [selectedOption, setSelectedOption] = useState('email');
