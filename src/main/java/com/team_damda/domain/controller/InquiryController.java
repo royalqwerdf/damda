@@ -3,8 +3,11 @@ package com.team_damda.domain.controller;
 import com.team_damda.domain.dto.InquiryDto;
 import com.team_damda.domain.dto.InquiryRequest;
 import com.team_damda.domain.entity.Inquiry;
+import com.team_damda.domain.entity.Member;
 import com.team_damda.domain.repository.InquiryRepository;
+import com.team_damda.domain.repository.MemberRepository;
 import com.team_damda.domain.service.InquiryService;
+import com.team_damda.domain.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
@@ -21,6 +24,8 @@ import java.util.Map;
 public class InquiryController {
 
     private final InquiryService inquiryService;
+    private final MemberService memberService;
+    private final MemberRepository memberRepository;
 
     /*
     @GetMapping("/admin-home")
@@ -61,10 +66,13 @@ public class InquiryController {
         return result;
     }
 
-    @PostMapping("/inquiry")
-    public void AddInquiry(@RequestBody Inquiry inquiry) {
-        //todo: 프론트 단에서 멤버 받아서 inquiry객체에 넣어줘야 함
+    @PostMapping("/inquiry/{memberId}")
+    public void AddInquiry(@RequestBody Inquiry inquiry,@PathVariable Long memberId) {
+        Member member = memberRepository.findById(memberId).orElse(null);
+        inquiry.setMember(member);
         inquiry.setComment_yn("n");
+        inquiry.setUserEmail(member.getUserEmail());
+        inquiry.setMemberRole(member.getRole().getKey());
         inquiryService.addInquiry(inquiry);
     }
 
