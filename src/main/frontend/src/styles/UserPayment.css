@@ -27,15 +27,7 @@ div.user-payment-list {
 }
 
 
-/*내역이 없을때 표시되는 내용*/
-div.user-payment-none{
-    text-align: center;
-    margin-top: 200px;
-    margin-left: 200px;
-}
-
-
-/*이미지 들어갈 원형*/
+/*div 원형*/
 div.payment-circle {
     width: 100px;
     height: 100px;
@@ -43,6 +35,14 @@ div.payment-circle {
     border-radius: 50%; /* 원을 만들기 위해 반지름을 50%로 설정 */
     margin-top: 10px;
     margin-left: 100px;
+}
+
+/*원형div안에 담기는 이미지 - 클래스*/
+.payment-circle-image {
+    width: 80px; /* 이미지 크기 조절 */
+    height: 80px;
+    border-radius: 50%; /* 이미지를 원 모양으로 */
+    object-fit: cover; /* 이미지가 원 안에 꽉 차도록 */
 }
 
 /*상자 안 글자*/
@@ -59,5 +59,13 @@ div.title-payment {
 div.title-payment a{
     width: 100%;
     margin-right:50px;
+}
+
+
+/*내역이 없을때 표시되는 내용*/
+div.user-payment-none{
+    text-align: center;
+    margin-top: 200px;
+    margin-left: 200px;
 }
 
