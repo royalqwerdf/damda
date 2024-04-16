@@ -49,6 +49,11 @@ public class MemberService {
         return member;
     }
 
+    public Member findById(Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Member not found with ID: " + id));
+    }
+
 
     public Member updateUserPhoneNumber(String email, String phoneNumber) {
         Member member = memberRepository.getByUserEmail(email)

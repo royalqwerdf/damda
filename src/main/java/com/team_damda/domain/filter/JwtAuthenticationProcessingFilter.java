@@ -115,7 +115,7 @@ protected void doFilterInternal(HttpServletRequest request, HttpServletResponse 
         memberRepository.getByRefreshToken(refreshToken)
                 .ifPresent(member -> {
                     String reIssuedRefreshToken = reIssueRefreshToken(member);
-                    jwtService.sendAccessAndRefreshToken(response, jwtService.createAccessToken(member.getUserEmail(), member.getLoginType()), reIssuedRefreshToken);
+                    jwtService.sendAccessAndRefreshToken(response, jwtService.createAccessToken(member), reIssuedRefreshToken);
                 });
     }
 

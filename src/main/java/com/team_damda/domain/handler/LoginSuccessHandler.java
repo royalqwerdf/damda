@@ -35,7 +35,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
 
         // 로그인 유형을 기반으로 AccessToken을 생성합니다.
-        String accessToken = jwtService.createAccessToken(email, member.getLoginType());
+        String accessToken = jwtService.createAccessToken(member);
         String refreshToken = jwtService.createRefreshToken();
 
         // 토큰을 응답 헤더에 추가합니다.
@@ -45,6 +45,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         member.updateRefreshToken(refreshToken);
         memberRepository.saveAndFlush(member);
 
+        log.info("로그인에 성공하였습니다. 아이디 : {}", member.getId());
         log.info("로그인에 성공하였습니다. 이메일 : {}", email);
         log.info("로그인에 성공하였습니다. 로그인타입 : {}", member.getLoginType());
         log.info("로그인에 성공하였습니다. AccessToken : {}", accessToken);

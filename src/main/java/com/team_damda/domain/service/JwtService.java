@@ -2,6 +2,7 @@ package com.team_damda.domain.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.team_damda.domain.entity.Member;
 import com.team_damda.domain.enums.LoginType;
 import com.team_damda.domain.repository.MemberRepository;
 import jakarta.servlet.http.Cookie;
@@ -51,7 +52,7 @@ public class JwtService {
     /**
      * AccessToken 생성 메소드
      */
-    public String createAccessToken(String userEmail, LoginType loginType) {
+    public String createAccessToken(Member member) {
         Date now = new Date();
         return JWT.create()
                 //JWT 토큰 생성 빌더 반환
@@ -59,9 +60,11 @@ public class JwtService {
                 // JWT의 Subject 지정 > AccessToken이므로 AccessToken
                 .withExpiresAt(new Date(now.getTime() + accessTokenExpirationPeriod))
                 // 클레임으로 email 하나만 사용
-                .withClaim(EMAIL_CLAIM, userEmail)
+                .withClaim(EMAIL_CLAIM, member.getUserEmail())
                 // 로그인 유형 추가
-                .withClaim("loginType", loginType.name())
+                .withClaim("loginType", member.getLoginType().name())
+                // member 엔티티 id 값추가
+                .withClaim("memberId", member.getId())
                 // HMAC512 알고리즘 사용, application.properties에 지정한 secret 키로 암호화
                 .sign(Algorithm.HMAC512(secretKey));
 
