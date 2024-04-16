@@ -2,6 +2,7 @@ package com.team_damda.domain.controller;
 
 import com.team_damda.domain.dto.MemberPhoneUpdateRequest;
 import com.team_damda.domain.dto.MemberSignupDto;
+import com.team_damda.domain.dto.UserInformationDTO;
 import com.team_damda.domain.entity.Member;
 import com.team_damda.domain.enums.Role;
 import com.team_damda.domain.service.JwtService;
@@ -66,6 +67,13 @@ public class MemberController {
             log.error("사용자 업데이트 중 오류 발생: ", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "사용자 업데이트 오류"));
         }
+    }
+
+    @GetMapping("/member/{email}")
+    public UserInformationDTO getMemberId(@PathVariable("email") String email) {
+
+        Member member = memberService.getMember(email);
+        return UserInformationDTO.fromEntity(member);
     }
 
 

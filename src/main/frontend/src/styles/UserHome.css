@@ -17,20 +17,22 @@ div.welcome-user-home {
 .user-hello{
     margin-top: -20px;
 }
- /*모든 진행중인 해당하는 요소*/
-div.now{
+
+ /*모든 '진행중인' 해당하는 요소 - 데이터값이 있을 때*/
+div.user-home-now{
     margin-left: 430px;
 }
 
+
 /*'진행중인 예약' 글씨*/
-h3.reservation-now {
+h3.userhome-reservation-nowh3 {
     margin-top: 70px;
     margin-bottom: -30px;
     font-size: 20px;
 }
 
 /*'진행중인 예약' 박스*/
-div.reservation-now {
+div.userhome-reservation-now {
 
         width: 800px;
         height: 140px;
@@ -40,19 +42,29 @@ div.reservation-now {
         border-radius: 10px;
 }
 
-/*원형div, 이미지 담기는 곳*/
-div.now-circle {
+/*원형div*/
+div.userhome-now-circle {
     /*display: flex;*/
     width: 100px;
     height: 100px;
     background-color: #FFF5D9;
     border-radius: 50%; /* 원을 만들기 위해 반지름을 50%로 설정 */
     margin-top: 20px;
-    margin-left: 60px;
+    margin-left: 40px;
 }
 
+/*원형div안에 담기는 이미지 - 예약*/
+.reservation-now-circle-image {
+    width: 80px; /* 이미지 크기 조절 */
+    height: 80px;
+    border-radius: 50%; /* 이미지를 원 모양으로 */
+    object-fit: cover; /* 이미지가 원 안에 꽉 차도록 */
+}
+
+
+
 /*진행중인 클래스 글씨*/
-h3.class-now{
+h3.userhome-class-nowh3{
     margin-top: 70px;
     margin-bottom: -30px;
     font-size: 20px;
@@ -60,7 +72,7 @@ h3.class-now{
 }
 
 /*진행중인 클래스 박스*/
-div.class-now {
+div.userhome-class-now {
     width: 800px;
     height: 140px;
     background-color: #FFFFFF;
@@ -76,6 +88,14 @@ div.title-user-home {
     margin-top: -120px;
 }
 
+/*원형div안에 담기는 이미지 - 클래스*/
+.class-now-circle-image {
+    width: 80px; /* 이미지 크기 조절 */
+    height: 80px;
+    border-radius: 50%; /* 이미지를 원 모양으로 */
+    object-fit: cover; /* 이미지가 원 안에 꽉 차도록 */
+}
+
 /*클래스이름, 예약날짜, 결제금액*/
 /*데이터는 span태그 또는 p태그에 동일한 className으로 동일하게 정렬*/
 div.title-user-home p {
@@ -86,3 +106,47 @@ div.title-user-home p {
     font-weight: bold;
 }
 
+/*예약데이터 값*/
+div.data-user-home {
+    margin-top: 20px;
+    margin-left: 170px;
+}
+
+/*클래스 운영 데이터*/
+div.data-user-home-class{
+    margin-top: 20px;
+    margin-left: 170px;
+}
+
+
+/*----------------데이터값이 없을 떄---------------*/
+
+/*모든 '진행중인' 해당하는 요소 - 데이터값이 없을 때*/
+div.userhome-none{
+    margin-left: 430px;
+}
+
+/*'진행중인 예약' 없을때 박스*/
+div.userhome-reservation-none {
+
+    width: 800px;
+    height: 140px;
+    background-color: #FFFFFF;
+    border: 2px solid #D9D9D9;
+    margin-top: 50px;
+    border-radius: 10px;
+    text-align: center;
+    align-content: center;
+}
+
+/*'진행중인 클래스' 없을때 박스*/
+div.userhome-class-none {
+    width: 800px;
+    height: 140px;
+    background-color: #FFFFFF;
+    border: 2px solid #D9D9D9;
+    margin-top: 50px;
+    border-radius: 10px;
+    text-align: center;
+    align-content: center;
+}

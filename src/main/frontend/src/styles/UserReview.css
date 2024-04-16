@@ -1,17 +1,82 @@
+/*가장 바깥을 감싸는 컨테이너*/
 div.user-review-container{
     margin-bottom: 500px;
 }
 
+/*나의 클래스, 리뷰관리 전체*/
 div.my-review{
     margin-top: -500px;
 }
 
+/*나의 클래스, 리뷰관리 글씨*/
 div.my-review p{
     margin-left: 410px;
     font-weight: bold;
     font-size: 25px;
 }
 
+/*윗줄간격 위한 리뷰관리 글씨*/
 .user-review-menu {
     margin-top: -20px;
+}
+
+/*내가 쓴 리뷰 글씨*/
+h3.user-review-myh3{
+    margin-left: 410px;
+    margin-top: 50px;
+    font-size: 20px;
+
+}
+
+/*리뷰 전체*/
+div.user-review-list{
+    display: flex; /*스크롤 문제있으면 여기 수정해보기*/
+    width: 100%;
+    margin-top: -400px;
+    margin-bottom: 20px;
+
+}
+
+/*리뷰 상자*/
+div.user-review-box {
+    position: relative;
+    overflow: visible; /*스크롤바 없이 위로 올림*/
+    background-color: #FFFFFF;
+    border: 1px solid #FFFFFF;
+    padding: 20px;
+    left: 150px;
+    margin-top: 530px;
+
+}
+
+/*상자 안 글자*/
+div.title-reviewlist {
+    margin-top: -100px;
+    margin-left: 250px;
+    font-size: 15px;
+    font-weight: bolder;
+    align-content: center;
+
+}
+
+/*상자 안 글자 a태그 간격*/
+div.title-reviewlist a{
+    width: 100%;
+    margin-right:120px;
+}
+
+/*상자 안 글자 데이터값*/
+div.data-review {
+    margin-left: 250px;
+    font-size: 15px;
+    font-weight: bolder;
+}
+
+/*리뷰상자 아래 가로줄*/
+hr.userReview-line{
+    width: 850px;
+    margin-left: 250px;
+    margin-top: 120px;
+    margin-bottom: 70px;
+    color: #D9D9D9;
 }

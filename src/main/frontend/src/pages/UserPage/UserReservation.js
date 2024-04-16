@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import '../../styles/UserReservation.css';
 import UserLeftMenu from "../../components/UserLeftMenu";
 //import jwt_decode from 'jwt-decode'; // jwt_decode로 수정
@@ -9,14 +9,47 @@ import { Link } from 'react-router-dom';
 
 const baseUrl = "http://localhost:8080/User-Reservation";
 
+    //예약취소시 예약삭제 필요 + 예약취소 완료 alert
+    //예약 데이터 있을때마다 예약 상자 늘어나기
+    //클래스 이미지 불러오기(진행중)
+
 function UserReservation() {
     const reservationDeleteClick = () => {
-        // 여기에 탈퇴하기 버튼이 클릭되었을 때 수행할 동작을 구현합니다.
         console.log('예약취소가 완료되었습니다.');
     };
-    {/*임시 기능, 빈동작. 추후에 수정*/}
-    const emptyFunction = () => {};
 
+    {/* orderdetail controller에서 가져온 내용
+    orderdetail내용 가져오기*/}
+    const [userReservationList, setUserReservationList] = useState([]);
+
+    useEffect(() => {
+        fetchUserReservationList();
+    }, []);
+
+    const fetchUserReservationList = async () => {
+        try {
+            const response = await axios.get('/OrderDetail/listreservation'); // 예약 데이터를 가져오는 API 호출
+            setUserReservationList(response.data);
+        } catch (error) {
+            console.error('Error fetching reservations:', error);
+        }
+    };
+
+    {/*reservation에서 예약한시간 select_time 가져오기*/}
+    const [userReservationTimeList, setUserReservationTimeList] = useState([]);
+
+    useEffect(() => {
+        fetchUserReservationTimeList();
+    }, []);
+
+    const fetchUserReservationTimeList = async () => {
+        try {
+            const response = await axios.get('/class-reservation/{id}'); // 클래스 예약한 데이터를 가져오는 API 호출
+            setUserReservationTimeList(response.data);
+        } catch (error) {
+            console.error('Error fetching reservations:', error);
+        }
+    };
 
     return (
         <div>
@@ -32,10 +65,15 @@ function UserReservation() {
             </div>
 
             {/*예약 생길시마다 새로 추가되는 로직 필요*/}
-            <h3 className="now-reservation">진행중인 예약</h3>
-            <div className="my-now-reservation">
+
+            <h3 className="now-reservationh3">진행중인 예약</h3>
+                {userReservationList.length === 0 ? (
+                <div className="my-now-reservation">
                 <div className="now-reservation">
-                    <div className="reservation-circle"></div>
+                    <div className="reservation-circle">
+                        {/* src에는 임시 데이터*/}
+                        <img src="../../logo.svg" alt="클래스_이미지" className="reservation-circle-image"/>
+                    </div>
                     <div className="title-reservation">
                         <a>클래스 이름</a>
                         <a>예약 날짜</a>
@@ -43,10 +81,18 @@ function UserReservation() {
                         <a>예약 인원</a>
                         <a>결제 금액</a>
                     </div>
+                    {/*이 부분 등록된 클래스 읽어오는것으로 구현 필요 = 어떻게?*/}
+                    <div className="data-reservation">
+                        <a>{userReservationList.className}</a>
+                        <a>{userReservationList.reservationDate}</a>
+                        <a>{userReservationTimeList.select_time}</a>
+                        <a>{userReservationList.totalHeadcount}</a>
+                        <a>{userReservationList.totalPrice}</a>
+                    </div>
                     <div className="reservation-button">
                         {/*예약변경 화면으로 이동*/}
                         <Link to="/User-ReservationUpdate">
-                            <UserButton onClick={emptyFunction} type="button"  variant="reservation-update">예약변경</UserButton>
+                        <UserButton type="button"  variant="reservation-update">예약변경</UserButton>
                         </Link>
 
                         <div>
@@ -55,6 +101,10 @@ function UserReservation() {
                         </div>
                 </div>
             </div>
+                    ):(
+                        //예약이 없을 때
+                    <div className="user-reservation-list-none">예약이 없습니다.</div>
+                )}
 
             </div>
         </div>

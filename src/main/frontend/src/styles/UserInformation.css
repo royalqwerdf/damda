@@ -19,3 +19,77 @@ div.my-userinformation p{
     margin-top: -20px;
 }
 
+/*가로줄 상단*/
+.userinformation-line1{
+    width: 800px;
+    display: inline-block;
+    margin-left: 410px;
+    margin-top: 20px;
+    margin-bottom: 70px;
+}
+
+/*가로줄하단*/
+.userinformation-line2{
+    width: 800px;
+    display: inline-block;
+    margin-left: 410px;
+    margin-top: 100px;
+    margin-bottom: 70px;
+}
+
+
+/*개인정보변경 카테고리 이름들*/
+div.user-userinformation-container span{
+    margin-left: 500px;
+    margin-right: 70px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/*변경 입력창들*/
+div.user-userinformation-container input{
+    width: 400px;
+    height: 40px;
+    border-radius: 10px;
+    border: 2px solid #B6B6B6;
+    margin-bottom: 30px;
+    font-size: 15px;
+    padding-left: 15px;
+}
+
+/*이름변경 글씨와 input박스 사이*/
+div.user-information-name span{
+    margin-right: 106px;
+}
+
+/*휴대폰번호 변경글씨와 input박스 사이*/
+div.user-information-phone span{
+    margin-right: 57px;
+}
+
+/*이메일과 현재 비밀번호 사이 아래간격*/
+div.user-information-email{
+    margin-bottom: 40px;
+}
+
+/*개인정보변경 버튼*/
+div.userinformation-modify-button {
+    margin-left: 750px;
+    margin-top: 50px;
+}
+
+/*비밀번호 입력양식 안내문 - 어길 시 입력차단, 표시됨*/
+.userinformation-notice{
+    margin-left: 685px;
+    margin-top: -30px;
+    font-size: 15px;
+    color: gray;
+}
+
+/*핸드폰번호 입력양식 안내문 - 어길 시 입력차단, 표시됨*/
+.error-input-phone{
+    font-size: 12px;
+    margin-left: 690px;
+    margin-top: -30px;
+    font-weight: bold;
+}

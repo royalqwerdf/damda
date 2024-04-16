@@ -29,8 +29,8 @@ public class UserInformationService {
         // 사용자 정보가 있는 경우, UserInformationDTO로 변환하여 반환
         return UserInformationDTO.fromEntity(member);
     }
-
-    public void updateUserInformation(Long memberId, UserInformationDTO userInformationDTO) {
+    /*예약수정*/
+    public UserInformationDTO updateUserInformation(Long memberId, UserInformationDTO userInformationDTO) {
         Member member = memberRepository.findById(memberId).orElse(null);
         if (member != null) {
             // 여기에서 UserInformationDTO의 정보로 회원 정보를 업데이트합니다.
@@ -40,7 +40,8 @@ public class UserInformationService {
             // 나머지 필요한 업데이트 로직 추가
             memberRepository.save(member);
         }
- }
+        return userInformationDTO;
+    }
     public void deleteUserInformation(Long memberId) {
         // DTO에서 memberId를 가져와서 회원 정보를 삭제합니다. UserInformationDTO userInformationDTO
         Member member = memberRepository.findById(memberId).orElse(null);
