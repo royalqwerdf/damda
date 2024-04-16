@@ -14,7 +14,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -47,13 +49,20 @@ public class JwtService {
     private static final String EMAIL_CLAIM = "userEmail";
     private static final String BEARER = "Bearer ";
 
+
     private final MemberRepository memberRepository;
+
+
 
     /**
      * AccessToken 생성 메소드
      */
     public String createAccessToken(Member member) {
         Date now = new Date();
+        // 만료 시간 설정
+        Date expiration = new Date(now.getTime() + accessTokenExpirationPeriod);
+        //엔티티의 accessTokenExpiration 필드에 만료시간 저장
+        member.setAccessTokenExpiration(expiration.toInstant());
         return JWT.create()
                 //JWT 토큰 생성 빌더 반환
                 .withSubject(ACCESS_TOKEN_SUBJECT)
@@ -69,6 +78,31 @@ public class JwtService {
                 .sign(Algorithm.HMAC512(secretKey));
 
     }
+
+
+    /**
+     * AccessToken 만료 여부 확인 및 자동 로그아웃 처리
+     */
+    public void checkAccessTokenExpirationAndLogout(String accessToken, LoginType loginType, HttpServletResponse response) {
+        try {
+            // AccessToken의 만료 시간 확인
+            Date expirationDate = JWT.require(Algorithm.HMAC512(secretKey))
+                    .build()
+                    .verify(accessToken)
+                    .getExpiresAt();
+
+            if (expirationDate != null && expirationDate.before(new Date())) {
+                // AccessToken 만료 시간이 지났을 경우 자동 로그아웃 처리
+                log.info("AccessToken이 만료되어 자동 로그아웃 처리를 진행합니다.");
+                clearRefreshToken(accessToken);
+                clearClientTokenData(response, loginType); // 로그인 타입에 따라 클라이언트 토큰 데이터 삭제
+            }
+        } catch (Exception e) {
+            log.error("AccessToken 유효성 검사 중 오류 발생: {}", e.getMessage());
+        }
+    }
+
+
 
     /**
      * RefreshToken 생성
@@ -175,41 +209,79 @@ public class JwtService {
     }
 
     /**
-     * AccessToken과 관련된 클라이언트 토큰 데이터를 삭제합니다.
-     *
-     * @param response    HttpServletResponse 객체
-     * @param loginType   로그인 타입
+     * 데이테 베이스에 리스페시 토큰 삭제 요청
+     * 새로운 토큰이 자동 생성됨
+     * @param refreshToken
      */
+    public void clearRefreshToken(String refreshToken) {
+        log.info("리프레시 토큰 삭제 메서드 호출됨");
+        memberRepository.getByRefreshToken(refreshToken).ifPresent(member -> {
+            member.clearRefreshToken();
+            memberRepository.save(member);
+            log.info("리프레시 토큰이 삭제되었습니다.");
+        });
+    }
+
+//    public void clearClientTokenData(HttpServletResponse response, LoginType loginType) {
+//        // 클라이언트에서 사용되는 토큰 데이터 삭제 로직을 여기에 구현합니다.
+//        // 예를 들어, 클라이언트에 설정된 쿠키를 삭제하는 등의 작업이 필요합니다.
+//        if (loginType != LoginType.BASIC) {
+//            // 회원정보 리스트를 갖고옴
+//            List<Member> members =  memberRepository.getByLoginType(loginType);
+//
+//            // 가져온 회원 정보를 순회하면서 만료된 엑세스 토큰의 만료 시간을 삭제
+//            for (Member member : members) {
+//                // 만료된 엑세스 토큰의 만료 시간을 null로 설정
+//                member.setAccessTokenExpiration(null);
+//                memberRepository.save(member);
+//            }
+//        }
+//
+//        if (loginType == LoginType.BASIC) {
+//            // 로컬 스토리지에서 삭제하는 로직을 구현
+//        } else {
+//            // 쿠키에서 삭제하는 로직을 구현
+//            Cookie cookie = new Cookie("accessToken", null); // 액세스 토큰을 담고 있는 쿠키를 삭제합니다.
+//            cookie.setMaxAge(0); // 쿠키의 만료 기간을 0으로 설정하여 즉시 만료시킵니다.
+//            cookie.setPath("/"); // 쿠키의 경로를 설정합니다.
+//            response.addCookie(cookie); // 응답 헤더에 쿠키를 추가하여 클라이언트에게 전달합니다.
+//        }
+//    }
+
     public void clearClientTokenData(HttpServletResponse response, LoginType loginType) {
-        switch (loginType) {
-            case BASIC:
-                clearLocalStorage(response);
-                break;
-            case KAKAO:
-                clearCookie(response);
-                break;
-            case NAVER:
-                clearCookie(response);
-                break;
-            case GOOGLE:
-                clearCookie(response);
-                break;
-            default:
-                log.error("Unsupported login type: {}", loginType);
-                break;
+        // 클라이언트에서 사용되는 토큰 데이터 삭제 로직을 여기에 구현합니다.
+        // 예를 들어, 클라이언트에 설정된 쿠키를 삭제하는 등의 작업이 필요합니다.
+        if (loginType == LoginType.BASIC) {
+            // 로컬 스토리지에서 삭제하는 로직을 구현
+        } else {
+            // 쿠키에서 삭제하는 로직을 구현
+            Cookie cookie = new Cookie("accessToken", null); // 액세스 토큰을 담고 있는 쿠키를 삭제합니다.
+            cookie.setMaxAge(0); // 쿠키의 만료 기간을 0으로 설정하여 즉시 만료시킵니다.
+            cookie.setPath("/"); // 쿠키의 경로를 설정합니다.
+            response.addCookie(cookie); // 응답 헤더에 쿠키를 추가하여 클라이언트에게 전달합니다.
+        }
+
+    }
+
+    /**
+     * 만료된 토큰의 만료 시간을 데이터베이스에서 삭제합니다.
+     * @param accessToken 삭제할 액세스 토큰
+     */
+    public void clearAccessTokenExpiration(String accessToken) {
+        try {
+            // 만료된 토큰의 만료 시간을 데이터베이스에서 삭제합니다.
+            memberRepository.clearExpiredAccessTokens(Instant.now());
+        } catch (Exception e) {
+            log.error("Failed to clear access token expiration from database: {}", e.getMessage());
         }
     }
 
-    private void clearLocalStorage(HttpServletResponse response) {
 
-    }
 
-    private void clearCookie(HttpServletResponse response) {
 
-        Cookie cookie = new Cookie("accessToken", null); // 동일한 이름의 빈 값을 가진 쿠키 생성
-        cookie.setMaxAge(0); // 쿠키의 만료 기간을 0으로 설정하여 즉시 만료되도록 함
-        cookie.setPath("/"); // 쿠키의 경로 설정 (쿠키가 유효한 경로 지정)
-        response.addCookie(cookie); // 응답 헤더에 쿠키 추가
-    }
+
+
+
+
 
 }
