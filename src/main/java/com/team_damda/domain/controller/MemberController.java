@@ -2,6 +2,7 @@ package com.team_damda.domain.controller;
 
 import com.team_damda.domain.dto.MemberPhoneUpdateRequest;
 import com.team_damda.domain.dto.MemberSignupDto;
+import com.team_damda.domain.dto.UserInformationDTO;
 import com.team_damda.domain.entity.Member;
 import com.team_damda.domain.enums.Role;
 import com.team_damda.domain.service.JwtService;
@@ -70,8 +71,10 @@ public class MemberController {
     }
 
     @GetMapping("/member/{email}")
-    public Long getMemberId(@PathVariable("email") String email) {
-        return memberService.getMemberId(email);
+    public UserInformationDTO getMemberId(@PathVariable("email") String email) {
+
+        Member member = memberService.getMember(email);
+        return UserInformationDTO.fromEntity(member);
     }
 
 

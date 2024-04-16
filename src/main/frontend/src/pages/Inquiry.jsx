@@ -12,13 +12,16 @@ function Inquiry(){
     const token = localStorage.getItem('accessToken');
     const decodedToken = jwtDecode(token);
     const memberEmail = decodedToken.userEmail;
-    let memberId;
+    const [member,setMember] = useState([]);
+
+    console.log(memberEmail);
 
     useEffect(() => {
         axios.get(`/api/member/${memberEmail}`)
             .then(response=>
             {
-                memberId = response.data;
+                setMember(response.data);
+                console.log(response.data);
             })
             .catch(error => console.log(error))
     }, []);
@@ -50,6 +53,7 @@ function postInquiry(){
     let title = document.getElementById("inquiry-title").value.toString();
     let content = document.getElementById("inquiry-content").value.toString();
     let type = document.getElementById("dropdownUl").innerText;
+    let memberId = member.id;
 
     axios.post(`/inquiry/${memberId}`, {
             title: title,

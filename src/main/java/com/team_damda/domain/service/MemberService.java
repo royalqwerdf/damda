@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 
 @Service
 @Transactional
@@ -55,9 +57,8 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
-    public Long getMemberId(String email) {
-        Member member = memberRepository.findByUserEmail(email);
-        return member.getId();
+    public Member getMember(String email) {
+        return memberRepository.getByUserEmail(email).orElse(null);
     }
 
 }
