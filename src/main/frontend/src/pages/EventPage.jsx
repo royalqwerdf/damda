@@ -16,11 +16,13 @@ function EventPage(){
     }, [id]);
 
     return(
-        <div style={{textAlign:"center",marginTop:"200px"}}>
-            <img src={data.image} alt="이미지"/>
-            <span>{data.id}</span>
-            <span>{data.title}</span>
-            <span>{data.content}</span>
+        <div style={{margin: "200px 20%", display: "grid", gridTemplateColumns: "1fr",gap:"20px"}}>
+            <hr style={{width: "100%"}}/>
+            <div style={{textAlign:"center"}}>{data.title}</div>
+            <hr style={{width: "100%"}}/>
+            <img style={{width: "100%"}} src={data.image} alt="이미지"/>
+            <div>{data.content}</div>
+            <hr style={{width: "100%"}}/>
         </div>
     )
 }
