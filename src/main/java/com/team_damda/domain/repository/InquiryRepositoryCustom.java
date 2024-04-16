@@ -10,5 +10,8 @@ import java.util.List;
 @Repository
 public interface InquiryRepositoryCustom {
     List<Inquiry> searchInquiryByEmail(String classify, String user, String searchContent, Date startDay, Date endDay);
+    List<Inquiry> searchAllInquiryByEmail(String c, String sr, Date sday, Date eday);
+    List<Inquiry> searchInquiryByTitle(String classify, String user, String searchContent, Date startDay, Date endDay);
+    List<Inquiry> searchAllInquiryByTitle(String c, String sr, Date sday, Date eday);
 
 }
