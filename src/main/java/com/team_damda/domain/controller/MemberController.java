@@ -24,7 +24,6 @@ import java.util.Map;
 public class MemberController {
 
     private final MemberService memberService;
-    private final LoginService loginService;
     private final JwtService jwtService;
 
 
