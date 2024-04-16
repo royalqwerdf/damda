@@ -22,6 +22,7 @@ public class InquiryController {
 
     private final InquiryService inquiryService;
 
+    /*
     @GetMapping("/admin-home")
     public Map<String, Object> getInquiryList(@RequestParam(defaultValue = "0") int page,
                                                @RequestParam(defaultValue = "10") int size) {
@@ -35,6 +36,30 @@ public class InquiryController {
 
         return result;
     }
+     */
+    @GetMapping("/admin-home")
+    public Map<String, Object> getInquiryList(@RequestBody InquiryRequest request) {
+        int page = 0;
+        int size = 10;
+
+        String classify = request.getClassify();
+        String userId = request.getUserId();
+        String selectedUser = request.getSelectedUser();
+        String searchContent = request.getSearchContent();
+        Date startDay = request.getStartDay();
+        Date endDay = request.getEndDay();
+
+
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<InquiryDto> inquiries = inquiryService.sortInquiry(classify, userId, selectedUser, searchContent, startDay, endDay, pageRequest);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("inquiryList", inquiries.getContent());
+        result.put("totalPages", inquiries.getTotalPages());
+        result.put("totalElements", inquiries.getTotalElements());
+
+        return result;
+    }
 
     @PostMapping("/inquiry")
     public void AddInquiry(@RequestBody Inquiry inquiry) {
@@ -43,6 +68,7 @@ public class InquiryController {
         inquiryService.addInquiry(inquiry);
     }
 
+    /*
     @PostMapping("/admin-home")
     public void getInquirySetting(@RequestBody InquiryRequest request){
         String classify = request.getClassify();
@@ -54,5 +80,6 @@ public class InquiryController {
 
         inquiryService.sortInquiry(classify, userId, selectedUser, searchContent, startDay, endDay);
     }
+     */
 
 }
