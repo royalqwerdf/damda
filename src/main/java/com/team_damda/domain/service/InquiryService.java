@@ -69,4 +69,11 @@ public class InquiryService {
 
         return searchInquiries;
     }
+
+    @Transactional
+    public List<Inquiry> getInquiry(Long memberId){
+        return inquiryRepository.findAllByMember_Id(memberId);
+    }
+
+
 }

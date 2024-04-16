@@ -1,5 +1,6 @@
 package com.team_damda.domain.oauth2;
 
+import com.team_damda.domain.enums.LoginType;
 import com.team_damda.domain.enums.Role;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,10 +13,12 @@ import java.util.Map;
 public class CustomOAuth2User extends DefaultOAuth2User {
     private String userEmail;
     private Role role;
+    private LoginType loginType;
 
-    public CustomOAuth2User(Collection<? extends GrantedAuthority> authorities, Map<String, Object> attributes, String nameAttributeKey, String userEmail, Role role) {
+    public CustomOAuth2User(Collection<? extends GrantedAuthority> authorities, Map<String, Object> attributes, String nameAttributeKey, String userEmail, Role role, LoginType loginType) {
         super(authorities, attributes, nameAttributeKey);
         this.userEmail = userEmail;
         this.role = role;
+        this.loginType = loginType;
     }
 }

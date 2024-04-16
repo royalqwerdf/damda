@@ -14,7 +14,6 @@ function Inquiry(){
     const memberEmail = decodedToken.userEmail;
     const [member,setMember] = useState([]);
 
-    console.log(memberEmail);
 
     useEffect(() => {
         axios.get(`/api/member/${memberEmail}`)

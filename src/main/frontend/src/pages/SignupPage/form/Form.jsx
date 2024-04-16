@@ -101,10 +101,10 @@ const Form = ({title}) => {
                     placeholder="E-mail"
                     {...register("userEmail", userEmail)}
                 />
-                {errors?.email &&
+                {errors?.userEmail &&
                     <div>
                     <span className={styles.form_error}>
-                        {errors.email.message}
+                        {errors.userEmail.message}
                     </span>
                     </div>
                 }

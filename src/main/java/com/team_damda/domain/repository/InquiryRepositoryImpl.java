@@ -162,4 +162,5 @@ public class InquiryRepositoryImpl implements InquiryRepositoryCustom {
         return query.getResultList();
     }
 
+
 }
