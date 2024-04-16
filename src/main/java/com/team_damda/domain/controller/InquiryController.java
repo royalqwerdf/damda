@@ -4,6 +4,7 @@ import com.team_damda.domain.dto.InquiryDto;
 import com.team_damda.domain.dto.InquiryRequest;
 import com.team_damda.domain.entity.Inquiry;
 import com.team_damda.domain.entity.Member;
+import com.team_damda.domain.enums.Role;
 import com.team_damda.domain.repository.InquiryRepository;
 import com.team_damda.domain.repository.MemberRepository;
 import com.team_damda.domain.service.InquiryService;
@@ -27,6 +28,7 @@ public class InquiryController {
     private final MemberService memberService;
     private final MemberRepository memberRepository;
 
+    /*
     @GetMapping("/admin-home")
     public Map<String, Object> getInquiryList(@RequestParam(defaultValue = "0") int page,
                                                @RequestParam(defaultValue = "10") int size) {
@@ -40,6 +42,30 @@ public class InquiryController {
 
         return result;
     }
+     */
+    @GetMapping("/admin-home")
+    public Map<String, Object> getInquiryList(@RequestBody InquiryRequest request) {
+        int page = 0;
+        int size = 10;
+
+        String classify = request.getClassify();
+        String userId = request.getUserId();
+        String selectedUser = request.getSelectedUser();
+        String searchContent = request.getSearchContent();
+        Date startDay = request.getStartDay();
+        Date endDay = request.getEndDay();
+
+
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<InquiryDto> inquiries = inquiryService.sortInquiry(classify, userId, selectedUser, searchContent, startDay, endDay, pageRequest);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("inquiryList", inquiries.getContent());
+        result.put("totalPages", inquiries.getTotalPages());
+        result.put("totalElements", inquiries.getTotalElements());
+
+        return result;
+    }
 
     @PostMapping("/inquiry/{memberId}")
     public void AddInquiry(@RequestBody Inquiry inquiry,@PathVariable Long memberId) {
@@ -47,10 +73,16 @@ public class InquiryController {
         inquiry.setMember(member);
         inquiry.setComment_yn("n");
         inquiry.setUserEmail(member.getUserEmail());
-        inquiry.setMemberRole(member.getRole().getKey());
+        if(member.getRole() == Role.USER) {
+            inquiry.setMemberRole("일반");
+        } else if(member.getRole() == Role.MANAGER) {
+            inquiry.setMemberRole("호스트");
+        }
+
         inquiryService.addInquiry(inquiry);
     }
 
+    /*
     @PostMapping("/admin-home")
     public void getInquirySetting(@RequestBody InquiryRequest request){
         String classify = request.getClassify();
@@ -62,5 +94,6 @@ public class InquiryController {
 
         inquiryService.sortInquiry(classify, userId, selectedUser, searchContent, startDay, endDay);
     }
+     */
 
 }
