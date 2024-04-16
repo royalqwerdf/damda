@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../../styles/UserHome.css';
 import UserLeftMenu from "../../components/UserLeftMenu";
 // npm jwt-decode install 필요
 //import { jwtDecode } from 'jwt-decode';
 import axios from "axios";
+import ListReservation from "../../components/ListReservation";
 const baseUrl = "http://localhost:8080/User-Home";
 function UserHome() {
-    /* 토큰이 유효하지 않다는 오류가 뜸, 나중에 님 앞에 {memberName} 삽입
+
+    const navigate = useNavigate();
+
+    /* 토큰이 유효하지 않다는 오류가 뜸, 나중에 "님"글자 앞에 {memberName} 삽입
     const [memberName, setMemberName] = useState('');
 
     useEffect(() => {
@@ -32,47 +37,114 @@ function UserHome() {
     }, []);
 */
 
-    return (
-        <div>
+    const [userReservationList, setUserReservationList] = useState([]);
 
-            <div className="user-left-menu">
-                <UserLeftMenu/>
-            </div>
+    useEffect(() => {
+        fetchUserReservationList();
+    }, []);
 
-        <div className="user-home-container">
+    const fetchUserReservationList = async () => {
+        try {
+            const response = await axios.get('/OrderDetail/listreservation'); // 예약 데이터를 가져오는 API 호출
+            setUserReservationList(response.data);
+        } catch (error) {
+            console.error('Error fetching reservations:', error);
+        }
+    };
+    {/* 오픈한 클래스 내용을 불러와야하는데 로직을 모르겠음
+    const [userClassList, setUserClassList] = useState([]);
 
-            <div className="welcome-user-home">
-                <p className="user-name-on">님</p>
-                <p className="user-hello">반갑습니다.</p>
-            </div>
+    useEffect(() => {
+        fetchUserClassList();
+    }, []);
 
-            <div className="now">
-                <h3 className="reservation-now">진행중인 예약</h3>
-                <div className="reservation-now">
-                    <div className="now-circle"></div>
-                    <div className="title-user-home">
-                        <p>클래스 이름</p>
-                        <p>예약 날짜</p>
-                        <p>결제 금액</p>
-                    </div>
+    const fetchUserClassList = async () => {
+        try {
+            const response = await axios.get('/OrderDetail/listreservation'); // 예약 데이터를 가져오는 API 호출
+            setUserClassList(response.data);
+        } catch (error) {
+            console.error('Error fetching Class:', error);
+        }
+    };
+*/
+
+    }
+
+
+        return (
+            <div>
+
+                <div className="user-left-menu">
+                    <UserLeftMenu/>
                 </div>
 
-                <h3 className="class-now">진행중인 클래스</h3>
-                <div className="class-now">
-                    <div className="now-circle"></div>
-                    <div className="title-user-home">
-                    <p>클래스 이름</p>
-                    <p>예약 날짜</p>
-                    <p>결제 금액</p>
+                <div className="user-home-container">
+
+                    <div className="welcome-user-home">
+                        <p className="user-name-on">님</p>
+                        <p className="user-hello">반갑습니다.</p>
                     </div>
+                    {/*예약목록이 있으면 예약현황 템플릿 반환, 작업편의를 위해 ===로 변경해두었으나, 실제 로직 완료되면 >로 변경*/}
+                    {userReservationList.length === 0 ? (
+                        <div className="user-home-now">
+                            <h3 className="userhome-reservation-nowh3">진행중인 예약</h3>
+                            <div className="userhome-reservation-now">
+                                <div className="userhome-now-circle"></div>
+                                <div className="title-user-home">
+                                    <p>클래스 이름</p>
+                                    <p>예약 날짜</p>
+                                    <p>결제 금액</p>
+                                </div>
+                                <div className="data-user-home">
+                                    <p>{userReservationList.className}</p>
+                                    <p>{userReservationList.reservationDate}</p>
+                                    <p>{userReservationList.totalPrice}</p>
+                                </div>
+                            </div>
+
+                            <h3 className="userhome-class-nowh3">진행중인 클래스</h3>
+                            <div className="userhome-class-now">
+                                <div className="userhome-now-circle"></div>
+                                <div className="title-user-home">
+                                    <p>클래스 이름</p>
+                                    <p>예약 날짜</p>
+                                    <p>결제 금액</p>
+                                </div>
+                                <div className="data-user-home-class">
+                                    <p>{userReservationList.className}</p>
+                                    <p>{userReservationList.reservationDate}</p>
+                                    <p>{userReservationList.totalPrice}</p>
+                                </div>
+                            </div>
+                        </div>) : ( /*예약이 없으면 없을때 템플릿 반환*/
+                        <div className="userhome-none">
+
+                            <h3 className="userhome-reservation-nowh3">진행중인 예약</h3>
+                            <div onClick={() => navigate('/')} className="userhome-reservation-none">
+                            <div>
+                                <div>예약한 클래스가 없습니다.</div>
+                                <div>담다의 다양한 클래스들을 만나보세요!</div>
+                                </div>
+
+                            </div>
+
+                            <h3 className="userhome-class-nowh3">진행중인 클래스</h3>
+                            <div onClick={() => navigate('/class-open')} className="userhome-class-none">
+
+                                <div>등록된 클래스가 없습니다.</div>
+                                <div>나만의 클래스를 열어보세요!</div>
+
+                            </div>
+
+                        </div>
+                    )}
+
+
                 </div>
             </div>
 
+        );
 
-        </div>
-        </div>
-
-    );
 
 }
 /*
