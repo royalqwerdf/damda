@@ -10,6 +10,8 @@ import com.team_damda.domain.repository.MemberRepository;
 import com.team_damda.domain.service.InquiryService;
 import com.team_damda.domain.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,7 +27,7 @@ public class InquiryController {
     private final MemberService memberService;
     private final MemberRepository memberRepository;
 
-    /*
+
     @GetMapping("/admin-home")
     public Map<String, Object> getInquiryList(@RequestParam(defaultValue = "0") int page,
                                                @RequestParam(defaultValue = "10") int size) {
@@ -39,40 +41,7 @@ public class InquiryController {
 
         return result;
     }
-     */
-    @GetMapping("/admin-home")
-    public Map<String, Object> getInquiryList(@RequestBody InquiryRequest request) {
-        int page = 0;
-        int size = 10;
 
-        String classify = request.getClassify();
-        String userId = request.getUserId();
-        String selectedUser = request.getSelectedUser();
-        String searchContent = request.getSearchContent();
-        Date startDay = request.getStartDay();
-        Date endDay = request.getEndDay();
-
-
-        PageRequest pageRequest = PageRequest.of(page, size);
-        Page<InquiryDto> inquiries = inquiryService.sortInquiry(classify, userId, selectedUser, searchContent, startDay, endDay, pageRequest);
-
-        Map<String, Object> result = new HashMap<>();
-        result.put("inquiryList", inquiries.getContent());
-        result.put("totalPages", inquiries.getTotalPages());
-        result.put("totalElements", inquiries.getTotalElements());
-
-        return result;
-    }
-    @GetMapping("/inquiry/{memberId}")
-    public List<InquiryDto> getInquiry(@PathVariable("memberId") Long memberId) {
-        List<InquiryDto> inquiryDtos = new ArrayList<>();
-        List<Inquiry> inquiry = inquiryService.getInquiry(memberId);
-        for (Inquiry i : inquiry) {
-            InquiryDto inquiryDto = i.toDto();
-            inquiryDtos.add(inquiryDto);
-        }
-        return inquiryDtos;
-    }
 
     @PostMapping("/inquiry/{memberId}")
     public void AddInquiry(@RequestBody Inquiry inquiry,@PathVariable Long memberId) {
@@ -81,17 +50,17 @@ public class InquiryController {
         inquiry.setComment_yn("n");
         inquiry.setUserEmail(member.getUserEmail());
         if(member.getRole() == Role.USER) {
-            inquiry.setMemberRole("일반");
+            inquiry.setUser_role("일반");
         } else if(member.getRole() == Role.MANAGER) {
-            inquiry.setMemberRole("호스트");
+            inquiry.setUser_role("호스트");
         }
 
         inquiryService.addInquiry(inquiry);
     }
 
-    /*
+
     @PostMapping("/admin-home")
-    public void getInquirySetting(@RequestBody InquiryRequest request){
+    public ResponseEntity<Map<String, Object>> getInquirySetting(@RequestBody InquiryRequest request){
         String classify = request.getClassify();
         String userId = request.getUserId();
         String selectedUser = request.getSelectedUser();
@@ -99,10 +68,22 @@ public class InquiryController {
         Date startDay = request.getStartDay();
         Date endDay = request.getEndDay();
 
-        inquiryService.sortInquiry(classify, userId, selectedUser, searchContent, startDay, endDay);
-    }
-     */
+        System.out.println("Start Day: " + startDay);
+        System.out.println("End Day: " + endDay);
 
+        List<Inquiry> sortInquiries = inquiryService.sortInquiry(classify, userId, selectedUser, searchContent, startDay, endDay);
+
+        int pageSize = 10; // 페이지당 아이템 수를 설정할 수 있습니다. 원하는 값으로 변경하세요.
+        Page<Inquiry> sortedPage = new PageImpl<>(sortInquiries, PageRequest.of(0, pageSize), sortInquiries.size());
+        Page<InquiryDto> sotredDtoPage = sortedPage.map(Inquiry::toDto);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("inquiryList", sotredDtoPage.getContent());
+        result.put("totalPages", sotredDtoPage.getTotalPages());
+        result.put("totalElements", sotredDtoPage.getTotalElements());
+
+        return ResponseEntity.ok().body(result);
+    }
 
 
 }

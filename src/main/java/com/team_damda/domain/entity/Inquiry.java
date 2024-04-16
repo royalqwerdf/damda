@@ -46,13 +46,11 @@ public class Inquiry extends BaseTimeEntity {
     private String userEmail;
 
     @Column(name="user_role")
-    private String memberRole;
+    private String user_role;
 
 
     public InquiryDto toDto() {
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        String formattedDate = dateFormat.format(this.getCreatedAt());
 
         return InquiryDto.builder()
                 .id(this.id)
@@ -61,8 +59,8 @@ public class Inquiry extends BaseTimeEntity {
                 .reply(this.reply)
                 .comment_yn(this.comment_yn)
                 .type(this.type)
-                .createdAt(formattedDate)
-                .memberRole(this.memberRole)
+                .createdAt(this.getCreatedAt())
+                .user_role(this.user_role)
                 .userEmail(this.userEmail)
                 .memberId(this.member.getId())
                 .build();
