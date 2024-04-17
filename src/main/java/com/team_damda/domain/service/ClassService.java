@@ -48,6 +48,8 @@ public class ClassService {
             Member member = memberRepository.findById(memberId).orElse(null);
             Category category = categoryRepository.findByCategoryName(classDto.getCategoryName());
             Class classEntity = classDto.toEntity(category, member);
+            classEntity.setManagerEmail(member.getUserEmail());
+            classEntity.setCategoryName(category.getCategoryName());
 
             Date classStartsAt = classEntity.getStartDate();
             Date classEndsAt = classEntity.getLastDate();
@@ -229,7 +231,7 @@ public class ClassService {
 
         if(cl.equals("아이디")) {
             searchClasses = classRepositoryImpl.searchClassByEmail(ca, se, sd, ed);
-        } else if(cl.equals("클래스명")) {
+        } else if(cl.equals("클래스")) {
             searchClasses = classRepositoryImpl.searchClassByClassName(ca, se, sd, ed);
         }
 

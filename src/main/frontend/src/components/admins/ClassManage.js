@@ -20,7 +20,7 @@ function ClassManage() {
     }, [setCurrentPage]);
 
     useEffect(() => {
-        axios.get(`/admin-home?page=${currentPage}`)
+        axios.get(`/admin-home/class?page=${currentPage}`)
             .then(res => {
                 setClassList(res.data.classList);
                 setTotalPages(res.data.totalPages);
@@ -39,7 +39,7 @@ function ClassManage() {
         // 백엔드에서 카테고리 이름 목록을 가져옴
         const fetchCategories = async () => {
             try {
-                const response = await axios.get('/admin-home/class');
+                const response = await axios.get('/class-open');
                 const data = response.data;
                 setCategoryList(data);
                 console.log('Fetched categories:', data);
@@ -52,7 +52,7 @@ function ClassManage() {
 
     const classIdRef = useRef();
     const [classIdIdentify, setClassIdIdentify] = useState('아이디');
-    const classIdList = ["아이디", "클래스명"];
+    const classIdList = ["아이디", "클래스"];
     const [isOpenClassId, setIsOpenClassId] = useDetectClose(classIdRef, false);
 
     const[category, setCategory] = useState('');
@@ -206,7 +206,7 @@ function ClassManage() {
                             <DatePicker selected={startDay} onChange={date => setStartDay(date)} selectsStart startDate={startDay} endDate={endDay} />
                             <div> ~ </div>
                             <DatePicker selected={endDay} onChange={date => setEndDay(date)} selectsEnd startDate={startDay} endDate={endDay} minDate={startDay} />
-                            <button style={{marginLeft: '10px', width: '60px', color: '#FFFFFF', height: '30px', backgroundColor: '#cd5c5c', border: '2px solid #e9967a', borderRadius: '10px'}} >검색</button>
+                            <button style={{marginLeft: '10px', width: '60px', color: '#FFFFFF', height: '30px', backgroundColor: '#cd5c5c', border: '2px solid #e9967a', borderRadius: '10px'}} onClick={handleClassSubmit} >검색</button>
                         </div>
                     </div>
 
@@ -234,7 +234,7 @@ function ClassManage() {
                                     <td style={{flex: '1', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{classes.categoryName}</td>
                                     <td style={{flex: '2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{classes.reserveCount}</td>
                                     <td style={{flex: '1', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>
-
+                                        <img src="/img/icon/Lucide.png" alt="관리아이콘"/>
                                     </td>
                                 </tr>
                             )

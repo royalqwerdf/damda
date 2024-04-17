@@ -43,10 +43,9 @@ public class ClassOpenController {
     }
 
 
-    @PostMapping("/class-open")
-    public Long createClass(@RequestBody RequestData requestData) {
+    @PostMapping("/class-open/{memberId}")
+    public Long createClass(@RequestBody RequestData requestData, @PathVariable Long memberId) {
 
-        Long memberId = 1L;
         ClassDto classDto = requestData.getClassDto();
         List<ClassTimeDto> classTimeDtos = requestData.getClassTimeDtos();
         List<ClassImageDto> classImageDtos = requestData.getClassImageDtos();
@@ -84,7 +83,7 @@ public class ClassOpenController {
         Page<ClassDto> sortedDtoPage = sortedPage.map(Class::toDto);
 
         Map<String, Object> result = new HashMap<>();
-        result.put("inquiryList", sortedDtoPage.getContent());
+        result.put("classList", sortedDtoPage.getContent());
         result.put("totalPages", sortedDtoPage.getTotalPages());
         result.put("totalElements", sortedDtoPage.getTotalElements());
 

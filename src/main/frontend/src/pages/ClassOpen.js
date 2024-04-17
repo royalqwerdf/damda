@@ -10,6 +10,8 @@ import PopupPostCode from '../components/PopupPostCode';
 import useUploadImage from '../hooks/useUploadImage';
 import axios from 'axios';
 import DatePicker from "react-datepicker";
+import {useNavigate} from "react-router-dom";
+import {jwtDecode} from "jwt-decode";
 
 import "react-datepicker/dist/react-datepicker.css";
 import 'bootstrap/dist/js/bootstrap.bundle';
@@ -231,6 +233,30 @@ const ClassOpen = () => {
         console.log("delete after Image Files:", imageFiles);
     };
 
+    //로그인 시에만 등록 기능을 이용할 수 있게 제한
+    const navigate = useNavigate();
+    const [member, setMember] = useState([]); //
+
+    useEffect(() => {
+        if(localStorage.getItem('accessToken') === null) {
+            if(window.confirm("로그인이 필요합니다.\n로그인 하시겠습니까?")) {
+                navigate("/login");
+            } else {
+                navigate("/");
+            }
+        } else {
+            const token = localStorage.getItem('accessToken');
+            const decodedToken = jwtDecode(token);
+            const memberEmail = decodedToken.userEmail;
+
+            axios.get(`/api/member/${memberEmail}`)
+                .then(response => {
+                    setMember(response.data);
+                })
+                .catch(error => console.log(error))
+        }
+    }, []);
+
 
     const handleClassSubmit = async (e) => {
         e.preventDefault();
@@ -278,12 +304,13 @@ const ClassOpen = () => {
                 classImageDtos : classImageDtos
             };
 
-            const response = await axios.post('/class-open', requestData);
+            const response = await axios.post(`/class-open/${member.id}`, requestData);
             console.log('클래스 생성 성공:', response.data);
 
         } catch (error) {
             console.error('클래스 생성 오류:', error);
         }
+        navigate("/");
 
     };
 

@@ -58,6 +58,8 @@ public class Class extends BaseTimeEntity{
     private int totalLike;
     @Column(name="manager_email")
     private String managerEmail;
+    @Column(name="category_name")
+    private String categoryName;
 
 
     @ManyToOne

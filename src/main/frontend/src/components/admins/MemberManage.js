@@ -6,7 +6,7 @@ import axios from "axios";
 
 
 function MemberManage() {
-    /*
+/*
     // 회원 목록 불러오기
 
     const [members, setMembers] = useState([]);
@@ -164,7 +164,7 @@ function MemberManage() {
         </div>
 
     );
-    */
+*/
 }
 
 export default MemberManage;
