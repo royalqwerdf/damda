@@ -20,7 +20,7 @@
 
 #search-tab input {
     margin-left: 20px;
-    width: 232px;
+    width: 45%;
     height: 40px;
     border-radius: 10px;
     border-color: #B6B6B6;
@@ -29,7 +29,7 @@
 #search-tab button {
     font-size: 16px;
     margin-left: 22px;
-    width: 85px;
+    width: 20%;
     height: 40px;
     border-radius: 10px;
     border-color: #f52334;
@@ -55,11 +55,11 @@
 
 .column-name span {
     font-size: 12px;
-    margin: 0 35px 0 35px;
+    margin: 0 8% 0 8%;
 }
 
 .column-name span.email {
-    margin: 0 70px 0 70px;
+    margin: 0 12% 0 12%;
 }
 
 #member-list {
@@ -70,15 +70,15 @@
     display: inline-flex;
     justify-content: center;
     font-size: 12px;
-    width: 104px;
+    width: 21.5%;
 }
 
 #member-list span.email {
-    width: 173px;
+    width: 28%;
 }
 
 #member-list span.buttons {
-    width: 140px;
+    width: 24%;
 }
 
 #member-list span.buttons button {
@@ -118,7 +118,17 @@
     font-size: 24px;
 }
 
+.modal .modal-content img {
+    width: 20px;
+    height: 20px;
+    position: fixed;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+}
+
 .modal p {
+    margin-left: 28%;
     padding-bottom: 30px;
 }
 
@@ -152,6 +162,6 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.5); /* 배경을 흐리게 하려면 투명도를 조절합니다. */
+    background-color: rgba(255, 255, 255, 0.5);
     z-index: 999;
 }
