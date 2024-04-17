@@ -9,7 +9,8 @@ export const login = async ({ userEmail, password }, navigate) => {
         const accessToken = response.headers['authorization'];
         if (accessToken) {
             localStorage.setItem('accessToken', accessToken);
-            navigate('/'); // 성공적인 로그인 후 리다이렉션
+            //navigate('/'); // 성공적인 로그인 후 리다이렉션
+            window.location.replace("/");
         } else {
             console.error('로그인 실패: 액세스 토큰을 받지 못했습니다.');
         }

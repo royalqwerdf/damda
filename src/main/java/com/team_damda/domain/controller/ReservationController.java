@@ -70,4 +70,10 @@ public class ReservationController {
         return ResponseEntity.ok("담기가 완료되었습니다.");
     }
 
+    @GetMapping("/member-reservation/{memberId}")
+    public List<ClassReservationDto> getReservation(@PathVariable("memberId") Long memberId) {
+        System.out.println(classReservationService.getMemberReservation(memberId));
+        return classReservationService.getMemberReservation(memberId);
+    }
+
 }

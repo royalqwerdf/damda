@@ -111,13 +111,24 @@ div.data-user-home {
     margin-top: 20px;
     margin-left: 170px;
 }
+div.data-user-home p{
+    float: left; /*왼쪽부터 가로정렬*/
+    margin-left: 40px;
+    margin-right: 95px;
+    font-size: 18px;
+}
 
 /*클래스 운영 데이터*/
 div.data-user-home-class{
     margin-top: 20px;
     margin-left: 170px;
 }
-
+div.data-user-home-class p{
+    float: left; /*왼쪽부터 가로정렬*/
+    margin-left: 40px;
+    margin-right: 95px;
+    font-size: 18px;
+}
 
 /*----------------데이터값이 없을 떄---------------*/
 
