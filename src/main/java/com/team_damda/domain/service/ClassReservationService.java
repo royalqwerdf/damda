@@ -14,6 +14,9 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class ClassReservationService {
     private final ClassRepository classRepository;
@@ -48,6 +51,16 @@ public class ClassReservationService {
         classReservationRepository.save(reservation);
         // 클래스 예약정보 갱신
         classTimeRepository.save(reservationTime);
+    }
+    public List<ClassReservationDto> getMemberReservation(Long memberId){
+        List<ClassReservation> classReservations = classReservationRepository.findByMember_Id(memberId);
+        List<ClassReservationDto> classReservationDtos = new ArrayList<>();
+
+        for (ClassReservation reservation : classReservations) {
+            ClassReservationDto reservationDto = reservation.toDto();
+            classReservationDtos.add(reservationDto);
+        }
+        return classReservationDtos;
     }
 
 

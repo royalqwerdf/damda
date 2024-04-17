@@ -1,11 +1,12 @@
 import React from 'react';
 import '../styles/MainPage.css';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useAuth} from "../api/AuthProvider";
 
 
 function Navigation(){
     const { isLoggedIn, logout } = useAuth();
+    const navigate = useNavigate();
 
     const handleLogout = () => {
         console.log("로그아웃 버튼이 클릭되었습니다.");
@@ -23,7 +24,7 @@ function Navigation(){
             <div id="menu">
                 <Link to="/search">클래스</Link>
                 <Link to="/news" id="news">담다소식</Link>
-                <Link to="/inquiry">문의하기</Link>
+                <Link to={"/inquiry"}>문의하기</Link>
             </div>
 
             <div>
@@ -32,7 +33,7 @@ function Navigation(){
                 </Link>
                 {isLoggedIn ? (
                     <>
-                        <Link to="/mypage" id="rightbar">MyPage</Link>
+                        <Link to="/User-Home" id="rightbar">MyPage</Link>
                         <Link to="/" onClick={handleLogout}>LogOut</Link>
                     </>
                 ) : (
