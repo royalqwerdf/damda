@@ -123,6 +123,26 @@ function ClassManage() {
         }
     };
 
+    //클래스 삭제 기능
+    const handleClassDelete = async (classId) => {
+        // 경고창을 통해 사용자에게 확인 메시지를 표시
+        const confirmDelete = window.confirm("클래스를 정말 삭제하시겠습니까?");
+
+        // 사용자가 '확인'을 눌렀을 때만 삭제 작업을 진행
+        if (confirmDelete) {
+            try {
+                await axios.delete(`/admin-home/class_delete/${classId}`);
+                console.log("클래스 삭제 완료");
+                window.location.reload();
+            } catch(error) {
+                console.error("클래스 삭제 실패 :" + error);
+            }
+        } else {
+            // 사용자가 '취소'를 눌렀을 때
+            console.log("클래스 삭제가 취소되었습니다.");
+        }
+    }
+
 
     return(
         <div className="container" style={{padding: '0px'}}>
@@ -214,11 +234,11 @@ function ClassManage() {
                         <thead style={{padding: '10px', width: '100%'}}>
                         <tr className="column-title-area" >
                             <th className="member-title" style={{marginLeft: '10px', flex: '2', color: '#424242', fontSize: '14px'}}>아이디</th>
-                            <th className="category-title" style={{marginLeft: '10px',flex: '2', color: '#424242', fontSize: '14px'}}>이름</th>
+                            <th className="category-title" style={{marginLeft: '10px',flex: '2', color: '#424242', fontSize: '14px'}}>호스트</th>
                             <th className="writer-title" style={{marginLeft: '10px',flex: '2', color: '#424242', fontSize: '14px'}}>클래스명</th>
                             <th className="writer-title" style={{marginLeft: '10px',flex: '1', color: '#424242', fontSize: '14px'}}>카테고리</th>
                             <th className="content-title" style={{marginLeft: '10px',flex: '2', color: '#424242', fontSize: '14px'}}>예약수</th>
-                            <th className="content-title" style={{marginLeft: '10px',flex: '1', color: '#424242', fontSize: '14px'}}>정보수정</th>
+                            <th className="content-title" style={{marginLeft: '10px',flex: '1', color: '#424242', fontSize: '14px'}}>삭제</th>
                         </tr>
                         </thead>
 
@@ -230,11 +250,15 @@ function ClassManage() {
                                 <tr key={classes.id}>
                                     <td style={{flex: '2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{classes.managerEmail}</td>
                                     <td style={{flex: '2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{classes.managerName}</td>
-                                    <td style={{flex: '2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{classes.className}</td>
+                                    <td style={{flex: '2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>
+                                        <Link to={`/class-reservation/${classes.id}`} style={{textDecoration: 'none', color: 'inherit'}}>
+                                            {classes.className}
+                                        </Link>
+                                    </td>
                                     <td style={{flex: '1', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{classes.categoryName}</td>
                                     <td style={{flex: '2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{classes.reserveCount}</td>
                                     <td style={{flex: '1', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>
-                                        <img src="/img/icon/Lucide.png" alt="관리아이콘"/>
+                                        <button style={{marginLeft: '10px', fontSize: '10px', width: '60px', color: '#cd5c5c', height: '20px', backgroundColor: '#FFFFFF', border: '2px solid #e9967a', borderRadius: '10px'}} onClick={() => handleClassDelete(classes.id)} >삭제</button>
                                     </td>
                                 </tr>
                             )

@@ -26,4 +26,6 @@ public interface ClassRepository extends JpaRepository<Class,Long>,ClassReposito
     Page<Class> findAllByOrderByCreatedAtDesc(Pageable pageable);
 
     List<Class> findByManager_Id(long id);
+
+    Class findClassById(Long classId);
 }

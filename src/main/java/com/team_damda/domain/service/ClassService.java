@@ -26,10 +26,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -252,6 +249,12 @@ public class ClassService {
             classDtos.add(classDto);
         }
         return classDtos;
+    }
+
+    @Transactional
+    public void deleteClassAndRelations(Long classId) {
+        Class onedayClass = classRepository.findClassById(classId);
+        classRepository.delete(onedayClass);
     }
 };
 

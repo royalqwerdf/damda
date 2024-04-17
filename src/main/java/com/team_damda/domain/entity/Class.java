@@ -70,19 +70,19 @@ public class Class extends BaseTimeEntity{
     @JoinColumn(name="category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "onedayClass")
+    @OneToMany(mappedBy = "onedayClass", cascade = CascadeType.ALL)
     private List<ClassTime> classTimes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "onedayClass")
+    @OneToMany(mappedBy = "onedayClass", cascade = CascadeType.ALL)
     private List<ClassReview> classReviews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "onedayClass")
+    @OneToMany(mappedBy = "onedayClass", cascade = CascadeType.ALL)
     private List<ClassLike> classLikes = new ArrayList<>();
 
     @OneToMany(mappedBy = "onedayClass", cascade = CascadeType.ALL)
     private List<ClassImage> classImages = new ArrayList<>();
 
-    @OneToMany(mappedBy = "onedayClass")
+    @OneToMany(mappedBy = "onedayClass", cascade = CascadeType.ALL)
     private List<ClassReservation> classReservations = new ArrayList<>();
 
     public ClassDto toDto(){

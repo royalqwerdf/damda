@@ -90,4 +90,9 @@ public class ClassOpenController {
         return ResponseEntity.ok().body(result);
     }
 
+    @DeleteMapping("/admin-home/class_delete/{classId}")
+    public void deleteClass(@PathVariable Long classId) {
+        classOpenService.deleteClassAndRelations(classId);
+    }
+
 }
