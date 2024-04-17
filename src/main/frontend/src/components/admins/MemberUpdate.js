@@ -26,11 +26,13 @@ function MemberUpdate() {
     useEffect(() => {
         axios.get(`http://localhost:8080/admin/members/${memberId}`)
             .then(response => {
+                // 회원 정보 가져오기
+                const member = response.data;
                 // 가져온 회원 정보를 상태에 설정
-                setUserEmail(userEmail);
-                setPassword(password);
-                setName(name);
-                setPhone(phone);
+                setUserEmail(member.userEmail);
+                setPassword(member.password);
+                setName(member.name);
+                setPhone(member.phone);
             })
             .catch(error => {
                 console.error('회원 정보를 가져오는 중 오류 발생:', error);

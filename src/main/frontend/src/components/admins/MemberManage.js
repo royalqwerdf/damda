@@ -6,7 +6,6 @@ import axios from "axios";
 
 
 function MemberManage() {
-    /*
     // 회원 목록 불러오기
 
     const [members, setMembers] = useState([]);
@@ -145,6 +144,7 @@ function MemberManage() {
                                     <div>
                                         <div className="modal">
                                             <div className="modal-content">
+                                                <img onClick={() => setShowModal(false)} src="https://cdn-icons-png.flaticon.com/128/9199/9199686.png"/>
                                                 <p>회원을 삭제하시겠습니까?</p>
                                                 <div className="buttons">
                                                     <button onClick={() => setShowModal(false)}>취소</button>
@@ -164,7 +164,6 @@ function MemberManage() {
         </div>
 
     );
-    */
 }
 
 export default MemberManage;
