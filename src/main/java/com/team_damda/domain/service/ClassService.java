@@ -19,6 +19,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,7 @@ public class ClassService {
     private final MemberRepository memberRepository;
     private final ClassTimeRepository classTimeRepository;
     private final ClassImageRepository classImageRepository;
+    private final ClassRepositoryImpl classRepositoryImpl;
 
 
     @Transactional
@@ -212,6 +215,30 @@ public class ClassService {
             newClassImageDto.add(classImageDto);
         }
         return newClassImageDto;
+    }
+
+    @Transactional
+    public Page<ClassDto> getClassByOrder(PageRequest pageRequest) {
+        Page<Class> classPage = classRepository.findAllByOrderByCreatedAtDesc(pageRequest);
+        return classPage.map(Class::toDto);
+    }
+
+    @Transactional
+    public List<Class> sortClass(String ca, String cl, String se, Date sd, Date ed) {
+        List<Class> searchClasses = new ArrayList<>();
+
+        if(cl.equals("아이디")) {
+            searchClasses = classRepositoryImpl.searchClassByEmail(ca, se, sd, ed);
+        } else if(cl.equals("클래스명")) {
+            searchClasses = classRepositoryImpl.searchClassByClassName(ca, se, sd, ed);
+        }
+
+        for(Class onedayClass : searchClasses) {
+            System.out.println("!2!2!2!2!2 : " + onedayClass.getClassName());
+        }
+
+        return searchClasses;
+
     }
 };
 
