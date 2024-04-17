@@ -24,7 +24,6 @@ import java.util.Map;
 public class MemberController {
 
     private final MemberService memberService;
-    private final LoginService loginService;
     private final JwtService jwtService;
 
 
@@ -69,6 +68,7 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "사용자 업데이트 오류"));
         }
     }
+
 
     @GetMapping("/member/{email}")
     public UserInformationDTO getMemberId(@PathVariable("email") String email) {

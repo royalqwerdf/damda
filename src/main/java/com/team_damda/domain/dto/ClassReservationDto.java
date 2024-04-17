@@ -26,6 +26,9 @@ public class ClassReservationDto {
     private long select_time;
     private String classType;
     private long user_id;
+    private String className;
+    private String mainImage;
+
     public ClassReservation toEntity(Class ondayClass) {
         return ClassReservation.builder()
                 .onedayClass(ondayClass)

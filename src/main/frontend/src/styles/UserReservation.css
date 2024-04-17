@@ -32,12 +32,9 @@ h3.now-reservationh3{
 div.my-now-reservation{
     display: flex; /*스크롤 문제있으면 여기 수정해보기*/
     width: 100%;
-    margin-top: -530px;
-    margin-bottom: 20px;
-
 }
 
-/*상자*/
+/*예약 상자*/
 div.now-reservation {
     position: relative;
     overflow: visible; /*스크롤바 없이 위로 올림*/
@@ -45,20 +42,22 @@ div.now-reservation {
     border: 1px solid #FFFFFF;
     padding: 20px;
     left: 310px;
-    margin-top: 530px;
-
 }
 
 
-/*이미지 들어갈 원형*/
+/*div 원형*/
 div.reservation-circle {
     width: 100px;
     height: 100px;
     background-color: #FFF5D9;
     border-radius: 50%; /* 원을 만들기 위해 반지름을 50%로 설정 */
-    margin-top: 10px;
+    margin-top: 30px;
     margin-left: 100px;
+    overflow: hidden;
+    margin-bottom: -120px;
 }
+
+/*원형div안에 담기는 이미지 - 예약*/
 
 /*상자 안 글자*/
 div.title-reservation {
@@ -67,7 +66,6 @@ div.title-reservation {
     font-size: 15px;
     font-weight: bolder;
     align-content: center;
-
 }
 
 /*상자 안 글자 a태그 간격*/
@@ -79,8 +77,10 @@ div.title-reservation a{
 /*버튼 모두*/
 div.reservation-button{
     margin-left: 820px;
-    margin-top: -15px;
+    margin-top: -50px;
 }
+
+/*------------예약이 없을 때-------------*/
 
 /*예약이 하나도 없을 때*/
 div.user-reservation-list-none{
@@ -92,6 +92,14 @@ div.user-reservation-list-none{
 
 /*데이터 값 글자*/
 div.data-reservation {
+    margin-top: 30px;
+    margin-left: 250px;
+    font-size: 15px;
+    align-content: center;
+    text-align: left;
+    height: 50px;
+    padding-top: 20px;
+
     div.title-reservation {
         margin-top: 30px;
         margin-left: 250px;
@@ -99,4 +107,8 @@ div.data-reservation {
         font-weight: bolder;
         align-content: center;
     }
+}
+div.data-reservation a{
+    margin-left: 10px;
+    margin-right: 50px;
 }

@@ -7,10 +7,14 @@ import com.team_damda.domain.entity.ClassReservation;
 import com.team_damda.domain.entity.Class;
 import com.team_damda.domain.entity.ClassTime;
 import com.team_damda.domain.entity.Member;
+import com.team_damda.domain.exception.NotFoundException;
 import com.team_damda.domain.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ClassReservationService {
@@ -52,10 +56,22 @@ public class ClassReservationService {
         // 클래스 예약정보 갱신
         classTimeRepository.save(reservationTime);
     }
+    public List<ClassReservationDto> getMemberReservation(Long memberId){
+        List<ClassReservation> classReservations = classReservationRepository.findByMember_Id(memberId);
+        List<ClassReservationDto> classReservationDtos = new ArrayList<>();
 
+        for (ClassReservation reservation : classReservations) {
+            ClassReservationDto reservationDto = reservation.toDto();
+            classReservationDtos.add(reservationDto);
 
-    public ClassReservation getmemberInfo(Long id) {
-        return classReservationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Class not found with id: "));
+        }
+        return classReservationDtos;
     }
-}
+
+
+    public ClassReservation getmemberInfo(Long memberId,Long classId) {
+        return classReservationRepository.findByMemberIdAndOnedayClassId(memberId,classId).stream().findFirst().orElse(null);
+    }
+
+
+};

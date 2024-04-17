@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +50,9 @@ public class Member extends BaseTimeEntity {
     @Column(length = 1000)
     private String refreshToken;
 
+    @Column(name="access_token_expiration")
+    private Instant accessTokenExpiration;
+
 
     @OneToMany(mappedBy = "manager")
     private List<Class> classes = new ArrayList<>();
@@ -82,6 +86,12 @@ public class Member extends BaseTimeEntity {
     public void updateRefreshToken(String updateRefreshToken) {
         this.refreshToken = updateRefreshToken;
     }
+
+    public void clearRefreshToken() {
+        this.refreshToken = null; // 리프레시 토큰 필드를 null로 설정
+    }
+
+
 
 }
 

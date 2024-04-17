@@ -1,5 +1,6 @@
 package com.team_damda.domain.controller;
 
+import com.team_damda.domain.dto.CategoryDto;
 import com.team_damda.domain.entity.ClassReservation;
 import com.team_damda.domain.entity.OrderDetail;
 import com.team_damda.domain.repository.OrderDetailRepository;
@@ -56,7 +57,10 @@ public class OrderDetailController {
         public OrderDetail updateOrderDetail(@PathVariable Long orderDetailId, @RequestBody OrderDetail updatedOrderDetail) {
                 return orderDetailService.updateOrderDetail(orderDetailId, updatedOrderDetail);
         }
+
 }
+
+
 
 /* orderdetail에 들어갈 부분이 아닌 것 같음
         //예약수정
