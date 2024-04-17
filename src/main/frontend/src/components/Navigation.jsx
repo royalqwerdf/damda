@@ -42,6 +42,9 @@ function Navigation(){
                         <Link to="/signup">Signup</Link>
                     </>
                 )}
+                <Link to="/carts">
+                    <img id="cartIcon" src="https://cdn-icons-png.flaticon.com/128/4296/4296929.png"/>
+                </Link>
                 <Link to="/class-open">
                     <button>
                         클래스 등록

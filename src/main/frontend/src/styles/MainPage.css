@@ -190,6 +190,13 @@ body{
   width: 30px;
   height: 30px;
   vertical-align: bottom;
+  margin-right: 10px;
+}
+#cartIcon{
+  width: 30px;
+  height: 30px;
+  vertical-align: bottom;
+  margin: 0 10px 4px 10px;
 }
 #searchPage{
   justify-content: center;
