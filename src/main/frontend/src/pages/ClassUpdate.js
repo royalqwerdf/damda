@@ -322,7 +322,7 @@ const ClassOpen = () => {
                     <div className="class-information-input-area">
                         <div className="input-area">
                             <div className="class-registration" style={{ fontFamily: "arial", fontWeight: "bold", fontSize: "28px" }}>
-                                Class 등록
+                                Class 수정
                             </div>
 
                             <div className="class-name-input-area">

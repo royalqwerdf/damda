@@ -1,6 +1,6 @@
-export const ClaCateDropDown = ({value, setClaCateIdentify, setIsOpen, isOpen, isLast, handleSelectChange}) => {
+export const ClaCateDropDown = ({value, setCategoryIdentify, setIsOpen, isOpen, isLast, handleSelectChange}) => {
     const valueClick = () => {
-        setClaCateIdentify(value)
+        setCategoryIdentify(value)
         setIsOpen(!isOpen)
         handleSelectChange("category", value)
     }
