@@ -72,7 +72,6 @@ public class ReservationController {
 
     @GetMapping("/member-reservation/{memberId}")
     public List<ClassReservationDto> getReservation(@PathVariable("memberId") Long memberId) {
-        System.out.println(classReservationService.getMemberReservation(memberId));
         return classReservationService.getMemberReservation(memberId);
     }
 
