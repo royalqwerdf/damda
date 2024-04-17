@@ -69,6 +69,7 @@ public class MemberController {
         }
     }
 
+
     @GetMapping("/member/{email}")
     public UserInformationDTO getMemberId(@PathVariable("email") String email) {
 
