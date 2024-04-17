@@ -4,8 +4,11 @@ import {useNavigate} from "react-router-dom";
 import moment from "moment";
 import axios from "axios";
 
+
 function MemberManage() {
+    /*
     // 회원 목록 불러오기
+
     const [members, setMembers] = useState([]);
     // 회원 검색 결과
     const [filteredMembers, setFilteredMembers] = useState([]);
@@ -94,8 +97,9 @@ function MemberManage() {
                 console.error(error);
             })
         setShowModal(false);
+
     }
-    
+
     return(
         <div className="container" style={{padding: '0px'}}>
             <div className="admin-menu-area" style={{width: '100%'}}>
@@ -136,7 +140,7 @@ function MemberManage() {
                                     <button className="update" onClick={() => handleUpdateButtonClick(member.id)}>수정</button>
                                     <button className="delete" onClick={() => setShowModal(true)}>삭제</button>
                                 </span>
-                                {/* 모달 창 */}
+
                                 {showModal && (
                                     <div>
                                         <div className="modal">
@@ -158,7 +162,9 @@ function MemberManage() {
 
             </div>
         </div>
+
     );
+    */
 }
 
 export default MemberManage;

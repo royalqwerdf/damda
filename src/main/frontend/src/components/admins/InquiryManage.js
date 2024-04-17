@@ -29,32 +29,6 @@ function InquiryManage() {
     }, [currentPage]);
 
 
-    const handleSubmit = async () => {
-        console.log("분류 : " + classify);
-        console.log("검색값 : " + userId);
-        console.log("작성자 분류 : " + selectedUser);
-        console.log("검색내용 : " + searchContent);
-        console.log("시작일 : " + startDay);
-        console.log("종료일 : " + endDay);
-
-        await axios.post('/admin-home',{
-            params: {
-                classify: classify,
-                userId: userId,
-                selectedUser: selectedUser,
-                searchContent: searchContent,
-                startDay: startDay,
-                endDay: endDay
-            }
-        })
-            .then(res => {
-                setInquiryList(res.data.inquiryList);
-                setTotalPages(res.data.totalPages);
-            })
-            .catch(error => console.log("에러! :" + error))
-
-    };
-
     //회원 설정 드롭다운 박스 설정
     const inquiryRef = useRef();
     const [inquiryIdentify, setInquiryIdentify] = useState('');
