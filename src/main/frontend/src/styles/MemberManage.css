@@ -1,0 +1,157 @@
+#search-tab {
+    font-size: 16px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #776F6F;
+}
+
+#search-tab .drop-down {
+    margin-left: 20px;
+}
+
+#search-tab .drop-down select {
+    color: #B6B6B6;
+    font-size: 16px;
+    padding-left: 10px;
+    width: 100px;
+    height: 40px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#search-tab input {
+    margin-left: 20px;
+    width: 232px;
+    height: 40px;
+    border-radius: 10px;
+    border-color: #B6B6B6;
+}
+
+#search-tab button {
+    font-size: 16px;
+    margin-left: 22px;
+    width: 85px;
+    height: 40px;
+    border-radius: 10px;
+    border-color: #f52334;
+    background-color: #f52334;
+    color: white;
+    cursor: pointer;
+}
+
+.count {
+    margin-top: 30px;
+    font-size: 16px;
+}
+
+.count .number {
+    color: #f52334;
+}
+
+.column-name {
+    margin-top: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #776F6F;
+}
+
+.column-name span {
+    font-size: 12px;
+    margin: 0 35px 0 35px;
+}
+
+.column-name span.email {
+    margin: 0 70px 0 70px;
+}
+
+#member-list {
+    margin-top: 10px;
+}
+
+#member-list span {
+    display: inline-flex;
+    justify-content: center;
+    font-size: 12px;
+    width: 104px;
+}
+
+#member-list span.email {
+    width: 173px;
+}
+
+#member-list span.buttons {
+    width: 140px;
+}
+
+#member-list span.buttons button {
+    margin-left: 5px;
+    font-size: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#member-list span.buttons button.update {
+    border-color: #f52334;
+    color: #f52334;
+    background-color: white;
+}
+
+#member-list span.buttons button.delete {
+    border-color: #f52334;
+    color: white;
+    background-color: #f52334;
+}
+
+/* 모달 스타일 */
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    width: 650px;
+    height: 400px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.modal p {
+    padding-bottom: 30px;
+}
+
+.modal .buttons {
+    position: fixed;
+    bottom: 0%;
+    left: 0%;
+}
+
+.modal .buttons button {
+    width: 325px;
+    height: 75px;
+    border-color: #f52334;
+    background-color: white;
+    border-radius: 0 0 0 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.modal .buttons button.delete {
+    border-radius: 0 0 10px 0;
+    background-color: #f52334;
+    color: white;
+    font-size: 24px;
+}
+
+/* 배경 스타일 */
+.modal-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5); /* 배경을 흐리게 하려면 투명도를 조절합니다. */
+    z-index: 999;
+}

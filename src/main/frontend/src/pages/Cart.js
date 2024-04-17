@@ -1,12 +1,14 @@
 import '../styles/Cart.css';
 import React, {useEffect, useState} from 'react';
-import { Link, redirect } from 'react-router-dom';
+import { Link, redirect, useNavigate } from 'react-router-dom';
+import moment from 'moment';
 import axios from "axios";
 
-function Cart() {
+const Cart = () => {
+    const navigate = useNavigate();
     const [carts, setCarts] = useState([]);
     useEffect(() => {
-        axios.get('/carts')
+        axios.get('http://localhost:8080/carts')
             .then(response=>
             {
                 // 받아온 데이터를 가공하여 Date 객체로 변환
@@ -82,7 +84,7 @@ function Cart() {
         const deletedCartIds = [];
 
         const deleteRequests = checkboxes.map((cartId)=> {
-            return axios.delete(`/carts/${cartId}`)
+            return axios.delete(`http://localhost:8080/carts/${cartId}`)
                 .then(response => {
                     console.log(`Cart ${cartId} is deleted successfully`);
                     deletedCartIds.push(cartId);
@@ -115,16 +117,20 @@ function Cart() {
     const reserveCheckedCarts = () => {
         checkboxes.forEach((cartId) => {
             const cart = carts.find(cart => cart.id === cartId);
-            const reservationRequest = {
-                classDto: cart.classTime.onedayClass,
-                classTimeDto: cart.classTime
+            const reservationData = {
+                id: cart.classTime.onedayClass.id,
+                select_date: moment(cart.classTime.classDate).format('YYYY-MM-DD'),
+                select_time: cart.classTime.id,
+                select_person: cart.selectedCount,
+                total_price: cart.totalPrice,
+                classType: cart.classTime.onedayClass.category.categoryName
             };
-            axios.post(`/reservation`, { reservationRequest })
+            axios.post(`http://localhost:8080/reservation`, { reservationData })
                 .then(response => {
                     console.log(`Class ${cart.classTime.onedayClass.id} is reserved successfully`);
                     const updatedCarts = carts.filter(cart => cart.id !== cartId);
                     setCarts(updatedCarts);
-                    return <redirect to="/carts/reservation-complete"/>
+                    navigate("/carts/reservation-complete");
                 })
                 .catch(error => console.log(error));
         })
@@ -144,15 +150,19 @@ function Cart() {
     // 전체 클래스 예약
     const reserveAllCarts = () => {
         carts.forEach((cart) => {
-            const reservationRequest = {
-                classDto: cart.classTime.onedayClass,
-                classTimeDto: cart.classTime
+            const reservationData = {
+                id: cart.classTime.onedayClass.id,
+                select_date: moment(cart.classTime.classDate).format('YYYY-MM-DD'),
+                select_time: cart.classTime.id,
+                select_person: cart.selectedCount,
+                total_price: cart.totalPrice,
+                classType: cart.classTime.onedayClass.category.categoryName
             };
-            axios.post(`/reservation`, { reservationRequest })
+            axios.post(`http://localhost:8080/reservation`, { reservationData })
                 .then(response => {
                     console.log(`Class ${cart.classTime.onedayClass.id} is reserved successfully`);
                     setCarts([]);
-                    return <redirect to="/carts/reservation-complete"/>
+                    navigate("/carts/reservation-complete");
                 })
                 .catch(error => console.log(error));
         })

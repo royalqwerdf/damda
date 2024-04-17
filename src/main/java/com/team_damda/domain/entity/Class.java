@@ -56,6 +56,9 @@ public class Class extends BaseTimeEntity{
     private float totalRating;
     @Column(name="total_like")
     private int totalLike;
+    @Column(name="manager_email")
+    private String managerEmail;
+
 
     @ManyToOne
     @JoinColumn(name="manager_id")
@@ -76,6 +79,9 @@ public class Class extends BaseTimeEntity{
 
     @OneToMany(mappedBy = "onedayClass", cascade = CascadeType.ALL)
     private List<ClassImage> classImages = new ArrayList<>();
+
+    @OneToMany(mappedBy = "onedayClass")
+    private List<ClassReservation> classReservations = new ArrayList<>();
 
     public ClassDto toDto(){
         String mainImage = "";
@@ -105,6 +111,8 @@ public class Class extends BaseTimeEntity{
                 .categoryName(this.category.getCategoryName())
                 .managerName(this.manager.getName())
                 .managerPhone(this.manager.getPhone())
+                .managerEmail(this.manager.getUserEmail())
+                .reserveCount(this.classReservations.size())
 
                 .mainImage(mainImage)
                 .build();

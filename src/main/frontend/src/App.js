@@ -15,6 +15,7 @@ import AdminHome from "./pages/AdminHome";
 import Inquiry from "./pages/Inquiry";
 import NoticeAndEventPage from "./pages/NoticeAndEventPage";
 import Oauth2Signup from "./pages/Oauth2Signup";
+import MemberUpdate from "./components/admins/MemberUpdate";
 import UserDelete from "./pages/UserPage/UserDelete";
 import UserInformation from "./pages/UserPage/UserInformation";
 import UserReview from "./pages/UserPage/UserReview";
@@ -45,6 +46,7 @@ function App(){
                     <Route path="/signup" element={<SignupPage />} />
                     <Route path="/Oauth2Signup" element={<Oauth2Signup />} />
                     <Route path="/memberSaved" element={<MemberSaved />} />
+                    <Route path="/member-update/:id" element={<MemberUpdate/>}></Route>
                     <Route path="/admin-home" element={<AdminHome/>}></Route>
                     <Route path="/inquiry" element={<Inquiry/>}></Route>
                     <Route path="/announce/:id" element={<AnnouncePage/>}></Route>

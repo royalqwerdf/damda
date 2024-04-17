@@ -51,12 +51,13 @@ div.userhome-now-circle {
     border-radius: 50%; /* 원을 만들기 위해 반지름을 50%로 설정 */
     margin-top: 20px;
     margin-left: 40px;
+    overflow: hidden;
 }
 
 /*원형div안에 담기는 이미지 - 예약*/
 .reservation-now-circle-image {
-    width: 80px; /* 이미지 크기 조절 */
-    height: 80px;
+    width: 100px; /* 이미지 크기 조절 */
+    height: 100px;
     border-radius: 50%; /* 이미지를 원 모양으로 */
     object-fit: cover; /* 이미지가 원 안에 꽉 차도록 */
 }
@@ -89,12 +90,7 @@ div.title-user-home {
 }
 
 /*원형div안에 담기는 이미지 - 클래스*/
-.class-now-circle-image {
-    width: 80px; /* 이미지 크기 조절 */
-    height: 80px;
-    border-radius: 50%; /* 이미지를 원 모양으로 */
-    object-fit: cover; /* 이미지가 원 안에 꽉 차도록 */
-}
+
 
 /*클래스이름, 예약날짜, 결제금액*/
 /*데이터는 span태그 또는 p태그에 동일한 className으로 동일하게 정렬*/
@@ -111,13 +107,24 @@ div.data-user-home {
     margin-top: 20px;
     margin-left: 170px;
 }
+div.data-user-home p{
+    float: left; /*왼쪽부터 가로정렬*/
+    margin-left: 40px;
+    margin-right: 95px;
+    font-size: 18px;
+}
 
 /*클래스 운영 데이터*/
 div.data-user-home-class{
     margin-top: 20px;
     margin-left: 170px;
 }
-
+div.data-user-home-class p{
+    float: left; /*왼쪽부터 가로정렬*/
+    margin-left: 40px;
+    margin-right: 95px;
+    font-size: 18px;
+}
 
 /*----------------데이터값이 없을 떄---------------*/
 
