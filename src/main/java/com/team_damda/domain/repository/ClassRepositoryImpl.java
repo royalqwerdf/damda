@@ -54,34 +54,58 @@ public class ClassRepositoryImpl implements ClassRepositoryCustom{
     }
 
     @Override
-    public List<Class> searchClassByEmail(String category, String searching, Date startDay, Date endDay){
-        String searchSql = " select c from Class c where 1=1 ";
+    public List<Class> searchClassByEmail(String category, String searching, Date startDay, Date endDay) {
+        String searchSql = "SELECT c FROM Class c WHERE 1=1 ";
 
-        if(category!=null && !category.isEmpty()) {
-            searchSql += "and c.category = " + categoryRepository.findIdByCategoryName(category) + " ";
-        }
-        if(searching != null && !searching.isEmpty()) {
-            searchSql += "and c.managerEmail LIKE '%" + searching + "%' ";
+        // 카테고리가 주어진 경우
+        if (category != null && !category.isEmpty()) {
+            searchSql += "AND c.categoryName = :category ";
         }
 
-        TypedQuery<Class> list =
-                em.createQuery(searchSql, Class.class);
-        return list.getResultList();
+        // 이메일 검색이 주어진 경우
+        if (searching != null && !searching.isEmpty()) {
+            searchSql += "AND c.managerEmail LIKE :searching ";
+        }
+
+        TypedQuery<Class> query = em.createQuery(searchSql, Class.class);
+
+        // 바인딩 변수 설정
+        if (category != null && !category.isEmpty()) {
+            query.setParameter("category", category);
+        }
+        if (searching != null && !searching.isEmpty()) {
+            query.setParameter("searching", "%" + searching + "%");
+        }
+
+        return query.getResultList();
     }
+
 
     @Override
-    public List<Class> searchClassByClassName(String category, String searching, Date startDay, Date endDay){
-        String searchSql = " select c from Class c where 1=1 ";
+    public List<Class> searchClassByClassName(String category, String searching, Date startDay, Date endDay) {
+        String searchSql = "SELECT c FROM Class c WHERE 1=1 ";
 
-        if(category!=null && !category.isEmpty()) {
-            searchSql += "and c.category = " + categoryRepository.findIdByCategoryName(category) + " ";
-        }
-        if(searching != null && !searching.isEmpty()) {
-            searchSql += "and c.className LIKE '%" + searching + "%' ";
+        // 카테고리가 주어진 경우
+        if (category != null && !category.isEmpty()) {
+            searchSql += "AND c.categoryName = :category ";
         }
 
-        TypedQuery<Class> list =
-                em.createQuery(searchSql, Class.class);
-        return list.getResultList();
+        // 클래스 이름으로 검색이 주어진 경우
+        if (searching != null && !searching.isEmpty()) {
+            searchSql += "AND c.className LIKE :searching ";
+        }
+
+        TypedQuery<Class> query = em.createQuery(searchSql, Class.class);
+
+        // 바인딩 변수 설정
+        if (category != null && !category.isEmpty()) {
+            query.setParameter("category", category);
+        }
+        if (searching != null && !searching.isEmpty()) {
+            query.setParameter("searching", "%" + searching + "%");
+        }
+
+        return query.getResultList();
     }
+
 }

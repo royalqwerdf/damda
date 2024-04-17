@@ -22,7 +22,7 @@ public class ClassReservationDto {
     private int select_person;
     private int total_price;
     private Date select_date;
-    private Class ondayClass;
+    private Class onedayClass;
     private long select_time;
     private String classType;
     private String className;
@@ -30,7 +30,7 @@ public class ClassReservationDto {
 
     public ClassReservation toEntity(Class ondayClass) {
         return ClassReservation.builder()
-                .onedayClass(ondayClass)
+                .onedayClass(onedayClass)
                 .select_person(this.select_person)
                 .total_price(this.total_price)
                 .select_date(this.select_date)
