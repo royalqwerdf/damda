@@ -240,6 +240,17 @@ public class ClassService {
         return searchClasses;
 
     }
+
+    @Transactional
+    public List<ClassDto> getMemberClass(Long id){
+        List<Class> classes = classRepository.findByManager_Id(id);
+        List<ClassDto> classDtos = new ArrayList<>();
+        for(Class onedayClass : classes){
+            ClassDto classDto = onedayClass.toDto();
+            classDtos.add(classDto);
+        }
+        return classDtos;
+    }
 };
 
 

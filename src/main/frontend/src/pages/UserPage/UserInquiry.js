@@ -11,7 +11,6 @@ function UserInquiry(){
     const token = localStorage.getItem('accessToken');
     const decodedToken = jwtDecode(token);
     const memberEmail = decodedToken.userEmail;
-    //const [member,setMember] = useState([]);
     let memberId;
 
     useEffect(() => {
