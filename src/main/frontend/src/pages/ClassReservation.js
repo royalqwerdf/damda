@@ -9,8 +9,27 @@ import moment from "moment";
 import MapContent from '../components/MapContent';
 import Modal from "react-modal";
 import useUploadImage from '../hooks/useUploadImage';
+import {jwtDecode} from "jwt-decode";
 const ClassReservation = () => {
+/*  회원 토큰 관리*/
 
+const [memberData,setMemberData] = useState(null);
+const [memberId, setMemberId] = useState(null);
+    const token = localStorage.getItem('accessToken');
+    const decodedToken = jwtDecode(token);
+    const memberEmail = decodedToken.userEmail;
+    console.log(memberEmail);
+
+    useEffect(() => {
+
+        axios.get(`/api/member/${memberEmail}`)
+            .then(response => {
+                setMemberData(response.data);
+                setMemberId(response.data.id);
+                console.log("member Id:",memberId);
+            })
+            .catch(error => console.log(error));
+    },[]);
     //이미지 업로드 함수
     const uploadedUrls = [];
     const [imageFiles, setImageFiles] = useState([]);
@@ -94,8 +113,13 @@ const ClassReservation = () => {
      }
      /*review*/
      const[isReviewOpen, setIsReviewOpen] = useState(false);
+     const[reviewInfo, setReviewInfo] = useState(false);
+
+
+
      const openReviewModal =() =>{
         setIsReviewOpen(true);
+
      }
      const closeReviewModal =() =>{
         setIsReviewOpen(false);
@@ -183,7 +207,7 @@ const submitReservation = async () => {
 
   const reservationData = {
     id: id, // 현재 페이지의 클래스 ID
-//    member_id: '사용자 ID', // 사용자 ID (로그인 구현 시 사용자의 토큰?ID?로 대체)
+    user_id: memberData.name, // 사용자 ID (로그인 구현 시 사용자의 토큰?ID?로 대체)
     select_date: moment(value).format('YYYY-MM-DD'), // 선택된 날짜
     select_time: selectedTime.id, // 선택 시간ID
     select_person: peopleCount, // 인원수
@@ -203,7 +227,7 @@ const submitReservation = async () => {
   } catch (error) {
     // 에러 처리 로직
     console.error("예약에 실패했습니다.", error);
-    window.location.reload();
+//    window.location.reload();
   }
 };
 
@@ -215,7 +239,7 @@ const submitCart = async () => {
   console.log(peopleCount);
 
   const CartData = {
-//    member_id: '사용자 ID', // 사용자 ID (로그인 구현 시 사용자의 토큰?ID?로 대체)
+    user_id: memberData.name, // 사용자 ID (로그인 구현 시 사용자의 토큰?ID?로 대체)
     select_date: moment(value).format('YYYY-MM-DD'), // 선택된 날짜
     classTimeId: selectedTime.id, // 선택 시간ID
     selectedCount: peopleCount, // 인원수
@@ -287,6 +311,12 @@ const submitCart = async () => {
     const increasePeople = () => {
       setPeopleCount(prevCount => prevCount + 1);
     };
+    /*----------reveiw Control*/
+    const [reviewText, setReviewText] = useState(''); // 리뷰 텍스트 상태
+
+    const handleReviewTextChange = (event) => {
+      setReviewText(event.target.value);
+    };
 
     // 딜레이 고려
      if (!classDetails) {
@@ -342,9 +372,9 @@ const submitCart = async () => {
                          </div>
                          <div className="review-right-area">
                            <h3>예약정보</h3>
-                           <p><strong>참가자 정보</strong> </p>{"user-id"} {/* 'user-id'를 실제 사용자 ID로 대체 */}
+                           <p><strong>참가자 정보</strong> </p>{memberData.name}<br/>{memberData.phone} {/* 'user-id'를 실제 사용자 ID로 대체 */}
                            <p><strong>예약 시간 </strong></p> {"예약시간"}
-                           <p><strong>결제 금액 </strong></p>{"결제 금액"}
+                           <p><strong>결제 금액 </strong></p>{reviewInfo}
                          </div>
                        </div>
                        <div className="review-footer">

@@ -6,10 +6,8 @@ import com.team_damda.domain.dto.ClassReservationDto;
 import com.team_damda.domain.entity.ClassReservation;
 import com.team_damda.domain.entity.Class;
 import com.team_damda.domain.entity.ClassTime;
-import com.team_damda.domain.repository.CartRepository;
-import com.team_damda.domain.repository.ClassRepository;
-import com.team_damda.domain.repository.ClassReservationRepository;
-import com.team_damda.domain.repository.ClassTimeRepository;
+import com.team_damda.domain.entity.Member;
+import com.team_damda.domain.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,19 +18,24 @@ public class ClassReservationService {
     private final ClassReservationRepository classReservationRepository;
     private final ClassTimeRepository classTimeRepository;
     private final CartRepository cartRepository;
+    private final MemberRepository memberRepository;
 
     @Autowired
     public ClassReservationService(ClassRepository classRepository,ClassReservationRepository classReservationRepository,
-                                   ClassTimeRepository classTimeRepository,CartRepository cartRepository){
+                                   ClassTimeRepository classTimeRepository,CartRepository cartRepository,
+                                   MemberRepository memberRepository){
         this.classRepository = classRepository;
         this.classReservationRepository = classReservationRepository;
         this.classTimeRepository = classTimeRepository;
         this.cartRepository= cartRepository;
+        this.memberRepository =  memberRepository;
     }
     public void createReservation(ClassReservationDto reservationDto) {
         // DTO를 Entity로 변환
         Class reservationClass = classRepository.findById(reservationDto.getId()).orElse(null);
+        Member member =memberRepository.findById(reservationDto.getUser_id()).orElse(null);
         ClassReservation reservation = reservationDto.toEntity(reservationClass);
+        reservation.setMember(member);
 
 
         ClassTime reservationTime = classTimeRepository.findById(reservationDto.getSelect_time())
@@ -51,4 +54,8 @@ public class ClassReservationService {
     }
 
 
+    public ClassReservation getmemberInfo(Long id) {
+        return classReservationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Class not found with id: "));
+    }
 }

@@ -3,6 +3,7 @@ package com.team_damda.domain.controller;
 
 import com.team_damda.domain.dto.*;
 import com.team_damda.domain.entity.Cart;
+import com.team_damda.domain.entity.ClassReservation;
 import com.team_damda.domain.entity.ClassTime;
 import com.team_damda.domain.repository.CategoryRepository;
 import com.team_damda.domain.repository.ClassRepository;
@@ -41,11 +42,18 @@ public class ReservationController {
         ClassDto classDetails = classService.getClass(id).toDto();
         List<ClassTimeDto> classTimes = classService.getClassTimes(id);
         List<ClassImageDto> classImages = classService.getClassImages(id);
-
         log.info("클래스정보: {}",classDetails);
         ClassReservationResponse response = new ClassReservationResponse(classDetails, classTimes,classImages);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+//    @GetMapping("/class-reservation/{memberId}/review")
+//    public ResponseEntity<ClassReservation> getReservationInfo(@PathVariable("memberId") Long id){
+//        log.info("id값1: {}",id);
+//        ClassReservation reservationInfo = classReservationService.getmemberInfo(id);
+//        log.info("data: {}",reservationInfo );
+//        return new ResponseEntity<>(reservationInfo, HttpStatus.OK);
+//    }
 
     // 예약 -> 결제 데이터를 처리
     @PostMapping("/class-reservation/{id}/reserve")
