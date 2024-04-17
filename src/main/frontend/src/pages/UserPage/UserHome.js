@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import '../../styles/UserHome.css';
 import UserLeftMenu from "../../components/UserLeftMenu";
 import axios from "axios";
-import ListReservation from "../../components/ListReservation";
 import {jwtDecode} from "jwt-decode";
 function UserHome() {
     //가장 예약날짜가 가까운 예약 불러오기
@@ -67,7 +66,7 @@ function UserHome() {
                                     <div className="userhome-reservation-now">
                                         <div className="userhome-now-circle">
                                             <img src={reservation.mainImage} alt="클래스_이미지"
-                                                 className="resrvation-now-circle-image"/>
+                                                 className="class-now-circle-image"/>
                                         </div>
                                         <div className="title-user-home">
                                             <p>클래스 이름</p>
