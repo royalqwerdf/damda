@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import Cookies from 'js-cookie';
 import { token } from "./axios";
 import { useNavigate } from "react-router-dom";
 
@@ -14,7 +13,7 @@ export const AuthProvider = ({ children, loginType }) => {
     useEffect(() => {
         console.log("AuthProvider useEffect is triggered");
         const checkAuthStatus = () => {
-            const accessToken = localStorage.getItem('accessToken') || Cookies.get('accessToken');
+            const accessToken = localStorage.getItem('accessToken');
             setIsLoggedIn(!!accessToken);
         };
 
@@ -45,22 +44,13 @@ export const AuthProvider = ({ children, loginType }) => {
     }, [loginType]);
 
     const logout = () => {
-        const accessToken = localStorage.getItem('accessToken');
-        token.post('/logout', { loginType })
-            .then(() => {
-                localStorage.removeItem('accessToken');
-                Cookies.remove('accessToken');
-                setIsLoggedIn(false);
-                navigate('/');
-            })
-            .catch(error => {
-                console.error('로그아웃 실패:', error);
-            });
+        localStorage.removeItem('accessToken'); // 쿠키 대신 로컬 스토리지에서 토큰 삭제
+        setIsLoggedIn(false);
+        navigate('/');
     };
 
     const login = (token) => {
         localStorage.setItem('accessToken', token);
-        Cookies.set('accessToken', token); // 쿠키에도 토큰 저장
         setIsLoggedIn(true);
     };
 
