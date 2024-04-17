@@ -1,6 +1,7 @@
 package com.team_damda.domain.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.team_damda.domain.enums.LoginType;
 import com.team_damda.domain.enums.Role;
 import com.team_damda.domain.filter.CustomJsonUsernamePasswordAuthenticationFilter;
 import com.team_damda.domain.filter.JwtAuthenticationProcessingFilter;
@@ -24,6 +25,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.authentication.AuthenticationManager;
 
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -36,6 +38,8 @@ public class SecurityConfiguration {
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
     private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
     private final CustomOAuth2UserService customOAuth2UserService;
+
+
 
 
     @Bean
@@ -53,13 +57,14 @@ public class SecurityConfiguration {
                         authorizeRequests
                                 .requestMatchers("/", "/login","/home","/category","/search","/class-open", "/Oauth2Signup" ,"/memberSaved").permitAll()
                                 .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
-                .requestMatchers("/my-page/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
+                                .requestMatchers("/my-page/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
                                 .anyRequest().permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .addLogoutHandler(customLogoutHandler())
-                        .logoutSuccessHandler(customLogoutHandler()))
+                        .logoutSuccessHandler(customLogoutSuccessHandler())
+                )
 
                 //== 소셜 로그인 설정 ==//
                 .oauth2Login((oauth2) -> oauth2
@@ -68,8 +73,8 @@ public class SecurityConfiguration {
                         .failureHandler(oAuth2LoginFailureHandler)// 소셜 로그인 실패 시 핸들러 설정
                         .successHandler(oAuth2LoginSuccessHandler)
                 );// 동의하고 계속하기를 눌렀을 때 Handler 설정
-                http.addFilterBefore(customJsonUsernamePasswordAuthenticationFilter(), LogoutFilter.class);
-                http.addFilterBefore(jwtAuthenticationProcessingFilter(), CustomJsonUsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(customJsonUsernamePasswordAuthenticationFilter(), LogoutFilter.class);
+        http.addFilterBefore(jwtAuthenticationProcessingFilter(), CustomJsonUsernamePasswordAuthenticationFilter.class);
 
 
         return http.build();
@@ -138,7 +143,13 @@ public class SecurityConfiguration {
 
     @Bean
     public CustomLogoutHandler customLogoutHandler() {
-        return new CustomLogoutHandler(jwtService, memberRepository);
+        // LoginType을 필요로 하는 CustomLogoutHandler를 생성할 때 loginType을 지정합니다.
+        return new CustomLogoutHandler(); // 여기서 LoginType을 설정해야 합니다.
     }
 
+    // CustomLogoutSuccessHandler 빈 등록
+    @Bean
+    public CustomLogoutSuccessHandler customLogoutSuccessHandler() {
+        return new CustomLogoutSuccessHandler();
+    }
 }

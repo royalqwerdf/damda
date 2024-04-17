@@ -63,6 +63,8 @@ public class ClassReservation {
                 .className(this.onedayClass.getClassName())
                 .total_price(this.total_price)
                 .select_date(this.select_date)
+                .select_time(this.select_time)
+                .select_person(this.select_person)
                 .mainImage(mainImage)
                 .build();
     }

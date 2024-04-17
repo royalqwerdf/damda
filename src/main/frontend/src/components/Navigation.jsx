@@ -24,7 +24,7 @@ function Navigation(){
             <div id="menu">
                 <Link to="/search">클래스</Link>
                 <Link to="/news" id="news">담다소식</Link>
-                <Link to={"/inquiry"}>문의하기</Link>
+                <Link to="/inquiry">문의하기</Link>
             </div>
 
             <div>

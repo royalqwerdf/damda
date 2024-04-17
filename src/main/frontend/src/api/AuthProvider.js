@@ -7,11 +7,12 @@ export const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children, loginType }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
+        console.log("AuthProvider useEffect is triggered");
         const checkAuthStatus = () => {
             const accessToken = localStorage.getItem('accessToken') || Cookies.get('accessToken');
             setIsLoggedIn(!!accessToken);
@@ -20,17 +21,33 @@ export const AuthProvider = ({ children }) => {
         checkAuthStatus();
         window.addEventListener('storage', checkAuthStatus);
 
+        // 주기적으로 AccessToken의 만료 여부를 확인하는 요청을 보냅니다.
+        const checkAccessTokenExpiration = () => {
+            const accessToken = localStorage.getItem('accessToken');
+            if (accessToken) {
+                token.post('/checkAccess_tokenExpiration', { accessToken, loginType })
+                    .then(response => {
+                        if (response.data === "AccessToken이 만료되었습니다.") {
+                            logout();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('AccessToken 만료 여부 확인 중 오류 발생:', error);
+                    });
+            }
+        };
+        const intervalId = setInterval(checkAccessTokenExpiration, 600000); // 10분마다 요청을 보냅니다.
+
         return () => {
             window.removeEventListener('storage', checkAuthStatus);
+            clearInterval(intervalId);
         };
-    }, []);
+    }, [loginType]);
 
     const logout = () => {
         const accessToken = localStorage.getItem('accessToken');
-        // 클라이언트에서 서버에 로그아웃 요청을 보냄
-        token.post('/logout')
+        token.post('/logout', { loginType })
             .then(() => {
-                // 로그아웃 요청이 성공하면 클라이언트 측의 토큰 삭제
                 localStorage.removeItem('accessToken');
                 Cookies.remove('accessToken');
                 setIsLoggedIn(false);
@@ -41,10 +58,9 @@ export const AuthProvider = ({ children }) => {
             });
     };
 
-
-
     const login = (token) => {
         localStorage.setItem('accessToken', token);
+        Cookies.set('accessToken', token); // 쿠키에도 토큰 저장
         setIsLoggedIn(true);
     };
 

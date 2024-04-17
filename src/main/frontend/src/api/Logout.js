@@ -4,12 +4,13 @@ import { AuthContext } from './AuthProvider';
 import Cookies from 'js-cookie';
 import { token } from './axios';
 
-export function useLogout() {
+
+export function useLogout(loginType) { // loginType을 추가합니다.
     const navigate = useNavigate();
     const { logout } = useContext(AuthContext);
 
     return () => {
-        token.post('/logout')
+        token.post('/logout', { loginType }) // loginType을 서버로 전달합니다.
             .then(() => {
                 logout();
             })
