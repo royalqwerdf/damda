@@ -9,6 +9,9 @@ import UserButton from "../../components/UserButton";
 
 function UserReservationUpdate() {
 
+    //select box구현(진행중)
+    //select box중 예약시간(select_time)관련한 데이터 불러와서 그것만 selectbox에 나오도록 하기
+    //select box에 입력된 값 대로 주문상세(orderdetail)수정되고 예약내역(reservation)수정되기
 
     const [userReservationList, setUserReservationList] = useState([]);
    // const [userReservationTimeList, setUserReservationTimeList] = useState([]);

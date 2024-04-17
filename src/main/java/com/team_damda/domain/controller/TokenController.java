@@ -1,7 +1,10 @@
 package com.team_damda.domain.controller;
 
+import com.team_damda.domain.entity.Member;
+import com.team_damda.domain.enums.LoginType;
 import com.team_damda.domain.repository.MemberRepository;
 import com.team_damda.domain.service.JwtService;
+import com.team_damda.domain.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,14 +21,21 @@ import java.util.Optional;
 public class TokenController {
 
     private final JwtService jwtService;
+    private final MemberService memberService;
 
-    public TokenController(JwtService jwtService) {
+    public TokenController(JwtService jwtService, MemberService memberService) {
         this.jwtService = jwtService;
+        this.memberService=memberService;
     }
 
     @PostMapping("/token")
-    public ResponseEntity<?> provideInitialToken(@RequestParam String userEmail) {
-        String accessToken = jwtService.createAccessToken(userEmail);
+    public ResponseEntity<?> provideInitialToken(@RequestParam Long memberId) {
+        Member member = memberService.findById(memberId);
+        if (member == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Member not found with ID: " + memberId);
+        }
+
+        String accessToken = jwtService.createAccessToken(member);
         String refreshToken = jwtService.createRefreshToken();
         return ResponseEntity.ok()
                 .header("accessToken", accessToken)
@@ -34,13 +44,13 @@ public class TokenController {
     }
 
     @GetMapping("/token/initial")
-    public ResponseEntity<Map<String, String>> provideInitialToken(HttpServletRequest request, HttpServletResponse response) {
-        String userEmail = (String) request.getSession().getAttribute("userEmail");
-        if (userEmail == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "No user email found in session"));
+    public ResponseEntity<Map<String, String>> provideInitialToken(@RequestParam Long memberId, HttpServletResponse response, LoginType loginType) {
+        Member member = memberService.findById(memberId);
+        if (member == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "Member not found with ID: " + memberId));
         }
 
-        String accessToken = jwtService.createAccessToken(userEmail);
+        String accessToken = jwtService.createAccessToken(member);
         String refreshToken = jwtService.createRefreshToken();
 
         jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
@@ -53,23 +63,24 @@ public class TokenController {
         return ResponseEntity.ok(tokens);
     }
 
-    @GetMapping("/token/refresh")
-    public ResponseEntity<?> refreshToken(HttpServletRequest request) {
+    @PostMapping("/token/refresh")
+    public ResponseEntity<?> refreshToken(HttpServletRequest request, @RequestParam Long memberId, LoginType loginType) {
         Optional<String> refreshTokenOptional = jwtService.extractRefreshToken(request);
         if (refreshTokenOptional.isEmpty() || !jwtService.isTokenValid(refreshTokenOptional.get())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired refresh token");
         }
 
-        String userEmail = jwtService.extractEmail(refreshTokenOptional.get()).orElse("");
-        if (userEmail.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User email not found");
+        Member member = memberService.findById(memberId);
+        if (member == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Member not found with ID: " + memberId);
         }
 
-        String newAccessToken = jwtService.createAccessToken(userEmail);
+        String newAccessToken = jwtService.createAccessToken(member);
         return ResponseEntity.ok()
                 .header(jwtService.getAccessHeader(), "Bearer " + newAccessToken)
                 .body("New access token issued.");
     }
+
 }
 
 

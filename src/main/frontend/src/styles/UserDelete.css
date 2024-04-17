@@ -1,18 +1,21 @@
+/*가장 바깥을 감싸는 컨테이너*/
 div.user-delete-container{
     margin-bottom: 300px;
 }
 
+/*회원정보, 회원탈퇴 글씨 전부*/
 div.my-delete{
     margin-top: -500px;
 }
 
-/*회원탈퇴*/
+/*회원정보, 회원탈퇴 글씨*/
 div.my-delete p{
     margin-left: 410px;
     font-weight: bold;
     font-size: 25px;
 }
 
+/*윗줄 간격을 위한 회원탈퇴 글씨*/
 .delete-user-menu{
     margin-top: -20px;
 }
@@ -22,7 +25,7 @@ div.delete-container{
     margin-left: 150px;
 }
 
-/*img*/
+/*담다 로고 img*/
 div.damda-delete-img{
     display: flex;
     justify-content: center; /* 수평 가운데 정렬 */
@@ -42,6 +45,7 @@ div.delete-ask2{
     font-weight: bolder;
 }
 
+/*탈퇴하기 버튼*/
 div.delete-button{
     display: flex;
     justify-content: center; /* 수평 가운데 정렬 */

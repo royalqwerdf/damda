@@ -37,7 +37,7 @@ div.my-now-reservation{
 
 }
 
-/*상자*/
+/*예약 상자*/
 div.now-reservation {
     position: relative;
     overflow: visible; /*스크롤바 없이 위로 올림*/
@@ -50,7 +50,7 @@ div.now-reservation {
 }
 
 
-/*이미지 들어갈 원형*/
+/*div 원형*/
 div.reservation-circle {
     width: 100px;
     height: 100px;
@@ -58,6 +58,14 @@ div.reservation-circle {
     border-radius: 50%; /* 원을 만들기 위해 반지름을 50%로 설정 */
     margin-top: 10px;
     margin-left: 100px;
+}
+
+/*원형div안에 담기는 이미지 - 예약*/
+.reservation-circle-image {
+    width: 80px; /* 이미지 크기 조절 */
+    height: 80px;
+    border-radius: 50%; /* 이미지를 원 모양으로 */
+    object-fit: cover; /* 이미지가 원 안에 꽉 차도록 */
 }
 
 /*상자 안 글자*/
@@ -81,6 +89,8 @@ div.reservation-button{
     margin-left: 820px;
     margin-top: -15px;
 }
+
+/*------------예약이 없을 때-------------*/
 
 /*예약이 하나도 없을 때*/
 div.user-reservation-list-none{

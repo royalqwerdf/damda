@@ -4,10 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team_damda.domain.enums.Role;
 import com.team_damda.domain.filter.CustomJsonUsernamePasswordAuthenticationFilter;
 import com.team_damda.domain.filter.JwtAuthenticationProcessingFilter;
-import com.team_damda.domain.handler.LoginFailureHandler;
-import com.team_damda.domain.handler.LoginSuccessHandler;
-import com.team_damda.domain.handler.OAuth2LoginFailureHandler;
-import com.team_damda.domain.handler.OAuth2LoginSuccessHandler;
+import com.team_damda.domain.handler.*;
 import com.team_damda.domain.repository.MemberRepository;
 import com.team_damda.domain.service.CustomOAuth2UserService;
 import com.team_damda.domain.service.JwtService;
@@ -49,13 +46,9 @@ public class SecurityConfiguration {
                 .formLogin(f->f.disable()) // FormLogin 사용 X
                 .httpBasic(h -> h.disable()) //HTTP 기본 인증을 비활성화
                 .csrf(AbstractHttpConfigurer::disable)//CSRF 보호 기능 비활성화
-//                .sessionManagement((sessionManagement) ->
-//                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                ) //세션관리 정책을 STATELESS(세션이 있으면 쓰지도 않고, 없으면 만들지도 않는다)
                 .sessionManagement((sessionManagement) ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 )
-
                 .authorizeHttpRequests((authorizeRequests) ->
                         authorizeRequests
                                 .requestMatchers("/", "/login","/home","/category","/search","/class-open", "/Oauth2Signup" ,"/memberSaved").permitAll()
@@ -63,31 +56,21 @@ public class SecurityConfiguration {
                 .requestMatchers("/my-page/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
                                 .anyRequest().permitAll()
                 )
-//                .formLogin(formLogin -> formLogin
-//                .loginPage("/login-form")
-//                .loginProcessingUrl("/login")
-//                .defaultSuccessUrl("/", true)
-//                .failureUrl("/login-form?error")
-//                .usernameParameter("name")
-//                .passwordParameter("password")
-//                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .addLogoutHandler(customLogoutHandler())
+                        .logoutSuccessHandler(customLogoutHandler()))
 
                 //== 소셜 로그인 설정 ==//
                 .oauth2Login((oauth2) -> oauth2
                         .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
                                 .userService(customOAuth2UserService))// customUserService 설정
                         .failureHandler(oAuth2LoginFailureHandler)// 소셜 로그인 실패 시 핸들러 설정
-                        .successHandler(oAuth2LoginSuccessHandler));// 동의하고 계속하기를 눌렀을 때 Handler 설정
+                        .successHandler(oAuth2LoginSuccessHandler)
+                );// 동의하고 계속하기를 눌렀을 때 Handler 설정
+                http.addFilterBefore(customJsonUsernamePasswordAuthenticationFilter(), LogoutFilter.class);
+                http.addFilterBefore(jwtAuthenticationProcessingFilter(), CustomJsonUsernamePasswordAuthenticationFilter.class);
 
-
-
-
-
-        // 원래 스프링 시큐리티 필터 순서가 LogoutFilter 이후에 로그인 필터 동작
-        // 따라서, LogoutFilter 이후에 우리가 만든 필터 동작하도록 설정
-        // 순서 : LogoutFilter -> JwtAuthenticationProcessingFilter -> CustomJsonUsernamePasswordAuthenticationFilter
-        http.addFilterAfter(customJsonUsernamePasswordAuthenticationFilter(), LogoutFilter.class);
-        http.addFilterBefore(jwtAuthenticationProcessingFilter(), CustomJsonUsernamePasswordAuthenticationFilter.class);
 
         return http.build();
 
@@ -151,6 +134,11 @@ public class SecurityConfiguration {
     public JwtAuthenticationProcessingFilter jwtAuthenticationProcessingFilter() {
         JwtAuthenticationProcessingFilter jwtAuthenticationFilter = new JwtAuthenticationProcessingFilter(jwtService, memberRepository);
         return jwtAuthenticationFilter;
+    }
+
+    @Bean
+    public CustomLogoutHandler customLogoutHandler() {
+        return new CustomLogoutHandler(jwtService, memberRepository);
     }
 
 }

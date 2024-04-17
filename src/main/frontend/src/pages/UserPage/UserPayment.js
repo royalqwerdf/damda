@@ -7,6 +7,10 @@ import UserButton from "../../components/UserButton";
 
 function UserPayment() {
 
+    //결제내역과 주문상세(orderDetail)내역 불러오기
+    //(실제 결제기능 추가하는게 아니고 인원수로 계산되었을 결제금액 데이터값만 불러오기)
+    //결제내역이  결제내역상자 늘어나기
+
     {/* orderdetail controller에서 가져온 내용*/}
     const [userReservationList, setUserReservationList] = useState([]);
 
@@ -41,7 +45,10 @@ function UserPayment() {
                 {userReservationList.length === 0 ? (
                         <div className="user-payment-list">
                             <div className="user-payment">
-                                <div className="payment-circle"></div>
+                                <div className="payment-circle">
+                                    {/* src에는 임시 데이터*/}
+                                    <img src="../../logo.svg" alt="클래스_이미지" className="payment-circle-image"/>
+                                </div>
                                 <div className="title-payment">
                                     <a>클래스 이름</a>
                                     <a>예약 날짜</a>

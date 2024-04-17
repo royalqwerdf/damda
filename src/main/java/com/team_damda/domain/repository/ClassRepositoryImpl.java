@@ -7,12 +7,14 @@ import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Repository
 public class ClassRepositoryImpl implements ClassRepositoryCustom{
 
+    private final CategoryRepository categoryRepository;
     private final EntityManager em;
     @Override
     public List<Class> searchClass(String keyword, String address, Long categoryId,
@@ -48,6 +50,38 @@ public class ClassRepositoryImpl implements ClassRepositoryCustom{
         TypedQuery<Class> list =
                 em.createQuery(searchSql, Class.class);
 
+        return list.getResultList();
+    }
+
+    @Override
+    public List<Class> searchClassByEmail(String category, String searching, Date startDay, Date endDay){
+        String searchSql = " select c from Class c where 1=1 ";
+
+        if(category!=null && !category.isEmpty()) {
+            searchSql += "and c.category = " + categoryRepository.findIdByCategoryName(category) + " ";
+        }
+        if(searching != null && !searching.isEmpty()) {
+            searchSql += "and c.managerEmail LIKE '%" + searching + "%' ";
+        }
+
+        TypedQuery<Class> list =
+                em.createQuery(searchSql, Class.class);
+        return list.getResultList();
+    }
+
+    @Override
+    public List<Class> searchClassByClassName(String category, String searching, Date startDay, Date endDay){
+        String searchSql = " select c from Class c where 1=1 ";
+
+        if(category!=null && !category.isEmpty()) {
+            searchSql += "and c.category = " + categoryRepository.findIdByCategoryName(category) + " ";
+        }
+        if(searching != null && !searching.isEmpty()) {
+            searchSql += "and c.className LIKE '%" + searching + "%' ";
+        }
+
+        TypedQuery<Class> list =
+                em.createQuery(searchSql, Class.class);
         return list.getResultList();
     }
 }
