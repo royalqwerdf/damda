@@ -67,14 +67,38 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         return LoginType.GOOGLE;
     }
 
-    private Member getMember(OAuthAttributesDTO attributes, LoginType loginType) {
-        Member getMember = memberRepository.getByLoginTypeAndSnsId(loginType, attributes.getOauth2UserInfo().getId()).orElse(null);
+//    private Member getMember(OAuthAttributesDTO attributes, LoginType loginType) {
+//        Member getMember = memberRepository.getByLoginTypeAndSnsId(loginType, attributes.getOauth2UserInfo().getId()).orElse(null);
+//
+//        if (getMember == null) {
+//            return saveMember(attributes, loginType);
+//        }
+//        return getMember;
+//    }
 
-        if (getMember == null) {
+//    private Member getMember(OAuthAttributesDTO attributes, LoginType loginType) {
+//        Member getMember = memberRepository.getByLoginTypeAndSnsId(loginType, attributes.getOauth2UserInfo().getId()).orElse(null);
+//
+//        if (getMember == null) {
+//            return saveMember(attributes, loginType);
+//        } else {
+//            // 이미 가입한 사용자이므로 새로운 핸드폰 번호를 받지 않고 로그인 진행
+//            return getMember;
+//        }
+//    }
+
+    private Member getMember(OAuthAttributesDTO attributes, LoginType loginType) {
+        Member existingMember = memberRepository.getByLoginTypeAndSnsId(loginType, attributes.getOauth2UserInfo().getId()).orElse(null);
+
+        if (existingMember == null) {
+            // 새로운 가입자인 경우에만 핸드폰 번호를 받음
             return saveMember(attributes, loginType);
+        } else {
+            // 이미 가입한 사용자이므로 핸드폰 번호를 받지 않고 로그인 진행
+            return existingMember;
         }
-        return getMember;
     }
+
 
 //    private Member saveMember(OAuthAttributesDTO attributes, LoginType loginType) {
 //        Member createdUser = attributes.toEntity(loginType, attributes.getOauth2UserInfo());

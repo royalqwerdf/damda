@@ -23,10 +23,6 @@ public class MemberService {
     private final JwtService jwtService;
 
     public Member signUp(MemberSignupDto memberSignupDto) throws Exception {
-        System.out.println(memberSignupDto.getName());
-        System.out.println(memberSignupDto.getUserEmail());
-        System.out.println(memberSignupDto.getPassword());
-        System.out.println(memberSignupDto.getPhone());
 
         if (memberRepository.getByUserEmail(memberSignupDto.getUserEmail()).isPresent()) {
             throw new Exception("이미 존재하는 이메일입니다.");
@@ -34,6 +30,7 @@ public class MemberService {
         if (memberRepository.getByPhone(memberSignupDto.getPhone()).isPresent()) {
             throw new Exception("이미 존재하는 번호입니다.");
         }
+
 
         Member member = Member.builder()
                 .userEmail(memberSignupDto.getUserEmail())
@@ -61,6 +58,7 @@ public class MemberService {
         member.setPhone(phoneNumber);
         return memberRepository.save(member);
     }
+
 
     public Member getMember(String email) {
         return memberRepository.getByUserEmail(email).orElse(null);
