@@ -114,7 +114,8 @@ function UserHome() {
                                                 <p>가격</p>
                                             </div>
                                             <div className="data-user-home-class">
-                                                <p>{onedayClass.className}</p>
+
+                                                {onedayClass.className.length>4 ? (<p>{onedayClass.className.substring(0,3)+"..."}</p>) :(<p>{onedayClass.className}</p>)}
                                                 <p style={{marginLeft:"55px"}}>{onedayClass.level}</p>
                                                 <p>{onedayClass.price}</p>
                                             </div>
