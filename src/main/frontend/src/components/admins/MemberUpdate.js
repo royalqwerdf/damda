@@ -60,13 +60,18 @@ function MemberUpdate() {
 
     const navigate = useNavigate();
 
-    const handleMenuClick = () => {
-        navigate(`/admin-home`);
-    };
-
+    // 뒤로 가기 & 메뉴 클릭
     const goBack = () => {
         navigate('/admin-home')
     }
+
+    // 소셜 로그인 회원은 정보를 수정할 수 없음을 알림
+    const[isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        if(loginType !== 'BASIC') setIsVisible(true);
+        else setIsVisible(false);
+    }, [loginType])
 
     return (
         <div ClassName="full-container">
@@ -79,19 +84,18 @@ function MemberUpdate() {
                         <ul className="menu-1">
                             <div className="site-manage">사이트 관리</div>
                             <p className="my-class">관리자 메뉴</p>
-                            <li onClick={() => handleMenuClick()} style={{cursor: 'pointer'}}>회원 관리</li>
-                            <li onClick={() => handleMenuClick()} style={{cursor: 'pointer'}}>클래스 관리</li>
-                            <li onClick={() => handleMenuClick()} style={{cursor: 'pointer'}}>예약 관리
+                            <li onClick={() => goBack()} style={{cursor: 'pointer'}}>회원 관리</li>
+                            <li onClick={() => goBack()} style={{cursor: 'pointer'}}>클래스 관리</li>
+                            <li onClick={() => goBack()} style={{cursor: 'pointer'}}>예약 관리
                             </li>
                         </ul>
                         <hr className="menu-line-2"/>
                         <ul className="menu-2">
                             <p className="user-information">홈페이지 관리</p>
-                            <li onClick={() => handleMenuClick()} style={{cursor: 'pointer'}}>카테고리 관리
-                            </li>
-                            <li onClick={() => handleMenuClick()} style={{cursor: 'pointer'}}>공지 관리</li>
-                            <li onClick={() => handleMenuClick()} style={{cursor: 'pointer'}}>이벤트 관리</li>
-                            <li onClick={() => handleMenuClick()} style={{cursor: 'pointer'}}>문의 관리</li>
+                            <li onClick={() => goBack()} style={{cursor: 'pointer'}}>카테고리 관리</li>
+                            <li onClick={() => goBack()} style={{cursor: 'pointer'}}>공지 관리</li>
+                            <li onClick={() => goBack()} style={{cursor: 'pointer'}}>이벤트 관리</li>
+                            <li onClick={() => goBack()} style={{cursor: 'pointer'}}>문의 관리</li>
                         </ul>
                     </div>
                 </div>
@@ -112,6 +116,7 @@ function MemberUpdate() {
                                     <input type="text" value={userEmail}
                                            onChange={(e) => setUserEmail(e.target.value)}
                                            disabled={loginType !== 'BASIC'}/>
+                                    {isVisible && <small style={{color: 'red'}}>소셜 로그인 회원의 정보는 수정할 수 없습니다.</small>}
                                 </div>
                                 <div>
                                     <label>비밀번호</label>
@@ -119,12 +124,14 @@ function MemberUpdate() {
                                            onChange={(e) => setPassword(e.target.value)}
                                            disabled={loginType !== 'BASIC'}/>
                                     {/*<button className="initialize">초기화</button>*/}
+                                    {isVisible && <small style={{color: 'red'}}>소셜 로그인 회원의 정보는 수정할 수 없습니다.</small>}
                                 </div>
                                 <div>
                                     <label>회원 이름</label>
                                     <input className="long" type="text" value={name}
                                            onChange={(e) => setName(e.target.value)}
                                            disabled={loginType !== 'BASIC'}/>
+                                    {isVisible && <small style={{color: 'red'}}>소셜 로그인 회원의 정보는 수정할 수 없습니다.</small>}
                                 </div>
                                 <div>
                                     <label>전화번호</label>
