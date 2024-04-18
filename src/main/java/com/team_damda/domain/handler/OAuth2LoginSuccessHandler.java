@@ -31,6 +31,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     private final MemberRepository memberRepository;
 
 
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
@@ -42,14 +43,24 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
 
+        // 로그 정보 추가
+        log.info("로그인에 성공하였습니다. 이메일 : {}", oAuth2User.getUserEmail());
+        log.info("로그인에 성공하였습니다. AccessToken : {}", accessToken);
+        log.info("로그인에 성공하였습니다. RefreshToken : {}", refreshToken);
+        log.info("발급된 AccessToken 만료 기간 : {}", jwtService.getAccessTokenExpirationPeriod());
+
+
         // 사용자의 추가 정보가 필요한 경우(예: 전화번호가 없는 경우)
         if (member.getPhone() == null || member.getPhone().isEmpty()) {
             String redirectUrl = "http://localhost:3000/Oauth2Signup?accessToken=" + URLEncoder.encode(accessToken, "UTF-8");
             response.sendRedirect(redirectUrl);
         } else {
             // 기존 회원은 홈페이지로 리다이렉션
-            response.sendRedirect("http://localhost:3000/");
+            String redirectUrl = "http://localhost:3000/?accessToken=" + URLEncoder.encode(accessToken, "UTF-8");
+            response.sendRedirect(redirectUrl);
         }
+
     }
+
 
 }

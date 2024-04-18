@@ -234,7 +234,7 @@ public class SecurityConfiguration {
                         auth
                                 .requestMatchers("/", "api/signup", "/login","/home","/category","/search","/class-open", "/Oauth2Signup" ,"/memberSaved").permitAll()
                                 .requestMatchers("/admin-home/**").hasRole("ADMIN")
-                                .requestMatchers("/my-page/**").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/user-home/**").hasAnyRole("USER", "ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
