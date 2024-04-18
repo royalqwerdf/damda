@@ -1,5 +1,6 @@
 package com.team_damda.domain.entity;
 
+import com.google.api.client.util.DateTime;
 import com.team_damda.domain.dto.ClassReservationDto;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,7 +35,7 @@ public class ClassReservation {
     private int total_price;
 
     @Column(name="select_date")
-    private LocalDateTime select_date;
+    private Date select_date;
 
 
     @Column(name="select_time")
