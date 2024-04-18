@@ -40,6 +40,7 @@ function UserHome() {
                 axios.get(`/member-reservation/${response.data.id}`)
                     .then(response => {
                         setReservationList(response.data);
+                        console.log(response.data);
                     })
                     .catch(error => console.log(error));
             })
