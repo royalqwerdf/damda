@@ -16,15 +16,7 @@ function UserHome() {
 
     useEffect(() => {
 
-        if(localStorage.getItem('accessToken')===null){
-            if(window.confirm("로그인이 필요합니다.\n로그인 하시겠습니까?")){
-                navigate("/login");
-            } else {
-                navigate("/");
-            }
-        }else{
-
-            const token = localStorage.getItem('accessToken');
+        const token = localStorage.getItem('accessToken');
         const decodedToken = jwtDecode(token);
         const memberEmail = decodedToken.userEmail;
         // 사용자의 Email로 idx값을 가져오고
@@ -45,7 +37,7 @@ function UserHome() {
                     .catch(error => console.log(error));
             })
             .catch(error => console.log(error));
-    }}, []);
+    }, []);
         return (
             <div>
                 <div className="user-left-menu">
