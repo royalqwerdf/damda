@@ -71,8 +71,14 @@ public class InquiryService {
     }
 
     @Transactional
-    public List<Inquiry> getInquiry(Long memberId){
-        return inquiryRepository.findAllByMember_Id(memberId);
+    public List<InquiryDto> getInquiry(Long memberId){
+        List<Inquiry> inquiryList = inquiryRepository.findAllByMember_Id(memberId);
+        List<InquiryDto> inquiryDtoList = new ArrayList<>();
+        for(Inquiry inquiry : inquiryList) {
+            InquiryDto inquiryDto = inquiry.toDto();
+            inquiryDtoList.add(inquiryDto);
+        }
+        return inquiryDtoList;
     }
 
 
