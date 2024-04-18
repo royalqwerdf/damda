@@ -62,7 +62,10 @@ function UserReservation() {
                                         <a>결제 금액</a>
                                     </div>
                                     <div className="data-reservation">
-                                        <a>{reservation.className}</a>
+                                        {reservation.className.length>4 ?
+                                            (<a>{reservation.className.substring(0,3)+"..."}</a>)
+                                            :
+                                            (<a>{reservation.className}</a>)}
                                         <a>{reservation.select_date.substring(0,10)}</a>
                                         <a style={{marginLeft:"-8px"}}>{reservation.startAt}</a>
                                         <a style={{marginLeft:"28px"}}>{reservation.select_person}</a>
