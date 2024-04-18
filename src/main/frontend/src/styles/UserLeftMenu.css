@@ -3,7 +3,7 @@ div.leftmenu{
     margin-left: 130px;
     position: relative;
     width: 200px;
-    z-index: 9999;
+    z-index: 500;
 }
 
 /*menu-line*/

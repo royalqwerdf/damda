@@ -2,23 +2,21 @@ import Dropdown from "../components/dropdown/DropDown";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {jwtDecode} from "jwt-decode";
-import {useEffect, useState} from "react";
-
+import React, {useEffect, useState} from "react";
 
 function Inquiry(){
     let arr = ["클래스","수강","예약","결제/환불","이벤트","기타"];
     const navigate = useNavigate();
 
-    const token = localStorage.getItem('accessToken');
-    const decodedToken = jwtDecode(token);
-    const memberEmail = decodedToken.userEmail;
     const [member,setMember] = useState([]);
 
-
     useEffect(() => {
+        const token = localStorage.getItem('accessToken');
+        const decodedToken = jwtDecode(token);
+        const memberEmail = decodedToken.userEmail;
+
         axios.get(`/api/member/${memberEmail}`)
-            .then(response=>
-            {
+            .then(response => {
                 setMember(response.data);
             })
             .catch(error => console.log(error))

@@ -28,7 +28,7 @@ token.interceptors.response.use(response => {
         originalRequest._retry = true;
         const refreshToken = localStorage.getItem('refreshToken');
         // 리프레시 토큰을 사용하여 새 액세스 토큰을 요청하는 로직 구현
-        return token.post('/refresh-token', { refreshToken })
+        return token.post('/api/auth/token/refresh', { refreshToken })
             .then(res => {
                 if (res.status === 200) {
                     localStorage.setItem('accessToken', res.data.accessToken);
@@ -39,4 +39,3 @@ token.interceptors.response.use(response => {
     }
     return Promise.reject(error);
 });
-

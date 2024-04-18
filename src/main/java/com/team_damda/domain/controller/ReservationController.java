@@ -3,6 +3,7 @@ package com.team_damda.domain.controller;
 
 import com.team_damda.domain.dto.*;
 import com.team_damda.domain.entity.Cart;
+import com.team_damda.domain.entity.ClassReservation;
 import com.team_damda.domain.entity.ClassTime;
 import com.team_damda.domain.repository.CategoryRepository;
 import com.team_damda.domain.repository.ClassRepository;
@@ -10,6 +11,7 @@ import com.team_damda.domain.repository.ClassTimeRepository;
 import com.team_damda.domain.repository.MemberRepository;
 import com.team_damda.domain.service.CartService;
 import com.team_damda.domain.service.ClassReservationService;
+import com.team_damda.domain.service.ClassReviewService;
 import com.team_damda.domain.service.ClassService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -27,10 +29,10 @@ public class ReservationController {
     private final ClassService classService;
     private final ClassReservationService classReservationService;
     private final ClassRepository classRepository;
-    private final CategoryRepository categoryRepository;
     private final MemberRepository memberRepository;
     private final ClassTimeRepository classTimeRepository;
     private final CartService cartService;
+    private final ClassReviewService classReviewService;
 
 
 
@@ -41,10 +43,18 @@ public class ReservationController {
         ClassDto classDetails = classService.getClass(id).toDto();
         List<ClassTimeDto> classTimes = classService.getClassTimes(id);
         List<ClassImageDto> classImages = classService.getClassImages(id);
-
+        List<ClassReviewDto> classReviews = classReviewService.getClassReview(id);
         log.info("클래스정보: {}",classDetails);
-        ClassReservationResponse response = new ClassReservationResponse(classDetails, classTimes,classImages);
+        ClassReservationResponse response = new ClassReservationResponse(classDetails, classTimes,classImages,classReviews);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/class-reservation/{id}/{memberId}/review")
+    public ResponseEntity<ClassReservationDto> getReservationInfo(@PathVariable("memberId") Long memberId,@PathVariable("id") Long id){
+        log.info("id값1: {}",memberId);
+        ClassReservationDto reservationInfo = classReservationService.getmemberInfo(memberId,id).toDto();
+        log.info("data: {}",reservationInfo );
+        return new ResponseEntity<>(reservationInfo, HttpStatus.OK);
     }
 
     // 예약 -> 결제 데이터를 처리
@@ -68,6 +78,17 @@ public class ReservationController {
         cartService.save(cart);
         log.info("data: {}",cartDto);
         return ResponseEntity.ok("담기가 완료되었습니다.");
+    }
+
+    @GetMapping("/member-reservation/{memberId}")
+    public List<ClassReservationDto> getReservation(@PathVariable("memberId") Long memberId) {
+        return classReservationService.getMemberReservation(memberId);
+    }
+
+    @PostMapping("/member-reservation/delete/{id}")
+    public ResponseEntity<String> deleteReservation(@PathVariable("id") Long id) {
+        classReservationService.delete(id);
+        return ResponseEntity.ok("삭제완료");
     }
 
 }

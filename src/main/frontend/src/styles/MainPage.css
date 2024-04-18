@@ -20,7 +20,10 @@ body{
   margin-top: -6px;
   background-color: white;
   align-items: center;
-  z-index: 777;
+  z-index: 999;
+}
+#navibar div{
+  z-index: 5;
 }
 #navibar #menu a{
   font-weight: bold;
@@ -176,6 +179,9 @@ body{
   padding-left: 10px;
   font-weight: bold;
 }
+#classCard #left span{
+  font-size: 12px;
+}
 #classCard a #classPrice{
   display:flex;
   justify-content: flex-end;
@@ -190,6 +196,13 @@ body{
   width: 30px;
   height: 30px;
   vertical-align: bottom;
+  margin-right: 10px;
+}
+#cartIcon{
+  width: 30px;
+  height: 30px;
+  vertical-align: bottom;
+  margin: 0 10px 4px 10px;
 }
 #searchPage{
   justify-content: center;

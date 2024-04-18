@@ -1,13 +1,11 @@
 package com.team_damda.domain.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.team_damda.domain.enums.LoginType;
 import com.team_damda.domain.enums.Role;
 import com.team_damda.domain.filter.CustomJsonUsernamePasswordAuthenticationFilter;
 import com.team_damda.domain.filter.JwtAuthenticationProcessingFilter;
-import com.team_damda.domain.handler.LoginFailureHandler;
-import com.team_damda.domain.handler.LoginSuccessHandler;
-import com.team_damda.domain.handler.OAuth2LoginFailureHandler;
-import com.team_damda.domain.handler.OAuth2LoginSuccessHandler;
+import com.team_damda.domain.handler.*;
 import com.team_damda.domain.repository.MemberRepository;
 import com.team_damda.domain.service.CustomOAuth2UserService;
 import com.team_damda.domain.service.JwtService;
@@ -27,6 +25,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.authentication.AuthenticationManager;
 
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -41,6 +40,8 @@ public class SecurityConfiguration {
     private final CustomOAuth2UserService customOAuth2UserService;
 
 
+
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -49,45 +50,32 @@ public class SecurityConfiguration {
                 .formLogin(f->f.disable()) // FormLogin 사용 X
                 .httpBasic(h -> h.disable()) //HTTP 기본 인증을 비활성화
                 .csrf(AbstractHttpConfigurer::disable)//CSRF 보호 기능 비활성화
-//                .sessionManagement((sessionManagement) ->
-//                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                ) //세션관리 정책을 STATELESS(세션이 있으면 쓰지도 않고, 없으면 만들지도 않는다)
                 .sessionManagement((sessionManagement) ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 )
-
                 .authorizeHttpRequests((authorizeRequests) ->
                         authorizeRequests
                                 .requestMatchers("/", "/login","/home","/category","/search","/class-open", "/Oauth2Signup" ,"/memberSaved").permitAll()
-                                .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
-                .requestMatchers("/my-page/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
+                                .requestMatchers("/admin-home/**").hasRole("ADMIN")
+                                .requestMatchers("/User-hone/**").hasAnyRole("USER", "ADMIN")
                                 .anyRequest().permitAll()
                 )
-//                .formLogin(formLogin -> formLogin
-//                .loginPage("/login-form")
-//                .loginProcessingUrl("/login")
-//                .defaultSuccessUrl("/", true)
-//                .failureUrl("/login-form?error")
-//                .usernameParameter("name")
-//                .passwordParameter("password")
-//                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .addLogoutHandler(customLogoutHandler())
+                        .logoutSuccessHandler(customLogoutSuccessHandler())
+                )
 
                 //== 소셜 로그인 설정 ==//
                 .oauth2Login((oauth2) -> oauth2
                         .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
                                 .userService(customOAuth2UserService))// customUserService 설정
                         .failureHandler(oAuth2LoginFailureHandler)// 소셜 로그인 실패 시 핸들러 설정
-                        .successHandler(oAuth2LoginSuccessHandler));// 동의하고 계속하기를 눌렀을 때 Handler 설정
-
-
-
-
-
-        // 원래 스프링 시큐리티 필터 순서가 LogoutFilter 이후에 로그인 필터 동작
-        // 따라서, LogoutFilter 이후에 우리가 만든 필터 동작하도록 설정
-        // 순서 : LogoutFilter -> JwtAuthenticationProcessingFilter -> CustomJsonUsernamePasswordAuthenticationFilter
-        http.addFilterAfter(customJsonUsernamePasswordAuthenticationFilter(), LogoutFilter.class);
+                        .successHandler(oAuth2LoginSuccessHandler)
+                );// 동의하고 계속하기를 눌렀을 때 Handler 설정
+        http.addFilterBefore(customJsonUsernamePasswordAuthenticationFilter(), LogoutFilter.class);
         http.addFilterBefore(jwtAuthenticationProcessingFilter(), CustomJsonUsernamePasswordAuthenticationFilter.class);
+
 
         return http.build();
 
@@ -153,4 +141,15 @@ public class SecurityConfiguration {
         return jwtAuthenticationFilter;
     }
 
+    @Bean
+    public CustomLogoutHandler customLogoutHandler() {
+        // LoginType을 필요로 하는 CustomLogoutHandler를 생성할 때 loginType을 지정합니다.
+        return new CustomLogoutHandler(); // 여기서 LoginType을 설정해야 합니다.
+    }
+
+    // CustomLogoutSuccessHandler 빈 등록
+    @Bean
+    public CustomLogoutSuccessHandler customLogoutSuccessHandler() {
+        return new CustomLogoutSuccessHandler();
+    }
 }

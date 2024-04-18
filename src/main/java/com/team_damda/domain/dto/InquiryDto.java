@@ -18,9 +18,9 @@ public class InquiryDto {
     private String reply;
     private String comment_yn;
     private String type;
-    private String createdAt;
+    private Date createdAt;
 
-    private String memberRole;
+    private String user_role;
     private String userEmail;
 
     private long memberId;
@@ -45,7 +45,7 @@ public class InquiryDto {
                 .reply(this.reply)
                 .comment_yn(this.comment_yn)
                 .type(this.type)
-                .memberRole(userRole)
+                .user_role(userRole)
                 .userEmail(member.getUserEmail())
                 .member(member)
                 .build();
