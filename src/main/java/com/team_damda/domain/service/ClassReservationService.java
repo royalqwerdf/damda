@@ -63,6 +63,9 @@ public class ClassReservationService {
 
         for (ClassReservation reservation : classReservations) {
             ClassReservationDto reservationDto = reservation.toDto();
+            ClassTime classTime = classTimeRepository.findById(reservationDto.getSelect_time()).orElse(null);
+            String startAt = classTime.getClassStartsAt();
+            reservationDto.setStartAt(startAt);
             classReservationDtos.add(reservationDto);
 
         }
@@ -72,6 +75,10 @@ public class ClassReservationService {
 
     public ClassReservation getmemberInfo(Long memberId,Long classId) {
         return classReservationRepository.findByMemberIdAndOnedayClassId(memberId,classId).stream().findFirst().orElse(null);
+    }
+
+    public void delete(Long id){
+        classReservationRepository.deleteById(id);
     }
 
 

@@ -1,6 +1,7 @@
 package com.team_damda.domain.dto;
 
 
+import com.google.api.client.util.DateTime;
 import com.team_damda.domain.entity.Class;
 import com.team_damda.domain.entity.ClassReservation;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class ClassReservationDto {
     private String classType;
     private long user_id;
     private String mainImage;
+    private String startAt;
 
     public ClassReservation toEntity() {
         return ClassReservation.builder()

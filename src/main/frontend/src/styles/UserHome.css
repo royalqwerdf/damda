@@ -44,7 +44,7 @@ div.userhome-reservation-now {
 
 /*원형div*/
 div.userhome-now-circle {
-    /*display: flex;*/
+    display: flex;
     width: 100px;
     height: 100px;
     background-color: #FFF5D9;

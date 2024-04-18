@@ -1,6 +1,8 @@
 package com.team_damda.domain.entity;
 
+import com.google.api.client.util.DateTime;
 import com.team_damda.domain.dto.ClassReservationDto;
+import com.team_damda.domain.repository.ClassTimeRepository;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -59,6 +61,7 @@ public class ClassReservation {
                 mainImage = classImage.getImageUrl();
             }
         }
+
         return ClassReservationDto.builder()
                 .onedayClass(this.onedayClass)
                 .total_price(this.total_price)
