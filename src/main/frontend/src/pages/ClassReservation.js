@@ -9,8 +9,27 @@ import moment from "moment";
 import MapContent from '../components/MapContent';
 import Modal from "react-modal";
 import useUploadImage from '../hooks/useUploadImage';
+import {jwtDecode} from "jwt-decode";
 const ClassReservation = () => {
+/*  회원 토큰 관리*/
 
+const [memberData,setMemberData] = useState(null);
+const [memberId, setMemberId] = useState(null);
+    const token = localStorage.getItem('accessToken');
+    const decodedToken = jwtDecode(token);
+    const memberEmail = decodedToken.userEmail;
+    console.log(memberEmail);
+
+    useEffect(() => {
+
+        axios.get(`/api/member/${memberEmail}`)
+            .then(response => {
+                setMemberData(response.data);
+                setMemberId(response.data.id);
+                console.log("member Id:",memberId);
+            })
+            .catch(error => console.log(error));
+    },[]);
     //이미지 업로드 함수
     const uploadedUrls = [];
     const [imageFiles, setImageFiles] = useState([]);
@@ -94,8 +113,29 @@ const ClassReservation = () => {
      }
      /*review*/
      const[isReviewOpen, setIsReviewOpen] = useState(false);
+     const[reviewInfo, setReviewInfo] = useState(false);
+         useEffect(() => {
+            if (memberId){
+                  axios.get(`/class-reservation/${id}/${memberId}/review`)
+                             .then(response2 => {
+                                 console.log("Review Data:", response2.data);
+                                 console.log("Review Data2:", response2.data.total_price);
+                                 setReviewInfo(response2.data);
+                                 console.log(reviewInfo);
+                             })
+                             .catch(error => console.log(error));
+            }
+
+         },[memberId]);
+
+
      const openReviewModal =() =>{
+        if(!reviewInfo){
+            alert('클래스 이용내역이 있는 회원님만 작성 가능합니다!');
+            return;
+        }
         setIsReviewOpen(true);
+
      }
      const closeReviewModal =() =>{
         setIsReviewOpen(false);
@@ -147,6 +187,7 @@ const ClassReservation = () => {
      const [classDetails, setClassDetails] = useState(null);
      const [classTimes, setClassTimes] = useState([]);
      const [classImages, setClassImages] = useState([]);
+     const [classReviews, setClassReviews] = useState([]);
      const defaultImg = "https://firebasestorage.googleapis.com/v0/b/damda-30bee.appspot.com/o/damda.png?alt=media&token=2dfa534c-01ba-4eba-a4de-af7fd44d7194";
 
      useEffect(() => {
@@ -155,11 +196,12 @@ const ClassReservation = () => {
            const response = await axios.get(`/class-reservation/${id}`);
            console.log(id);
            console.log(response.data);
-           const { classDetails, classTimes, classImages } = response.data;
+           const { classDetails, classTimes, classImages, classReviews} = response.data;
 
            setClassTimes(classTimes);
            setClassDetails(classDetails);
            setClassImages(classImages);
+           setClassReviews(classReviews);
 
            //console.log(classDetails);
          } catch (error) {
@@ -180,10 +222,10 @@ const submitReservation = async () => {
   // 여기서 예약에 필요한 정보를 객체로 구성합니다.
   console.log(classDetails.price); //
   console.log(peopleCount);
-
+  console.log(memberData.name);
   const reservationData = {
     id: id, // 현재 페이지의 클래스 ID
-//    member_id: '사용자 ID', // 사용자 ID (로그인 구현 시 사용자의 토큰?ID?로 대체)
+    user_id: memberData.id, // 사용자 ID (로그인 구현 시 사용자의 토큰?ID?로 대체)
     select_date: moment(value).format('YYYY-MM-DD'), // 선택된 날짜
     select_time: selectedTime.id, // 선택 시간ID
     select_person: peopleCount, // 인원수
@@ -203,7 +245,7 @@ const submitReservation = async () => {
   } catch (error) {
     // 에러 처리 로직
     console.error("예약에 실패했습니다.", error);
-    window.location.reload();
+//    window.location.reload();
   }
 };
 
@@ -215,7 +257,7 @@ const submitCart = async () => {
   console.log(peopleCount);
 
   const CartData = {
-//    member_id: '사용자 ID', // 사용자 ID (로그인 구현 시 사용자의 토큰?ID?로 대체)
+    user_id: memberData.id, // 사용자 ID (로그인 구현 시 사용자의 토큰?ID?로 대체)
     select_date: moment(value).format('YYYY-MM-DD'), // 선택된 날짜
     classTimeId: selectedTime.id, // 선택 시간ID
     selectedCount: peopleCount, // 인원수
@@ -288,6 +330,80 @@ const submitCart = async () => {
       setPeopleCount(prevCount => prevCount + 1);
     };
 
+
+    /*----------reveiw Control*/
+    const [reviewTitle, setReviewTitle] = useState(''); // 리뷰 타이틀 상태
+    const [reviewText, setReviewText] = useState(''); // 리뷰 텍스트 상태
+    const [starClick, setStarClick] = useState(null);  // 현재 클릭 별
+    const [preClicked, setPreClicked] = useState(null); // 이전클릭 별
+    const goToFetch = (e) => {
+
+      const nowClicked = e.target.id;  // 현재 클릭한 id
+      setStarClick(nowClicked);
+
+      console.log(preClicked);
+      console.log(starClick);
+
+      if(nowClicked !== null) {  // 별이 클릭한 상태라면
+        if(nowClicked > preClicked) {
+          for (let i = 1; i <= nowClicked; i++) {
+            const star_id = document.getElementById(i);
+            star_id.src = "https://firebasestorage.googleapis.com/v0/b/damda-30bee.appspot.com/o/star.png?alt=media&token=533d0a9d-b1f9-4cf7-9517-4f467e894ecf";
+          }
+        }
+        else if(nowClicked < preClicked){
+          for (let i = 1; i <= nowClicked; i++) {
+            const star_id = document.getElementById(i);
+            star_id.src = "https://firebasestorage.googleapis.com/v0/b/damda-30bee.appspot.com/o/star.png?alt=media&token=533d0a9d-b1f9-4cf7-9517-4f467e894ecf";
+          }
+          for(let j = 5; j > nowClicked; j--) {
+            const star_id = document.getElementById(j);
+            star_id.src = "https://firebasestorage.googleapis.com/v0/b/damda-30bee.appspot.com/o/empty_start.png?alt=media&token=b2918120-3f5f-4840-8edb-6a09f02708ef";
+          }
+        }
+        else {
+          for (let i = 1; i <= nowClicked; i++) {
+            const star_id = document.getElementById(i);
+            star_id.src = "https://firebasestorage.googleapis.com/v0/b/damda-30bee.appspot.com/o/empty_start.png?alt=media&token=b2918120-3f5f-4840-8edb-6a09f02708ef";
+          }
+        }
+        setPreClicked(nowClicked);
+      }
+    }
+
+    const submitReview = async () => {
+      console.log(preClicked);
+      console.log(reviewText);
+
+      const reviewData = {
+        class_id: id, // 클래스
+        user_id: memberId, // 유저ID
+        title : reviewTitle,//리뷰 제목
+        contents : reviewText, // 리뷰내용
+        rating : preClicked, // 평점
+
+      };
+      if (!reviewText || !starClick || reviewTitle)   {
+          alert('후기(제목/내용)와 평점을 입력해주세요');
+          return;
+      }
+      try {
+        const response = await axios.post(`http://localhost:8080/review`, reviewData);
+        if (response.status === 200) {
+          // 예약 성공 시 처리 로직
+          console.log("리뷰작성 완료");
+          alert('리뷰를 작성을 완료하였습니다..');
+          closeModal();
+          window.location.reload();
+
+        }
+      } catch (error) {
+        // 에러 처리 로직
+        console.error("리뷰작성 실패", error);
+        alert('리뷰 작성중 오류가 발생했습니다.');
+//        window.location.reload();
+      }
+    };
     // 딜레이 고려
      if (!classDetails) {
         return <div>Loading...</div>;
@@ -296,7 +412,7 @@ const submitCart = async () => {
 
 
   return (
-    <div className="class-reservation-page" style={{ height: "2048px" }}>
+    <div className="class-reservation-page">
           <div className = "class-area">
               <div className= "class-info">
                   <div id="class-img-top">
@@ -320,7 +436,18 @@ const submitCart = async () => {
                        <div className="review-body">
                          <div className="review-left-area">
                            <h3>체험 클래스 : </h3>&nbsp;<strong>{classDetails.className}</strong>
-                           <textarea id="input-review" placeholder="체험 후기..."></textarea>
+                           <textarea id="input-review-title"
+                                name="reviewtitle"
+                                required
+                                value={reviewTitle}
+                                onChange={e => setReviewTitle(e.target.value)}
+                                placeholder="타이틀을 입력해주세요."/>
+                           <textarea id="input-review"
+                                name="reviewtext"
+                                required
+                                value={reviewText}
+                                onChange={e => setReviewText(e.target.value)}
+                                placeholder="체험 후기..."/>
                               <div className="image-upload-url">
 
                                   <form style={{padding: '20px', marginLeft: '20px'}}>
@@ -341,15 +468,26 @@ const submitCart = async () => {
 
                          </div>
                          <div className="review-right-area">
-                           <h3>예약정보</h3>
-                           <p><strong>참가자 정보</strong> </p>{"user-id"} {/* 'user-id'를 실제 사용자 ID로 대체 */}
-                           <p><strong>예약 시간 </strong></p> {"예약시간"}
-                           <p><strong>결제 금액 </strong></p>{"결제 금액"}
+                           <h3>최근 예약정보</h3>
+                           <p><strong>참가자 정보</strong> </p>{memberData.name}<br/>{memberData.phone} {/* 'user-id'를 실제 사용자 ID로 대체 */}
+                           <p><strong>클래스 날짜 </strong></p> {moment(reviewInfo.select_date).format('YYYY-MM-DD')}
+                           <p><strong>예약 인원 </strong></p>{reviewInfo.select_person}명
+                           <p><strong>결제 금액 </strong></p>{reviewInfo.total_price}원
+                           <p>평점 </p>
+                            {[1, 2, 3, 4, 5].map(el => (
+                             <img
+                             	key={el}
+                             	id={el}
+                           	src="https://firebasestorage.googleapis.com/v0/b/damda-30bee.appspot.com/o/empty_start.png?alt=media&token=b2918120-3f5f-4840-8edb-6a09f02708ef"
+                           	alt=""
+                           	style={{ width: '25px', height: '25px'}}
+                           	onClick={goToFetch} />
+                           ))}
                          </div>
                        </div>
                        <div className="review-footer">
                          <button onClick={closeReviewModal} className="modal-close-btn">취소</button>
-                         <button onClick={closeReviewModal} className="modal-confirm-btn">등록하기</button>
+                         <button onClick={submitReview} className="modal-confirm-btn">등록하기</button>
                        </div>
                      </div>
 
@@ -385,9 +523,34 @@ const submitCart = async () => {
                   </div>
                   <br/><b>후기</b><br/>
                   <div id='review-area'>
-                    후기가 없습니다.<br/>
-                    직접 체험하고 멋진 후기를 남겨주세요!
+                    {classReviews.length > 0 ? (
+                      classReviews.map(review => (
+                        <div key={review.user_id} className="review">
+                          <h3>{review.title || "제목 없음"}</h3>
+                          <p>{review.contents}</p>
+                          <div className="rating">
+                            {[...Array(5)].map((star, index) => {
+                              index += 1;
+                              return (
+                                <span key={index}>
+                                  <img
+                                    src={index <= review.rating ?
+                                    "https://firebasestorage.googleapis.com/v0/b/damda-30bee.appspot.com/o/star.png?alt=media&token=533d0a9d-b1f9-4cf7-9517-4f467e894ecf"
+                                    : "https://firebasestorage.googleapis.com/v0/b/damda-30bee.appspot.com/o/empty_start.png?alt=media&token=b2918120-3f5f-4840-8edb-6a09f02708ef"}
+                                    alt="star"
+                                    style={{ width: '25px', height: '25px' }}
+                                  />
+                                </span>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <p>후기가 없습니다.<br/>직접 체험하고 멋진 후기를 남겨주세요!</p>
+                    )}
                   </div>
+
               </div>
           </div>
 
@@ -401,9 +564,15 @@ const submitCart = async () => {
                     // 클래스가 시작되는 날짜와 끝나는 날짜를 'moment' 객체로 변환
                       if (view === 'month') {
                         // date가 startDate 이전이거나 lastDate 이후이면 비활성화
+                        const currentDate = moment();
+                        const isBeforeToday = moment(date).isBefore(currentDate, 'day');
+                        const selectedDate = moment(date).format('YYYY-MM-DD');
                         const isBeforeStart = moment(date).isBefore(moment(classDetails.startDate), 'day');
                         const isAfterEnd = moment(date).isAfter(moment(classDetails.lastDate), 'day');
-                        return isBeforeStart || isAfterEnd;
+                        const hasClassTimes = classTimes.some(classTime =>
+                                                        moment(classTime.classDate).format('YYYY-MM-DD') === selectedDate && classTime.headcount > 0);
+
+                        return isBeforeToday || isBeforeStart || isAfterEnd || !hasClassTimes;
                       }
                   }}>
              </Calendar></div>
