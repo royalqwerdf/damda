@@ -105,9 +105,7 @@ public class CartController {
 
     // 카트 목록 가져오기
     @GetMapping("/carts")
-    public ResponseEntity<List<Cart>> getAllCarts(HttpSession session, HttpServletRequest request) {
-        Long memberId = (Long) session.getAttribute("memberId");
-
+    public ResponseEntity<List<Cart>> getAllCarts(@RequestParam(name = "memberId", required = false) Long memberId, HttpServletRequest request) {
         List<Cart> carts = null;
 
         if (memberId != null) { // 회원인 경우
@@ -129,8 +127,7 @@ public class CartController {
 
     // 카트 삭제
     @DeleteMapping("/carts/{cartId}")
-    public ResponseEntity<Void> deleteCart(@PathVariable Long cartId, HttpSession session, HttpServletRequest request){
-        Long memberId = (Long) session.getAttribute("memberId");
+    public ResponseEntity<Void> deleteCart(@PathVariable Long cartId, @RequestParam(name = "memberId", required = false) Long memberId, HttpServletRequest request){
         // 삭제 성공 여부
         boolean isDeleted = false;
 
@@ -151,8 +148,7 @@ public class CartController {
 
     // 카트 수정
     @PutMapping("/carts/{cartId}")
-    public ResponseEntity<Void> updateCart(@PathVariable Long cartId, int selectedCount, int totalPrice, HttpSession session, HttpServletRequest request) {
-        Long memberId = (Long) session.getAttribute("memberId");
+    public ResponseEntity<Void> updateCart(@PathVariable Long cartId, int selectedCount, int totalPrice, @RequestParam(name = "memberId", required = false) Long memberId, HttpServletRequest request) {
         // 수정 성공 여부
         boolean isUpdated = false;
 
@@ -173,9 +169,7 @@ public class CartController {
 
     // 카트가 비었는지 확인
     @GetMapping("/carts/isEmpty")
-    public ResponseEntity<Boolean> isCartEmpty(HttpSession session, HttpServletRequest request) {
-        Long memberId = (Long) session.getAttribute("memberId");
-
+    public ResponseEntity<Boolean> isCartEmpty(@RequestParam(name = "memberId", required = false) Long memberId, HttpServletRequest request) {
         boolean isEmpty = false;
 
         if(memberId != null) {
@@ -196,9 +190,7 @@ public class CartController {
 
     // 카트가 몇 개 담겨있는지 확인
     @GetMapping("/carts/count")
-    public ResponseEntity<Integer> countCarts(HttpSession session, HttpServletRequest request) {
-        Long memberId = (Long) session.getAttribute("memberId");
-
+    public ResponseEntity<Integer> countCarts(@RequestParam(name = "memberId", required = false) Long memberId, HttpServletRequest request) {
         int count = 0;
 
         if(memberId != null) {

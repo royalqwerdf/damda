@@ -3,12 +3,30 @@ import React, {useEffect, useState} from 'react';
 import { Link, redirect, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import axios from "axios";
+import {jwtDecode} from "jwt-decode";
 
 const Cart = () => {
+    // 회원 정보 받아오기
+    const [memberId, setMemberId] = useState(null);
+    const token = localStorage.getItem('accessToken');
+    const decodedToken = token ? jwtDecode(token) : null;
+    const memberEmail = decodedToken ? decodedToken.userEmail : null;
+    console.log(memberEmail);
+
     const navigate = useNavigate();
     const [carts, setCarts] = useState([]);
+
     useEffect(() => {
-        axios.get('http://localhost:8080/carts')
+        if(memberEmail != null) {
+            axios.get(`/api/member/${memberEmail}`)
+                .then(response => {
+                    setMemberId(response.data.id);
+                    console.log("member Id:", memberId);
+                })
+                .catch(error => console.log(error));
+        } else setMemberId(null);
+
+        axios.get('/carts', { params: { memberId: memberId } })
             .then(response=>
             {
                 // 받아온 데이터를 가공하여 Date 객체로 변환
@@ -84,7 +102,7 @@ const Cart = () => {
         const deletedCartIds = [];
 
         const deleteRequests = checkboxes.map((cartId)=> {
-            return axios.delete(`http://localhost:8080/carts/${cartId}`)
+            return axios.delete(`/carts/${cartId}`, {cartId, params: { memberId: memberId }})
                 .then(response => {
                     console.log(`Cart ${cartId} is deleted successfully`);
                     deletedCartIds.push(cartId);
@@ -117,15 +135,17 @@ const Cart = () => {
     const reserveCheckedCarts = () => {
         checkboxes.forEach((cartId) => {
             const cart = carts.find(cart => cart.id === cartId);
+            const id = cart.classTime.onedayClass.id;
             const reservationData = {
-                id: cart.classTime.onedayClass.id,
+                id: id,
+                user_id: memberId,
                 select_date: moment(cart.classTime.classDate).format('YYYY-MM-DD'),
                 select_time: cart.classTime.id,
                 select_person: cart.selectedCount,
                 total_price: cart.totalPrice,
                 classType: cart.classTime.onedayClass.category.categoryName
             };
-            axios.post(`http://localhost:8080/reservation`, { reservationData })
+            axios.post(`http://localhost:8080/class-reservation/${id}/reserve`, { reservationData })
                 .then(response => {
                     console.log(`Class ${cart.classTime.onedayClass.id} is reserved successfully`);
                     const updatedCarts = carts.filter(cart => cart.id !== cartId);
@@ -150,15 +170,17 @@ const Cart = () => {
     // 전체 클래스 예약
     const reserveAllCarts = () => {
         carts.forEach((cart) => {
+            const id = cart.classTime.onedayClass.id;
             const reservationData = {
-                id: cart.classTime.onedayClass.id,
+                id: id,
+                user_id: memberId,
                 select_date: moment(cart.classTime.classDate).format('YYYY-MM-DD'),
                 select_time: cart.classTime.id,
                 select_person: cart.selectedCount,
                 total_price: cart.totalPrice,
                 classType: cart.classTime.onedayClass.category.categoryName
             };
-            axios.post(`http://localhost:8080/reservation`, { reservationData })
+            axios.post(`http://localhost:8080/class-reservation/${id}/reserve`, { reservationData })
                 .then(response => {
                     console.log(`Class ${cart.classTime.onedayClass.id} is reserved successfully`);
                     setCarts([]);
@@ -207,7 +229,7 @@ const Cart = () => {
         updateCart(cartId, updatedCart.selectedCount, updatedCart.totalPrice);
     }
     const updateCart = (cartId, selectedCount, totalPrice) => {
-        axios.put(`/carts/${cartId}`, { selectedCount, totalPrice })
+        axios.put(`/carts/${cartId}`, { cartId, selectedCount, totalPrice, params: { memberId: memberId } })
             .then(response => {
                 console.log('Cart updated successfully: ', response.data);
             })
@@ -248,9 +270,9 @@ const Cart = () => {
                         </span>
 
                         {/* 인원 */}
-                        <button class="minus" onClick={() => handleDecrease(cart.id)}>-</button>
+                        <button className="minus" onClick={() => handleDecrease(cart.id)}>-</button>
                         <span className="count">{cart.selectedCount}명</span>
-                        <button class="plus" onClick={() => handleIncrease(cart.id)}>+</button>
+                        <button className="plus" onClick={() => handleIncrease(cart.id)}>+</button>
 
                         {/* 예약일시 */}
                         <span className="date">{formatDate(cart.classTime.classStartsAt)}</span>
