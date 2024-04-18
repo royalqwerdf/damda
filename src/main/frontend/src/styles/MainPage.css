@@ -176,6 +176,9 @@ body{
   padding-left: 10px;
   font-weight: bold;
 }
+#classCard #left span{
+  font-size: 12px;
+}
 #classCard a #classPrice{
   display:flex;
   justify-content: flex-end;
