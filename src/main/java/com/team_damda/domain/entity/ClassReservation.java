@@ -1,5 +1,8 @@
 package com.team_damda.domain.entity;
 
+import com.google.api.client.util.DateTime;
+import com.team_damda.domain.dto.ClassReservationDto;
+import com.team_damda.domain.repository.ClassTimeRepository;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -41,7 +44,7 @@ public class ClassReservation {
 
     @ManyToOne
     @JoinColumn(name="class_id")
-    private Class ondayClass;
+    private Class onedayClass;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -50,4 +53,23 @@ public class ClassReservation {
     @OneToOne
     @JoinColumn(name="order_detail_id")
     private OrderDetail orderDetail;
+
+    public ClassReservationDto toDto(){
+        String mainImage = "";
+        for(ClassImage classImage:this.onedayClass.getClassImages()){
+            if(classImage.getMain_yn().equals("y")){
+                mainImage = classImage.getImageUrl();
+            }
+        }
+
+        return ClassReservationDto.builder()
+                .onedayClass(this.onedayClass)
+                .reservation_id(this.id)
+                .total_price(this.total_price)
+                .select_date(this.select_date)
+                .select_time(this.select_time)
+                .select_person(this.select_person)
+                .mainImage(mainImage)
+                .build();
+    }
 }

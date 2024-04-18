@@ -43,49 +43,47 @@ public class InquiryService {
     }
 
     @Transactional
-    public Page<InquiryDto> sortInquiry(String c, String u, String sl, String sr, Date sday, Date eday, PageRequest pageRequest) {
+    public List<Inquiry> sortInquiry(String c, String u, String sl, String sr, Date sday, Date eday) {
         List<Inquiry> searchInquiries = new ArrayList<>();
 
         if(u.equals("아이디")) {
             if(sl.equals("전체")) {
                 searchInquiries = inquiryRepositoryImpl.searchAllInquiryByEmail(c, sr, sday, eday);
             } else if(sl.equals("일반")) {
-                searchInquiries = inquiryRepositoryImpl.searchInquiryByEmail(c, u, sr, sday, eday);
+                searchInquiries = inquiryRepositoryImpl.searchInquiryByEmail(c, "일반", sr, sday, eday);
             } else if(sl.equals("호스트")) {
-                searchInquiries = inquiryRepositoryImpl.searchInquiryByEmail(c, u, sr, sday, eday);
+                searchInquiries = inquiryRepositoryImpl.searchInquiryByEmail(c, "호스트", sr, sday, eday);
             }
         } else if(u.equals("제목")) {
             if(sl.equals("전체")) {
                 searchInquiries = inquiryRepositoryImpl.searchAllInquiryByTitle(c, sr, sday, eday);
             } else if(sl.equals("일반")) {
-                searchInquiries = inquiryRepositoryImpl.searchInquiryByTitle(c, u, sr, sday, eday);
+                searchInquiries = inquiryRepositoryImpl.searchInquiryByTitle(c, "일반", sr, sday, eday);
             } else if(sl.equals("호스트")) {
-                searchInquiries = inquiryRepositoryImpl.searchInquiryByTitle(c, u, sr, sday, eday);
+                searchInquiries = inquiryRepositoryImpl.searchInquiryByTitle(c, "호스트", sr, sday, eday);
             }
         }
-
-        Page<Inquiry> inquiryPage = inquiryRepository.findAllByOrderByCreatedAtDesc(pageRequest);
-
-        List<Inquiry> commonInquiries = searchInquiries.stream()
-                .filter(inquiryPage.getContent()::contains)
-                .collect(Collectors.toList());
-
-        List<InquiryDto> inquiryDtos = new ArrayList<>();
-        for(Inquiry inquiry : commonInquiries) {
-            InquiryDto dto = inquiry.toDto(); // Inquiry를 InquiryDto로 변환하는 메서드 호출
-            inquiryDtos.add(dto);
+        for(Inquiry inquiry : searchInquiries) {
+            System.out.println("!!!!! :" + inquiry.getTitle());
         }
 
-        int currentPage = pageRequest.getPageNumber();// 현재 페이지 번호
-        int pageSize = pageRequest.getPageSize(); // 페이지 크기
-        long totalItems = commonInquiries.size();
-
-        return new PageImpl<>(inquiryDtos, PageRequest.of(currentPage, pageSize), totalItems);
+        return searchInquiries;
     }
 
     @Transactional
-    public List<Inquiry> getInquiry(Long memberId){
-        return inquiryRepository.findAllByMember_Id(memberId);
+    public List<InquiryDto> getInquiry(Long memberId){
+        List<Inquiry> inquiryList = inquiryRepository.findAllByMember_Id(memberId);
+        List<InquiryDto> inquiryDtoList = new ArrayList<>();
+        for(Inquiry inquiry : inquiryList) {
+            InquiryDto inquiryDto = inquiry.toDto();
+            inquiryDtoList.add(inquiryDto);
+        }
+        return inquiryDtoList;
+    }
+
+    @Transactional
+    public void setReply(Inquiry inquiry, InquiryDto dto) {
+        inquiry.setReply(dto.getReply());
     }
 
 

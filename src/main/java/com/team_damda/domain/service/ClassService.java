@@ -19,15 +19,14 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +36,7 @@ public class ClassService {
     private final MemberRepository memberRepository;
     private final ClassTimeRepository classTimeRepository;
     private final ClassImageRepository classImageRepository;
+    private final ClassRepositoryImpl classRepositoryImpl;
 
 
     @Transactional
@@ -45,6 +45,8 @@ public class ClassService {
             Member member = memberRepository.findById(memberId).orElse(null);
             Category category = categoryRepository.findByCategoryName(classDto.getCategoryName());
             Class classEntity = classDto.toEntity(category, member);
+            classEntity.setManagerEmail(member.getUserEmail());
+            classEntity.setCategoryName(category.getCategoryName());
 
             Date classStartsAt = classEntity.getStartDate();
             Date classEndsAt = classEntity.getLastDate();
@@ -212,6 +214,85 @@ public class ClassService {
             newClassImageDto.add(classImageDto);
         }
         return newClassImageDto;
+    }
+
+    @Transactional
+    public Page<ClassDto> getClassByOrder(PageRequest pageRequest) {
+        Page<Class> classPage = classRepository.findAllByOrderByCreatedAtDesc(pageRequest);
+        return classPage.map(Class::toDto);
+    }
+
+    @Transactional
+    public List<Class> sortClass(String ca, String cl, String se, Date sd, Date ed) {
+        List<Class> searchClasses = new ArrayList<>();
+
+        if(cl.equals("아이디")) {
+            searchClasses = classRepositoryImpl.searchClassByEmail(ca, se, sd, ed);
+        } else if(cl.equals("클래스")) {
+            searchClasses = classRepositoryImpl.searchClassByClassName(ca, se, sd, ed);
+        }
+
+        for(Class onedayClass : searchClasses) {
+            System.out.println("!2!2!2!2!2 : " + onedayClass.getClassName());
+        }
+
+        return searchClasses;
+
+    }
+
+    @Transactional
+    public List<ClassDto> getMemberClass(Long id){
+        List<Class> classes = classRepository.findByManager_Id(id);
+        List<ClassDto> classDtos = new ArrayList<>();
+        for(Class onedayClass : classes){
+            ClassDto classDto = onedayClass.toDto();
+            classDtos.add(classDto);
+        }
+        return classDtos;
+    }
+
+    @Transactional
+    public void deleteClassAndRelations(Long classId) {
+        Class onedayClass = classRepository.findClassById(classId);
+        classRepository.delete(onedayClass);
+    }
+
+    @Transactional
+    public void updateClass(Long classId, ClassDto classDto, List<ClassTimeDto> classTimes, List<ClassImageDto> classImages) {
+        Class onedayClass = classRepository.findClassById(classId);
+        onedayClass.setClassName(classDto.getClassName());
+        onedayClass.setClassExplanation(classDto.getClassExplanation());
+        onedayClass.setLevel(classDto.getLevel());
+        onedayClass.setLongtime(classDto.getLongtime());
+        onedayClass.setStartDate(classDto.getStartDate());
+        onedayClass.setLastDate(classDto.getLastDate());
+        onedayClass.setWeekdays(classDto.getWeekdays());
+        onedayClass.setAddress(classDto.getAddress());
+        onedayClass.setDetailAddress(classDto.getDetailAddress());
+        onedayClass.setCurriculum(classDto.getCurriculum());
+        onedayClass.setPrice(classDto.getPrice());
+        onedayClass.setCategoryName(classDto.getCategoryName());
+
+        Date classStartsAt = onedayClass.getStartDate();
+        Date classEndsAt = onedayClass.getLastDate();
+        String weekday = onedayClass.getWeekdays();
+
+        List<Date> selectedDates = getSelectedDates(classStartsAt, classEndsAt, weekday);
+
+        //한 클래스의 수업 가능 날짜들 -> 각 날짜의 수업시간들 저장
+        for(Date openClassDate : selectedDates) {
+            System.out.println("수업가능 날짜 : " + openClassDate);
+            for(ClassTimeDto classTime : classTimes) {
+                ClassTime classTimeEntity = classTime.toEntity(onedayClass);
+                classTimeEntity.setClassDate(openClassDate); // 해당 수업 시간이 어떤 날짜에 편성되었는지 새로 추가
+                classTimeRepository.save(classTimeEntity);
+            }
+        }
+
+        for(ClassImageDto classImage : classImages) {
+            ClassImage classImageEntity = classImage.toEntity(onedayClass);
+            classImageRepository.save(classImageEntity);
+        }
     }
 };
 

@@ -1,3 +1,4 @@
+/*가장 바깥을 감싸는 컨테이너*/
 div.user-review-container{
     margin-bottom: 500px;
 }
@@ -36,7 +37,7 @@ div.user-review-list{
 
 }
 
-/*상자*/
+/*리뷰 상자*/
 div.user-review-box {
     position: relative;
     overflow: visible; /*스크롤바 없이 위로 올림*/
@@ -70,6 +71,7 @@ div.data-review {
     font-size: 15px;
     font-weight: bolder;
 }
+
 /*리뷰상자 아래 가로줄*/
 hr.userReview-line{
     width: 850px;

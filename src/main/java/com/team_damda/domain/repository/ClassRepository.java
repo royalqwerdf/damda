@@ -2,6 +2,8 @@ package com.team_damda.domain.repository;
 
 import com.team_damda.domain.entity.Class;
 import com.team_damda.domain.entity.ClassTime;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,4 +22,10 @@ public interface ClassRepository extends JpaRepository<Class,Long>,ClassReposito
     List<Class> findTop12ByOrderByIdDesc();
 
     List<ClassTime> findClassTimeById(Long id);
+
+    Page<Class> findAllByOrderByCreatedAtDesc(Pageable pageable);
+
+    List<Class> findByManager_Id(long id);
+
+    Class findClassById(Long classId);
 }

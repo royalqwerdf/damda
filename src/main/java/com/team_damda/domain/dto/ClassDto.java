@@ -36,6 +36,8 @@ public class ClassDto {
     private String managerPhone;
     private String mainImage;
     private Long categoryId;
+    private String managerEmail;
+    private int reserveCount;
 
     private Category category;
     private Member manager;
@@ -56,6 +58,8 @@ public class ClassDto {
                 .price(this.price)
                 .totalRating(this.totalRating)
                 .totalLike(this.totalLike)
+                .managerEmail(this.managerEmail)
+                .categoryName(this.categoryName)
                 .category(category)
                 .manager(manager)
                 .build();

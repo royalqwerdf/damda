@@ -1,6 +1,7 @@
 package com.team_damda.domain.entity;
 
 
+import com.team_damda.domain.dto.AnnounceDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,5 +31,16 @@ public class Announce extends BaseTimeEntity{
     @ManyToOne
     @JoinColumn(name="user_id")
     private Member member;
+
+    public AnnounceDto toDto(){
+        return AnnounceDto.builder()
+                .id(this.id)
+                .memberId(this.member.getId())
+                .title(this.title)
+                .content(this.content)
+                .updatedAt(this.getUpdatedAt())
+                .createdAt(this.getCreatedAt())
+                .build();
+    }
 
 }
