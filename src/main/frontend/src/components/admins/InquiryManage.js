@@ -11,6 +11,14 @@ import "react-datepicker/dist/react-datepicker.css";
 
 function InquiryManage() {
 
+    const [showDetail, setShowDetail] = useState(false);
+    const [selectedInquiryId, setSelectedInquiryId] = useState(null);
+    const handleButtonClick = (inquiryId) => {
+        // 버튼 클릭 시 InquiryDetail을 export하도록 설정
+        setSelectedInquiryId(inquiryId);
+        setShowDetail(true);
+    };
+
     const [inquiryList, setInquiryList] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
@@ -120,6 +128,11 @@ function InquiryManage() {
     };
 
     return (
+    <div>
+        {showDetail ? (
+            <InquiryDetail inquiryId={selectedInquiryId}/>
+        ):(
+
         <div className="container" style={{padding: '0px'}}>
             <div className="admin-menu-area" style={{width: '100%'}}>
                 <div className="top-title-area" style={{marginTop: '20px', padding: '10px', width: '100%', height: '40px', borderBottom: '1px solid #c0c0c0', fontSize: '22px', fontWeight: 'bold', color: '#808000'}}>문의 관리</div>
@@ -246,7 +259,7 @@ function InquiryManage() {
                                 <tr key={inquiry.id}>
                                     <td style={{flex: '1', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{inquiry.type}</td>
                                     <td style={{flex: '2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{inquiry.user_role}</td>
-                                    <td style={{flex: '2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{inquiry.title}</td>
+                                    <td style={{ cursor: 'pointer', flex: '2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}} onClick={() => handleButtonClick(inquiry.id)}>{inquiry.title}</td>
                                     <td style={{flex: '2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{inquiry.userEmail}</td>
                                     <td style={{flex: '2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{inquiry.createdAt}</td>
                                     <td style={{flex: '1', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{inquiry.comment_yn}</td>
@@ -265,8 +278,87 @@ function InquiryManage() {
 
             </div>
         </div>
-    );
 
+    )}
+    </div>
+    );
+}
+
+function InquiryDetail({inquiryId}) {
+
+    const [inquiryItem, setInquiryItem] = useState({});
+
+    useEffect(() => {
+        axios.get(`/admin-home/inquiry/${inquiryId}`)
+            .then(res => {
+                setInquiryItem(res.data);
+
+            })
+            .catch(error => console.log("에러! :" + error))
+    }, []);
+
+    const [adminReply, setAdminReply] = useState('');
+    useEffect(() => { //입력내용 확인용
+        console.log('클래스 이름 입력:', adminReply);
+    }, [adminReply]);
+
+    const handleReply = async () => {
+        console.log("답변 입력 내용 : " + adminReply);
+        try {
+            const data = { reply: adminReply };
+
+            const response = await axios.put(`/admin-home/inquiry/${inquiryId}`, data, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            window.location.reload();
+            console.log("답변 저장 완료");
+        } catch (error) {
+            console.error("답변 저장 오류 :" + error);
+        }
+    }
+
+
+    return(
+        <div className="container" style={{padding: '0px'}}>
+            <div className="admin-menu-area" style={{width: '100%'}}>
+                <div className="top-title-area" style={{marginTop: '20px', padding: '10px', width: '100%', height: '40px', borderBottom: '1px solid #c0c0c0', fontSize: '22px', fontWeight: 'bold', color: '#808000'}}>문의내용</div>
+
+                <div className="second-title" style={{marginTop: '10px', padding: '20px', width: '100%', height: '40px'}}>
+                    <div style={{marginLeft: '30px', fontSize: '20px', fontWeight: 'bold', color: '#808000'}}>문의</div>
+                </div>
+
+                <div className="content-area" style={{marginTop: '30px',padding: '10px', width: '100%'}}>
+                    <div style={{display: 'flex'}}>
+                        <div style={{marginLeft: '20px', fontWeight: 'bold', color: '#424242', padding: '10px', width: '10%', border: '1px solid #c0c0c0'}}>제목</div>
+                        <div style={{fontWeight: 'bold', color: '#424242', padding: '10px', width: '90%', border: '1px solid #c0c0c0'}}>{inquiryItem.title}</div>
+                    </div>
+                    <div style={{marginLeft: '20px', marginTop: '5px', height: '200px', padding: '20px', border: '1px solid #c0c0c0'}}>
+                        {inquiryItem.content}
+                    </div>
+                    <div style={{display : 'flex', marginLeft: '20px', marginTop: '5px', height: '50px', padding: '10px', border: '1px solid #c0c0c0'}}>
+                        <div style={{marginLeft: '10px'}}>RE.</div>
+                        <div style={{marginLeft: '10px'}}>{inquiryItem.reply}</div>
+                    </div>
+                    <div className="input-area" style={{marginLeft: '20px', marginTop: '10px', display: 'flex'}}>
+                        <div style={{fontSize: '14px', textAlign: 'center', fontWeight: 'bold', color: '#424242', padding: '5px', width: '90px', border: '1px solid #c0c0c0'}}>답변 작성</div>
+                        <div>
+                            <input
+                                type="text"
+                                value={adminReply}
+                                placeholder="답글을 작성하세요"
+                                onChange={e => setAdminReply(e.target.value)}
+                                style={{fontWeight: 'bold', color: '#424242', height: '30px' , width: '300px', border: '1px solid #c0c0c0'}}
+                            />
+                        </div>
+                        <button style={{marginTop: '5px', width: '60px', color: '#FFFFFF', height: '30px', backgroundColor: '#cd5c5c', border: '2px solid #e9967a', borderRadius: '10px'}} onClick={handleReply}>등록</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    );
 }
 
 export default InquiryManage;
