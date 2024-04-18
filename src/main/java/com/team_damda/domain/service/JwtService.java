@@ -71,6 +71,7 @@ public class JwtService {
                 .withExpiresAt(new Date(now.getTime() + accessTokenExpirationPeriod))
                 // 클레임으로 email 하나만 사용
                 .withClaim(EMAIL_CLAIM, member.getUserEmail())
+                .withClaim("role", member.getRole().name())
                 // 로그인 유형 추가
                 .withClaim("loginType", member.getLoginType().name())
                 // member 엔티티 id 값추가
