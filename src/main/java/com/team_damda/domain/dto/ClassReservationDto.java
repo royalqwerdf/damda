@@ -26,12 +26,10 @@ public class ClassReservationDto {
     private long select_time;
     private String classType;
     private long user_id;
-    private String className;
     private String mainImage;
 
-    public ClassReservation toEntity(Class ondayClass) {
+    public ClassReservation toEntity() {
         return ClassReservation.builder()
-                .onedayClass(onedayClass)
                 .select_person(this.select_person)
                 .total_price(this.total_price)
                 .select_date(this.select_date)
