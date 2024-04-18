@@ -16,15 +16,7 @@ function UserHome() {
 
     useEffect(() => {
 
-        if(localStorage.getItem('accessToken')===null){
-            if(window.confirm("로그인이 필요합니다.\n로그인 하시겠습니까?")){
-                navigate("/login");
-            } else {
-                navigate("/");
-            }
-        }else{
-
-            const token = localStorage.getItem('accessToken');
+        const token = localStorage.getItem('accessToken');
         const decodedToken = jwtDecode(token);
         const memberEmail = decodedToken.userEmail;
         // 사용자의 Email로 idx값을 가져오고
@@ -45,7 +37,7 @@ function UserHome() {
                     .catch(error => console.log(error));
             })
             .catch(error => console.log(error));
-    }}, []);
+    }, []);
         return (
             <div>
                 <div className="user-left-menu">
@@ -78,7 +70,7 @@ function UserHome() {
                                             <p>결제 금액</p>
                                         </div>
                                         <div className="data-user-home">
-                                            <p>{reservation.className}</p>
+                                            {reservation.className.length>4 ? (<p>{reservation.className.substring(0,3)+"..."}</p>) :(<p>{reservation.className}</p>)}
                                             <p style={{marginLeft:"40px"}}>{reservation.select_date.substring(0,10)}</p>
                                             <p>{reservation.total_price}</p>
                                         </div>
@@ -114,7 +106,8 @@ function UserHome() {
                                                 <p>가격</p>
                                             </div>
                                             <div className="data-user-home-class">
-                                                <p>{onedayClass.className}</p>
+
+                                                {onedayClass.className.length>4 ? (<p>{onedayClass.className.substring(0,3)+"..."}</p>) :(<p>{onedayClass.className}</p>)}
                                                 <p style={{marginLeft:"55px"}}>{onedayClass.level}</p>
                                                 <p>{onedayClass.price}</p>
                                             </div>
