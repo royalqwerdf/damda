@@ -62,22 +62,22 @@ function UserReservation() {
                                     <div className="data-reservation">
                                         <a>{reservation.className}</a>
                                         <a>{reservation.select_date.substring(0,10)}</a>
-                                        <a style={{marginLeft:"20px"}}>{reservation.select_time}</a>
-                                        <a style={{marginLeft:"55px"}}>{reservation.select_person}</a>
-                                        <a style={{marginLeft:"40px"}}>{reservation.total_price}</a>
+                                        <a style={{marginLeft:"10px"}}>{reservation.select_date.substring(12,16)}</a>
+                                        <a style={{marginLeft:"45px"}}>{reservation.select_person}</a>
+                                        <a style={{marginLeft:"45px"}}>{reservation.total_price}</a>
                                     </div>
                                     <div className="reservation-button">
                                         {/*예약변경 화면으로 이동*/}
-                                        <Link to="/User-ReservationUpdate">
-                                            <UserButton type="button" variant="reservation-update">예약변경</UserButton>
-                                        </Link>
+                                        {/*<Link to="/User-ReservationUpdate">*/}
+                                        {/*    <UserButton type="button" variant="reservation-update">예약변경</UserButton>*/}
+                                        {/*</Link>*/}
 
                                         <div>
                                             <UserButton onClick={()=>reservationDeleteClick(reservation.id)} type="submit"
                                                         variant="reservation-delete">예약취소</UserButton>
                                         </div>
                                     </div>
-                                    <hr style={{marginBottom:"20px"}}/>
+                                    <hr style={{marginBottom:"20px",marginTop:"40px"}}/>
                             </>
                             )
                         })}

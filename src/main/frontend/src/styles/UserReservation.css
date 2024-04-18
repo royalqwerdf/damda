@@ -54,7 +54,6 @@ div.reservation-circle {
     margin-top: 30px;
     margin-left: 100px;
     overflow: hidden;
-    margin-bottom: -120px;
 }
 
 /*원형div안에 담기는 이미지 - 예약*/
@@ -77,7 +76,12 @@ div.title-reservation a{
 /*버튼 모두*/
 div.reservation-button{
     margin-left: 820px;
-    margin-top: -50px;
+    margin-top: -80px;
+
+}
+div.reservation-button button:hover{
+    background-color: #f52334;
+    color: white;
 }
 
 /*------------예약이 없을 때-------------*/
@@ -92,13 +96,15 @@ div.user-reservation-list-none{
 
 /*데이터 값 글자*/
 div.data-reservation {
-    margin-top: 30px;
+    margin-top: 10px;
     margin-left: 250px;
     font-size: 15px;
     align-content: center;
     text-align: left;
     height: 50px;
     padding-top: 20px;
+    margin-bottom: 40px;
+
 
     div.title-reservation {
         margin-top: 30px;
