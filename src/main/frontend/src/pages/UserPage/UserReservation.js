@@ -72,7 +72,7 @@ function UserReservation() {
                                         {/*    <UserButton type="button" variant="reservation-update">예약변경</UserButton>*/}
                                         {/*</Link>*/}
                                         <div>
-                                            <UserButton onClick={()=>reservationDeleteClick(reservation.id)} type="submit"
+                                            <UserButton onClick={()=>reservationDeleteClick(reservation.reservation_id)} type="submit"
                                                         variant="reservation-delete">예약취소</UserButton>
                                         </div>
                                     </div>
