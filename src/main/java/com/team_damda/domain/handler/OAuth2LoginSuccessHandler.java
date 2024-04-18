@@ -44,6 +44,8 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
 
         // 로그 정보 추가
+        log.info("로그인에 성공하였습니다. 아이디 : {}", member.getId());
+        log.info("로그인에 성공하였습니다. 권한타입 : {}", member.getRole());
         log.info("로그인에 성공하였습니다. 이메일 : {}", oAuth2User.getUserEmail());
         log.info("로그인에 성공하였습니다. AccessToken : {}", accessToken);
         log.info("로그인에 성공하였습니다. RefreshToken : {}", refreshToken);
