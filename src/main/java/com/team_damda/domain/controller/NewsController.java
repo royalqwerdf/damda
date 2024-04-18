@@ -1,5 +1,6 @@
 package com.team_damda.domain.controller;
 
+import com.team_damda.domain.dto.AnnounceDto;
 import com.team_damda.domain.dto.EventDto;
 import com.team_damda.domain.entity.Announce;
 import com.team_damda.domain.entity.Event;
@@ -22,7 +23,7 @@ public class NewsController {
     private final EventService eventService;
 
     @GetMapping("/announce")
-    public List<Announce> getAnnounce() {
+    public List<AnnounceDto> getAnnounce() {
         return announceService.getAnnounce();
     }
     @GetMapping("/event")
@@ -30,7 +31,7 @@ public class NewsController {
         return eventService.getEvent();
     }
     @GetMapping("/announce/{id}")
-    public Announce getAnnounceById(@PathVariable Long id) {
+    public AnnounceDto getAnnounceById(@PathVariable Long id) {
         return announceService.getAnnounceById(id);
     }
     @GetMapping("/event/{id}")

@@ -38,8 +38,9 @@ public class ClassReservationService {
         // DTO를 Entity로 변환
         Class reservationClass = classRepository.findById(reservationDto.getId()).orElse(null);
         Member member =memberRepository.findById(reservationDto.getUser_id()).orElse(null);
-        ClassReservation reservation = reservationDto.toEntity(reservationClass);
+        ClassReservation reservation = reservationDto.toEntity();
         reservation.setMember(member);
+        reservation.setOnedayClass(reservationClass);
 
 
         ClassTime reservationTime = classTimeRepository.findById(reservationDto.getSelect_time())
@@ -62,6 +63,9 @@ public class ClassReservationService {
 
         for (ClassReservation reservation : classReservations) {
             ClassReservationDto reservationDto = reservation.toDto();
+            ClassTime classTime = classTimeRepository.findById(reservationDto.getSelect_time()).orElse(null);
+            String startAt = classTime.getClassStartsAt();
+            reservationDto.setStartAt(startAt);
             classReservationDtos.add(reservationDto);
 
         }
@@ -71,6 +75,10 @@ public class ClassReservationService {
 
     public ClassReservation getmemberInfo(Long memberId,Long classId) {
         return classReservationRepository.findByMemberIdAndOnedayClassId(memberId,classId).stream().findFirst().orElse(null);
+    }
+
+    public void delete(Long id){
+        classReservationRepository.deleteById(id);
     }
 
 
