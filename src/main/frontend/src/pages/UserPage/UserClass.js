@@ -72,24 +72,25 @@ function UserClass() {
                             <div style={{flex: '1', color: '#424242', fontSize: '14px', fontWeight: 'bold', textAlign: 'center'}}>수정</div>
                         </div>
 
-                        {classList.map(onedayClass => {
-
-                            return(
-                                <div className="classInfoZone" key={onedayClass.id} style={{display: 'flex', marginTop: '10px', padding: '5px', height: '80px', border: '1px solid #dcdcdc', borderRadius: '10px'}}>
-                                    <div style={{flex: '2'}}>
-                                        <img src={onedayClass.mainImage} style={{width: '90px', height: '70px'}} alt="클래스_이미지" className="class-now-circle-image"/>
+                        {classList.length === 0 ? (
+                            <div style={{ textAlign: 'center', marginTop: '20px', fontSize: '16px' }}>등록한 클래스가 없습니다!</div>
+                        ) : (
+                            classList.map(onedayClass => (
+                                <div className="classInfoZone" key={onedayClass.id} style={{ display: 'flex', marginTop: '10px', padding: '5px', height: '80px', border: '1px solid #dcdcdc', borderRadius: '10px' }}>
+                                    <div style={{ flex: '2' }}>
+                                        <img src={onedayClass.mainImage} style={{ width: '90px', height: '70px' }} alt="클래스_이미지" className="class-now-circle-image" />
                                     </div>
-                                    <div style={{flex: '2', color: '#424242', fontSize: '14px', textAlign: 'center', lineHeight: '60px'}}>{onedayClass.className}</div>
-                                    <div style={{flex: '1', color: '#424242', fontSize: '14px', textAlign: 'center', lineHeight: '60px'}}>{onedayClass.categoryName}</div>
-                                    <div style={{flex: '2', color: '#424242', fontSize: '14px', textAlign: 'center', lineHeight: '60px'}}>{onedayClass.weekdays}</div>
-                                    <div style={{flex: '2', color: '#424242', fontSize: '14px', textAlign: 'center', lineHeight: '60px'}}>{onedayClass.reserveCount}</div>
-                                    <div style={{flex: '1', color: '#424242', fontSize: '14px', textAlign: 'center', lineHeight: '60px'}}>
-                                        <button style={{marginLeft: '10px', fontSize: '10px', width: '60px', height: '70px', color: '#FFFFFF', backgroundColor: '#c0c0c0', border: '2px solid #c8c8c8', borderRadius: '10px'}} onClick={() => handleClassUpdate(onedayClass.id)}>수정</button>
+                                    <div style={{ flex: '2', color: '#424242', fontSize: '14px', textAlign: 'center', lineHeight: '60px' }}>{onedayClass.className}</div>
+                                    <div style={{ flex: '1', color: '#424242', fontSize: '14px', textAlign: 'center', lineHeight: '60px' }}>{onedayClass.categoryName}</div>
+                                    <div style={{ flex: '2', color: '#424242', fontSize: '14px', textAlign: 'center', lineHeight: '60px' }}>{onedayClass.weekdays}</div>
+                                    <div style={{ flex: '2', color: '#424242', fontSize: '14px', textAlign: 'center', lineHeight: '60px' }}>{onedayClass.reserveCount}</div>
+                                    <div style={{ flex: '1', color: '#424242', fontSize: '14px', textAlign: 'center', lineHeight: '60px' }}>
+                                        <button style={{ marginLeft: '10px', fontSize: '10px', width: '60px', height: '70px', color: '#FFFFFF', backgroundColor: '#c0c0c0', border: '2px solid #c8c8c8', borderRadius: '10px' }} onClick={() => handleClassUpdate(onedayClass.id)}>수정</button>
                                     </div>
                                 </div>
-                            )
+                            ))
+                        )}
 
-                        })}
                         </div>
 
 

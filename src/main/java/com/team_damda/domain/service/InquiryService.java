@@ -81,5 +81,10 @@ public class InquiryService {
         return inquiryDtoList;
     }
 
+    @Transactional
+    public void setReply(Inquiry inquiry, InquiryDto dto) {
+        inquiry.setReply(dto.getReply());
+    }
+
 
 }

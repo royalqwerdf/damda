@@ -66,16 +66,6 @@ public class ClassOpenController {
         }
          */
 
-        List<ClassTime> classTimes = classTimeRepository.findByOnedayClassId(classId);
-        for(ClassTime classTime : classTimes) {
-            classTimeRepository.delete(classTime);
-        }
-
-        List<ClassImage> classImages = classImageRepository.findByOnedayClassId(classId);
-        for(ClassImage classImage : classImages) {
-            classImageRepository.delete(classImage);
-        }
-
         Map<String, Object> result = new HashMap<>();
         result.put("onedayClass", classDto);
 
@@ -132,6 +122,17 @@ public class ClassOpenController {
 
     @PutMapping("/class-open/update/{classId}")
     public void updateClass(@RequestBody RequestData requestData, @PathVariable Long classId) {
+
+        List<ClassTime> classTimes = classTimeRepository.findByOnedayClassId(classId);
+        for(ClassTime classTime : classTimes) {
+            classTimeRepository.delete(classTime);
+        }
+
+        List<ClassImage> classImages = classImageRepository.findByOnedayClassId(classId);
+        for(ClassImage classImage : classImages) {
+            classImageRepository.delete(classImage);
+        }
+
         ClassDto classDto = requestData.getClassDto();
         List<ClassTimeDto> classTimeDtos = requestData.getClassTimeDtos();
         List<ClassImageDto> classImageDtos = requestData.getClassImageDtos();
