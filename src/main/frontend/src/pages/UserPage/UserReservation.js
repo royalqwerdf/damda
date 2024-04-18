@@ -4,7 +4,7 @@ import UserLeftMenu from "../../components/UserLeftMenu";
 import axios from "axios";
 import UserHome from "./UserHome";
 import UserButton from "../../components/UserButton";
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {jwtDecode} from "jwt-decode";
 
 
@@ -14,6 +14,7 @@ import {jwtDecode} from "jwt-decode";
 
 function UserReservation() {
     const [reservationList,setReservationList] =useState([]);
+    const navigate = useNavigate();
 
     useEffect(()=>{
         const token = localStorage.getItem('accessToken');
@@ -40,7 +41,6 @@ function UserReservation() {
                     <p className="myclass-1">나의클래스</p>
                     <p className="reservation-2">예약 관리</p>
                 </div>
-                {console.log(reservationList)}
                 <h3 className="now-reservationh3">진행중인 예약</h3>
                 {reservationList.length > 0 ? (
                     <div className="my-now-reservation">
@@ -73,7 +73,7 @@ function UserReservation() {
                                         </Link>
 
                                         <div>
-                                            <UserButton onClick={reservationDeleteClick} type="submit"
+                                            <UserButton onClick={()=>reservationDeleteClick(reservation.id)} type="submit"
                                                         variant="reservation-delete">예약취소</UserButton>
                                         </div>
                                     </div>
@@ -91,9 +91,19 @@ function UserReservation() {
         </div>
     )
 
-    function reservationDeleteClick() {
+    function reservationDeleteClick(id) {
+        console.log(reservationList);
+        if(window.confirm("정말 삭제하시겠습니까?")){
+            axios.post(`/member-reservation/delete/${id}`)
+                .then(response => {
+                    console.log(response.data);
+                    window.location.replace("/User-Reservation")
+                })
+                .catch(error => console.log(error));
+        } else {
+            console.log(id);
+        }
     }
-
 
 }
 

@@ -13,7 +13,6 @@ function NoticeAndEventPage(){
         axios.get("/announce")
             .then(response => {
                 setData(response.data);
-                console.log(response.data);
             })
             .catch(error => console.log(error));
     }, []);
@@ -41,7 +40,6 @@ function NoticeAndEventPage(){
             {
                 setView(true);
                 setData(response.data);
-                console.log(response.data);
             })
             .catch(error => console.log(error));
     }
@@ -54,7 +52,6 @@ function NoticeAndEventPage(){
             {
                 setView(false);
                 setData(response.data);
-                console.log(response.data);
             })
             .catch(error => console.log(error));
     }

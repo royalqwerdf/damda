@@ -85,4 +85,10 @@ public class ReservationController {
         return classReservationService.getMemberReservation(memberId);
     }
 
+    @PostMapping("/member-reservation/delete/{id}")
+    public ResponseEntity<String> deleteReservation(@PathVariable("id") Long id) {
+        classReservationService.delete(id);
+        return ResponseEntity.ok("삭제완료");
+    }
+
 }

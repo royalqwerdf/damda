@@ -85,5 +85,10 @@ public class InquiryController {
         return ResponseEntity.ok().body(result);
     }
 
+    @GetMapping("/inquiry/{memberId}")
+    public List<InquiryDto> getInquiryList(@PathVariable Long memberId) {
+        return inquiryService.getInquiry(memberId);
+    }
+
 
 }

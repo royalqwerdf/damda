@@ -6,6 +6,7 @@ import {Link} from "react-router-dom";
 function AnnouceOrEvent(props) {
     const [test,setTest]=useState(false);
     let totalPage = Math.ceil(props.data.length/10);
+    console.log(props);
 
     if (props.view) {
         return (
@@ -21,7 +22,7 @@ function AnnouceOrEvent(props) {
                     <ul className="news-ul" key={announce.id} style={{margin: "10px 0"}}>
                         <ol className="news-id">{announce.id}</ol>
                         <ol className="news-title">{announce.title}</ol>
-                        <ol className="news-date">{announce.updatedAt.substring(0, 10)}</ol>
+                        <ol className="news-date">{announce.createdAt.substring(0, 10)}</ol>
                     </ul>
                     </Link>
                 )}
