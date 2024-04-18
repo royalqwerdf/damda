@@ -15,7 +15,7 @@ function UserLeftMenu() {
                 <p className="mypage-category1">나의 클래스</p>
                 <li><Link to="/User-Reservation">예약 관리</Link></li>
                 <li><Link to="/User-Class">클래스 관리</Link></li>
-                <li><Link to="/User-Payment">결제 내역</Link></li>
+                {/*<li><Link to="/User-Payment">결제 내역</Link></li>*/}
                 <li><Link to="/User-Review">리뷰 관리</Link></li>
             </ul>
             <hr className="menu-line2"/>

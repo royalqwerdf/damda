@@ -67,6 +67,7 @@ public class ClassReservationService {
             String startAt = classTime.getClassStartsAt();
             reservationDto.setStartAt(startAt);
             reservationDto.setClassName(reservation.getOnedayClass().getClassName());
+            reservationDto.setClassId(reservation.getOnedayClass().getId());
             reservationDto.setOnedayClass(null);
             classReservationDtos.add(reservationDto);
 

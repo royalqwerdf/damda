@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import '../../styles/UserHome.css';
 import UserLeftMenu from "../../components/UserLeftMenu";
 import axios from "axios";
@@ -65,10 +65,13 @@ function UserHome() {
                             {reservationList?.map(reservation => {
                                 return (
                                     <div className="userhome-reservation-now">
+
+                                        <Link to={`/class-reservation/${reservation.classId}`}>
                                         <div className="userhome-now-circle">
                                             <img src={reservation.mainImage} alt="클래스_이미지"
                                                  className="class-now-circle-image"/>
                                         </div>
+                                        </Link>
                                         <div className="title-user-home">
                                             <p>클래스 이름</p>
                                             <p>예약 날짜</p>
@@ -100,9 +103,11 @@ function UserHome() {
 
                                     return (
                                         <div className="userhome-class-now">
-                                            <div className="userhome-now-circle">
-                                                <img src={onedayClass.mainImage} alt="클래스_이미지" className="class-now-circle-image"/>
-                                            </div>
+                                            <Link to={`/class-reservation/${onedayClass.id}`}>
+                                                <div className="userhome-now-circle">
+                                                    <img src={onedayClass.mainImage} alt="클래스_이미지" className="class-now-circle-image"/>
+                                                </div>
+                                            </Link>
                                             <div className="title-user-home">
                                                 <p>클래스 이름</p>
                                                 <p>난이도</p>

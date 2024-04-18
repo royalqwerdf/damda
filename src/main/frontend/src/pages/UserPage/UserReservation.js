@@ -49,9 +49,11 @@ function UserReservation() {
                             {reservationList?.map(reservation => {
                             return (
                                 <>
-                                    <div className="reservation-circle">
-                                        <img src={reservation.mainImage} alt="클래스_이미지" className="reservation-circle-image"/>
-                                    </div>
+                                    <Link to={`/class-reservation/${reservation.classId}`}>
+                                        <div className="reservation-circle">
+                                            <img src={reservation.mainImage} alt="클래스_이미지" className="reservation-circle-image"/>
+                                        </div>
+                                    </Link>
                                     <div className="title-reservation">
                                         <a>클래스 이름</a>
                                         <a>예약 날짜</a>

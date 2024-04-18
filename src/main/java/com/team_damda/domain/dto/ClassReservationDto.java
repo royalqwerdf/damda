@@ -31,6 +31,7 @@ public class ClassReservationDto {
     private String startAt;
     private String className;
     private Long reservation_id;
+    private Long classId;
 
     public ClassReservation toEntity() {
         return ClassReservation.builder()
