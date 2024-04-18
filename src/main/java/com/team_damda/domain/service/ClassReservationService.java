@@ -80,6 +80,12 @@ public class ClassReservationService {
     }
 
     public void delete(Long id){
+        ClassReservation classReservation = classReservationRepository.findById(id).orElse(null);
+        Long classTimeId = classReservation.getSelect_time();
+        int headcount = classReservation.getSelect_person();
+        ClassTime classTime = classTimeRepository.findById(classTimeId).orElse(null);
+        classTime.setHeadcount(classTime.getHeadcount()+headcount);
+        classTimeRepository.save(classTime);
         classReservationRepository.deleteById(id);
     }
 
