@@ -505,6 +505,7 @@ const ClassOpen = () => {
                                         <div className="date-start-setting" style={{ display: 'flex', alignItems: 'center', height: '40px'}}>
                                             <div className="term-setting" style={{ marginRight: '20px', fontSize: '14px', fontWeight: 'bold',marginLeft: '80px' }}>운영 기간 설정</div>
                                             <DatePicker selected={startDate} onChange={date => setStartDate(date)} selectsStart startDate={startDate} endDate={lastDate}/>
+                                            <div>~</div>
                                             <DatePicker selected={lastDate} onChange={date => setLastDate(date)} selectsEnd startDate={startDate} endDate={lastDate} minDate={startDate}/>
                                         </div>
                                         <div className="week-select-setting" style={{ display: 'flex'}}>
