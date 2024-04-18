@@ -38,8 +38,9 @@ public class ClassReservationService {
         // DTO를 Entity로 변환
         Class reservationClass = classRepository.findById(reservationDto.getId()).orElse(null);
         Member member =memberRepository.findById(reservationDto.getUser_id()).orElse(null);
-        ClassReservation reservation = reservationDto.toEntity(reservationClass);
+        ClassReservation reservation = reservationDto.toEntity();
         reservation.setMember(member);
+        reservation.setOnedayClass(reservationClass);
 
 
         ClassTime reservationTime = classTimeRepository.findById(reservationDto.getSelect_time())
