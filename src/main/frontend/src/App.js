@@ -59,8 +59,11 @@ function App(){
                             <AdminHome />
                         </RequireAuth>
                     } />
+                    <Route path="/inquiry" element={<Inquiry/>}></Route>
                     <Route path="/announce/:id" element={<AnnouncePage/>}></Route>
                     <Route path="/event/:id" element={<EventPage/>}></Route>
+
+
                     <Route path="/User-Home" element={
                         <RequireAuth allowedRoles={['USER', 'ADMIN']} redirectToIfUnauthorized="/login">
                             <UserHome />
