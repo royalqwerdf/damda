@@ -3,9 +3,7 @@ package com.team_damda.domain.controller;
 import com.team_damda.domain.dto.*;
 import com.team_damda.domain.entity.*;
 import com.team_damda.domain.entity.Class;
-import com.team_damda.domain.repository.CategoryRepository;
-import com.team_damda.domain.repository.ClassRepository;
-import com.team_damda.domain.repository.MemberRepository;
+import com.team_damda.domain.repository.*;
 import com.team_damda.domain.service.ClassService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,6 +25,8 @@ public class ClassOpenController {
     private final ClassService classOpenService;
     private final ClassRepository classRepository;
     private final CategoryRepository categoryRepository;
+    private final ClassTimeRepository classTimeRepository;
+    private final ClassImageRepository classImageRepository;
     private final MemberRepository memberRepository;
 
     @GetMapping("/class-open")
@@ -40,6 +40,46 @@ public class ClassOpenController {
         }
 
         return ResponseEntity.ok().body(categoryNames);
+    }
+
+    @GetMapping("/class-open/{classId}")
+    public Map<String, Object> getClassById(@PathVariable Long classId) {
+        Class onedayClass = classRepository.findClassById(classId);
+        ClassDto classDto = onedayClass.toDto();
+
+        /* classTime은 중복값이 많이 저장되어 있기 때문에 수정시 그냥 원본들은 삭제하는 것으로 하겠음
+        List<ClassTime> classTimes = classTimeRepository.findByOnedayClassId(classId);
+        Set<ClassTimeDto> classTimeDtoSet = new HashSet<>(); // 중복 제거를 위해 Set 사용
+        for (ClassTime classTime : classTimes) {
+            classTimeDtoSet.add(classTime.toDto());
+        }
+        // Set을 다시 리스트로 변환
+        List<ClassTimeDto> classTimeDtos = new ArrayList<>(classTimeDtoSet);
+         */
+
+
+        /* classImage 또한 파이어베이스 스토리지 자체의 이미지까지 삭제하는 기능이 없어 수정시 DB 원본은 삭제하는 걸로
+        List<ClassImage> classImages = classImageRepository.findByOnedayClassId(classId);
+        List<ClassImageDto> classImageDtos = new ArrayList<>();
+        for(ClassImage classImage : classImages) {
+            classImageDtos.add(classImage.toDto());
+        }
+         */
+
+        List<ClassTime> classTimes = classTimeRepository.findByOnedayClassId(classId);
+        for(ClassTime classTime : classTimes) {
+            classTimeRepository.delete(classTime);
+        }
+
+        List<ClassImage> classImages = classImageRepository.findByOnedayClassId(classId);
+        for(ClassImage classImage : classImages) {
+            classImageRepository.delete(classImage);
+        }
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("onedayClass", classDto);
+
+        return result;
     }
 
 
@@ -89,6 +129,16 @@ public class ClassOpenController {
 
         return ResponseEntity.ok().body(result);
     }
+
+    @PutMapping("/class-open/update/{classId}")
+    public void updateClass(@RequestBody RequestData requestData, @PathVariable Long classId) {
+        ClassDto classDto = requestData.getClassDto();
+        List<ClassTimeDto> classTimeDtos = requestData.getClassTimeDtos();
+        List<ClassImageDto> classImageDtos = requestData.getClassImageDtos();
+
+        classOpenService.updateClass(classId, classDto, classTimeDtos, classImageDtos);
+    }
+
 
     @DeleteMapping("/admin-home/class_delete/{classId}")
     public void deleteClass(@PathVariable Long classId) {

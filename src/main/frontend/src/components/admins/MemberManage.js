@@ -7,7 +7,7 @@ import axios from "axios";
 
 function MemberManage() {
     // 회원 목록 불러오기
-
+/*
     const [members, setMembers] = useState([]);
     // 회원 검색 결과
     const [filteredMembers, setFilteredMembers] = useState([]);
@@ -164,6 +164,7 @@ function MemberManage() {
         </div>
 
     );
+    */
 }
 
 export default MemberManage;

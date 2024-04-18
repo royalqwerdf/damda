@@ -10,13 +10,47 @@ import PopupPostCode from '../components/PopupPostCode';
 import useUploadImage from '../hooks/useUploadImage';
 import axios from 'axios';
 import DatePicker from "react-datepicker";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {jwtDecode} from "jwt-decode";
 
 import "react-datepicker/dist/react-datepicker.css";
 import 'bootstrap/dist/js/bootstrap.bundle';
 
-const ClassOpen = () => {
+const ClassUpdate = () => {
+
+    //현재 수정할 페이지의 클래스 아이디
+    const { id } = useParams();
+    const [classContent, setClassContent] = useState({});
+
+    useEffect(() => {
+        if (id) { // classId가 정의되어 있는지 확인
+            axios.get(`/class-open/${id}`)
+
+                .then(response => {
+                    const {onedayClass} = response.data;
+
+                    setClassname(onedayClass.className);
+                    setClassExplanation(onedayClass.classExplanation);
+                    setFullAddress(onedayClass.address);
+                    setDetailaddress(onedayClass.detailAddress);
+                    setLevelIdentify(onedayClass.level);
+                    setLevel(onedayClass.level);
+                    setCategoryIdentify(onedayClass.categoryName);
+                    setCategory(onedayClass.categoryName);
+                    setLongtimeIdentify(onedayClass.longtime);
+                    setLongtime(onedayClass.longtime);
+                    setSelectedWeekdays(onedayClass.weekdays.split(' '));
+                    setPrice(onedayClass.price);
+                    setStartDate(onedayClass.startDate);
+                    setLastDate(onedayClass.lastDate);
+                    setCurriculum(onedayClass.curriculum);
+
+                    console.log("클래스 내용 불러오기 성공 ");
+                })
+                .catch(error => console.log("클래스 내용 불러오기 실패 : " + error));
+        }
+    }, []);
+
 
     //입력값 관리
     const [classname, setClassname] = useState('');
@@ -129,8 +163,8 @@ const ClassOpen = () => {
     };
 
     //날짜 기간 설정 관련
-    const [startDate, setStartDate] = useState(new Date());
-    const [lastDate, setLastDate] = useState(new Date());
+    const [startDate, setStartDate] = useState('');
+    const [lastDate, setLastDate] = useState('');
 
     useEffect(() => {
         console.log("시작 날짜 선택", startDate);
@@ -233,30 +267,7 @@ const ClassOpen = () => {
         console.log("delete after Image Files:", imageFiles);
     };
 
-    //로그인 시에만 등록 기능을 이용할 수 있게 제한
     const navigate = useNavigate();
-    const [member, setMember] = useState([]); //
-
-    useEffect(() => {
-        if(localStorage.getItem('accessToken') === null) {
-            if(window.confirm("로그인이 필요합니다.\n로그인 하시겠습니까?")) {
-                navigate("/login");
-            } else {
-                navigate("/");
-            }
-        } else {
-            const token = localStorage.getItem('accessToken');
-            const decodedToken = jwtDecode(token);
-            const memberEmail = decodedToken.userEmail;
-
-            axios.get(`/api/member/${memberEmail}`)
-                .then(response => {
-                    setMember(response.data);
-                })
-                .catch(error => console.log(error))
-        }
-    }, []);
-
 
     const handleClassSubmit = async (e) => {
         e.preventDefault();
@@ -304,13 +315,13 @@ const ClassOpen = () => {
                 classImageDtos : classImageDtos
             };
 
-            const response = await axios.post(`/class-open/${member.id}`, requestData);
-            console.log('클래스 생성 성공:', response.data);
+            const response = await axios.put(`/class-open/update/${id}`, requestData);
+            console.log('클래스 수정 성공:', response.data);
 
         } catch (error) {
-            console.error('클래스 생성 오류:', error);
+            console.error('클래스 수정 오류:', error);
         }
-        navigate("/");
+        navigate("/User-Class")
 
     };
 
@@ -318,7 +329,7 @@ const ClassOpen = () => {
 
     return (
 
-        <div className="class-open-page" style={{ height: "2048px" }}>
+        <div className="class-open-page" >
                     <div className="class-information-input-area">
                         <div className="input-area">
                             <div className="class-registration" style={{ fontFamily: "arial", fontWeight: "bold", fontSize: "28px" }}>
@@ -337,7 +348,7 @@ const ClassOpen = () => {
                                         required
                                         value={classname}
                                         onChange={e => setClassname(e.target.value)}
-                                        placeholder="클래스 이름을 입력하세요" />
+                                        />
                                     </div>
                                 </form>
                             </div>
@@ -621,7 +632,7 @@ const ClassOpen = () => {
                                  type="button"
                                  onClick={handleClassSubmit}
                                  style={{cursor: 'pointer', fontWeight: 'bold', color: '#FFFFFF', width: '120px', height: '40px', backgroundColor: '#cd5c5c', border: '2px solid #e9967a', borderRadius: '10px', marginLeft: '20px' }}>
-                                 등  록
+                                 수  정
                          </button>
                     </div>
 
@@ -629,4 +640,4 @@ const ClassOpen = () => {
     );
 };
 
-export default ClassOpen;
+export default ClassUpdate;
