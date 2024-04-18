@@ -71,7 +71,6 @@ public class JwtService {
                 .withExpiresAt(new Date(now.getTime() + accessTokenExpirationPeriod))
                 // 클레임으로 email 하나만 사용
                 .withClaim(EMAIL_CLAIM, member.getUserEmail())
-                .withClaim("role", member.getRole().name())
                 // 로그인 유형 추가
                 .withClaim("loginType", member.getLoginType().name())
                 // member 엔티티 id 값추가
@@ -229,11 +228,14 @@ public class JwtService {
         if (loginType == LoginType.BASIC) {
             // 자사 로그인일 때의 처리: 로컬 스토리지에서 토큰 삭제
             // 여기에 해당 로직을 구현
-            // localStorage.removeItem('accessToken'); // 자사 로그인일 경우 클라이언트 측에서 구현해야 합니다.
         } else {
             // 소셜 로그인일 때의 처리: 소셜 플랫폼의 로그아웃 엔드포인트 호출하여 토큰 무효화
             String socialLogoutUrl = getSocialLogoutUrl(loginType);
-            // localStorage.removeItem('accessToken'); // 소셜 로그인일 경우 클라이언트 측에서 구현해야 합니다.
+            // 쿠키를 먼저 삭제한 후 리다이렉트
+            Cookie cookie = new Cookie("accessToken", null); // 액세스 토큰을 담고 있는 쿠키를 삭제합니다.
+            cookie.setMaxAge(0); // 쿠키의 만료 기간을 0으로 설정하여 즉시 만료시킵니다.
+            cookie.setPath("/"); // 쿠키의 경로를 설정합니다.
+            response.addCookie(cookie); // 응답 헤더에 쿠키를 추가하여 클라이언트에게 전달합니다.
 
             // 소셜 플랫폼의 로그아웃 URL로 리다이렉트
             try {
@@ -243,6 +245,8 @@ public class JwtService {
             }
         }
     }
+
+
 
 
     /**

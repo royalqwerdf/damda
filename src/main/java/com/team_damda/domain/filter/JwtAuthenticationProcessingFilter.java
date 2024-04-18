@@ -51,6 +51,29 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 
 
 
+//    @Override
+//    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+//        if (request.getRequestURI().contains(NO_CHECK_URL) || request.getRequestURI().equals(LOGOUT_URL)) {
+//            filterChain.doFilter(request, response);
+//            return;
+//        }
+//
+//        Optional<String> accessTokenOptional = Optional.empty();
+//
+//        // 로그인 타입에 따른 토큰 추출 로직 구분 (예시: 쿠키 vs. 헤더)
+//        if ("social".equals(request.getParameter("loginType"))) {
+//            accessTokenOptional = extractTokenFromCookie(request, "accessToken");
+//        } else {
+//            accessTokenOptional = jwtService.extractAccessToken(request);
+//        }
+//
+//        if (accessTokenOptional.isPresent() && jwtService.isTokenValid(accessTokenOptional.get())) {
+//            checkAccessTokenAndAuthentication(request, response, filterChain, accessTokenOptional.get());
+//        } else {
+//            filterChain.doFilter(request, response);
+//        }
+//    }
+
 @Override
 protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
     if (request.getRequestURI().contains(NO_CHECK_URL) || request.getRequestURI().equals(LOGOUT_URL)) {
@@ -58,19 +81,18 @@ protected void doFilterInternal(HttpServletRequest request, HttpServletResponse 
         return;
     }
 
-    // HTTP 헤더에서 'Authorization' 값을 추출
-    String authHeader = request.getHeader("Authorization");
-    String accessToken = null;
+    Optional<String> accessTokenOptional = Optional.empty();
 
-    if (authHeader != null && authHeader.startsWith("Bearer ")) {
-        accessToken = authHeader.substring(7); // "Bearer " 이후 문자열을 추출 (토큰 부분)
+    // 로그인 타입에 따른 토큰 추출 로직 구분 (예시: 쿠키 vs. 헤더)
+    if ("social".equals(request.getParameter("loginType"))) {
+        accessTokenOptional = extractTokenFromCookie(request, "accessToken");
+    } else {
+        accessTokenOptional = jwtService.extractAccessToken(request);
     }
 
-    if (accessToken != null && jwtService.isTokenValid(accessToken)) {
-        // 토큰이 유효한 경우, 추가 인증 처리를 수행
-        checkAccessTokenAndAuthentication(request, response, filterChain, accessToken);
+    if (accessTokenOptional.isPresent() && jwtService.isTokenValid(accessTokenOptional.get())) {
+        checkAccessTokenAndAuthentication(request, response, filterChain, accessTokenOptional.get());
     } else {
-        // 토큰이 유효하지 않거나 없는 경우, 요청을 계속 진행
         filterChain.doFilter(request, response);
     }
 }
