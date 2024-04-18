@@ -26,6 +26,7 @@ public class InquiryController {
     private final InquiryService inquiryService;
     private final MemberService memberService;
     private final MemberRepository memberRepository;
+    private final InquiryRepository inquiryRepository;
 
 
     @GetMapping("/admin-home")
@@ -85,5 +86,23 @@ public class InquiryController {
         return ResponseEntity.ok().body(result);
     }
 
+    @GetMapping("/inquiry/{memberId}")
+    public List<InquiryDto> getInquiryList(@PathVariable Long memberId) {
+        return inquiryService.getInquiry(memberId);
+    }
+
+    @GetMapping("/admin-home/inquiry/{inquiryId}")
+    public ResponseEntity<InquiryDto> getInquiryItem(@PathVariable Long inquiryId) {
+        Inquiry inquiry = inquiryRepository.findInquiryById(inquiryId);
+        InquiryDto inquiryDto = inquiry.toDto();
+
+        return ResponseEntity.ok().body(inquiryDto);
+    }
+
+    @PutMapping("/admin-home/inquiry/{inquiryId}")
+    public void setInquiryReply(@RequestBody InquiryDto dto, @PathVariable Long inquiryId) {
+        Inquiry inquiry = inquiryRepository.findInquiryById(inquiryId);
+        inquiryService.setReply(inquiry, dto);
+    }
 
 }

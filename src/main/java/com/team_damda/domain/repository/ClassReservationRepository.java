@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ClassReservationRepository  extends JpaRepository<ClassReservation,Long> {
     List<ClassReservation> findByMember_Id(Long memberId);
+    List<ClassReservation> findByMemberIdAndOnedayClassId(Long memberId, Long classId);
 }

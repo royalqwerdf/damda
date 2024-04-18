@@ -17,5 +17,7 @@ public interface InquiryRepository extends JpaRepository<Inquiry, Long> {
 
     List<Inquiry> findAllByMember_Id(Long memberId);
 
+    Inquiry findInquiryById(Long inquiryId);
+
 
 }

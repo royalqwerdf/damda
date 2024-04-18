@@ -25,7 +25,9 @@ function ClassList(props){
                                     </div>
                                 </div>
                                 <div id="className">
-                                    <span>{onedayClass.className}</span>
+                                    {onedayClass.className.length>9 ?
+                                        (<span>{onedayClass.className.substring(0,9)+"..."}</span>) :
+                                        (<span>{onedayClass.className}</span>)}
                                 </div>
                                 <div id="classPrice">
                                     <span>{onedayClass.price} 원</span>

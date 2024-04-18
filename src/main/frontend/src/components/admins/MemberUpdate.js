@@ -22,15 +22,19 @@ function MemberUpdate() {
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
+    const [loginType, setLoginType] = useState('');
 
     useEffect(() => {
         axios.get(`http://localhost:8080/admin/members/${memberId}`)
             .then(response => {
+                // 회원 정보 가져오기
+                const member = response.data;
                 // 가져온 회원 정보를 상태에 설정
-                setUserEmail(userEmail);
-                setPassword(password);
-                setName(name);
-                setPhone(phone);
+                setUserEmail(member.userEmail);
+                setPassword(member.password);
+                setName(member.name);
+                setPhone(member.phone);
+                setLoginType(member.loginType);
             })
             .catch(error => {
                 console.error('회원 정보를 가져오는 중 오류 발생:', error);
@@ -54,18 +58,20 @@ function MemberUpdate() {
             });
     };
 
-
-    const [selectedComponent, setSelectedComponent] = useState("null");
-
     const navigate = useNavigate();
 
-    const handleMenuClick = () => {
-        navigate(`/admin-home`);
-    };
-
+    // 뒤로 가기 & 메뉴 클릭
     const goBack = () => {
         navigate('/admin-home')
     }
+
+    // 소셜 로그인 회원은 정보를 수정할 수 없음을 알림
+    const[isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        if(loginType !== 'BASIC') setIsVisible(true);
+        else setIsVisible(false);
+    }, [loginType])
 
     return (
         <div ClassName="full-container">
@@ -78,19 +84,18 @@ function MemberUpdate() {
                         <ul className="menu-1">
                             <div className="site-manage">사이트 관리</div>
                             <p className="my-class">관리자 메뉴</p>
-                            <li onClick={() => handleMenuClick()} style={{cursor: 'pointer'}}>회원 관리</li>
-                            <li onClick={() => handleMenuClick()} style={{cursor: 'pointer'}}>클래스 관리</li>
-                            <li onClick={() => handleMenuClick()} style={{cursor: 'pointer'}}>예약 관리
+                            <li onClick={() => goBack()} style={{cursor: 'pointer'}}>회원 관리</li>
+                            <li onClick={() => goBack()} style={{cursor: 'pointer'}}>클래스 관리</li>
+                            <li onClick={() => goBack()} style={{cursor: 'pointer'}}>예약 관리
                             </li>
                         </ul>
                         <hr className="menu-line-2"/>
                         <ul className="menu-2">
                             <p className="user-information">홈페이지 관리</p>
-                            <li onClick={() => handleMenuClick()} style={{cursor: 'pointer'}}>카테고리 관리
-                            </li>
-                            <li onClick={() => handleMenuClick()} style={{cursor: 'pointer'}}>공지 관리</li>
-                            <li onClick={() => handleMenuClick()} style={{cursor: 'pointer'}}>이벤트 관리</li>
-                            <li onClick={() => handleMenuClick()} style={{cursor: 'pointer'}}>문의 관리</li>
+                            <li onClick={() => goBack()} style={{cursor: 'pointer'}}>카테고리 관리</li>
+                            <li onClick={() => goBack()} style={{cursor: 'pointer'}}>공지 관리</li>
+                            <li onClick={() => goBack()} style={{cursor: 'pointer'}}>이벤트 관리</li>
+                            <li onClick={() => goBack()} style={{cursor: 'pointer'}}>문의 관리</li>
                         </ul>
                     </div>
                 </div>
@@ -109,21 +114,29 @@ function MemberUpdate() {
                                 <div>
                                     <label>이메일</label>
                                     <input type="text" value={userEmail}
-                                           onChange={(e) => setUserEmail(e.target.value)}/>
+                                           onChange={(e) => setUserEmail(e.target.value)}
+                                           disabled={loginType !== 'BASIC'}/>
+                                    {isVisible && <small style={{color: 'red'}}>소셜 로그인 회원의 정보는 수정할 수 없습니다.</small>}
                                 </div>
                                 <div>
                                     <label>비밀번호</label>
                                     <input type="password" value={password}
-                                           onChange={(e) => setPassword(e.target.value)}/>
+                                           onChange={(e) => setPassword(e.target.value)}
+                                           disabled={loginType !== 'BASIC'}/>
                                     {/*<button className="initialize">초기화</button>*/}
+                                    {isVisible && <small style={{color: 'red'}}>소셜 로그인 회원의 정보는 수정할 수 없습니다.</small>}
                                 </div>
                                 <div>
                                     <label>회원 이름</label>
-                                    <input className="long" type="text" value={name} onChange={(e) => setName(e.target.value)}/>
+                                    <input className="long" type="text" value={name}
+                                           onChange={(e) => setName(e.target.value)}
+                                           disabled={loginType !== 'BASIC'}/>
+                                    {isVisible && <small style={{color: 'red'}}>소셜 로그인 회원의 정보는 수정할 수 없습니다.</small>}
                                 </div>
                                 <div>
                                     <label>전화번호</label>
-                                    <input className="long" type="text" value={phone} onChange={(e) => setPhone(e.target.value)}/>
+                                    <input className="long" type="text" value={phone}
+                                           onChange={(e) => setPhone(e.target.value)}/>
                                 </div>
                                 <div className="buttons">
                                     <button className="cancel" onClick={() => goBack()}>취소</button>

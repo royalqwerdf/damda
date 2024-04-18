@@ -1,5 +1,7 @@
 package com.team_damda.domain.entity;
 
+import com.team_damda.domain.dto.ClassReviewDto;
+import com.team_damda.domain.dto.ClassTimeDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,5 +44,14 @@ public class ClassReview {
     @ManyToOne
     @JoinColumn(name="user_id")
     private Member member;
+
+    public ClassReviewDto toDto() {
+        return ClassReviewDto.builder()
+                .user_id(this.member.getId())
+                .rating(this.rating)
+                .title(this.title)
+                .contents(this.contents)
+                .build();
+    }
 
 }

@@ -58,6 +58,8 @@ public class ClassDto {
                 .price(this.price)
                 .totalRating(this.totalRating)
                 .totalLike(this.totalLike)
+                .managerEmail(this.managerEmail)
+                .categoryName(this.categoryName)
                 .category(category)
                 .manager(manager)
                 .build();

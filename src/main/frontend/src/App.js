@@ -3,6 +3,7 @@ import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
 import MainPage from "./pages/MainPage";
 import ClassOpen from "./pages/ClassOpen";
+import ClassUpdate from "./pages/ClassUpdate";
 import Cart from "./pages/Cart";
 import CartReservationComplete from "./pages/CartReservationComplete";
 import LoginPage from "./pages/LoginPage";
@@ -39,6 +40,7 @@ function App(){
                 <Routes>
                     <Route path="/search" element={<SearchPage/>}></Route>
                     <Route path="/class-open" element={<ClassOpen/>}></Route>
+                    <Route path="/class-open/update/:id" element={<ClassUpdate/>}></Route>
                     <Route path="/carts" element={<Cart/>}></Route>
                     <Route path="/carts/reservation-complete" element={<CartReservationComplete/>}></Route>
                     <Route path="/inquiry" element={
