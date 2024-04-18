@@ -19,13 +19,16 @@ public class CustomLogoutHandler implements LogoutHandler{
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         // 로그아웃 성공 응답 설정
+        log.info("사용자 {} 로그아웃 시작?", authentication != null ? authentication.getName() : "Anonymous");
         response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType("application/json");
         try (PrintWriter writer = response.getWriter()) {
             writer.write("{\"message\":\"로그아웃 성공\"}");
+            log.info("사용자 {} 로그아웃 완료", authentication != null ? authentication.getName() : "Anonymous");
         } catch (IOException e) {
+            log.info("사용자 {} 로그아웃 실패", authentication != null ? authentication.getName() : "Anonymous");
             throw new RuntimeException("로그아웃 성공 응답 실패", e);
         }
-        log.info("사용자 {} 로그아웃 완료", authentication != null ? authentication.getName() : "Anonymous");
+
     }
 }
