@@ -20,7 +20,10 @@ body{
   margin-top: -6px;
   background-color: white;
   align-items: center;
-  z-index: 777;
+  z-index: 999;
+}
+#navibar div{
+  z-index: 5;
 }
 #navibar #menu a{
   font-weight: bold;
