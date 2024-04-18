@@ -58,9 +58,6 @@ function MemberUpdate() {
             });
     };
 
-
-    const [selectedComponent, setSelectedComponent] = useState("null");
-
     const navigate = useNavigate();
 
     const handleMenuClick = () => {
