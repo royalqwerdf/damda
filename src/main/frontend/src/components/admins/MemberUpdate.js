@@ -22,6 +22,7 @@ function MemberUpdate() {
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
+    const [loginType, setLoginType] = useState('');
 
     useEffect(() => {
         axios.get(`http://localhost:8080/admin/members/${memberId}`)
@@ -33,6 +34,7 @@ function MemberUpdate() {
                 setPassword(member.password);
                 setName(member.name);
                 setPhone(member.phone);
+                setLoginType(member.loginType);
             })
             .catch(error => {
                 console.error('회원 정보를 가져오는 중 오류 발생:', error);
@@ -111,21 +113,26 @@ function MemberUpdate() {
                                 <div>
                                     <label>이메일</label>
                                     <input type="text" value={userEmail}
-                                           onChange={(e) => setUserEmail(e.target.value)}/>
+                                           onChange={(e) => setUserEmail(e.target.value)}
+                                           disabled={loginType !== 'BASIC'}/>
                                 </div>
                                 <div>
                                     <label>비밀번호</label>
                                     <input type="password" value={password}
-                                           onChange={(e) => setPassword(e.target.value)}/>
+                                           onChange={(e) => setPassword(e.target.value)}
+                                           disabled={loginType !== 'BASIC'}/>
                                     {/*<button className="initialize">초기화</button>*/}
                                 </div>
                                 <div>
                                     <label>회원 이름</label>
-                                    <input className="long" type="text" value={name} onChange={(e) => setName(e.target.value)}/>
+                                    <input className="long" type="text" value={name}
+                                           onChange={(e) => setName(e.target.value)}
+                                           disabled={loginType !== 'BASIC'}/>
                                 </div>
                                 <div>
                                     <label>전화번호</label>
-                                    <input className="long" type="text" value={phone} onChange={(e) => setPhone(e.target.value)}/>
+                                    <input className="long" type="text" value={phone}
+                                           onChange={(e) => setPhone(e.target.value)}/>
                                 </div>
                                 <div className="buttons">
                                     <button className="cancel" onClick={() => goBack()}>취소</button>
