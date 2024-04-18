@@ -11,23 +11,15 @@ function Inquiry(){
     const [member,setMember] = useState([]);
 
     useEffect(() => {
-        if(localStorage.getItem('accessToken')===null){
-            if(window.confirm("로그인이 필요합니다.\n로그인 하시겠습니까?")){
-                navigate("/login");
-            } else {
-                navigate("/");
-            }
-        }else{
-            const token = localStorage.getItem('accessToken');
-            const decodedToken = jwtDecode(token);
-            const memberEmail = decodedToken.userEmail;
+        const token = localStorage.getItem('accessToken');
+        const decodedToken = jwtDecode(token);
+        const memberEmail = decodedToken.userEmail;
 
-            axios.get(`/api/member/${memberEmail}`)
-                .then(response => {
-                    setMember(response.data);
-                })
-                .catch(error => console.log(error))
-        }
+        axios.get(`/api/member/${memberEmail}`)
+            .then(response => {
+                setMember(response.data);
+            })
+            .catch(error => console.log(error))
     }, []);
 
 return(
