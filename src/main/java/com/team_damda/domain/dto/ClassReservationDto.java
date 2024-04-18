@@ -1,6 +1,7 @@
 package com.team_damda.domain.dto;
 
 
+import com.google.api.client.util.DateTime;
 import com.team_damda.domain.entity.Class;
 import com.team_damda.domain.entity.ClassReservation;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,7 @@ public class ClassReservationDto {
     private long id;
     private int select_person;
     private int total_price;
-    private LocalDateTime select_date;
+    private Date select_date;
     private Class onedayClass;
     private long select_time;
     private String classType;
