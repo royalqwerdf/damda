@@ -21,7 +21,7 @@ public class ClassReservationDto {
     private long id;
     private int select_person;
     private int total_price;
-    private Date select_date;
+    private LocalDateTime select_date;
     private Class onedayClass;
     private long select_time;
     private String classType;

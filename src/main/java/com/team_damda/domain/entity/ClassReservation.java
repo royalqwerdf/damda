@@ -34,7 +34,7 @@ public class ClassReservation {
     private int total_price;
 
     @Column(name="select_date")
-    private Date select_date;
+    private LocalDateTime select_date;
 
 
     @Column(name="select_time")
