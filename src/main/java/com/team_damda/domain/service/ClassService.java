@@ -256,6 +256,44 @@ public class ClassService {
         Class onedayClass = classRepository.findClassById(classId);
         classRepository.delete(onedayClass);
     }
+
+    @Transactional
+    public void updateClass(Long classId, ClassDto classDto, List<ClassTimeDto> classTimes, List<ClassImageDto> classImages) {
+        Class onedayClass = classRepository.findClassById(classId);
+        onedayClass.setClassName(classDto.getClassName());
+        onedayClass.setClassExplanation(classDto.getClassExplanation());
+        onedayClass.setLevel(classDto.getLevel());
+        onedayClass.setLongtime(classDto.getLongtime());
+        onedayClass.setStartDate(classDto.getStartDate());
+        onedayClass.setLastDate(classDto.getLastDate());
+        onedayClass.setWeekdays(classDto.getWeekdays());
+        onedayClass.setAddress(classDto.getAddress());
+        onedayClass.setDetailAddress(classDto.getDetailAddress());
+        onedayClass.setCurriculum(classDto.getCurriculum());
+        onedayClass.setPrice(classDto.getPrice());
+        onedayClass.setCategoryName(classDto.getCategoryName());
+
+        Date classStartsAt = onedayClass.getStartDate();
+        Date classEndsAt = onedayClass.getLastDate();
+        String weekday = onedayClass.getWeekdays();
+
+        List<Date> selectedDates = getSelectedDates(classStartsAt, classEndsAt, weekday);
+
+        //한 클래스의 수업 가능 날짜들 -> 각 날짜의 수업시간들 저장
+        for(Date openClassDate : selectedDates) {
+            System.out.println("수업가능 날짜 : " + openClassDate);
+            for(ClassTimeDto classTime : classTimes) {
+                ClassTime classTimeEntity = classTime.toEntity(onedayClass);
+                classTimeEntity.setClassDate(openClassDate); // 해당 수업 시간이 어떤 날짜에 편성되었는지 새로 추가
+                classTimeRepository.save(classTimeEntity);
+            }
+        }
+
+        for(ClassImageDto classImage : classImages) {
+            ClassImage classImageEntity = classImage.toEntity(onedayClass);
+            classImageRepository.save(classImageEntity);
+        }
+    }
 };
 
 
