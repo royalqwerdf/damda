@@ -73,5 +73,9 @@ public class ClassReservationService {
         return classReservationRepository.findByMemberIdAndOnedayClassId(memberId,classId).stream().findFirst().orElse(null);
     }
 
+    public void delete(Long id){
+        classReservationRepository.deleteById(id);
+    }
+
 
 };
