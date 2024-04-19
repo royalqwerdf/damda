@@ -33,7 +33,7 @@ import RequireAuth from "./api/RequireAuth";
 import NotFound from './components/404';
 import AnnouncementCreate from './pages/AnnouncementCreate';
 import UserInquiryDetail from "./pages/UserPage/UserInquiryDetail";
-import AnnouncementEdit from "./components/AnnouncementEdit";
+import AnnouncementEdit from "./pages/AnnouncementEdit";
 
 
 

@@ -33,8 +33,9 @@ function AnnounceManage() {
     };
 
     // 편집 페이지로 넘어가는 함수
-    const handleEditButtonClick = (announcementId) => {
-        navigate(`/announcement-edit/${announcementId}`, { replace: true });
+    const handleEditButtonClick = (id) => {
+        console.log("id!!:", id);
+        navigate(`/announcement-edit/${id}`, { replace: true });
     };
 
     const handleCheckboxChange = (id) => {
@@ -91,7 +92,7 @@ function AnnounceManage() {
                                     <img src="/img/icon/Lucide.png" alt="관리아이콘"/>
                                     <div className={styles.editIcons}>
                                         <button className={styles.edit}
-                                                onClick={() => handleEditButtonClick(announcements.id)}>편집
+                                                onClick={() => handleEditButtonClick(announce.id)}>편집
                                         </button>
                                         <button className={styles.delete}>삭제
                                         </button>
