@@ -3,28 +3,49 @@ import React, {useEffect, useState} from 'react';
 import { Link, redirect, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import axios from "axios";
+import {jwtDecode} from "jwt-decode";
 
 const Cart = () => {
+    // 회원 정보 받아오기
+    const [memberId, setMemberId] = useState(null);
+
     const navigate = useNavigate();
     const [carts, setCarts] = useState([]);
-    useEffect(() => {
-        axios.get('http://localhost:8080/carts')
-            .then(response=>
-            {
-                // 받아온 데이터를 가공하여 Date 객체로 변환
-                const processedData = response.data.carts.map(cart => ({
-                    ...cart,
-                    classTime: {
-                        ...cart.classTime,
-                        classStartsAt: new Date(cart.classTime.classStartsAt)
-                    }
-                }));
 
-                // 변환된 데이터를 상태로 설정
-                setCarts(processedData);
-            })
-            .catch(error => console.log(error))
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const token = localStorage.getItem('accessToken');
+                const decodedToken = token ? jwtDecode(token) : null;
+                const memberEmail = decodedToken ? decodedToken.userEmail : null;
+                console.log(memberEmail);
+
+                if (memberEmail != null) {
+                    const memberResponse = await axios.get(`/api/member/${memberEmail}`);
+                    const memberId = memberResponse.data.id;
+                    setMemberId(memberId);
+                    console.log(memberId);
+
+                    const cartsResponse = await axios.get('/carts', { params: { memberId: memberId } });
+                    const carts = Array.isArray(cartsResponse.data) ? cartsResponse.data : [];
+                    setCarts(carts);
+                    console.log(carts);
+                } else {
+                    const cartsResponse = await axios.get('/carts', { params: { memberId: null } });
+                    const carts = Array.isArray(cartsResponse.data) ? cartsResponse.data : [];
+                    setCarts(carts);
+                    console.log(carts);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchData();
     }, []);
+
+
+
 
     // 예시 데이터
     // useEffect(() => {
@@ -84,7 +105,7 @@ const Cart = () => {
         const deletedCartIds = [];
 
         const deleteRequests = checkboxes.map((cartId)=> {
-            return axios.delete(`http://localhost:8080/carts/${cartId}`)
+            return axios.delete(`/carts/${cartId}`, {cartId, params: { memberId: memberId }})
                 .then(response => {
                     console.log(`Cart ${cartId} is deleted successfully`);
                     deletedCartIds.push(cartId);
@@ -117,15 +138,17 @@ const Cart = () => {
     const reserveCheckedCarts = () => {
         checkboxes.forEach((cartId) => {
             const cart = carts.find(cart => cart.id === cartId);
+            const id = cart.classTime.onedayClass.id;
             const reservationData = {
-                id: cart.classTime.onedayClass.id,
+                id: id,
+                user_id: memberId,
                 select_date: moment(cart.classTime.classDate).format('YYYY-MM-DD'),
                 select_time: cart.classTime.id,
                 select_person: cart.selectedCount,
                 total_price: cart.totalPrice,
                 classType: cart.classTime.onedayClass.category.categoryName
             };
-            axios.post(`http://localhost:8080/reservation`, { reservationData })
+            axios.post(`http://localhost:8080/class-reservation/${id}/reserve`, { reservationData })
                 .then(response => {
                     console.log(`Class ${cart.classTime.onedayClass.id} is reserved successfully`);
                     const updatedCarts = carts.filter(cart => cart.id !== cartId);
@@ -150,15 +173,17 @@ const Cart = () => {
     // 전체 클래스 예약
     const reserveAllCarts = () => {
         carts.forEach((cart) => {
+            const id = cart.classTime.onedayClass.id;
             const reservationData = {
-                id: cart.classTime.onedayClass.id,
+                id: id,
+                user_id: memberId,
                 select_date: moment(cart.classTime.classDate).format('YYYY-MM-DD'),
                 select_time: cart.classTime.id,
                 select_person: cart.selectedCount,
                 total_price: cart.totalPrice,
                 classType: cart.classTime.onedayClass.category.categoryName
             };
-            axios.post(`http://localhost:8080/reservation`, { reservationData })
+            axios.post(`http://localhost:8080/class-reservation/${id}/reserve`, { reservationData })
                 .then(response => {
                     console.log(`Class ${cart.classTime.onedayClass.id} is reserved successfully`);
                     setCarts([]);
@@ -207,7 +232,7 @@ const Cart = () => {
         updateCart(cartId, updatedCart.selectedCount, updatedCart.totalPrice);
     }
     const updateCart = (cartId, selectedCount, totalPrice) => {
-        axios.put(`/carts/${cartId}`, { selectedCount, totalPrice })
+        axios.put(`/carts/${cartId}`, { cartId, selectedCount, totalPrice, params: { memberId: memberId } })
             .then(response => {
                 console.log('Cart updated successfully: ', response.data);
             })
@@ -228,12 +253,12 @@ const Cart = () => {
                 {/* 전체 체크박스 */}
                 <input type="checkbox" name="select-all"
                        onChange={(e) => toggleAllCheckboxes(e.target.checked)}
-                       checked={checkboxes.length === carts.length}
+                       checked={carts && (checkboxes.length === carts.length)}
                        onClick={toggleAllCheckboxes}/>
                 <span className="class">CLASS 명</span><span>인원</span><span>예약 일시</span><span>결제 금액</span>
             </div>
             <div id="cart-list">
-                {carts.map((cart) => (
+                {carts && carts.map((cart) => (
                     <div className="cart-item" key={cart.id}>
                         {/* 체크박스 */}
                         <input type='checkbox' name={`select-${cart.id}`}
@@ -244,16 +269,16 @@ const Cart = () => {
                         <span className="class-name">
                             {/* 클릭하면 해당 클래스 페이지로 이동 */}
                             <Link
-                                to={`/classes/${cart.classTime.onedayClass.id}`}>{cart.classTime.onedayClass.className}</Link>
+                                to={`/classes/${cart.classId}`}>{cart.className}</Link>
                         </span>
 
                         {/* 인원 */}
-                        <button class="minus" onClick={() => handleDecrease(cart.id)}>-</button>
+                        <button className="minus" onClick={() => handleDecrease(cart.id)}>-</button>
                         <span className="count">{cart.selectedCount}명</span>
-                        <button class="plus" onClick={() => handleIncrease(cart.id)}>+</button>
+                        <button className="plus" onClick={() => handleIncrease(cart.id)}>+</button>
 
                         {/* 예약일시 */}
-                        <span className="date">{formatDate(cart.classTime.classStartsAt)}</span>
+                        <span className="date">{formatDate(cart.classDate)}</span>
 
                         {/* 가격 */}
                         <span className="price">{cart.totalPrice}원</span>
@@ -272,7 +297,8 @@ const Cart = () => {
     )
 }
 
-function formatDate(date) {
+function formatDate(dateString) {
+    const date = new Date(dateString);
     const year = date.getFullYear().toString().slice(-2);
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');

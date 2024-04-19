@@ -31,9 +31,7 @@ public class CartController {
 
     // 클래스 게시글에서 해당 클래스를 장바구니에 담기
     @PostMapping("/carts/{classTimeId}")
-    public ResponseEntity<Cart> addCart(@PathVariable Long classTimeId, @RequestBody CartDto cartDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
-        // 로그인 한 사용자인지 확인
-        Long memberId = (Long) session.getAttribute("memberId");
+    public ResponseEntity<Cart> addCart(@PathVariable Long classTimeId, @RequestBody CartDto cartDto, @RequestParam(name = "memberId", required = false) Long memberId, HttpServletRequest request, HttpServletResponse response) {
         // 이미 장바구니에 담긴 클래스인지 확인
         Cart existingCart = null;
         // 클래스 시간
@@ -105,10 +103,8 @@ public class CartController {
 
     // 카트 목록 가져오기
     @GetMapping("/carts")
-    public ResponseEntity<List<Cart>> getAllCarts(HttpSession session, HttpServletRequest request) {
-        Long memberId = (Long) session.getAttribute("memberId");
-
-        List<Cart> carts = null;
+    public ResponseEntity<List<CartDto>> getAllCarts(@RequestParam(name = "memberId", required = false) Long memberId, HttpServletRequest request) {
+        List<CartDto> carts = null;
 
         if (memberId != null) { // 회원인 경우
             carts = cartService.getAllCartsByMemberId(memberId);
@@ -129,8 +125,7 @@ public class CartController {
 
     // 카트 삭제
     @DeleteMapping("/carts/{cartId}")
-    public ResponseEntity<Void> deleteCart(@PathVariable Long cartId, HttpSession session, HttpServletRequest request){
-        Long memberId = (Long) session.getAttribute("memberId");
+    public ResponseEntity<Void> deleteCart(@PathVariable Long cartId, @RequestParam(name = "memberId", required = false) Long memberId, HttpServletRequest request){
         // 삭제 성공 여부
         boolean isDeleted = false;
 
@@ -151,8 +146,7 @@ public class CartController {
 
     // 카트 수정
     @PutMapping("/carts/{cartId}")
-    public ResponseEntity<Void> updateCart(@PathVariable Long cartId, int selectedCount, int totalPrice, HttpSession session, HttpServletRequest request) {
-        Long memberId = (Long) session.getAttribute("memberId");
+    public ResponseEntity<Void> updateCart(@PathVariable Long cartId, int selectedCount, int totalPrice, @RequestParam(name = "memberId", required = false) Long memberId, HttpServletRequest request) {
         // 수정 성공 여부
         boolean isUpdated = false;
 
@@ -173,18 +167,16 @@ public class CartController {
 
     // 카트가 비었는지 확인
     @GetMapping("/carts/isEmpty")
-    public ResponseEntity<Boolean> isCartEmpty(HttpSession session, HttpServletRequest request) {
-        Long memberId = (Long) session.getAttribute("memberId");
-
+    public ResponseEntity<Boolean> isCartEmpty(@RequestParam(name = "memberId", required = false) Long memberId, HttpServletRequest request) {
         boolean isEmpty = false;
 
         if(memberId != null) {
-            List<Cart> carts = cartService.getAllCartsByMemberId(memberId);
+            List<CartDto> carts = cartService.getAllCartsByMemberId(memberId);
             if(carts.isEmpty()) isEmpty = true;
         } else {
             String cookieValue = CookieUtils.getCookieValue(request, "cookieValue");
             if(cookieValue != null) {
-                List<Cart> carts = cartService.getAllCartsByCookieValue(cookieValue);
+                List<CartDto> carts = cartService.getAllCartsByCookieValue(cookieValue);
                 if(carts.isEmpty()) isEmpty = true;
             } else {
                 return ResponseEntity.notFound().build();
@@ -196,18 +188,16 @@ public class CartController {
 
     // 카트가 몇 개 담겨있는지 확인
     @GetMapping("/carts/count")
-    public ResponseEntity<Integer> countCarts(HttpSession session, HttpServletRequest request) {
-        Long memberId = (Long) session.getAttribute("memberId");
-
+    public ResponseEntity<Integer> countCarts(@RequestParam(name = "memberId", required = false) Long memberId, HttpServletRequest request) {
         int count = 0;
 
         if(memberId != null) {
-            List<Cart> carts = cartService.getAllCartsByMemberId(memberId);
+            List<CartDto> carts = cartService.getAllCartsByMemberId(memberId);
             count = carts.size();
         } else {
             String cookieValue = CookieUtils.getCookieValue(request, "cookieValue");
             if(cookieValue != null) {
-                List<Cart> carts = cartService.getAllCartsByCookieValue(cookieValue);
+                List<CartDto> carts = cartService.getAllCartsByCookieValue(cookieValue);
                 count = carts.size();
             } else {
                 return ResponseEntity.notFound().build();

@@ -47,4 +47,17 @@ public class ClassReviewService {
         }
         return  newClassReviewDto;
     }
+
+    @Transactional
+    public List<ClassReviewDto> getMemberReview(Long memberId){
+        List<ClassReviewDto> classReviewDtos = new ArrayList<>();
+        List<ClassReview> classReviews = classReviewRepository.findByMember_id(memberId);
+        for(ClassReview classReview : classReviews){
+            ClassReviewDto classReviewDto = classReview.toDto();
+            classReviewDto.setClass_id(classReview.getOnedayClass().getId());
+            classReviewDto.setClassName(classReview.getOnedayClass().getClassName());
+            classReviewDtos.add(classReviewDto);
+        }
+        return classReviewDtos;
+    }
 }

@@ -16,6 +16,7 @@ public class ClassReviewDto {
     private String title;
     private String contents;
     private float rating;
+    private String className;
 
 
     public ClassReview toEntity(){
