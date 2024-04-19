@@ -10,7 +10,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/announcements")
+@RequestMapping("/api/announcements")
 public class AnnounceController {
     private final AnnounceService announceService;
 
@@ -37,9 +37,20 @@ public class AnnounceController {
         return ResponseEntity.ok(createAnnouncement);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<AnnounceDto> getAnnouncementById(@PathVariable Long id) {
+        try {
+            AnnounceDto announcement = announceService.getAnnouncementById(id);
+            return ResponseEntity.ok(announcement);
+        } catch (Exception e) {
+            // 로깅 등 오류 처리 로직 추가 가능
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
     /**
-     * 공지사항 수정
+     * 공지사항 수정 업로드
      * @param id
      * @param announceDto
      * @return

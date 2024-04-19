@@ -50,7 +50,19 @@ public class AnnounceService {
 
 
     /**
-     * 공지사항 수정
+     * 공지상항 보내기
+     * @param id
+     * @return
+     */
+    public AnnounceDto getAnnouncementById(Long id) {
+        Announce announce = announceRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Announcement not found"));
+        return announce.toDto();
+    }
+
+
+    /**
+     * 공지사항 수정 업로드
      * @param id
      * @param announceDto
      * @return

@@ -32,6 +32,11 @@ function AnnounceManage() {
         navigate('/announcement-create');
     };
 
+    // 편집 페이지로 넘어가는 함수
+    const handleEditButtonClick = (announcementId) => {
+        navigate(`/announcement-edit/${announcementId}`, { replace: true });
+    };
+
     const handleCheckboxChange = (id) => {
         const newState = { ...checkedState, [id]: !checkedState[id] };
         setCheckedState(newState);
@@ -78,13 +83,20 @@ function AnnounceManage() {
                         <tbody>
                         {announcements.map(announce => (
                             <tr key={announce.id}>
-                                <td><Checkbox checked={checkedState[announce.id]}
-                                              onChange={() => handleCheckboxChange(announce.id)}/></td>
+                                <td><Checkbox checked={checkedState[announce.id]} onChange={() => handleCheckboxChange(announce.id)}/></td>
                                 <td>{announce.title}</td>
                                 <td>{new Date(announce.createdAt).toLocaleDateString()}</td>
                                 <td>{new Date(announce.updatedAt).toLocaleDateString()}</td>
                                 <td className={styles.editOptions}>
                                     <img src="/img/icon/Lucide.png" alt="관리아이콘"/>
+                                    <div className={styles.editIcons}>
+                                        <button className={styles.edit}
+                                                onClick={() => handleEditButtonClick(announcements.id)}>편집
+                                        </button>
+                                        <button className={styles.delete}>삭제
+                                        </button>
+                                    </div>
+
                                 </td>
                             </tr>
                         ))}
