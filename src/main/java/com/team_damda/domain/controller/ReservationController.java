@@ -79,49 +79,31 @@ public class ReservationController {
     }
     // 예약-> 장바구니 담기 데이터 처리
     @PostMapping("/class-reservation/{id}/add-to-cart")
-    public ResponseEntity<String> createReservation(@RequestBody CartDto cartDto, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<String> createReservation(@RequestBody CartDto cartDto, @CookieValue(name = "guest_cart", required = false) String cookieValue) {
         log.info("data: {}",cartDto);
+        log.info("data2: {}",cookieValue);
+
         ClassTime classTime = classTimeRepository.findById(cartDto.getClassTimeId())
                 .orElseThrow(() -> new EntityNotFoundException("ClassTime not found"));
-
-        if(Long.valueOf(cartDto.getUser_id()) != null) {
+        Cart cart = new Cart();
+        cart.setSelectedCount(cartDto.getSelectedCount());
+        cart.setTotalPrice(cartDto.getTotalPrice());
+        cart.setClassTime(classTime); // 이미 영속성 컨텍스트에 있는 엔티티를 사용
+        if(cartDto.getUser_id()!=0){
             Member member = memberRepository.findById(cartDto.getUser_id())
                     .orElseThrow(() -> new EntityNotFoundException("Member not found"));
 
-            Cart cart = new Cart();
+
             cart.setMember(member);
-            cart.setSelectedCount(cartDto.getSelectedCount());
-            cart.setTotalPrice(cartDto.getTotalPrice());
-            cart.setClassTime(classTime); // 이미 영속성 컨텍스트에 있는 엔티티를 사용
-
-            cartService.save(cart);
-            log.info("data: {}", cartDto);
-            return ResponseEntity.ok("담기가 완료되었습니다.");
-        } else {
-            String cookieValue = CookieUtils.getCookieValue(request, "cookieValue");
-
-            // 쿠키가 없을 경우 발급
-            if(cookieValue == null) {
-                cookieValue = UUID.randomUUID().toString(); // 임의의 문자열 생성
-                CookieUtils.addCookie(response, "cookieValue", cookieValue, 24 * 60 * 60 * 3); // 3일 지나면 만료
-            }
-            // 쿠키가 있을 경우 갱신
-            else {
-                CookieUtils.updateCookie(response, "cookieValue", cookieValue, 24 * 60 * 60 * 3);
-            }
-
-            cookieValue = CookieUtils.getCookieValue(request, "cookieValue");
-
-            Cart cart = new Cart();
-            cart.setCookieValue(cookieValue);
-            cart.setSelectedCount(cartDto.getSelectedCount());
-            cart.setTotalPrice(cartDto.getTotalPrice());
-            cart.setClassTime(classTime); // 이미 영속성 컨텍스트에 있는 엔티티를 사용
-
-            cartService.save(cart);
-            log.info("data: {}", cartDto);
-            return ResponseEntity.ok("담기가 완료되었습니다.");
+        }else{
+            cart.setCookieValue(cartDto.getCookie_value());
         }
+
+
+
+        cartService.save(cart);
+        log.info("data: {}",cartDto);
+        return ResponseEntity.ok("담기가 완료되었습니다.");
     }
 
     @GetMapping("/member-reservation/{memberId}")

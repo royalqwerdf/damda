@@ -70,7 +70,7 @@ function UserHome() {
                                             <p>결제 금액</p>
                                         </div>
                                         <div className="data-user-home">
-                                            {reservation.className.length>4 ? (<p>{reservation.className.substring(0,3)+"..."}</p>) :(<p>{reservation.className}</p>)}
+                                            {reservation.className.length > 4 ? (<p>{reservation.className.substring(0,3)+"..."}</p>) :(<p>{reservation.className}</p>)}
                                             <p style={{marginLeft:"40px"}}>{reservation.select_date.substring(0,10)}</p>
                                             <p>{reservation.total_price}</p>
                                         </div>

@@ -28,6 +28,7 @@ public class ClassOpenController {
     private final ClassTimeRepository classTimeRepository;
     private final ClassImageRepository classImageRepository;
     private final MemberRepository memberRepository;
+    private final ClassReservationRepository reservationRepository;
 
     @GetMapping("/class-open")
     public ResponseEntity<List<String>> getCategoryNames() {
@@ -74,7 +75,7 @@ public class ClassOpenController {
 
 
     @PostMapping("/class-open/{memberId}")
-    public Long createClass(@RequestBody RequestData requestData, @PathVariable Long memberId) {
+    public Long createClass(@RequestBody RequestData requestData, @PathVariable("memberId") Long memberId) {
 
         ClassDto classDto = requestData.getClassDto();
         List<ClassTimeDto> classTimeDtos = requestData.getClassTimeDtos();
@@ -123,21 +124,34 @@ public class ClassOpenController {
     @PutMapping("/class-open/update/{classId}")
     public void updateClass(@RequestBody RequestData requestData, @PathVariable Long classId) {
 
-        List<ClassTime> classTimes = classTimeRepository.findByOnedayClassId(classId);
-        for(ClassTime classTime : classTimes) {
-            classTimeRepository.delete(classTime);
+        List<ClassReservation> reservations = reservationRepository.findByOnedayClassId(classId);
+        if(!reservations.isEmpty()) {
+            throw new IllegalStateException("Cannot update class with non-empty cart list");
+        } else {
+
+            List<ClassTime> classTimes = classTimeRepository.findByOnedayClassId(classId);
+
+            for(ClassTime classTime : classTimes) {
+                if(!classTime.getCartList().isEmpty()) {
+                    throw new IllegalStateException("Cannot update class with non-empty cart list");
+                }
+            }
+
+            for(ClassTime classTime : classTimes) {
+                classTimeRepository.delete(classTime);
+            }
+
+            List<ClassImage> classImages = classImageRepository.findByOnedayClassId(classId);
+            for(ClassImage classImage : classImages) {
+                classImageRepository.delete(classImage);
+            }
+
+            ClassDto classDto = requestData.getClassDto();
+            List<ClassTimeDto> classTimeDtos = requestData.getClassTimeDtos();
+            List<ClassImageDto> classImageDtos = requestData.getClassImageDtos();
+
+            classOpenService.updateClass(classId, classDto, classTimeDtos, classImageDtos);
         }
-
-        List<ClassImage> classImages = classImageRepository.findByOnedayClassId(classId);
-        for(ClassImage classImage : classImages) {
-            classImageRepository.delete(classImage);
-        }
-
-        ClassDto classDto = requestData.getClassDto();
-        List<ClassTimeDto> classTimeDtos = requestData.getClassTimeDtos();
-        List<ClassImageDto> classImageDtos = requestData.getClassImageDtos();
-
-        classOpenService.updateClass(classId, classDto, classTimeDtos, classImageDtos);
     }
 
 
