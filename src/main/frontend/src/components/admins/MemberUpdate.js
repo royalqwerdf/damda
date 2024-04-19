@@ -110,7 +110,7 @@ function MemberUpdate() {
 
                         <div className="content-area" style={{marginTop: '10px', padding: '10px', width: '100%'}}>
                             {/* 회원 정보 수정 폼 */}
-                            <form onSubmit={updateMember}>
+                            <div className="form">
                                 <div>
                                     <label>이메일</label>
                                     <input type="text" value={userEmail}
@@ -140,9 +140,9 @@ function MemberUpdate() {
                                 </div>
                                 <div className="buttons">
                                     <button className="cancel" onClick={() => goBack()}>취소</button>
-                                    <button type="submit">수정</button>
+                                    <button type="submit" onClick={updateMember}>수정</button>
                                 </div>
-                            </form>
+                            </div>
                         </div>
 
                     </div>
