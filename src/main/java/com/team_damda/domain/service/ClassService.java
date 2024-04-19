@@ -37,6 +37,7 @@ public class ClassService {
     private final ClassTimeRepository classTimeRepository;
     private final ClassImageRepository classImageRepository;
     private final ClassRepositoryImpl classRepositoryImpl;
+    private final ClassReviewRepository classReviewRepository;
 
 
     @Transactional
@@ -255,6 +256,13 @@ public class ClassService {
     public void deleteClassAndRelations(Long classId) {
         Class onedayClass = classRepository.findClassById(classId);
         classRepository.delete(onedayClass);
+    }
+    @Transactional
+    public void addRatingToClass(long classId, float rating) {
+        Class onedayClass = classRepository.findClassById(classId);
+        int reviewCount = classReviewRepository.countByOnedayClassId(classId);
+        onedayClass.setTotalRating((onedayClass.getTotalRating()*reviewCount +rating) /(reviewCount+1) );
+        classRepository.save(onedayClass);
     }
 };
 

@@ -63,7 +63,6 @@ public class ClassReservation {
         }
 
         return ClassReservationDto.builder()
-                .onedayClass(this.onedayClass)
                 .total_price(this.total_price)
                 .select_date(this.select_date)
                 .select_time(this.select_time)
