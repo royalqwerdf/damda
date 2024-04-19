@@ -252,10 +252,8 @@ function InquiryManage() {
                         </thead>
 
                         <tbody>
-                        {inquiryList.map((inquiry, idx) => {
-
-                            return(
-
+                        {inquiryList.length > 0 && inquiryList.map((inquiry, idx) => {
+                            return (
                                 <tr key={inquiry.id}>
                                     <td style={{flex: '1', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{inquiry.type}</td>
                                     <td style={{flex: '2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{inquiry.user_role}</td>
@@ -264,8 +262,7 @@ function InquiryManage() {
                                     <td style={{flex: '2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{inquiry.createdAt}</td>
                                     <td style={{flex: '1', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{inquiry.comment_yn}</td>
                                 </tr>
-                            )
-
+                            );
                         })}
                         </tbody>
                     </table>
