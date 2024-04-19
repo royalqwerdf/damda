@@ -2,9 +2,11 @@ package com.team_damda.domain.service;
 
 import com.team_damda.domain.dto.CategoryDto;
 import com.team_damda.domain.dto.MemberDto;
+import com.team_damda.domain.entity.Cart;
 import com.team_damda.domain.entity.Category;
 import com.team_damda.domain.entity.Member;
 import com.team_damda.domain.repository.AdminMemberRepository;
+import com.team_damda.domain.repository.CartRepository;
 import com.team_damda.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +21,7 @@ public class AdminMemberService {
     private final AdminMemberRepository adminMemberRepository;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CartRepository cartRepository;
 
     public List<MemberDto> getAllMembers(){
         List<Member> allMembers = memberRepository.findAll();
