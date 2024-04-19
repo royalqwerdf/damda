@@ -137,28 +137,32 @@ const Cart = () => {
     };
 
     // 선택 클래스 예약
-    const reserveCheckedCarts = () => {
-        checkboxes.forEach((cartId) => {
+    const reserveCheckedCarts = async () => {
+        for(const cartId of checkboxes) {
             const cart = carts.find(cart => cart.id === cartId);
             const id = cart.classId;
             const reservationData = {
                 id: id,
-                user_id: memberId,
+                user_id: cart.user_id,
                 select_date: moment(cart.classDate).format('YYYY-MM-DD'),
                 select_time: cart.classTimeId,
                 select_person: cart.selectedCount,
                 total_price: cart.totalPrice,
                 classType: cart.categoryName
             };
-            axios.post(`/class-reservation/${id}/reserve`, { reservationData })
-                .then(response => {
+            try {
+                const response = await axios.post(`http://localhost:8080/class-reservation/${id}/reserve`, reservationData)
+                if (response.status === 200) {
                     console.log(`Class is reserved successfully`);
                     const updatedCarts = carts.filter(cart => cart.id !== cartId);
                     setCarts(updatedCarts);
                     navigate("/carts/reservation-complete");
-                })
-                .catch(error => console.log(error));
-        })
+                }
+            }
+            catch(error) {
+                console.log(error);
+            }
+        }
     }
     const handleCheckedReserve = () => {
         if(checkboxes.length === 0) {
@@ -173,26 +177,32 @@ const Cart = () => {
     }
 
     // 전체 클래스 예약
-    const reserveAllCarts = () => {
-        carts.forEach((cart) => {
+    const reserveAllCarts = async () => {
+        for(const cart of carts) {
             const id = cart.classId;
+            const cartId = cart.id;
             const reservationData = {
                 id: id,
-                user_id: memberId,
+                user_id: cart.user_id,
                 select_date: moment(cart.classDate).format('YYYY-MM-DD'),
                 select_time: cart.classTimeId,
                 select_person: cart.selectedCount,
                 total_price: cart.totalPrice,
                 classType: cart.categoryName
             };
-            axios.post(`/class-reservation/${id}/reserve`, { reservationData })
-                .then(response => {
+            try {
+                const response = await axios.post(`http://localhost:8080/class-reservation/${id}/reserve`, reservationData)
+                if (response.status === 200) {
                     console.log(`Class is reserved successfully`);
-                    setCarts([]);
+                    const updatedCarts = carts.filter(cart => cart.id !== cartId);
+                    setCarts(updatedCarts);
                     navigate("/carts/reservation-complete");
-                })
-                .catch(error => console.log(error));
-        })
+                }
+            }
+            catch(error) {
+                console.log(error);
+            }
+        }
     }
     const handleAllReserve = () => {
         if(carts.length === 0) {
@@ -271,7 +281,7 @@ const Cart = () => {
                         <span className="class-name">
                             {/* 클릭하면 해당 클래스 페이지로 이동 */}
                             <Link
-                                to={`/classes/${cart.classId}`}>{cart.className}</Link>
+                                to={`/class-reservation/${cart.classId}`}>{cart.className}</Link>
                         </span>
 
                         {/* 인원 */}
