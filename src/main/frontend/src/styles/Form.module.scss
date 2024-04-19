@@ -133,6 +133,8 @@
   width: 100%;
   background-color: #fff;
   margin: 0 auto;
+  margin-left: 25%;
+  margin-top: 20%;
   display: flex;
   border-radius: 10px;
   position: absolute;
@@ -179,7 +181,7 @@
 
 .editOptions {
   img {
-    width: 40%;
+    width: 20%;
   }
 }
 
@@ -198,7 +200,7 @@
   position: absolute;
   right: 0;
   cursor: pointer;
-  transform: translate(20px, 0px);
+  transform: translate(10px, -15px);
 }
 
 .edit, .delete {
