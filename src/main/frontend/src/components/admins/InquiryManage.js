@@ -22,6 +22,7 @@ function InquiryManage() {
 
     const [inquiryList, setInquiryList] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
+    const [totalElements, setTotalElements] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
 
     useEffect(() => {
@@ -30,11 +31,12 @@ function InquiryManage() {
 
 
     useEffect(() => {
-        axios.get(`/admin-home/inquiry?page=${currentPage}`)
+        axios.get(`/inquiry-manage?page=${currentPage}`)
             .then(res => {
                 setInquiryList(res.data.inquiryList);
                 console.log("요청된 데이터", res.data.inquiryList);
                 setTotalPages(res.data.totalPages);
+                setTotalElements(res.data.totalElements);
             })
             .catch(error => console.log("에러! :" + error))
     }, [currentPage]);
@@ -116,7 +118,7 @@ function InquiryManage() {
                 endDay: endDay
             };
 
-            const response = await axios.post('/admin-home/inquiry', data, {
+            const response = await axios.post('/inquiry-manage', data, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -243,15 +245,19 @@ function InquiryManage() {
                         </div>
                     </div>
 
+                        <div style={{ marginBottom: '10px'}}>
+                            현재 <span className="number" style={{ color: '#DC143C'}}>{inquiryList.length}</span>명 / 전체 <span className="number" style={{ color: '#DC143C'}}>{totalElements}</span>명
+                        </div>
+
                     <table className="inquiry-area" style={{width: '100%', borderBottom: '1px solid #000000'}}>
                         <thead style={{padding: '10px', width: '100%'}}>
                         <tr className="column-title-area" >
-                            <th className="member-title" style={{marginLeft: '10px', flex: '1', color: '#424242', fontSize: '14px'}}>분류</th>
-                            <th className="category-title" style={{marginLeft: '10px',flex: '2', color: '#424242', fontSize: '14px'}}>회원</th>
-                            <th className="writer-title" style={{marginLeft: '10px',flex: '2', color: '#424242', fontSize: '14px'}}>제목</th>
-                            <th className="writer-title" style={{marginLeft: '10px',flex: '2', color: '#424242', fontSize: '14px'}}>아이디</th>
-                            <th className="content-title" style={{marginLeft: '10px',flex: '2', color: '#424242', fontSize: '14px'}}>작성일시</th>
-                            <th className="content-title" style={{marginLeft: '10px',flex: '1', color: '#424242', fontSize: '14px'}}>답변</th>
+                            <th className="member-title" style={{marginLeft: '10px', flex: '1', color: '#424242', fontSize: '12px'}}>분류</th>
+                            <th className="category-title" style={{marginLeft: '10px',flex: '2', color: '#424242', fontSize: '12px'}}>회원</th>
+                            <th className="writer-title" style={{marginLeft: '10px',flex: '2', color: '#424242', fontSize: '12px'}}>제목</th>
+                            <th className="writer-title" style={{marginLeft: '10px',flex: '2', color: '#424242', fontSize: '12px'}}>아이디</th>
+                            <th className="content-title" style={{marginLeft: '10px',flex: '2', color: '#424242', fontSize: '12px'}}>작성일시</th>
+                            <th className="content-title" style={{marginLeft: '10px',flex: '1', color: '#424242', fontSize: '12px'}}>답변</th>
                         </tr>
                         </thead>
 
@@ -292,7 +298,7 @@ function InquiryDetail({inquiryId}) {
     const [inquiryItem, setInquiryItem] = useState({});
 
     useEffect(() => {
-        axios.get(`/admin-home/inquiry/${inquiryId}`)
+        axios.get(`/inquiry/reply/${inquiryId}`)
             .then(res => {
                 setInquiryItem(res.data);
 
@@ -310,7 +316,7 @@ function InquiryDetail({inquiryId}) {
         try {
             const data = { reply: adminReply };
 
-            const response = await axios.put(`/admin-home/inquiry/${inquiryId}`, data, {
+            const response = await axios.put(`/inquiry/reply/${inquiryId}`, data, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -320,6 +326,10 @@ function InquiryDetail({inquiryId}) {
         } catch (error) {
             console.error("답변 저장 오류 :" + error);
         }
+    }
+
+    const handleReplyCancel = async () => {
+        window.location.reload();
     }
 
 
@@ -356,6 +366,7 @@ function InquiryDetail({inquiryId}) {
                             />
                         </div>
                         <button style={{marginTop: '5px', width: '60px', color: '#FFFFFF', height: '30px', backgroundColor: '#cd5c5c', border: '2px solid #e9967a', borderRadius: '10px'}} onClick={handleReply}>등록</button>
+                        <button style={{marginTop: '5px', width: '60px', color: '#cd5c5c', height: '30px', backgroundColor: '#FFFFFF', border: '2px solid #e9967a', borderRadius: '10px'}} onClick={handleReplyCancel}>취소</button>
                     </div>
                 </div>
 

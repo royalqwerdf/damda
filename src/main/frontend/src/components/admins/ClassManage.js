@@ -13,6 +13,7 @@ function ClassManage() {
 
     const [classList, setClassList] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
+    const [totalElements, setTotalElements] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
 
     useEffect(() => {
@@ -21,6 +22,24 @@ function ClassManage() {
 
 
     useEffect(() => {
+        const fetchClasses = async () => {
+            try {
+                const response = await axios.get(`/class-manage?page=${currentPage}`);
+                const classInfo = response.data.classList;
+                const totalPagesInfo = response.data.totalPages;
+                const totalElementsInfo = response.data.totalElements;
+                setClassList(classInfo);
+                setTotalPages(totalPagesInfo);
+                setTotalElements(totalElementsInfo);
+                console.log('클래스 정보 로드 :', response.data);
+            } catch(error) {
+                console.error('클래스 정보 로드 에러 :', error);
+            }
+        };
+        fetchClasses();
+    }, [currentPage]);
+
+    /*
         axios.get(`/admin-home/class?page=${currentPage}`)
             .then(res => {
                 setClassList(res.data.classList);
@@ -28,6 +47,7 @@ function ClassManage() {
             })
             .catch(error => console.log("에러! :" + error))
     }, [currentPage]);
+    */
 
 
 
@@ -110,7 +130,7 @@ function ClassManage() {
                 endDay: endDay
             };
 
-            const response = await axios.post('/admin-home/class', data, {
+            const response = await axios.post('/class-manage', data, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -133,7 +153,7 @@ function ClassManage() {
         // 사용자가 '확인'을 눌렀을 때만 삭제 작업을 진행
         if (confirmDelete) {
             try {
-                await axios.delete(`/admin-home/class_delete/${classId}`);
+                await axios.delete(`/class_delete/${classId}`);
                 console.log("클래스 삭제 완료");
                 window.location.reload();
             } catch(error) {
@@ -230,20 +250,21 @@ function ClassManage() {
                             <DatePicker selected={endDay} onChange={date => setEndDay(date)} selectsEnd startDate={startDay} endDate={endDay} minDate={startDay} />
                             <button style={{marginLeft: '10px', width: '60px', color: '#FFFFFF', height: '30px', backgroundColor: '#cd5c5c', border: '2px solid #e9967a', borderRadius: '10px'}} onClick={handleClassSubmit} >검색</button>
                         </div>
+
+                        <div style={{ marginBottom: '10px'}}>
+                            현재 <span className="number" style={{ color: '#DC143C'}}>{classList.length}</span>명 / 전체 <span className="number" style={{ color: '#DC143C'}}>{totalElements}</span>명
+                        </div>
                     </div>
 
-                    {classList.length === 0 ? (
-                        <div style={{ textAlign: 'center', marginTop: '20px', fontSize: '16px' }}>클래스를 검색하세요!</div>
-                    ) : (
                     <table className="inquiry-area" style={{width: '100%', borderBottom: '1px solid #000000'}}>
                         <thead style={{padding: '10px', width: '100%'}}>
                         <tr className="column-title-area" >
-                            <th className="member-title" style={{marginLeft: '10px', flex: '2', color: '#424242', fontSize: '14px'}}>아이디</th>
-                            <th className="category-title" style={{marginLeft: '10px',flex: '2', color: '#424242', fontSize: '14px'}}>호스트</th>
-                            <th className="writer-title" style={{marginLeft: '10px',flex: '2', color: '#424242', fontSize: '14px'}}>클래스명</th>
-                            <th className="writer-title" style={{marginLeft: '10px',flex: '1', color: '#424242', fontSize: '14px'}}>카테고리</th>
-                            <th className="content-title" style={{marginLeft: '10px',flex: '2', color: '#424242', fontSize: '14px'}}>예약수</th>
-                            <th className="content-title" style={{marginLeft: '10px',flex: '1', color: '#424242', fontSize: '14px'}}>삭제</th>
+                            <th className="member-title" style={{marginLeft: '10px', flex: '2', color: '#424242', fontSize: '12px'}}>아이디</th>
+                            <th className="category-title" style={{marginLeft: '10px',flex: '2', color: '#424242', fontSize: '12px'}}>호스트</th>
+                            <th className="writer-title" style={{marginLeft: '10px',flex: '2', color: '#424242', fontSize: '12px'}}>클래스명</th>
+                            <th className="writer-title" style={{marginLeft: '10px',flex: '1', color: '#424242', fontSize: '12px'}}>카테고리</th>
+                            <th className="content-title" style={{marginLeft: '10px',flex: '2', color: '#424242', fontSize: '12px'}}>예약수</th>
+                            <th className="content-title" style={{marginLeft: '10px',flex: '1', color: '#424242', fontSize: '12px'}}>삭제</th>
                         </tr>
                         </thead>
 
@@ -268,7 +289,7 @@ function ClassManage() {
                         })}
                         </tbody>
                     </table>
-                    )}
+
                     <div style={{padding: '10px', display: 'flex', justifyContent: 'center'}}>
                         <div style={{marginRight: '10px'}}>{'<<'}</div>
                         <Pagination totalPages={totalPages} currentPage={currentPage} setCurrentPage={setCurrentPage}/>

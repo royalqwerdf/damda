@@ -85,7 +85,7 @@ public class ClassOpenController {
         return classOpenService.saveForClass(memberId, classDto, classTimeDtos, classImageDtos);
     }
 
-    @GetMapping("/admin-home/class")
+    @GetMapping("/class-manage")
     public Map<String, Object> getClassList(@RequestParam(defaultValue = "0") int page,
                                             @RequestParam(defaultValue = "10") int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
@@ -99,7 +99,7 @@ public class ClassOpenController {
         return result;
     }
 
-    @PostMapping("/admin-home/class")
+    @PostMapping("/class-manage")
     public ResponseEntity<Map<String, Object>> getClassSetting(@RequestBody ClassRequest request) {
         String category = request.getCategory();
         String classId = request.getClassId();
@@ -155,7 +155,7 @@ public class ClassOpenController {
     }
 
 
-    @DeleteMapping("/admin-home/class_delete/{classId}")
+    @DeleteMapping("/class_delete/{classId}")
     public void deleteClass(@PathVariable Long classId) {
         classOpenService.deleteClassAndRelations(classId);
     }

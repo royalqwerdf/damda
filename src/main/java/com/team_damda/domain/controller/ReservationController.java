@@ -3,10 +3,7 @@ package com.team_damda.domain.controller;
 
 import com.team_damda.domain.dto.*;
 import com.team_damda.domain.entity.*;
-import com.team_damda.domain.repository.CategoryRepository;
-import com.team_damda.domain.repository.ClassRepository;
-import com.team_damda.domain.repository.ClassTimeRepository;
-import com.team_damda.domain.repository.MemberRepository;
+import com.team_damda.domain.repository.*;
 import com.team_damda.domain.service.CartService;
 import com.team_damda.domain.service.ClassReservationService;
 import com.team_damda.domain.service.ClassReviewService;
@@ -43,6 +40,7 @@ public class ReservationController {
     private final ClassTimeRepository classTimeRepository;
     private final CartService cartService;
     private final ClassReviewService classReviewService;
+    private final OrderDetailRepository orderDetailRepository;
 
 
 
@@ -137,7 +135,7 @@ public class ReservationController {
         return ResponseEntity.ok("담기가 완료되었습니다.");
     }
 
-    @GetMapping("/admin-home/reservation")
+    @GetMapping("/reservation-manage")
     public Map<String, Object> getReservationList(@RequestParam(defaultValue = "0") int page,
                                                   @RequestParam(defaultValue = "10") int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
@@ -152,7 +150,7 @@ public class ReservationController {
     }
 
     //ClassRequest는 재활용하는 것
-    @PostMapping("admin-home/reservation")
+    @PostMapping("/reservation-manage")
     public ResponseEntity<Map<String, Object>> getReservationSetting(@RequestBody ClassRequest request) {
         String category = request.getCategory();
         String classId = request.getClassId();
@@ -175,8 +173,8 @@ public class ReservationController {
     }
 
 
-    @DeleteMapping("/admin-home/reserve_delete/{reserveId}")
-    public void deleteReserve(@PathVariable Long reserveId) {
+    @DeleteMapping("/reserve-delete/{reserveId}")
+    public void deleteReserve(@PathVariable("reserveId") Long reserveId) {
         classReservationService.deleteReserve(reserveId);
     }
 

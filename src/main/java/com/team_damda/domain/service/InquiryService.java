@@ -84,6 +84,7 @@ public class InquiryService {
     @Transactional
     public void setReply(Inquiry inquiry, InquiryDto dto) {
         inquiry.setReply(dto.getReply());
+        inquiry.setComment_yn("y");
     }
 
 
