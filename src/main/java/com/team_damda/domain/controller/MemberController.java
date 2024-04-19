@@ -8,7 +8,6 @@ import com.team_damda.domain.enums.Role;
 import com.team_damda.domain.service.JwtService;
 import com.team_damda.domain.service.LoginService;
 import com.team_damda.domain.service.MemberService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -64,9 +63,6 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "사용자 업데이트 오류"));
         }
     }
-
-
-
 
     @GetMapping("/member/{email}")
     public UserInformationDTO getMemberId(@PathVariable("email") String email) {

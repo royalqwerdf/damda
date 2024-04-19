@@ -16,8 +16,9 @@ if (accessToken) {
     window.history.pushState(null, "", url.toString());
 }
 
+
 // Axios 기본 헤더 설정
-accessToken = localStorage.getItem('accessToken')
+accessToken = localStorage.getItem('accessToken');
 if (accessToken) {
     token.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 }

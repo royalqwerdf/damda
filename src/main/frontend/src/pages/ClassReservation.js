@@ -16,20 +16,27 @@ const ClassReservation = () => {
 const [memberData,setMemberData] = useState(null);
 const [memberId, setMemberId] = useState(null);
     const token = localStorage.getItem('accessToken');
-    const decodedToken = jwtDecode(token);
-    const memberEmail = decodedToken.userEmail;
-    console.log(memberEmail);
 
-    useEffect(() => {
+  useEffect(() => {
+      if(token) { // 토큰이 존재할 때만 jwtDecode를 실행
+          try {
+              const decodedToken = jwtDecode(token);
+              const memberEmail = decodedToken.userEmail;
+              console.log(memberEmail);
 
-        axios.get(`/api/member/${memberEmail}`)
-            .then(response => {
-                setMemberData(response.data);
-                setMemberId(response.data.id);
-                console.log("member Id:",memberId);
-            })
-            .catch(error => console.log(error));
-    },[]);
+              axios.get(`/api/member/${memberEmail}`)
+                  .then(response => {
+                      setMemberData(response.data);
+                      setMemberId(response.data.id);
+                      console.log("member Id:", response.data.id);
+                  })
+                  .catch(error => console.log(error));
+          } catch (error) {
+              // JWT가 유효하지 않을 경우 여기서 처리
+              console.error("Invalid token:", error);
+          }
+      }
+  }, []);
     //이미지 업로드 함수
     const uploadedUrls = [];
     const [imageFiles, setImageFiles] = useState([]);
@@ -119,9 +126,9 @@ const [memberId, setMemberId] = useState(null);
                   axios.get(`/class-reservation/${id}/${memberId}/review`)
                              .then(response2 => {
                                  console.log("Review Data:", response2.data);
-                                 console.log("Review Data2:", response2.data.total_price);
+//                                 console.log("Review Data2:", response2.data.total_price);
                                  setReviewInfo(response2.data);
-                                 console.log(reviewInfo);
+//                                 console.log(reviewInfo);
                              })
                              .catch(error => console.log(error));
             }
@@ -207,6 +214,7 @@ const [memberId, setMemberId] = useState(null);
          } catch (error) {
            console.error('클래스 정보 가져오기 실패.', error);
          }
+
        };
 
        fetchClassDetails();
@@ -383,7 +391,7 @@ const submitCart = async () => {
         rating : preClicked, // 평점
 
       };
-      if (!reviewText || !starClick || reviewTitle)   {
+      if (!reviewText || !starClick || !reviewTitle)   {
           alert('후기(제목/내용)와 평점을 입력해주세요');
           return;
       }
@@ -404,6 +412,56 @@ const submitCart = async () => {
 //        window.location.reload();
       }
     };
+
+    //찜하기
+     const [isLiked, setIsLiked] = useState(false);
+
+     useEffect(() => {
+       const fetchClassLike = async () => {
+        if (memberId){
+         try {
+           const response = await axios.get(`/class-reservation/${id}/${memberId}`);
+
+           console.log("찜데이터: ", response.data);
+           const classLike = response.data;
+           setIsLiked(classLike);
+
+         } catch (error) {
+           console.error('찜 정보 가져오기 실패.', error);
+         }
+        }
+       };
+
+       fetchClassLike();
+     }, []); // classId가 변경될 때마다 실행
+    console.log(isLiked);
+        const toggleLike = async () => {
+            console.log(isLiked);
+            try {
+                const response = await axios.post(`/class-reservation/class-like/${id}/${memberId}?isLiked=${isLiked}` );
+                if (response.status !== 200) {
+                    throw new Error('Failed to update like status');
+                }
+
+                if(isLiked==true){
+                    alert('찜목록에서 제외했습니다!');
+                    setClassDetails(prevDetails => ({ ...prevDetails, totalLike: prevDetails.totalLike - 1 }));
+                }
+                else{alert('찜목록에 등록하였습니다!');
+                setClassDetails(prevDetails => ({ ...prevDetails, totalLike: prevDetails.totalLike + 1 }));
+                }
+//                window.location.reload();
+
+            } catch (error) {
+                console.error('Error updating like status:', error);
+                // 에러시 상태 롤백
+                setIsLiked(isLiked);
+            }
+            setIsLiked(!isLiked);
+//            window.location.reload();
+        };
+
+
     // 딜레이 고려
      if (!classDetails) {
         return <div>Loading...</div>;
@@ -468,21 +526,23 @@ const submitCart = async () => {
 
                          </div>
                          <div className="review-right-area">
-                           <h3>최근 예약정보</h3>
-                           <p><strong>참가자 정보</strong> </p>{memberData.name}<br/>{memberData.phone} {/* 'user-id'를 실제 사용자 ID로 대체 */}
-                           <p><strong>클래스 날짜 </strong></p> {moment(reviewInfo.select_date).format('YYYY-MM-DD')}
-                           <p><strong>예약 인원 </strong></p>{reviewInfo.select_person}명
-                           <p><strong>결제 금액 </strong></p>{reviewInfo.total_price}원
-                           <p>평점 </p>
-                            {[1, 2, 3, 4, 5].map(el => (
-                             <img
-                             	key={el}
-                             	id={el}
-                           	src="https://firebasestorage.googleapis.com/v0/b/damda-30bee.appspot.com/o/empty_start.png?alt=media&token=b2918120-3f5f-4840-8edb-6a09f02708ef"
-                           	alt=""
-                           	style={{ width: '25px', height: '25px'}}
-                           	onClick={goToFetch} />
-                           ))}
+                               <h3>최근 예약정보</h3>
+                               {memberData && (  <>
+                               <p><strong>참가자 정보</strong> </p>{memberData.name}<br/>{memberData.phone} {/* 'user-id'를 실제 사용자 ID로 대체 */}
+                               <p><strong>클래스 날짜 </strong></p> {moment(reviewInfo.select_date).format('YYYY-MM-DD')}
+                               <p><strong>예약 인원 </strong></p>{reviewInfo.select_person}명
+                               <p><strong>결제 금액 </strong></p>{reviewInfo.total_price}원
+                               </>)}
+                               <p>평점 </p>
+                                {[1, 2, 3, 4, 5].map(el => (
+                                 <img
+                                    key={el}
+                                    id={el}
+                                src="https://firebasestorage.googleapis.com/v0/b/damda-30bee.appspot.com/o/empty_start.png?alt=media&token=b2918120-3f5f-4840-8edb-6a09f02708ef"
+                                alt=""
+                                style={{ width: '25px', height: '25px'}}
+                                onClick={goToFetch} />
+                               ))}
                          </div>
                        </div>
                        <div className="review-footer">
@@ -494,7 +554,7 @@ const submitCart = async () => {
                     </Modal>
                     <div id="class-grade">
                         <img src="https://firebasestorage.googleapis.com/v0/b/damda-30bee.appspot.com/o/heart.png?alt=media&token=66742275-d842-4849-b41e-7c49a0de8799"/>{classDetails.totalLike}
-                        <img src="https://firebasestorage.googleapis.com/v0/b/damda-30bee.appspot.com/o/star.png?alt=media&token=533d0a9d-b1f9-4cf7-9517-4f467e894ecf"/>{classDetails.totalRating}
+                        <img src="https://firebasestorage.googleapis.com/v0/b/damda-30bee.appspot.com/o/star.png?alt=media&token=533d0a9d-b1f9-4cf7-9517-4f467e894ecf"/>{classDetails.totalRating.toFixed(1)}
                     </div>
                   </div>
                   <div>
@@ -590,7 +650,7 @@ const submitCart = async () => {
                 <br/><b>예약 금액</b> : {classDetails.price*peopleCount}원
              </div>
              <div id = "red-button">
-                <button>문의하기</button> <button>선택 CLASS찜</button>
+                <button>문의하기</button> <button onClick={toggleLike}>선택 CLASS찜</button>
              </div>
              <div id = "red-button2">
                 <button onClick={openModal}>클래스 신청하기</button>

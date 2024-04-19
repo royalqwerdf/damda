@@ -74,5 +74,3 @@ export const snslogin = async (snsData) => {
         throw new Error('소셜 로그인 실패');
     }
 };
-
-

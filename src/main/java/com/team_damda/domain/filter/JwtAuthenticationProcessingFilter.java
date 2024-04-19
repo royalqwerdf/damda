@@ -51,29 +51,29 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 
 
 
-@Override
-protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-    if (request.getRequestURI().contains(NO_CHECK_URL) || request.getRequestURI().equals(LOGOUT_URL)) {
-        filterChain.doFilter(request, response);
-        return;
-    }
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        if (request.getRequestURI().contains(NO_CHECK_URL) || request.getRequestURI().equals(LOGOUT_URL)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
-    // HTTP 헤더에서 'Authorization' 값을 추출
-    String authHeader = request.getHeader("Authorization");
-    String accessToken = null;
+        // HTTP 헤더에서 'Authorization' 값을 추출
+        String authHeader = request.getHeader("Authorization");
+        String accessToken = null;
 
-    if (authHeader != null && authHeader.startsWith("Bearer ")) {
-        accessToken = authHeader.substring(7); // "Bearer " 이후 문자열을 추출 (토큰 부분)
-    }
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            accessToken = authHeader.substring(7); // "Bearer " 이후 문자열을 추출 (토큰 부분)
+        }
 
-    if (accessToken != null && jwtService.isTokenValid(accessToken)) {
-        // 토큰이 유효한 경우, 추가 인증 처리를 수행
-        checkAccessTokenAndAuthentication(request, response, filterChain, accessToken);
-    } else {
-        // 토큰이 유효하지 않거나 없는 경우, 요청을 계속 진행
-        filterChain.doFilter(request, response);
+        if (accessToken != null && jwtService.isTokenValid(accessToken)) {
+            // 토큰이 유효한 경우, 추가 인증 처리를 수행
+            checkAccessTokenAndAuthentication(request, response, filterChain, accessToken);
+        } else {
+            // 토큰이 유효하지 않거나 없는 경우, 요청을 계속 진행
+            filterChain.doFilter(request, response);
+        }
     }
-}
 
 
 

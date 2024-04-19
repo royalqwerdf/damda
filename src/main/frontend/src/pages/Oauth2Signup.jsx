@@ -37,9 +37,6 @@ const Oauth2Signup = () => {
         }
     };
 
-
-
-
     return (
         <div className="page">
             <div className="form_container">
