@@ -12,5 +12,6 @@ import java.util.List;
 public interface
 ClassReviewRepository  extends JpaRepository<ClassReview,Long> {
     List<ClassReview> findByOnedayClassId(Long classId);
+    int countByOnedayClassId(Long classId);
 
 }

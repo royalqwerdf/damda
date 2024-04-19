@@ -37,6 +37,7 @@ public class ClassService {
     private final ClassTimeRepository classTimeRepository;
     private final ClassImageRepository classImageRepository;
     private final ClassRepositoryImpl classRepositoryImpl;
+    private final ClassReviewRepository classReviewRepository;
 
 
     @Transactional
@@ -256,6 +257,13 @@ public class ClassService {
         Class onedayClass = classRepository.findClassById(classId);
         classRepository.delete(onedayClass);
     }
+    @Transactional
+    public void addRatingToClass(long classId, float rating) {
+        Class onedayClass = classRepository.findClassById(classId);
+        int reviewCount = classReviewRepository.countByOnedayClassId(classId);
+        onedayClass.setTotalRating((onedayClass.getTotalRating() * reviewCount + rating) / (reviewCount + 1));
+        classRepository.save(onedayClass);
+    }
 
     @Transactional
     public void updateClass(Long classId, ClassDto classDto, List<ClassTimeDto> classTimes, List<ClassImageDto> classImages) {
@@ -293,6 +301,7 @@ public class ClassService {
             ClassImage classImageEntity = classImage.toEntity(onedayClass);
             classImageRepository.save(classImageEntity);
         }
+
     }
 };
 
