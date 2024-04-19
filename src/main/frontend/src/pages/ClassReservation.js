@@ -11,6 +11,8 @@ import Modal from "react-modal";
 import useUploadImage from '../hooks/useUploadImage';
 import {jwtDecode} from "jwt-decode";
 const ClassReservation = () => {
+
+/*네비게이션*/
 /*  회원 토큰 관리*/
 
 const [memberData,setMemberData] = useState(null);
@@ -98,6 +100,11 @@ const [memberId, setMemberId] = useState(null);
      const[isCartOpen, setIsCartOpen] = useState(false);
      /*reserve*/
      const openModal =() =>{
+
+        if(!memberId){
+            alert('회원만 가능합니다. 로그인 해주세요.');
+            return;
+        }
         if (!selectedTime) {
             alert('예약 날짜와 시간을 선택해주세요');
             return;
@@ -221,11 +228,14 @@ const [memberId, setMemberId] = useState(null);
      }, [id]); // classId가 변경될 때마다 실행
      console.log(classDetails);
 
-
-
+/************************************************네비게이션*/
+const navigate = useNavigate();
+const handleInquiryClick = () => {
+  navigate('/inquiry'); // '/inquiry' 경로로 이동
+};
 /*----------reservation Control ----- POST*/
 // 예약 정보를 서버로 전송
-const navigate = useNavigate();
+
 const submitReservation = async () => {
   // 여기서 예약에 필요한 정보를 객체로 구성합니다.
   console.log(classDetails.price); //
@@ -258,14 +268,33 @@ const submitReservation = async () => {
 };
 
 
+
+
 /*----------Cart Control ----- POST*/
+// 비회원용 쿠키 생성 함수
+const createGuestCookie = () => {
+  const cookieValue = uuidv4(); // UUID를 생성하여 쿠키 값으로 사용
+  document.cookie = `guest_cart=${cookieValue};path=/;max-age=86400`; // 쿠키 설정, 2일 유효
+  return cookieValue;
+};
+function getCookie(name) {
+  let cookieArr = document.cookie.split(";");
+  for(let i = 0; i < cookieArr.length; i++) {
+    let cookiePair = cookieArr[i].split("=");
+    if(name === cookiePair[0].trim()) {
+      return decodeURIComponent(cookiePair[1]);
+    }
+  }
+  return null;
+}
 const submitCart = async () => {
   // 여기서 예약에 필요한 정보를 객체로 구성합니다.
   console.log(classDetails.price); //
   console.log(peopleCount);
-
+  const cookieValue = getCookie('guest_cart') || createGuestCookie();
   const CartData = {
-    user_id: memberData.id, // 사용자 ID (로그인 구현 시 사용자의 토큰?ID?로 대체)
+    user_id: memberData?.id, // 사용자 ID (로그인 구현 시 사용자의 토큰?ID?로 대체)
+    cookie_value: cookieValue,
     select_date: moment(value).format('YYYY-MM-DD'), // 선택된 날짜
     classTimeId: selectedTime.id, // 선택 시간ID
     selectedCount: peopleCount, // 인원수
@@ -650,7 +679,7 @@ const submitCart = async () => {
                 <br/><b>예약 금액</b> : {classDetails.price*peopleCount}원
              </div>
              <div id = "red-button">
-                <button>문의하기</button> <button onClick={toggleLike}>선택 CLASS찜</button>
+                <button onClick={handleInquiryClick}>문의하기</button> <button onClick={toggleLike}>선택 CLASS찜</button>
              </div>
              <div id = "red-button2">
                 <button onClick={openModal}>클래스 신청하기</button>

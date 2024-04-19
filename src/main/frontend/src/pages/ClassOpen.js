@@ -237,6 +237,7 @@ const ClassOpen = () => {
     const navigate = useNavigate();
     const [member, setMember] = useState([]); //
 
+
     useEffect(() => {
         if(localStorage.getItem('accessToken') === null) {
             if(window.confirm("로그인이 필요합니다.\n로그인 하시겠습니까?")) {

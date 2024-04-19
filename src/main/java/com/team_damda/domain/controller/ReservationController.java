@@ -74,19 +74,27 @@ public class ReservationController {
     }
     // 예약-> 장바구니 담기 데이터 처리
     @PostMapping("/class-reservation/{id}/add-to-cart")
-    public ResponseEntity<String> createReservation(@RequestBody CartDto cartDto) {
+    public ResponseEntity<String> createReservation(@RequestBody CartDto cartDto, @CookieValue(name = "guest_cart", required = false) String cookieValue) {
         log.info("data: {}",cartDto);
+        log.info("data2: {}",cookieValue);
+
         ClassTime classTime = classTimeRepository.findById(cartDto.getClassTimeId())
                 .orElseThrow(() -> new EntityNotFoundException("ClassTime not found"));
-
-        Member member = memberRepository.findById(cartDto.getUser_id())
-                .orElseThrow(() -> new EntityNotFoundException("Member not found"));
-
         Cart cart = new Cart();
-        cart.setMember(member);
         cart.setSelectedCount(cartDto.getSelectedCount());
         cart.setTotalPrice(cartDto.getTotalPrice());
         cart.setClassTime(classTime); // 이미 영속성 컨텍스트에 있는 엔티티를 사용
+        if(cartDto.getUser_id()!=0){
+            Member member = memberRepository.findById(cartDto.getUser_id())
+                    .orElseThrow(() -> new EntityNotFoundException("Member not found"));
+
+
+            cart.setMember(member);
+        }else{
+            cart.setCookieValue(cartDto.getCookie_value());
+        }
+
+
 
         cartService.save(cart);
         log.info("data: {}",cartDto);
