@@ -72,9 +72,9 @@ public class CartService {
         return cartDtos;
     }
 
-    // 회원 카트 삭제하기 (성공하면 true)
-    public boolean deleteCartForMember(Long memberId, Long cartId) {
-        Cart cart = cartRepository.getByMemberIdAndId(memberId, cartId);
+    // 카트 삭제하기 (성공하면 true)
+    public boolean deleteCart(Long cartId) {
+        Cart cart = cartRepository.findById(cartId).orElse(null);
         if(cart != null) {
             cartRepository.delete(cart);
             return true;
@@ -83,38 +83,19 @@ public class CartService {
         }
     }
 
-    // 비회원 카트 삭제하기
-    public boolean deleteCartForGuest(String cookieValue, Long cartId) {
-        Cart cart = cartRepository.getByCookieValueAndId(cookieValue, cartId);
-        if(cart != null) {
-            cartRepository.delete(cart);
-            return true;
-        } else {
-            return false;
-        }
-    }
-    // 회원 카트 수정하기
-    public boolean updateCartForMember(Long memberId, Long cartId, int selectedCount, int totalPrice) {
-        Cart cart = cartRepository.getByMemberIdAndId(memberId, cartId);
+    // 카트 수정하기
+    public boolean updateCart(Long cartId, Integer selectedCount, Integer totalPrice) {
+        Cart cart = cartRepository.findById(cartId).orElse(null);
         if(cart != null) {
             // 인원수 변경
-            cart.setSelectedCount(selectedCount);
+            if(selectedCount != null) {
+                cart.setSelectedCount(selectedCount.intValue());
+            }
             // 총 가격 변경
-            cart.setTotalPrice(totalPrice);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    // 비회원 카트 수정하기
-    public boolean updateCartForGuest(String cookieValue, Long cartId, int selectedCount, int totalPrice) {
-        Cart cart = cartRepository.getByCookieValueAndId(cookieValue, cartId);
-        if(cart != null) {
-            // 인원수 변경
-            cart.setSelectedCount(selectedCount);
-            // 총 가격 변경
-            cart.setTotalPrice(totalPrice);
+            if(totalPrice != null) {
+                cart.setTotalPrice(totalPrice.intValue());
+            }
+            cartRepository.save(cart);
             return true;
         } else {
             return false;

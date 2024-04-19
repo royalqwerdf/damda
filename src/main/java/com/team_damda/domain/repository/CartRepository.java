@@ -13,6 +13,4 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     Cart getByCookieValueAndClassTimeId(String cookieValue, Long classTimeId);
     List<Cart> getAllCartsByMemberId(Long memberId);
     List<Cart> getAllCartsByCookieValue(String cookieValue);
-    Cart getByMemberIdAndId(Long memberId, Long cartId);
-    Cart getByCookieValueAndId(String cookieValue, Long cartId);
 }
