@@ -320,6 +320,7 @@ const ClassUpdate = () => {
 
         } catch (error) {
             console.error('클래스 수정 오류:', error);
+            alert('장바구니에 담긴 클래스는 수정할 수 없습니다!');
         }
         navigate("/User-Class")
 
