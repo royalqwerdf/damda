@@ -29,7 +29,7 @@ public class InquiryController {
     private final InquiryRepository inquiryRepository;
 
 
-    @GetMapping("/admin-home/inquiry")
+    @GetMapping("/inquiry-manage")
     public Map<String, Object> getInquiryList(@RequestParam(defaultValue = "0") int page,
                                                @RequestParam(defaultValue = "10") int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
@@ -60,7 +60,7 @@ public class InquiryController {
     }
 
 
-    @PostMapping("/admin-home/inquiry")
+    @PostMapping("/inquiry-manage")
     public ResponseEntity<Map<String, Object>> getInquirySetting(@RequestBody InquiryRequest request){
         String classify = request.getClassify();
         String userId = request.getUserId();
@@ -91,7 +91,7 @@ public class InquiryController {
         return inquiryService.getInquiry(memberId);
     }
 
-    @GetMapping("/admin-home/inquiry/{inquiryId}")
+    @GetMapping("/inquiry/reply/{inquiryId}")
     public ResponseEntity<InquiryDto> getInquiryItem(@PathVariable("inquiryId") Long inquiryId) {
         Inquiry inquiry = inquiryRepository.findInquiryById(inquiryId);
         InquiryDto inquiryDto = inquiry.toDto();
@@ -107,7 +107,7 @@ public class InquiryController {
         return inquiryDto;
     }
 
-    @PutMapping("/admin-home/inquiry/{inquiryId}")
+    @PutMapping("/inquiry/reply/{inquiryId}")
     public void setInquiryReply(@RequestBody InquiryDto dto, @PathVariable Long inquiryId) {
         Inquiry inquiry = inquiryRepository.findInquiryById(inquiryId);
         inquiryService.setReply(inquiry, dto);

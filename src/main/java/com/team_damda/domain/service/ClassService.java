@@ -220,6 +220,11 @@ public class ClassService {
     @Transactional
     public Page<ClassDto> getClassByOrder(PageRequest pageRequest) {
         Page<Class> classPage = classRepository.findAllByOrderByCreatedAtDesc(pageRequest);
+        List<Class> classes = classPage.getContent();
+        for (Class clazz : classes) {
+            String className = clazz.getClassName();
+            System.out.println("Class Name: " + className);
+        }
         return classPage.map(Class::toDto);
     }
 

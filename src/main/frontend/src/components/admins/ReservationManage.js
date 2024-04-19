@@ -13,6 +13,7 @@ function ReservationManage() {
 
     const [reservationList, setReservationList] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
+    const [totalElements, setTotalElements] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
 
     useEffect(() => {
@@ -21,10 +22,11 @@ function ReservationManage() {
 
 
     useEffect(() => {
-        axios.get(`/admin-home/reservation?page=${currentPage}`)
+        axios.get(`/reservation-manage?page=${currentPage}`)
             .then(res => {
                 setReservationList(res.data.reservations);
                 setTotalPages(res.data.totalPages);
+                setTotalElements(res.data.totalElements);
             })
             .catch(error => console.log("에러! :" + error))
     }, [currentPage]);
@@ -108,7 +110,7 @@ function ReservationManage() {
                 endDay: endDay
             };
 
-            const response = await axios.post('/admin-home/reservation', data, {
+            const response = await axios.post('/reservation-manage', data, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -133,7 +135,7 @@ function ReservationManage() {
         // 사용자가 '확인'을 눌렀을 때만 삭제 작업을 진행
         if (confirmDelete) {
             try {
-                await axios.delete(`/admin-home/reserve_delete/${reserveId}`);
+                await axios.delete(`/reserve-delete/${reserveId}`);
                 console.log("예약 삭제 완료");
                 window.location.reload();
             } catch(error) {
@@ -232,6 +234,10 @@ function ReservationManage() {
                             <button style={{marginLeft: '10px', width: '60px', color: '#FFFFFF', height: '30px', backgroundColor: '#cd5c5c', border: '2px solid #e9967a', borderRadius: '10px'}} onClick={handleReservationSubmit}>검색</button>
                         </div>
 
+                        <div style={{ marginBottom: '10px'}}>
+                            현재 <span className="number" style={{ color: '#DC143C'}}>{reservationList.length}</span>명 / 전체 <span className="number" style={{ color: '#DC143C'}}>{totalElements}</span>명
+                        </div>
+
                     </div>
                     {reservationList.length === 0 ? (
                         <div style={{ textAlign: 'center', marginTop: '20px', fontSize: '16px' }}>클래스를 검색하세요!</div>
@@ -239,14 +245,14 @@ function ReservationManage() {
                     <table className="inquiry-area" style={{width: '100%', borderBottom: '1px solid #000000'}}>
                         <thead style={{padding: '10px', width: '100%'}}>
                         <tr className="column-title-area" >
-                            <th className="member-title" style={{marginLeft: '10px', flex: '1.5', color: '#424242', fontSize: '14px'}}>아이디</th>
-                            <th className="category-title" style={{marginLeft: '10px',flex: '1', color: '#424242', fontSize: '14px'}}>카테고리</th>
-                            <th className="writer-title" style={{marginLeft: '10px',flex: '1.5', color: '#424242', fontSize: '14px'}}>클래스명</th>
-                            <th className="writer-title" style={{marginLeft: '10px',flex: '1.2', color: '#424242', fontSize: '14px'}}>회원이름</th>
-                            <th className="content-title" style={{marginLeft: '10px',flex: '1.2', color: '#424242', fontSize: '14px'}}>예약일</th>
-                            <th className="content-title" style={{marginLeft: '10px',flex: '1.2', color: '#424242', fontSize: '14px'}}>예약인원</th>
-                            <th className="content-title" style={{marginLeft: '10px',flex: '1.2', color: '#424242', fontSize: '14px'}}>예약금액</th>
-                            <th className="content-title" style={{marginLeft: '10px',flex: '1.2', color: '#424242', fontSize: '14px'}}>삭제</th>
+                            <th className="member-title" style={{marginLeft: '10px', color: '#424242', fontSize: '12px'}}>아이디</th>
+                            <th className="category-title" style={{marginLeft: '10px', color: '#424242', fontSize: '12px'}}>카테고리</th>
+                            <th className="writer-title" style={{marginLeft: '10px', color: '#424242', fontSize: '12px'}}>클래스명</th>
+                            <th className="writer-title" style={{marginLeft: '10px', color: '#424242', fontSize: '12px'}}>회원이름</th>
+                            <th className="content-title" style={{marginLeft: '10px', color: '#424242', fontSize: '12px'}}>예약일</th>
+                            <th className="content-title" style={{marginLeft: '10px', color: '#424242', fontSize: '12px'}}>예약인원</th>
+                            <th className="content-title" style={{marginLeft: '10px', color: '#424242', fontSize: '12px'}}>예약금액</th>
+                            <th className="content-title" style={{marginLeft: '10px', color: '#424242', fontSize: '12px'}}>삭제</th>
                         </tr>
                         </thead>
 
@@ -255,14 +261,14 @@ function ReservationManage() {
                         {reservationList.map((reserve, idx) => {
                             return (
                                 <tr key={reserve.id}>
-                                    <td style={{flex: '1.5', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{reserve.userEmail}</td>
-                                    <td style={{flex: '1', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{reserve.classType}</td>
-                                    <td style={{flex: '1.5', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{reserve.className}</td>
-                                    <td style={{flex: '1.2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{reserve.userName}</td>
-                                    <td style={{flex: '1.2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{reserve.select_date}</td>
-                                    <td style={{flex: '1.2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{reserve.select_person}</td>
-                                    <td style={{flex: '1.2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{reserve.total_price}</td>
-                                    <td style={{flex: '1.2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>
+                                    <td style={{ color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{reserve.userEmail}</td>
+                                    <td style={{ color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{reserve.classType}</td>
+                                    <td style={{ color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{reserve.className}</td>
+                                    <td style={{color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{reserve.userName}</td>
+                                    <td style={{ color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{reserve.select_date}</td>
+                                    <td style={{ color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{reserve.select_person}</td>
+                                    <td style={{ color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{reserve.total_price}</td>
+                                    <td style={{ color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>
                                         <button style={{marginLeft: '10px', fontSize: '10px', width: '60px', color: '#cd5c5c', height: '20px', backgroundColor: '#FFFFFF', border: '2px solid #e9967a', borderRadius: '10px'}} onClick={() => handleReservationDelete(reserve.id)}>취소</button>
                                     </td>
                                 </tr>
