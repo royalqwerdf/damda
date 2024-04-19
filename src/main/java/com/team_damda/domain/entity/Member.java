@@ -1,5 +1,7 @@
 package com.team_damda.domain.entity;
 
+import com.team_damda.domain.dto.CategoryDto;
+import com.team_damda.domain.dto.MemberDto;
 import com.team_damda.domain.enums.LoginType;
 import com.team_damda.domain.enums.Role;
 import jakarta.persistence.*;
@@ -91,7 +93,16 @@ public class Member extends BaseTimeEntity {
         this.refreshToken = null; // 리프레시 토큰 필드를 null로 설정
     }
 
-
+    public MemberDto toDto(){
+        return MemberDto.builder()
+                .id(this.id)
+                .phone(this.phone)
+                .userEmail(this.userEmail)
+                .createdAt(this.getCreatedAt())
+                .name(this.name)
+                .password(this.password)
+                .build();
+    }
 
 }
 

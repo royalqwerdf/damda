@@ -1,11 +1,15 @@
 package com.team_damda.domain.service;
 
+import com.team_damda.domain.dto.CategoryDto;
+import com.team_damda.domain.dto.MemberDto;
+import com.team_damda.domain.entity.Category;
 import com.team_damda.domain.entity.Member;
 import com.team_damda.domain.repository.AdminMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -13,6 +17,16 @@ import java.util.List;
 public class AdminMemberService {
     private final AdminMemberRepository adminMemberRepository;
     private final PasswordEncoder passwordEncoder;
+
+    public List<MemberDto> getAllCategory(){
+        List<Member> allMembers = adminMemberRepository.findAll();
+        List<MemberDto> allMemberDtos = new ArrayList<>();
+        for(Member member: allMembers){
+            MemberDto memberDto = member.toDto();
+            allMemberDtos.add(memberDto);
+        }
+        return allMemberDtos;
+    }
 
     public boolean deleteMember(Long memberId) {
         boolean isDeleted = false;
