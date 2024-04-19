@@ -36,6 +36,7 @@ import UserInquiryDetail from "./pages/UserPage/UserInquiryDetail";
 import AnnouncementEdit from "./components/AnnouncementEdit";
 
 
+
 function App(){
     return(
         <BrowserRouter>
