@@ -3,12 +3,43 @@ import { useNavigate } from "react-router-dom";
 import styles from "../../styles/Form.module.scss";
 import {Checkbox} from "../Checkbox";
 import {token} from "../../api/axios";
+import AnnouncementDeleteModal from "../AnnouncementDeleteModal";
 
 function AnnounceManage() {
     const [announcements, setAnnouncements] = useState([]);
     const [checkedState, setCheckedState] = useState({});
     const [isAllChecked, setIsAllChecked] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // 삭제 모달 상태
+    const [selectedAnnouncement, setSelectedAnnouncement] = useState(null); // 선택된 공지
     const navigate = useNavigate();
+
+
+
+    // 삭제 모달 열기
+    const openDeleteModal = (announcement) => {
+        setSelectedAnnouncement(announcement);
+        setIsDeleteModalOpen(true);
+    };
+
+    // 삭제 모달 닫기
+    const closeDeleteModal = () => {
+        setSelectedAnnouncement(null);
+        setIsDeleteModalOpen(false);
+    };
+
+    // 삭제 모달에서 삭제 확인 시
+    const handleDeleteAnnouncement = async () => {
+        try {
+            await token.delete(`/api/announcements/${selectedAnnouncement.id}`);
+            // 삭제 후 상태 업데이트 및 모달 닫기
+            setAnnouncements(announcements.filter(announce => announce.id !== selectedAnnouncement.id));
+            closeDeleteModal();
+        } catch (error) {
+            console.error("공지 삭제 실패", error);
+        }
+    };
+
+
 
 
     useEffect(() => {
@@ -55,6 +86,7 @@ function AnnounceManage() {
 
 
 
+
     return(
         <div className="container" style={{padding: '0px'}}>
             <div className="admin-menu-area" style={{width: '100%'}}>
@@ -94,8 +126,8 @@ function AnnounceManage() {
                                         <button className={styles.edit}
                                                 onClick={() => handleEditButtonClick(announce.id)}>편집
                                         </button>
-                                        <button className={styles.delete}>삭제
-                                        </button>
+                                        {/* 삭제 버튼 클릭 시 삭제 모달 열기 */}
+                                        <button className={styles.delete} onClick={() => openDeleteModal(announce)}>삭제</button>
                                     </div>
 
                                 </td>
@@ -107,6 +139,13 @@ function AnnounceManage() {
                 </div>
 
             </div>
+            {/* 삭제 모달 */}
+            <AnnouncementDeleteModal
+                isOpen={isDeleteModalOpen}
+                onClose={closeDeleteModal}
+                announcement={selectedAnnouncement}
+                onDeleteAnnouncement={handleDeleteAnnouncement}
+            />
         </div>
     );
 
