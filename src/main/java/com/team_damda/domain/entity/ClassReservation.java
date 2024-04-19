@@ -42,6 +42,12 @@ public class ClassReservation {
     @Column(name="select_time")
     private Long select_time;
 
+    @Column(name="userEmail")
+    private String userEmail;
+
+    @Column(name="className")
+    private String className;
+
     @ManyToOne
     @JoinColumn(name="class_id")
     private Class onedayClass;
@@ -65,11 +71,15 @@ public class ClassReservation {
         return ClassReservationDto.builder()
 
                 .reservation_id(this.id)
+                .classType(this.classType)
                 .total_price(this.total_price)
                 .select_date(this.select_date)
                 .select_time(this.select_time)
                 .select_person(this.select_person)
                 .mainImage(mainImage)
+                .userEmail(member.getUserEmail())
+                .className(onedayClass.getClassName())
+                .userName(member.getName())
                 .build();
     }
 }
