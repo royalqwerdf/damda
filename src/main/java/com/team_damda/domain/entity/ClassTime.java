@@ -6,9 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="class_time")
@@ -37,6 +40,9 @@ public class ClassTime {
     @ManyToOne
     @JoinColumn(name="class_id")
     private Class onedayClass;
+
+    @OneToMany(mappedBy = "classTime")
+    private List<Cart> cartList = new ArrayList<>();
 
     public ClassTimeDto toDto() {
         return ClassTimeDto.builder()
