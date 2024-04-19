@@ -34,7 +34,7 @@ function BestClassList(){
     );
 
     function pageBtnClick(str) {
-        maxPage = Math.floor(classes.length / 4);
+        maxPage = Math.floor(classes.length / 4)-1;
         if (str === "prev" && 0 < page) {
             setPage(page - 1);
         }

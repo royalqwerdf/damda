@@ -13,5 +13,6 @@ public interface
 ClassReviewRepository  extends JpaRepository<ClassReview,Long> {
     List<ClassReview> findByOnedayClassId(Long classId);
     int countByOnedayClassId(Long classId);
+    List<ClassReview> findByMember_id(Long memberId);
 
 }
