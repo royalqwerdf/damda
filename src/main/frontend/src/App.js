@@ -31,6 +31,7 @@ import EventPage from "./pages/EventPage";
 import UserInquiry from "./pages/UserPage/UserInquiry";
 import RequireAuth from "./api/RequireAuth";
 import NotFound from './components/404';
+import AnnouncementCreate from './pages/AnnouncementCreate';
 
 function App(){
     return(
@@ -57,6 +58,11 @@ function App(){
                     <Route path="/admin-home" element={
                         <RequireAuth allowedRoles={['ADMIN']} redirectToIfUnauthorized="/404" isNotFoundPage={true}>
                             <AdminHome />
+                        </RequireAuth>
+                    } />
+                    <Route path="/Announcement-create" element={
+                        <RequireAuth allowedRoles={['ADMIN']} redirectToIfUnauthorized="/404" isNotFoundPage={true}>
+                            <AnnouncementCreate />
                         </RequireAuth>
                     } />
                     <Route path="/announce/:id" element={<AnnouncePage/>}></Route>
