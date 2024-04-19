@@ -17,7 +17,7 @@ public interface ClassRepository extends JpaRepository<Class,Long>,ClassReposito
 
     List<Class> findByCategoryId(long categoryId);
 
-    List<Class> findTop12ByOrderByTotalRatingDescTotalLikeDesc();
+    List<Class> findFirst12ByOrderByTotalRatingDescTotalLikeDesc();
 
     List<Class> findTop12ByOrderByIdDesc();
 
