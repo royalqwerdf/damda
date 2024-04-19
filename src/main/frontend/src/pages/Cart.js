@@ -26,8 +26,16 @@ const Cart = () => {
                     axios.get('/carts', { params: { memberId: response.data.id } })
                         .then(response => {
                             setCarts(response.data.carts);
+                            console.log(response.data.carts);
                         })
                         .catch(error => console.log(error));
+                })
+                .catch(error => console.log(error));
+        } else {
+            axios.get('/carts', { params: { memberId: null } })
+                .then(response => {
+                    setCarts(response.data.carts);
+                    console.log(response.data.carts);
                 })
                 .catch(error => console.log(error));
         }
