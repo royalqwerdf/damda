@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -35,6 +38,7 @@ public class Cart extends BaseTimeEntity {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private Member member;
+
 
     @Builder
     public Cart(Member member, ClassTime classTime, int selectedCount, int totalPrice) {

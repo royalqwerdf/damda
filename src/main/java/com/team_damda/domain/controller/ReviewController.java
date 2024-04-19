@@ -8,9 +8,9 @@ import com.team_damda.domain.service.ClassService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -26,5 +26,10 @@ public class ReviewController {
         classReviewService.createReview(reviewDto);
         log.info("data: {}",reviewDto);
         return ResponseEntity.ok("리뷰작성이 완료되었습니다.");
+    }
+
+    @GetMapping("/review/{memberId}")
+    public List<ClassReviewDto> getMemberReview(@PathVariable Long memberId) {
+        return classReviewService.getMemberReview(memberId);
     }
 }

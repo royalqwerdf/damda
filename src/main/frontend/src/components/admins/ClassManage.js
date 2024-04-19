@@ -243,10 +243,8 @@ function ClassManage() {
                         </thead>
 
                         <tbody>
-                        {classList.map((classes, idx) => {
-
-                            return(
-
+                        {classList.length > 0 && classList.map((classes, idx) => {
+                            return (
                                 <tr key={classes.id}>
                                     <td style={{flex: '2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{classes.managerEmail}</td>
                                     <td style={{flex: '2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{classes.managerName}</td>
@@ -261,8 +259,7 @@ function ClassManage() {
                                         <button style={{marginLeft: '10px', fontSize: '10px', width: '60px', color: '#cd5c5c', height: '20px', backgroundColor: '#FFFFFF', border: '2px solid #e9967a', borderRadius: '10px'}} onClick={() => handleClassDelete(classes.id)} >삭제</button>
                                     </td>
                                 </tr>
-                            )
-
+                            );
                         })}
                         </tbody>
                     </table>
