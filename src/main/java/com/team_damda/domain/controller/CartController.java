@@ -110,7 +110,7 @@ public class CartController {
             carts = cartService.getAllCartsByMemberId(memberId);
         } else { // 비회원인 경우
             // 쿠키값 확인
-            String cookieValue = CookieUtils.getCookieValue(request, "cookieValue");
+            String cookieValue = CookieUtils.getCookieValue(request, "guest_cart");
             if (cookieValue != null) {
                 carts = cartService.getAllCartsByCookieValue(cookieValue);
             }
@@ -154,7 +154,7 @@ public class CartController {
             List<CartDto> carts = cartService.getAllCartsByMemberId(memberId);
             if(carts.isEmpty()) isEmpty = true;
         } else {
-            String cookieValue = CookieUtils.getCookieValue(request, "cookieValue");
+            String cookieValue = CookieUtils.getCookieValue(request, "guest_cart");
             if(cookieValue != null) {
                 List<CartDto> carts = cartService.getAllCartsByCookieValue(cookieValue);
                 if(carts.isEmpty()) isEmpty = true;
@@ -175,7 +175,7 @@ public class CartController {
             List<CartDto> carts = cartService.getAllCartsByMemberId(memberId);
             count = carts.size();
         } else {
-            String cookieValue = CookieUtils.getCookieValue(request, "cookieValue");
+            String cookieValue = CookieUtils.getCookieValue(request, "guest_cart");
             if(cookieValue != null) {
                 List<CartDto> carts = cartService.getAllCartsByCookieValue(cookieValue);
                 count = carts.size();
