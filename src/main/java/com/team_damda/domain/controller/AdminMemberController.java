@@ -1,6 +1,7 @@
 package com.team_damda.domain.controller;
 
 import com.team_damda.domain.dto.MemberDto;
+import com.team_damda.domain.dto.MemberUpdateRequest;
 import com.team_damda.domain.entity.Member;
 import com.team_damda.domain.repository.AdminMemberRepository;
 import com.team_damda.domain.service.AdminMemberService;
@@ -21,15 +22,13 @@ public class AdminMemberController {
     // 회원 목록 불러오기
     @GetMapping("/admin/members")
     public ResponseEntity<List<MemberDto>> getMembers() {
-        return ResponseEntity.status(HttpStatus.OK).body(adminMemberService.getAllCategory());
+        return ResponseEntity.status(HttpStatus.OK).body(adminMemberService.getAllMembers());
     }
 
     // 회원 정보 가져오기
     @GetMapping("/admin/members/{memberId}")
-    public ResponseEntity<Member> getMember(@PathVariable Long memberId) {
-        Member member = adminMemberRepository.findById(memberId).orElse(null);
-        if(member != null) return ResponseEntity.status(HttpStatus.OK).body(member);
-        else return ResponseEntity.notFound().build();
+    public ResponseEntity<MemberDto> getMember(@PathVariable Long memberId) {
+        return ResponseEntity.status(HttpStatus.OK).body(adminMemberService.getMember(memberId));
     }
 
     // 회원 삭제
@@ -45,8 +44,8 @@ public class AdminMemberController {
 
     // 회원 정보 수정
     @PutMapping("/admin/members/{memberId}")
-    public ResponseEntity<Void> updateMember(@PathVariable Long memberId, String userEmail, String password, String name, String phone) {
-        boolean isUpdated = adminMemberService.updateMember(memberId, userEmail, password, name, phone);
+    public ResponseEntity<Void> updateMember(@PathVariable Long memberId, @RequestBody MemberUpdateRequest request) {
+        boolean isUpdated = adminMemberService.updateMember(memberId, request.getUserEmail(), request.getPassword(), request.getName(), request.getPhone());
         if(isUpdated) {
             return ResponseEntity.ok().build();
         } else {
@@ -56,9 +55,9 @@ public class AdminMemberController {
 
     // 이메일 or 이름으로 회원 검색
     @GetMapping("/admin/members/search")
-    public ResponseEntity<List<Member>> searchMembers(@RequestParam(required = false) String userEmail,
+    public ResponseEntity<List<MemberDto>> searchMembers(@RequestParam(required = false) String userEmail,
                                                       @RequestParam(required = false) String name) {
-        List<Member> searchedMembers;
+        List<MemberDto> searchedMembers;
         if(userEmail != null) {
             searchedMembers = adminMemberService.findMembersByUserEmail(userEmail);
             return ResponseEntity.ok(searchedMembers);

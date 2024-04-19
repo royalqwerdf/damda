@@ -18,4 +18,5 @@ public class MemberDto {
     Date createdAt;
     String password;
     String phone;
+    String loginType;
 }
