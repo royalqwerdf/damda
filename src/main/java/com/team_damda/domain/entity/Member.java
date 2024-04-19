@@ -101,6 +101,7 @@ public class Member extends BaseTimeEntity {
                 .createdAt(this.getCreatedAt())
                 .name(this.name)
                 .password(this.password)
+                .loginType(String.valueOf(this.loginType))
                 .build();
     }
 

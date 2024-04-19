@@ -234,7 +234,7 @@ const Cart = () => {
         updateCart(cartId, updatedCart.selectedCount, updatedCart.totalPrice);
     }
     const updateCart = (cartId, selectedCount, totalPrice) => {
-        axios.put(`/carts/${cartId}`, { cartId, selectedCount, totalPrice })
+        axios.put(`/carts/${cartId}`, { selectedCount, totalPrice })
             .then(response => {
                 console.log('Cart updated successfully: ', response.data);
             })
