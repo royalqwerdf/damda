@@ -42,10 +42,10 @@ public class ClassReservation {
     @Column(name="select_time")
     private Long select_time;
 
-    @Column(name="userEmail")
+    @Column(name="user_email")
     private String userEmail;
 
-    @Column(name="className")
+    @Column(name="class_name")
     private String className;
 
     @ManyToOne
