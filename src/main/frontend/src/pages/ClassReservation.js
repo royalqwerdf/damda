@@ -265,7 +265,7 @@ const submitCart = async () => {
   console.log(peopleCount);
 
   const CartData = {
-    user_id: memberData.id, // 사용자 ID (로그인 구현 시 사용자의 토큰?ID?로 대체)
+      user_id: memberData != null ? memberData.id : null, // 사용자 ID (로그인 구현 시 사용자의 토큰?ID?로 대체)
     select_date: moment(value).format('YYYY-MM-DD'), // 선택된 날짜
     classTimeId: selectedTime.id, // 선택 시간ID
     selectedCount: peopleCount, // 인원수

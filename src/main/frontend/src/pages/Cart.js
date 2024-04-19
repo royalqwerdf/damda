@@ -17,32 +17,23 @@ const Cart = () => {
     const [carts, setCarts] = useState([]);
 
     useEffect(() => {
-        if(memberEmail != null) {
+        if (memberEmail != null) {
             axios.get(`/api/member/${memberEmail}`)
                 .then(response => {
                     setMemberId(response.data.id);
-                    console.log("member Id:", memberId);
+                    console.log("member Id:", response.data.id);
+
+                    axios.get('/carts', { params: { memberId: response.data.id } })
+                        .then(response => {
+                            setCarts(response.data.carts);
+                        })
+                        .catch(error => console.log(error));
                 })
                 .catch(error => console.log(error));
-        } else setMemberId(null);
+        }
+    }, [memberEmail]);
 
-        axios.get('/carts', { params: { memberId: memberId } })
-            .then(response=>
-            {
-                // 받아온 데이터를 가공하여 Date 객체로 변환
-                const processedData = response.data.carts.map(cart => ({
-                    ...cart,
-                    classTime: {
-                        ...cart.classTime,
-                        classStartsAt: new Date(cart.classTime.classStartsAt)
-                    }
-                }));
 
-                // 변환된 데이터를 상태로 설정
-                setCarts(processedData);
-            })
-            .catch(error => console.log(error))
-    }, []);
 
     // 예시 데이터
     // useEffect(() => {
@@ -250,12 +241,12 @@ const Cart = () => {
                 {/* 전체 체크박스 */}
                 <input type="checkbox" name="select-all"
                        onChange={(e) => toggleAllCheckboxes(e.target.checked)}
-                       checked={checkboxes.length === carts.length}
+                       checked={carts && (checkboxes.length === carts.length)}
                        onClick={toggleAllCheckboxes}/>
                 <span className="class">CLASS 명</span><span>인원</span><span>예약 일시</span><span>결제 금액</span>
             </div>
             <div id="cart-list">
-                {carts.map((cart) => (
+                {carts && carts.map((cart) => (
                     <div className="cart-item" key={cart.id}>
                         {/* 체크박스 */}
                         <input type='checkbox' name={`select-${cart.id}`}
@@ -294,7 +285,8 @@ const Cart = () => {
     )
 }
 
-function formatDate(date) {
+function formatDate(dateString) {
+    const date = new Date(dateString);
     const year = date.getFullYear().toString().slice(-2);
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');

@@ -31,9 +31,7 @@ public class CartController {
 
     // 클래스 게시글에서 해당 클래스를 장바구니에 담기
     @PostMapping("/carts/{classTimeId}")
-    public ResponseEntity<Cart> addCart(@PathVariable Long classTimeId, @RequestBody CartDto cartDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
-        // 로그인 한 사용자인지 확인
-        Long memberId = (Long) session.getAttribute("memberId");
+    public ResponseEntity<Cart> addCart(@PathVariable Long classTimeId, @RequestBody CartDto cartDto, @RequestParam(name = "memberId", required = false) Long memberId, HttpServletRequest request, HttpServletResponse response) {
         // 이미 장바구니에 담긴 클래스인지 확인
         Cart existingCart = null;
         // 클래스 시간
