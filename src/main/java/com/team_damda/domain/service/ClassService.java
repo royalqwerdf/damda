@@ -169,7 +169,7 @@ public class ClassService {
     @Transactional
     public List<ClassDto> getBestClass(){
         List<ClassDto> bestClassDto = new ArrayList<>();
-        List<Class> bestClass = classRepository.findTop12ByOrderByTotalRatingDescTotalLikeDesc();
+        List<Class> bestClass = classRepository.findFirst12ByOrderByTotalRatingDescTotalLikeDesc();
         for(Class onedayClass:bestClass){
             ClassDto classDto = onedayClass.toDto();
             bestClassDto.add(classDto);
