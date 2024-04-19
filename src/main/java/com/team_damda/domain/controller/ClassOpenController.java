@@ -75,7 +75,7 @@ public class ClassOpenController {
 
 
     @PostMapping("/class-open/{memberId}")
-    public Long createClass(@RequestBody RequestData requestData, @PathVariable Long memberId) {
+    public Long createClass(@RequestBody RequestData requestData, @PathVariable("memberId") Long memberId) {
 
         ClassDto classDto = requestData.getClassDto();
         List<ClassTimeDto> classTimeDtos = requestData.getClassTimeDtos();
