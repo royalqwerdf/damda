@@ -32,4 +32,9 @@ public class ReviewController {
     public List<ClassReviewDto> getMemberReview(@PathVariable Long memberId) {
         return classReviewService.getMemberReview(memberId);
     }
+
+    @PostMapping("/review/delete/{id}")
+    public void deleteReview(@PathVariable Long id) {
+        classReviewService.deleteReview(id);
+    }
 }
