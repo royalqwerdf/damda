@@ -24,10 +24,17 @@ const Cart = () => {
                     const memberResponse = await axios.get(`/api/member/${memberEmail}`);
                     const memberId = memberResponse.data.id;
                     setMemberId(memberId);
+                    console.log(memberId);
 
                     const cartsResponse = await axios.get('/carts', { params: { memberId: memberId } });
                     const carts = Array.isArray(cartsResponse.data) ? cartsResponse.data : [];
                     setCarts(carts);
+                    console.log(carts);
+                } else {
+                    const cartsResponse = await axios.get('/carts', { params: { memberId: null } });
+                    const carts = Array.isArray(cartsResponse.data) ? cartsResponse.data : [];
+                    setCarts(carts);
+                    console.log(carts);
                 }
             } catch (error) {
                 console.error(error);
