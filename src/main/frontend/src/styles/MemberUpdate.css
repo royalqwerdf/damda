@@ -1,21 +1,21 @@
-.content-area form {
+.content-area .form {
     margin-top: 50px;
     position: relative;
     width: 100%;
 }
 
-.content-area form div {
+.content-area .form div {
     margin-bottom: 50px;
     display: flex;
     align-items: center;
 }
 
-.content-area form div label {
+.content-area .form div label {
     margin-right: 20px;
     font-size: 18px;
 }
 
-.content-area form div input {
+.content-area .form div input {
     position: absolute;
     left: 20%;
     width: 375px;
@@ -25,17 +25,17 @@
 }
 
 {/* 소셜 로그인 알림 */}
-.content-area form div small {
+.content-area .form div small {
     position: absolute;
     left: 20%;
     padding-top: 65px;
 }
 
-.content-area form div input.long {
+.content-area .form div input.long {
     width: 513px;
 }
 
-.content-area form div .initialize {
+.content-area .form div .initialize {
     position: absolute;
     left: 78%;
     width: 115px;
@@ -48,11 +48,11 @@
     cursor: pointer;
 }
 
-.content-area form div.buttons {
+.content-area .form div.buttons {
     margin-left: 50%;
 }
 
-.content-area form div.buttons button {
+.content-area .form div.buttons button {
     width: 150px;
     height: 45px;
     border-radius: 10px;
@@ -64,7 +64,7 @@
     cursor: pointer;
 }
 
-.content-area form div.buttons button.cancel {
+.content-area .form div.buttons button.cancel {
     color: #f52334;
     background-color: white;
 }

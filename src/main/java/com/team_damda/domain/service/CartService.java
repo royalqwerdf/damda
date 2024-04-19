@@ -90,13 +90,13 @@ public class CartService {
         if(cart != null) {
             // 인원수 변경
             if(selectedCount != null) {
-                cart.setSelectedCount(selectedCount.intValue());
+                cart.setSelectedCount(selectedCount);
             }
             // 총 가격 변경
             if(totalPrice != null) {
-                cart.setTotalPrice(totalPrice.intValue());
+                cart.setTotalPrice(totalPrice);
             }
-            cartRepository.save(cart);
+            save(cart);
             return true;
         } else {
             return false;

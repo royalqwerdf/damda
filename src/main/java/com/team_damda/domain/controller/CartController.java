@@ -1,6 +1,7 @@
 package com.team_damda.domain.controller;
 
 import com.team_damda.domain.dto.CartDto;
+import com.team_damda.domain.dto.CartUpdateRequest;
 import com.team_damda.domain.entity.Cart;
 import com.team_damda.domain.entity.ClassTime;
 import com.team_damda.domain.entity.Member;
@@ -136,9 +137,9 @@ public class CartController {
 
     // 카트 수정
     @PutMapping("/carts/{cartId}")
-    public ResponseEntity<Void> updateCart(@PathVariable Long cartId, Integer selectedCount, Integer totalPrice) {
+    public ResponseEntity<Void> updateCart(@PathVariable Long cartId, @RequestBody CartUpdateRequest request) {
         // 수정 성공 여부
-        boolean isUpdated = cartService.updateCart(cartId, selectedCount, totalPrice);
+        boolean isUpdated = cartService.updateCart(cartId, request.getSelectedCount(), request.getTotalPrice());
 
         // 수정되면 OK 반환
         if(isUpdated) return ResponseEntity.ok().build();
