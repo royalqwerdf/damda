@@ -110,7 +110,7 @@
     width: 650px;
     height: 400px;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
     z-index: 1000;
     display: flex;
     align-items: center;
