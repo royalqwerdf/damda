@@ -78,6 +78,7 @@ public class Cart extends BaseTimeEntity {
                     .className(this.classTime.getOnedayClass().getClassName())
                     .classDate(this.classTime.getClassDate())
                     .classId(this.classTime.getOnedayClass().getId())
+                    .categoryName(this.classTime.getOnedayClass().getCategoryName())
                     .build();
         } else {
             return CartDto.builder()
@@ -89,6 +90,7 @@ public class Cart extends BaseTimeEntity {
                     .className(this.classTime.getOnedayClass().getClassName())
                     .classDate(this.classTime.getClassDate())
                     .classId(this.classTime.getOnedayClass().getId())
+                    .categoryName(this.classTime.getOnedayClass().getCategoryName())
                     .build();
         }
     }

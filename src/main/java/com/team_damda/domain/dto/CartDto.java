@@ -27,6 +27,7 @@ public class CartDto {
     private String className;
     private Date classDate;
     private long classId;
+    private String categoryName;
 
     public Cart toEntity(){
         return Cart.builder()

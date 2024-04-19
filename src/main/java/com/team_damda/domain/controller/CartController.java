@@ -125,19 +125,9 @@ public class CartController {
 
     // 카트 삭제
     @DeleteMapping("/carts/{cartId}")
-    public ResponseEntity<Void> deleteCart(@PathVariable Long cartId, @RequestParam(name = "memberId", required = false) Long memberId, HttpServletRequest request){
+    public ResponseEntity<Void> deleteCart(@PathVariable Long cartId){
         // 삭제 성공 여부
-        boolean isDeleted = false;
-
-        if (memberId != null) { // 회원인 경우
-            isDeleted = cartService.deleteCartForMember(memberId, cartId);
-        } else { // 비회원인 경우
-            // 쿠키값 확인
-            String cookieValue = CookieUtils.getCookieValue(request, "cookieValue");
-            if (cookieValue != null) {
-                isDeleted = cartService.deleteCartForGuest(cookieValue, cartId);
-            }
-        }
+        boolean isDeleted = cartService.deleteCart(cartId);
 
         // 삭제되면 OK 반환
         if(isDeleted) return ResponseEntity.ok().build();
@@ -146,19 +136,9 @@ public class CartController {
 
     // 카트 수정
     @PutMapping("/carts/{cartId}")
-    public ResponseEntity<Void> updateCart(@PathVariable Long cartId, int selectedCount, int totalPrice, @RequestParam(name = "memberId", required = false) Long memberId, HttpServletRequest request) {
+    public ResponseEntity<Void> updateCart(@PathVariable Long cartId, Integer selectedCount, Integer totalPrice) {
         // 수정 성공 여부
-        boolean isUpdated = false;
-
-        if (memberId != null) { // 회원인 경우
-            isUpdated = cartService.updateCartForMember(memberId, cartId, selectedCount, totalPrice);
-        } else { // 비회원인 경우
-            // 쿠키값 확인
-            String cookieValue = CookieUtils.getCookieValue(request, "cookieValue");
-            if (cookieValue != null) {
-                isUpdated = cartService.updateCartForGuest(cookieValue, cartId, selectedCount, totalPrice);
-            }
-        }
+        boolean isUpdated = cartService.updateCart(cartId, selectedCount, totalPrice);
 
         // 수정되면 OK 반환
         if(isUpdated) return ResponseEntity.ok().build();
