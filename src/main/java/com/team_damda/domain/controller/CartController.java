@@ -103,8 +103,8 @@ public class CartController {
 
     // 카트 목록 가져오기
     @GetMapping("/carts")
-    public ResponseEntity<List<Cart>> getAllCarts(@RequestParam(name = "memberId", required = false) Long memberId, HttpServletRequest request) {
-        List<Cart> carts = null;
+    public ResponseEntity<List<CartDto>> getAllCarts(@RequestParam(name = "memberId", required = false) Long memberId, HttpServletRequest request) {
+        List<CartDto> carts = null;
 
         if (memberId != null) { // 회원인 경우
             carts = cartService.getAllCartsByMemberId(memberId);
@@ -171,12 +171,12 @@ public class CartController {
         boolean isEmpty = false;
 
         if(memberId != null) {
-            List<Cart> carts = cartService.getAllCartsByMemberId(memberId);
+            List<CartDto> carts = cartService.getAllCartsByMemberId(memberId);
             if(carts.isEmpty()) isEmpty = true;
         } else {
             String cookieValue = CookieUtils.getCookieValue(request, "cookieValue");
             if(cookieValue != null) {
-                List<Cart> carts = cartService.getAllCartsByCookieValue(cookieValue);
+                List<CartDto> carts = cartService.getAllCartsByCookieValue(cookieValue);
                 if(carts.isEmpty()) isEmpty = true;
             } else {
                 return ResponseEntity.notFound().build();
@@ -192,12 +192,12 @@ public class CartController {
         int count = 0;
 
         if(memberId != null) {
-            List<Cart> carts = cartService.getAllCartsByMemberId(memberId);
+            List<CartDto> carts = cartService.getAllCartsByMemberId(memberId);
             count = carts.size();
         } else {
             String cookieValue = CookieUtils.getCookieValue(request, "cookieValue");
             if(cookieValue != null) {
-                List<Cart> carts = cartService.getAllCartsByCookieValue(cookieValue);
+                List<CartDto> carts = cartService.getAllCartsByCookieValue(cookieValue);
                 count = carts.size();
             } else {
                 return ResponseEntity.notFound().build();

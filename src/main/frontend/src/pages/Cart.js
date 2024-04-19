@@ -8,39 +8,35 @@ import {jwtDecode} from "jwt-decode";
 const Cart = () => {
     // 회원 정보 받아오기
     const [memberId, setMemberId] = useState(null);
-    const token = localStorage.getItem('accessToken');
-    const decodedToken = token ? jwtDecode(token) : null;
-    const memberEmail = decodedToken ? decodedToken.userEmail : null;
-    console.log(memberEmail);
 
     const navigate = useNavigate();
     const [carts, setCarts] = useState([]);
 
     useEffect(() => {
-        if (memberEmail != null) {
-            axios.get(`/api/member/${memberEmail}`)
-                .then(response => {
-                    setMemberId(response.data.id);
-                    console.log("member Id:", response.data.id);
+        const fetchData = async () => {
+            try {
+                const token = localStorage.getItem('accessToken');
+                const decodedToken = token ? jwtDecode(token) : null;
+                const memberEmail = decodedToken ? decodedToken.userEmail : null;
+                console.log(memberEmail);
 
-                    axios.get('/carts', { params: { memberId: response.data.id } })
-                        .then(response => {
-                            setCarts(response.data.carts);
-                            console.log(response.data.carts);
-                        })
-                        .catch(error => console.log(error));
-                })
-                .catch(error => console.log(error));
-        } else {
-            axios.get('/carts', { params: { memberId: null } })
-                .then(response => {
+                if (memberEmail != null) {
+                    const memberResponse = await axios.get(`/api/member/${memberEmail}`);
+                    const memberId = memberResponse.data.id;
+                    setMemberId(memberId);
 
-                    setCarts(response.data.carts);
-                    console.log(response.data.carts);
-                })
-                .catch(error => console.log(error));
-        }
-    }, [memberEmail]);
+                    const cartsResponse = await axios.get('/carts', { params: { memberId: memberId } });
+                    const carts = Array.isArray(cartsResponse.data) ? cartsResponse.data : [];
+                    setCarts(carts);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
 
 
 
@@ -266,7 +262,7 @@ const Cart = () => {
                         <span className="class-name">
                             {/* 클릭하면 해당 클래스 페이지로 이동 */}
                             <Link
-                                to={`/classes/${cart.classTime.onedayClass.id}`}>{cart.classTime.onedayClass.className}</Link>
+                                to={`/classes/${cart.classId}`}>{cart.className}</Link>
                         </span>
 
                         {/* 인원 */}
@@ -275,7 +271,7 @@ const Cart = () => {
                         <button className="plus" onClick={() => handleIncrease(cart.id)}>+</button>
 
                         {/* 예약일시 */}
-                        <span className="date">{formatDate(cart.classTime.classStartsAt)}</span>
+                        <span className="date">{formatDate(cart.classDate)}</span>
 
                         {/* 가격 */}
                         <span className="price">{cart.totalPrice}원</span>

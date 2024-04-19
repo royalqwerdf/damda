@@ -9,6 +9,7 @@ import com.team_damda.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -50,13 +51,25 @@ public class CartService {
     }
 
     // 회원 카트 불러오기
-    public List<Cart> getAllCartsByMemberId(Long memberId) {
-        return cartRepository.getAllCartsByMemberId(memberId);
+    public List<CartDto> getAllCartsByMemberId(Long memberId) {
+        List<Cart> carts = cartRepository.getAllCartsByMemberId(memberId);
+        List<CartDto> cartDtos = new ArrayList<>();
+        for(Cart cart: carts) {
+            CartDto cartDto = cart.toDto();
+            cartDtos.add(cartDto);
+        }
+        return cartDtos;
     }
 
     // 비회원 카트 불러오기
-    public List<Cart> getAllCartsByCookieValue(String cookieValue) {
-        return cartRepository.getAllCartsByCookieValue(cookieValue);
+    public List<CartDto> getAllCartsByCookieValue(String cookieValue) {
+        List<Cart> carts = cartRepository.getAllCartsByCookieValue(cookieValue);
+        List<CartDto> cartDtos = new ArrayList<>();
+        for(Cart cart: carts) {
+            CartDto cartDto = cart.toDto();
+            cartDtos.add(cartDto);
+        }
+        return cartDtos;
     }
 
     // 회원 카트 삭제하기 (성공하면 true)
@@ -105,29 +118,6 @@ public class CartService {
             return true;
         } else {
             return false;
-        }
-    }
-
-    // 로그인 시 회원, 비회원 카트 합치기
-    public void mergeCartsFromCookieToMember(Long memberId, String cookieValue) {
-        // 로그인 전 카트 목록
-        List<Cart> cartsFromCookie = getAllCartsByCookieValue(cookieValue);
-        // 회원 카트 목록
-        List<Cart> cartsFromMember = getAllCartsByMemberId(memberId);
-
-        // 로그인 전 카트가 비어있다면 종료
-        if(cartsFromCookie.isEmpty()) return;
-
-        // 동일한 클래스가 들어있는지 확인
-        for(Cart cart: cartsFromCookie) {
-            Cart existingCart = cartsFromMember.stream()
-                    .filter(c -> Objects.equals(c.getClassTime().getId(), cart.getClassTime().getId()))
-                    .findFirst()
-                    .orElse(null);
-            if(existingCart == null) {
-                cart.setMember(memberRepository.findById(memberId).orElse(null));
-                cartRepository.save(cart);
-            }
         }
     }
 }
