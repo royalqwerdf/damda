@@ -92,11 +92,19 @@ public class InquiryController {
     }
 
     @GetMapping("/admin-home/inquiry/{inquiryId}")
-    public ResponseEntity<InquiryDto> getInquiryItem(@PathVariable Long inquiryId) {
+    public ResponseEntity<InquiryDto> getInquiryItem(@PathVariable("inquiryId") Long inquiryId) {
         Inquiry inquiry = inquiryRepository.findInquiryById(inquiryId);
         InquiryDto inquiryDto = inquiry.toDto();
 
         return ResponseEntity.ok().body(inquiryDto);
+    }
+
+    @GetMapping("/inquiry/detail/{id}")
+    public InquiryDto getInquiryDetail(@PathVariable("id") Long inquiryId) {
+        Inquiry inquiry = inquiryRepository.findById(inquiryId).orElse(null);
+        InquiryDto inquiryDto = inquiry.toDto();
+
+        return inquiryDto;
     }
 
     @PutMapping("/admin-home/inquiry/{inquiryId}")
