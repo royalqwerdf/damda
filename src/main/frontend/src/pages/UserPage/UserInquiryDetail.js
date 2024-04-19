@@ -8,9 +8,11 @@ function UserInquiryDetail(){
     const { id } = useParams();
     const [inquiry,setInquiry]= useState([]);
     useEffect(()=>{
-        axios.get(`/admin-home/inquiry/${id}`)
+        axios.get(`/inquiry/detail/${id}`)
             .then(response=>{
                 setInquiry(response.data);
+                console.log(inquiry.type);
+                console.log(response.data.title);
             })
             .catch(error => console.log(error));
     },[]);
@@ -34,7 +36,7 @@ function UserInquiryDetail(){
                         marginLeft: "400px"
                     }}>
                         <div><span style={{marginLeft: "30px"}}>{inquiry.type}</span></div>
-                        <div style={{width: "80%"}}><span style={{marginLeft: "1px"}}>제목:{inquiry.title}</span></div>
+                        <div style={{width: "75%"}}><span style={{marginLeft: "1px"}}>제목:{inquiry.title}</span></div>
                     </div>
                     <hr className="userinformation-line1" style={{marginBottom: "20px"}}/>
                     <div style={{width: "800px", marginLeft: "400px"}}>
