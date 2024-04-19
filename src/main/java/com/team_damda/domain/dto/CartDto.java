@@ -20,6 +20,8 @@ public class CartDto {
     private long classTimeId;
     private int selectedCount;
     private int totalPrice;
+    private long user_id;
+    private String cookie_value;
 
     public Cart toEntity(){
         return Cart.builder()
