@@ -157,3 +157,19 @@ div.userhome-class-none {
     text-align: center;
     align-content: center;
 }
+.inquiry-container{
+    /*display: flex;*/
+    /*justify-content: space-between;*/
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    text-align: center;
+    width: 800px;
+    margin-left: 400px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.inquiry-container .inquiry-content{
+    margin: initial;
+    font-weight: normal;
+}

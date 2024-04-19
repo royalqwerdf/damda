@@ -47,8 +47,8 @@ function UserHome() {
                 <div className="user-home-container">
 
                     <div className="welcome-user-home">
-                        <p className="user-name-on">{member.name}님</p>
-                        <p className="user-hello">반갑습니다.</p>
+                        <p className="user-name-on" style={{marginLeft:"-180px"}}>{member.name}님</p>
+                        <p className="user-hello" style={{marginLeft:"-180px"}}>반갑습니다.</p>
                     </div>
                     {reservationList.length > 0 ? (
                         <div className="user-home-now">
