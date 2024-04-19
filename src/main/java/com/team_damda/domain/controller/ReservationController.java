@@ -11,7 +11,10 @@ import com.team_damda.domain.service.CartService;
 import com.team_damda.domain.service.ClassReservationService;
 import com.team_damda.domain.service.ClassReviewService;
 import com.team_damda.domain.service.ClassService;
+import com.team_damda.domain.util.CookieUtils;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -19,6 +22,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
