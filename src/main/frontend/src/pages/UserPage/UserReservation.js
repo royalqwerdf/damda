@@ -49,9 +49,11 @@ function UserReservation() {
                             {reservationList?.map(reservation => {
                             return (
                                 <>
-                                    <div className="reservation-circle">
-                                        <img src={reservation.mainImage} alt="클래스_이미지" className="reservation-circle-image"/>
-                                    </div>
+                                    <Link to={`/class-reservation/${reservation.classId}`}>
+                                        <div className="reservation-circle">
+                                            <img src={reservation.mainImage} alt="클래스_이미지" className="reservation-circle-image"/>
+                                        </div>
+                                    </Link>
                                     <div className="title-reservation">
                                         <a>클래스 이름</a>
                                         <a>예약 날짜</a>
@@ -60,7 +62,10 @@ function UserReservation() {
                                         <a>결제 금액</a>
                                     </div>
                                     <div className="data-reservation">
-                                        <a>{reservation.className}</a>
+                                        {reservation.className.length>4 ?
+                                            (<a>{reservation.className.substring(0,3)+"..."}</a>)
+                                            :
+                                            (<a>{reservation.className}</a>)}
                                         <a>{reservation.select_date.substring(0,10)}</a>
                                         <a style={{marginLeft:"-8px"}}>{reservation.startAt}</a>
                                         <a style={{marginLeft:"28px"}}>{reservation.select_person}</a>
@@ -72,7 +77,7 @@ function UserReservation() {
                                         {/*    <UserButton type="button" variant="reservation-update">예약변경</UserButton>*/}
                                         {/*</Link>*/}
                                         <div>
-                                            <UserButton onClick={()=>reservationDeleteClick(reservation.id)} type="submit"
+                                            <UserButton onClick={()=>reservationDeleteClick(reservation.reservation_id)} type="submit"
                                                         variant="reservation-delete">예약취소</UserButton>
                                         </div>
                                     </div>

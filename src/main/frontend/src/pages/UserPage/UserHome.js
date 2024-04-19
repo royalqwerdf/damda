@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import '../../styles/UserHome.css';
 import UserLeftMenu from "../../components/UserLeftMenu";
 import axios from "axios";
@@ -16,15 +16,7 @@ function UserHome() {
 
     useEffect(() => {
 
-        if(localStorage.getItem('accessToken')===null){
-            if(window.confirm("로그인이 필요합니다.\n로그인 하시겠습니까?")){
-                navigate("/login");
-            } else {
-                navigate("/");
-            }
-        }else{
-
-            const token = localStorage.getItem('accessToken');
+        const token = localStorage.getItem('accessToken');
         const decodedToken = jwtDecode(token);
         const memberEmail = decodedToken.userEmail;
         // 사용자의 Email로 idx값을 가져오고
@@ -40,11 +32,12 @@ function UserHome() {
                 axios.get(`/member-reservation/${response.data.id}`)
                     .then(response => {
                         setReservationList(response.data);
+                        console.log(response.data);
                     })
                     .catch(error => console.log(error));
             })
             .catch(error => console.log(error));
-    }}, []);
+    }, []);
         return (
             <div>
                 <div className="user-left-menu">
@@ -54,8 +47,8 @@ function UserHome() {
                 <div className="user-home-container">
 
                     <div className="welcome-user-home">
-                        <p className="user-name-on">{member.name}님</p>
-                        <p className="user-hello">반갑습니다.</p>
+                        <p className="user-name-on" style={{marginLeft:"-180px"}}>{member.name}님</p>
+                        <p className="user-hello" style={{marginLeft:"-180px"}}>반갑습니다.</p>
                     </div>
                     {reservationList.length > 0 ? (
                         <div className="user-home-now">
@@ -64,17 +57,20 @@ function UserHome() {
                             {reservationList?.map(reservation => {
                                 return (
                                     <div className="userhome-reservation-now">
+
+                                        <Link to={`/class-reservation/${reservation.classId}`}>
                                         <div className="userhome-now-circle">
                                             <img src={reservation.mainImage} alt="클래스_이미지"
                                                  className="class-now-circle-image"/>
                                         </div>
+                                        </Link>
                                         <div className="title-user-home">
                                             <p>클래스 이름</p>
                                             <p>예약 날짜</p>
                                             <p>결제 금액</p>
                                         </div>
                                         <div className="data-user-home">
-                                            <p>{reservation.className}</p>
+                                            {reservation.className.length>4 ? (<p>{reservation.className.substring(0,3)+"..."}</p>) :(<p>{reservation.className}</p>)}
                                             <p style={{marginLeft:"40px"}}>{reservation.select_date.substring(0,10)}</p>
                                             <p>{reservation.total_price}</p>
                                         </div>
@@ -99,16 +95,19 @@ function UserHome() {
 
                                     return (
                                         <div className="userhome-class-now">
-                                            <div className="userhome-now-circle">
-                                                <img src={onedayClass.mainImage} alt="클래스_이미지" className="class-now-circle-image"/>
-                                            </div>
+                                            <Link to={`/class-reservation/${onedayClass.id}`}>
+                                                <div className="userhome-now-circle">
+                                                    <img src={onedayClass.mainImage} alt="클래스_이미지" className="class-now-circle-image"/>
+                                                </div>
+                                            </Link>
                                             <div className="title-user-home">
                                                 <p>클래스 이름</p>
                                                 <p>난이도</p>
                                                 <p>가격</p>
                                             </div>
                                             <div className="data-user-home-class">
-                                                <p>{onedayClass.className}</p>
+
+                                                {onedayClass.className.length>4 ? (<p>{onedayClass.className.substring(0,3)+"..."}</p>) :(<p>{onedayClass.className}</p>)}
                                                 <p style={{marginLeft:"55px"}}>{onedayClass.level}</p>
                                                 <p>{onedayClass.price}</p>
                                             </div>

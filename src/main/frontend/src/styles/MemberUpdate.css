@@ -24,6 +24,13 @@
     border-color: #B6B6B6;
 }
 
+{/* 소셜 로그인 알림 */}
+.content-area form div small {
+    position: absolute;
+    left: 20%;
+    padding-top: 65px;
+}
+
 .content-area form div input.long {
     width: 513px;
 }

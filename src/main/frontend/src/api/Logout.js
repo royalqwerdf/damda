@@ -19,3 +19,4 @@ export function useLogout(loginType) { // loginType을 추가합니다.
             });
     };
 }
+

@@ -28,6 +28,9 @@ public class ClassReservationDto {
     private long user_id;
     private String mainImage;
     private String startAt;
+    private String className;
+    private Long reservation_id;
+    private Long classId;
 
     public ClassReservation toEntity() {
         return ClassReservation.builder()

@@ -56,8 +56,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((authorizeRequests) ->
                         authorizeRequests
                                 .requestMatchers("/", "/login","/home","/category","/search","/class-open", "/Oauth2Signup" ,"/memberSaved").permitAll()
-                                .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
-                                .requestMatchers("/my-page/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
+                                .requestMatchers("/admin-home/**").hasRole("ADMIN")
+                                .requestMatchers("/User-hone/**").hasAnyRole("USER", "ADMIN")
                                 .anyRequest().permitAll()
                 )
                 .logout(logout -> logout

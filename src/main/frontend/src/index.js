@@ -6,8 +6,19 @@ import App from "./App";
 import './global.scss';
 import {token} from "./api/axios";
 
+// 클라이언트 측 JavaScript
+const url = new URL(window.location.href);
+let accessToken = url.searchParams.get("accessToken");
+
+if (accessToken) {
+    localStorage.setItem("accessToken", accessToken);
+    url.searchParams.delete("accessToken");
+    window.history.pushState(null, "", url.toString());
+}
+
+
 // Axios 기본 헤더 설정
-const accessToken = localStorage.getItem('accessToken');
+accessToken = localStorage.getItem('accessToken');
 if (accessToken) {
     token.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 }

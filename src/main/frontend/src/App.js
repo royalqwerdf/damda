@@ -3,6 +3,7 @@ import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
 import MainPage from "./pages/MainPage";
 import ClassOpen from "./pages/ClassOpen";
+import ClassUpdate from "./pages/ClassUpdate";
 import Cart from "./pages/Cart";
 import CartReservationComplete from "./pages/CartReservationComplete";
 import LoginPage from "./pages/LoginPage";
@@ -28,6 +29,8 @@ import { AuthProvider } from './api/AuthProvider';
 import AnnouncePage from "./pages/AnnouncePage";
 import EventPage from "./pages/EventPage";
 import UserInquiry from "./pages/UserPage/UserInquiry";
+import RequireAuth from "./api/RequireAuth";
+import NotFound from './components/404';
 
 function App(){
     return(
@@ -37,33 +40,74 @@ function App(){
                 <Routes>
                     <Route path="/search" element={<SearchPage/>}></Route>
                     <Route path="/class-open" element={<ClassOpen/>}></Route>
+                    <Route path="/class-open/update/:id" element={<ClassUpdate/>}></Route>
                     <Route path="/carts" element={<Cart/>}></Route>
                     <Route path="/carts/reservation-complete" element={<CartReservationComplete/>}></Route>
-                    <Route path="/admin-home" element={<AdminHome/>}></Route>
-                    <Route path="/inquiry" element={<Inquiry/>}></Route>
+                    <Route path="/inquiry" element={
+                        <RequireAuth allowedRoles={['USER', 'ADMIN']} redirectToIfUnauthorized="/login">
+                            <Inquiry />
+                        </RequireAuth>
+                    } />
                     <Route path="/news" element={<NoticeAndEventPage/>}></Route>
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/signup" element={<SignupPage />} />
                     <Route path="/Oauth2Signup" element={<Oauth2Signup />} />
                     <Route path="/memberSaved" element={<MemberSaved />} />
                     <Route path="/member-update/:id" element={<MemberUpdate/>}></Route>
-                    <Route path="/admin-home" element={<AdminHome/>}></Route>
-                    <Route path="/inquiry" element={<Inquiry/>}></Route>
+                    <Route path="/admin-home" element={
+                        <RequireAuth allowedRoles={['ADMIN']} redirectToIfUnauthorized="/404" isNotFoundPage={true}>
+                            <AdminHome />
+                        </RequireAuth>
+                    } />
                     <Route path="/announce/:id" element={<AnnouncePage/>}></Route>
                     <Route path="/event/:id" element={<EventPage/>}></Route>
-
-
-                    <Route path="/User-Home" element={<UserHome/>}></Route>
-                    <Route path="/User-Delete" element={<UserDelete/>}></Route>
-                    <Route path="/User-Class" element={<UserClass/>}></Route>
-                    <Route path="/User-Information" element={<UserInformation/>}></Route>
-                    <Route path="/User-Payment" element={<UserPayment/>}></Route>
-                    <Route path="/User-Reservation" element={<UserReservation/>}></Route>
-                    <Route path="/User-ReservationUpdate" element={<UserReservationUpdate/>}></Route>
-                    <Route path="/User-Review" element={<UserReview/>}></Route>
-                    <Route path="/user-inquiry" element={<UserInquiry/>}></Route>
+                    <Route path="/User-Home" element={
+                        <RequireAuth allowedRoles={['USER', 'ADMIN']} redirectToIfUnauthorized="/login">
+                            <UserHome />
+                        </RequireAuth>
+                    } />
+                    <Route path="/User-Delete" element={
+                        <RequireAuth allowedRoles={['USER', 'ADMIN']} redirectToIfUnauthorized="/login">
+                            <UserDelete />
+                        </RequireAuth>
+                    } />
+                    <Route path="/User-Class" element={
+                        <RequireAuth allowedRoles={['USER', 'ADMIN']} redirectToIfUnauthorized="/login">
+                            <UserClass />
+                        </RequireAuth>
+                    } />
+                    <Route path="/User-Information" element={
+                        <RequireAuth allowedRoles={['USER', 'ADMIN']} redirectToIfUnauthorized="/login">
+                            <UserInformation />
+                        </RequireAuth>
+                    } />
+                    <Route path="/User-Payment" element={
+                        <RequireAuth allowedRoles={['USER', 'ADMIN']} redirectToIfUnauthorized="/login">
+                            <UserPayment />
+                        </RequireAuth>
+                    } />
+                    <Route path="/User-Reservation" element={
+                        <RequireAuth allowedRoles={['USER', 'ADMIN']} redirectToIfUnauthorized="/login">
+                            <UserReservation />
+                        </RequireAuth>
+                    } />
+                    <Route path="/User-ReservationUpdate" element={
+                        <RequireAuth allowedRoles={['USER', 'ADMIN']} redirectToIfUnauthorized="/login">
+                            <UserReservationUpdate />
+                        </RequireAuth>
+                    } />
+                    <Route path="/User-Review" element={
+                        <RequireAuth allowedRoles={['USER', 'ADMIN']} redirectToIfUnauthorized="/login">
+                            <UserReview />
+                        </RequireAuth>
+                    } />
+                    <Route path="/user-inquiry" element={
+                        <RequireAuth allowedRoles={['USER', 'ADMIN']} redirectToIfUnauthorized="/login">
+                            <UserInquiry />
+                        </RequireAuth>
+                    } />
+                    <Route path="*" element={<NotFound />} />
                     <Route path="/" element={<MainPage/>}></Route>
-
                     <Route path="/class-reservation/:id" element={<ClassReservation/>}></Route>
                     <Route path="/Oauth2Saved" element={<Oauth2Saved/>}></Route>
                 </Routes>
