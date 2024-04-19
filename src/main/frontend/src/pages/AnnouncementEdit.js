@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { token } from "../api/axios";
-import jwtDecode from 'jwt-decode';
 import styles from "../styles/Form.module.scss";
 import '../global.scss';
+import { jwtDecode } from 'jwt-decode';
+
 
 function AnnouncementEdit() {
     const navigate = useNavigate();
@@ -38,8 +39,14 @@ function AnnouncementEdit() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const accessToken = localStorage.getItem('accessToken');
+        const decoded = jwtDecode(accessToken);
+        const memberId = decoded.memberId;
+        const fullAnnouncement = { ...announcement, memberId };
+
+
         try {
-            const response = await token.put(`/api/announcements/${id}`, announcement);
+            const response = await token.put(`/api/announcements/${id}`, fullAnnouncement);
             alert('공지사항이 성공적으로 수정되었습니다!');
             navigate('/admin-home');
         } catch (error) {
