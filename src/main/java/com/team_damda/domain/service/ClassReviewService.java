@@ -3,6 +3,7 @@ package com.team_damda.domain.service;
 import com.team_damda.domain.dto.ClassReservationDto;
 import com.team_damda.domain.dto.ClassReviewDto;
 import com.team_damda.domain.entity.Class;
+import com.team_damda.domain.entity.ClassImage;
 import com.team_damda.domain.entity.ClassReview;
 import com.team_damda.domain.entity.Member;
 import com.team_damda.domain.repository.ClassRepository;
@@ -46,5 +47,33 @@ public class ClassReviewService {
             newClassReviewDto.add(classReviewDto);
         }
         return  newClassReviewDto;
+    }
+
+    @Transactional
+    public List<ClassReviewDto> getMemberReview(Long memberId){
+        List<ClassReviewDto> classReviewDtos = new ArrayList<>();
+        List<ClassReview> classReviews = classReviewRepository.findByMember_id(memberId);
+        String mainImage = "";
+
+        for(ClassReview classReview : classReviews){
+            ClassReviewDto classReviewDto = classReview.toDto();
+            classReviewDto.setClass_id(classReview.getOnedayClass().getId());
+            classReviewDto.setClassName(classReview.getOnedayClass().getClassName());
+            for(ClassImage classImage:classReview.getOnedayClass().getClassImages()){
+                if(classImage.getMain_yn().equals("y")){
+                    mainImage = classImage.getImageUrl();
+                }
+            }
+            classReviewDto.setClassImage(mainImage);
+            classReviewDto.setReview_id(classReview.getId());
+            classReviewDtos.add(classReviewDto);
+            mainImage = "";
+        }
+        return classReviewDtos;
+    }
+
+    @Transactional
+    public void deleteReview(Long reviewId){
+        classReviewRepository.deleteById(reviewId);
     }
 }

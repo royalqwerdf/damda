@@ -7,15 +7,15 @@ import axios from "axios";
 
 function MemberManage() {
     // 회원 목록 불러오기
-/*
     const [members, setMembers] = useState([]);
     // 회원 검색 결과
     const [filteredMembers, setFilteredMembers] = useState([]);
     useEffect(() => {
-        axios.get('http://localhost:8080/admin/members')
+        axios.get('/admin/members')
             .then(response => {
-                setMembers(response.data);
-                setFilteredMembers(response.data);
+                const data = Array.isArray(response.data) ? response.data : [];
+                setMembers(data);
+                setFilteredMembers(data);
             })
             .catch(error => {
                 console.error(error);
@@ -60,7 +60,7 @@ function MemberManage() {
             return;
         }
 
-        axios.get('http://localhost:8080/admin/members/search', {
+        axios.get('/admin/members/search', {
             params: {
                 userEmail: selectedOption === 'email' ? searchInput : null,
                 name: selectedOption === 'name' ? searchInput : null
@@ -88,7 +88,7 @@ function MemberManage() {
     };
 
     const handleDelete = (memberId) => {
-        axios.delete(`http://localhost:8080/admin/members/${memberId}`)
+        axios.delete(`/admin/members/${memberId}`)
             .then(response => {
                 onDelete(memberId);
             })
@@ -130,7 +130,7 @@ function MemberManage() {
                         <span>정보수정</span>
                     </div>
                     <ul id="member-list">
-                        {filteredMembers.map(member => (
+                        {filteredMembers.length > 0 && filteredMembers.map(member => (
                             <li key={member.id}>
                                 <span className="email">{member.userEmail}</span>
                                 <span>{member.name}</span>
@@ -164,7 +164,6 @@ function MemberManage() {
         </div>
 
     );
-    */
 }
 
 export default MemberManage;
