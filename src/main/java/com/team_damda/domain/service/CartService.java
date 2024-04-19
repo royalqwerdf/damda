@@ -76,6 +76,7 @@ public class CartService {
     public boolean deleteCart(Long cartId) {
         Cart cart = cartRepository.findById(cartId).orElse(null);
         if(cart != null) {
+            cart.setClassTime(null);
             cartRepository.delete(cart);
             return true;
         } else {

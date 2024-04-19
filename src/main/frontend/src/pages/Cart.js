@@ -104,35 +104,37 @@ const Cart = () => {
     const deleteCheckedCarts = () => {
         const deletedCartIds = [];
 
-        const deleteRequests = checkboxes.map((cartId)=> {
-            return axios.delete(`/carts/${cartId}`, {cartId})
+        const deleteRequests = checkboxes.map((cartId) => {
+            return axios.delete(`/carts/${cartId}`, { cartId })
                 .then(response => {
                     console.log(`Cart ${cartId} is deleted successfully`);
-                    deletedCartIds.push(cartId);
+                    deletedCartIds.push(cartId); // 삭제된 카트 ID만 추가
                 })
                 .catch(error => {
                     console.log(error);
-                })
+                });
         });
 
-        Promise.all(deleteRequests)
-            .then((deletedCartsIds) => {
-                const updatedCarts = carts.filter(cart => !deletedCartsIds.includes(cart.id));
-                setCarts(updatedCarts);
-            })
-            .catch(error => console.log(error));
-    }
+        return Promise.all(deleteRequests) // 삭제된 카트 ID 배열을 반환
+            .then(() => deletedCartIds); // Promise.all이 완료된 후에 삭제된 카트 ID 배열을 반환
+    };
+
     const handleDelete = () => {
-        if(checkboxes.length === 0){
-            alert("삭제할 클래스를 선택해 주세요.")
+        if (checkboxes.length === 0) {
+            alert("삭제할 클래스를 선택해 주세요.");
         } else {
             const isConfirmed = window.confirm("선택한 클래스를 장바구니에서 삭제하시겠습니까?");
             if (isConfirmed) {
-                deleteCheckedCarts();
-                setCheckboxes([]);
+                deleteCheckedCarts()
+                    .then(deletedCartIds => {
+                        const updatedCarts = carts.filter(cart => !deletedCartIds.includes(cart.id));
+                        setCarts(updatedCarts); // UI 업데이트
+                        setCheckboxes([]); // 체크박스 초기화
+                    })
+                    .catch(error => console.log(error));
             }
         }
-    }
+    };
 
     // 선택 클래스 예약
     const reserveCheckedCarts = () => {
