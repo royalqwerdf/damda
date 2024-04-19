@@ -1,5 +1,6 @@
 package com.team_damda.domain.controller;
 
+import com.team_damda.domain.dto.MemberDto;
 import com.team_damda.domain.entity.Member;
 import com.team_damda.domain.repository.AdminMemberRepository;
 import com.team_damda.domain.service.AdminMemberService;
@@ -19,8 +20,8 @@ public class AdminMemberController {
 
     // 회원 목록 불러오기
     @GetMapping("/admin/members")
-    public ResponseEntity<List<Member>> getMembers() {
-        return ResponseEntity.status(HttpStatus.OK).body(adminMemberRepository.findAll());
+    public ResponseEntity<List<MemberDto>> getMembers() {
+        return ResponseEntity.status(HttpStatus.OK).body(adminMemberService.getAllCategory());
     }
 
     // 회원 정보 가져오기

@@ -34,6 +34,7 @@ const Cart = () => {
         } else {
             axios.get('/carts', { params: { memberId: null } })
                 .then(response => {
+
                     setCarts(response.data.carts);
                     console.log(response.data.carts);
                 })
