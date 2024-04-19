@@ -32,6 +32,9 @@ public class ClassReservationDto {
     private Long reservation_id;
     private Long classId;
 
+    private String userEmail;
+    private String userName;
+
     public ClassReservation toEntity() {
         return ClassReservation.builder()
                 .select_person(this.select_person)
@@ -39,6 +42,8 @@ public class ClassReservationDto {
                 .select_date(this.select_date)
                 .select_time(this.select_time)
                 .classType(this.classType)
+                .userEmail(this.userEmail)
+                .className(this.className)
                 .build();
 
     }

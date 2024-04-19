@@ -10,9 +10,12 @@ import com.team_damda.domain.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -24,16 +27,20 @@ public class ClassReservationService {
     private final MemberRepository memberRepository;
     private final ClassLikeRepository classLikeRepository;
 
+    private final ReservationImpl reservation;
+
     @Autowired
     public ClassReservationService(ClassRepository classRepository,ClassReservationRepository classReservationRepository,
                                    ClassTimeRepository classTimeRepository,CartRepository cartRepository,
-                                   MemberRepository memberRepository,ClassLikeRepository classLikeRepository){
+                                   MemberRepository memberRepository,ClassLikeRepository classLikeRepository,
+                                   ReservationImpl reservation){
         this.classRepository = classRepository;
         this.classReservationRepository = classReservationRepository;
         this.classTimeRepository = classTimeRepository;
         this.cartRepository= cartRepository;
         this.memberRepository =  memberRepository;
         this.classLikeRepository = classLikeRepository;
+        this.reservation = reservation;
     }
     @Transactional
     public void createReservation(ClassReservationDto reservationDto) {
@@ -121,6 +128,35 @@ public class ClassReservationService {
         classTime.setHeadcount(classTime.getHeadcount()+headcount);
         classTimeRepository.save(classTime);
         classReservationRepository.deleteById(id);
+    }
+
+    @Transactional
+    public Page<ClassReservationDto> getReservationByOrder(PageRequest pageRequest) {
+        Page<ClassReservation> reservationPage = classReservationRepository.findAllByOrderByReservationDateTimeDesc(pageRequest);
+        return reservationPage.map(ClassReservation::toDto);
+    }
+
+    @Transactional
+    public void deleteReserve(Long reserveId) {
+        ClassReservation reservation = classReservationRepository.findClassReservationById(reserveId);
+        classReservationRepository.delete(reservation);
+    }
+
+    @Transactional
+    public List<ClassReservation> sortReservation(String ca, String cl, String se, Date sd, Date ed) {
+        List<ClassReservation> searchReserves = new ArrayList<>();
+
+        if(cl.equals("아이디")) {
+            searchReserves = reservation.searchReservationByEmail(ca, se, sd, ed);
+        } else if (cl.equals("클래스")) {
+            searchReserves = reservation.searchReservationByClassName(ca, se, sd, ed);
+        }
+
+        for(ClassReservation classReservation : searchReserves) {
+            System.out.println("!3!3!3!3!3 : " + classReservation.getClassName());
+        }
+
+        return  searchReserves;
     }
 
 

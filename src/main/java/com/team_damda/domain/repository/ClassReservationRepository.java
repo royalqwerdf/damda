@@ -1,6 +1,8 @@
 package com.team_damda.domain.repository;
 
 import com.team_damda.domain.entity.ClassReservation;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,4 +14,8 @@ public interface ClassReservationRepository  extends JpaRepository<ClassReservat
 
     List<ClassReservation> findByOnedayClassId(Long classId);
     List<ClassReservation> findByMemberIdAndOnedayClassId(Long memberId, Long classId);
+
+    Page<ClassReservation> findAllByOrderByReservationDateTimeDesc(PageRequest pageRequest);
+
+    ClassReservation findClassReservationById(Long reserveId);
 }

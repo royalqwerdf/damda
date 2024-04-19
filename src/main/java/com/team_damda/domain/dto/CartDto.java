@@ -11,17 +11,23 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class CartDto {
+    private long id;
     private long classTimeId;
     private int selectedCount;
     private int totalPrice;
     private long user_id;
     private String cookie_value;
+    private String className;
+    private Date classDate;
+    private long classId;
+    private String categoryName;
 
     public Cart toEntity(){
         return Cart.builder()

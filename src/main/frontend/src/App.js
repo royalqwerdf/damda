@@ -32,6 +32,7 @@ import UserInquiry from "./pages/UserPage/UserInquiry";
 import RequireAuth from "./api/RequireAuth";
 import NotFound from './components/404';
 import AnnouncementCreate from './pages/AnnouncementCreate';
+import UserInquiryDetail from "./pages/UserPage/UserInquiryDetail";
 
 function App(){
     return(
@@ -110,6 +111,11 @@ function App(){
                     <Route path="/user-inquiry" element={
                         <RequireAuth allowedRoles={['USER', 'ADMIN']} redirectToIfUnauthorized="/login">
                             <UserInquiry />
+                        </RequireAuth>
+                    } />
+                    <Route path="/inquiry/:id" element={
+                        <RequireAuth allowedRoles={['USER', 'ADMIN']} redirectToIfUnauthorized="/login">
+                            <UserInquiryDetail />
                         </RequireAuth>
                     } />
                     <Route path="*" element={<NotFound />} />

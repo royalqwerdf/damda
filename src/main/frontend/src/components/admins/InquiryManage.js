@@ -13,6 +13,7 @@ function InquiryManage() {
 
     const [showDetail, setShowDetail] = useState(false);
     const [selectedInquiryId, setSelectedInquiryId] = useState(null);
+
     const handleButtonClick = (inquiryId) => {
         // 버튼 클릭 시 InquiryDetail을 export하도록 설정
         setSelectedInquiryId(inquiryId);
@@ -25,16 +26,19 @@ function InquiryManage() {
 
     useEffect(() => {
         console.log("현재 페이지네이션 페이지", currentPage);
-    }, [setCurrentPage]);
+    }, [setCurrentPage, inquiryList]);
+
 
     useEffect(() => {
-        axios.get(`/admin-home?page=${currentPage}`)
+        axios.get(`/admin-home/inquiry?page=${currentPage}`)
             .then(res => {
                 setInquiryList(res.data.inquiryList);
+                console.log("요청된 데이터", res.data.inquiryList);
                 setTotalPages(res.data.totalPages);
             })
             .catch(error => console.log("에러! :" + error))
     }, [currentPage]);
+
 
 
     //회원 설정 드롭다운 박스 설정
@@ -112,7 +116,7 @@ function InquiryManage() {
                 endDay: endDay
             };
 
-            const response = await axios.post('/admin-home', data, {
+            const response = await axios.post('/admin-home/inquiry', data, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -252,7 +256,8 @@ function InquiryManage() {
                         </thead>
 
                         <tbody>
-                        {inquiryList.length > 0 && inquiryList.map((inquiry, idx) => {
+
+                        {inquiryList.map((inquiry, idx) => {
                             return (
                                 <tr key={inquiry.id}>
                                     <td style={{flex: '1', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{inquiry.type}</td>
@@ -266,6 +271,7 @@ function InquiryManage() {
                         })}
                         </tbody>
                     </table>
+
                     <div style={{padding: '10px', display: 'flex', justifyContent: 'center'}}>
                         <div style={{marginRight: '10px'}}>{'<<'}</div>
                         <Pagination totalPages={totalPages} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
