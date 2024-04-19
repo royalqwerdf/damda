@@ -3,6 +3,8 @@ import {token} from "../api/axios";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/Form.module.scss";
 import  '../global.scss';
+import { jwtDecode } from 'jwt-decode';
+
 function AnnouncementCreate() {
     const navigate = useNavigate();
 
@@ -22,11 +24,17 @@ function AnnouncementCreate() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const accessToken = localStorage.getItem('accessToken');
+        const decoded = jwtDecode(accessToken);
+        const memberId = decoded.memberId;
+        const fullAnnouncement = { ...announcement, memberId };
+
+
         try {
-            const response = await token.post('/api/announcements', announcement);
+            const response = await token.post('/api/announcements', fullAnnouncement);
             alert('공지사항이 성공적으로 등록되었습니다!');
             setAnnouncement({title: '', content: ''});
-            navigate('/')
+            navigate('/admin-home')
         } catch (error) {
             console.error('공지사항 등록 실패:', error);
             alert('공지사항 등록에 실패했습니다.');
