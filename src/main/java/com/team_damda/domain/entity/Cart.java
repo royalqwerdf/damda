@@ -1,5 +1,6 @@
 package com.team_damda.domain.entity;
 
+import com.team_damda.domain.dto.CartDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -66,4 +67,31 @@ public class Cart extends BaseTimeEntity {
         this.totalPrice = totalPrice;
     }
 
+    public CartDto toDto() {
+        if(member != null) {
+            return CartDto.builder()
+                    .id(this.id)
+                    .classTimeId(this.classTime.getId())
+                    .selectedCount(this.selectedCount)
+                    .totalPrice(this.totalPrice)
+                    .user_id(this.member.getId())
+                    .className(this.classTime.getOnedayClass().getClassName())
+                    .classDate(this.classTime.getClassDate())
+                    .classId(this.classTime.getOnedayClass().getId())
+                    .categoryName(this.classTime.getOnedayClass().getCategoryName())
+                    .build();
+        } else {
+            return CartDto.builder()
+                    .id(this.id)
+                    .classTimeId(this.classTime.getId())
+                    .selectedCount(this.selectedCount)
+                    .totalPrice(this.totalPrice)
+                    .cookie_value(this.cookieValue)
+                    .className(this.classTime.getOnedayClass().getClassName())
+                    .classDate(this.classTime.getClassDate())
+                    .classId(this.classTime.getOnedayClass().getId())
+                    .categoryName(this.classTime.getOnedayClass().getCategoryName())
+                    .build();
+        }
+    }
 }

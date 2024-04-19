@@ -19,6 +19,7 @@ function ClassManage() {
         console.log("현재 페이지네이션 페이지", currentPage);
     }, [setCurrentPage]);
 
+
     useEffect(() => {
         axios.get(`/admin-home/class?page=${currentPage}`)
             .then(res => {
@@ -27,6 +28,7 @@ function ClassManage() {
             })
             .catch(error => console.log("에러! :" + error))
     }, [currentPage]);
+
 
 
     //클래스 설정 관련 드롭다운 박스 설정
@@ -230,6 +232,9 @@ function ClassManage() {
                         </div>
                     </div>
 
+                    {classList.length === 0 ? (
+                        <div style={{ textAlign: 'center', marginTop: '20px', fontSize: '16px' }}>클래스를 검색하세요!</div>
+                    ) : (
                     <table className="inquiry-area" style={{width: '100%', borderBottom: '1px solid #000000'}}>
                         <thead style={{padding: '10px', width: '100%'}}>
                         <tr className="column-title-area" >
@@ -243,7 +248,7 @@ function ClassManage() {
                         </thead>
 
                         <tbody>
-                        {classList.length > 0 && classList.map((classes, idx) => {
+                        {classList.map((classes, idx) => {
                             return (
                                 <tr key={classes.id}>
                                     <td style={{flex: '2', color: '#424242', fontSize: '14px', borderTop: '1px solid #D8D8D8', textAlign: 'center'}}>{classes.managerEmail}</td>
@@ -263,6 +268,7 @@ function ClassManage() {
                         })}
                         </tbody>
                     </table>
+                    )}
                     <div style={{padding: '10px', display: 'flex', justifyContent: 'center'}}>
                         <div style={{marginRight: '10px'}}>{'<<'}</div>
                         <Pagination totalPages={totalPages} currentPage={currentPage} setCurrentPage={setCurrentPage}/>

@@ -9,6 +9,7 @@ import com.team_damda.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -50,18 +51,30 @@ public class CartService {
     }
 
     // 회원 카트 불러오기
-    public List<Cart> getAllCartsByMemberId(Long memberId) {
-        return cartRepository.getAllCartsByMemberId(memberId);
+    public List<CartDto> getAllCartsByMemberId(Long memberId) {
+        List<Cart> carts = cartRepository.getAllCartsByMemberId(memberId);
+        List<CartDto> cartDtos = new ArrayList<>();
+        for(Cart cart: carts) {
+            CartDto cartDto = cart.toDto();
+            cartDtos.add(cartDto);
+        }
+        return cartDtos;
     }
 
     // 비회원 카트 불러오기
-    public List<Cart> getAllCartsByCookieValue(String cookieValue) {
-        return cartRepository.getAllCartsByCookieValue(cookieValue);
+    public List<CartDto> getAllCartsByCookieValue(String cookieValue) {
+        List<Cart> carts = cartRepository.getAllCartsByCookieValue(cookieValue);
+        List<CartDto> cartDtos = new ArrayList<>();
+        for(Cart cart: carts) {
+            CartDto cartDto = cart.toDto();
+            cartDtos.add(cartDto);
+        }
+        return cartDtos;
     }
 
-    // 회원 카트 삭제하기 (성공하면 true)
-    public boolean deleteCartForMember(Long memberId, Long cartId) {
-        Cart cart = cartRepository.getByMemberIdAndId(memberId, cartId);
+    // 카트 삭제하기 (성공하면 true)
+    public boolean deleteCart(Long cartId) {
+        Cart cart = cartRepository.findById(cartId).orElse(null);
         if(cart != null) {
             cartRepository.delete(cart);
             return true;
@@ -70,64 +83,22 @@ public class CartService {
         }
     }
 
-    // 비회원 카트 삭제하기
-    public boolean deleteCartForGuest(String cookieValue, Long cartId) {
-        Cart cart = cartRepository.getByCookieValueAndId(cookieValue, cartId);
-        if(cart != null) {
-            cartRepository.delete(cart);
-            return true;
-        } else {
-            return false;
-        }
-    }
-    // 회원 카트 수정하기
-    public boolean updateCartForMember(Long memberId, Long cartId, int selectedCount, int totalPrice) {
-        Cart cart = cartRepository.getByMemberIdAndId(memberId, cartId);
+    // 카트 수정하기
+    public boolean updateCart(Long cartId, Integer selectedCount, Integer totalPrice) {
+        Cart cart = cartRepository.findById(cartId).orElse(null);
         if(cart != null) {
             // 인원수 변경
-            cart.setSelectedCount(selectedCount);
-            // 총 가격 변경
-            cart.setTotalPrice(totalPrice);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    // 비회원 카트 수정하기
-    public boolean updateCartForGuest(String cookieValue, Long cartId, int selectedCount, int totalPrice) {
-        Cart cart = cartRepository.getByCookieValueAndId(cookieValue, cartId);
-        if(cart != null) {
-            // 인원수 변경
-            cart.setSelectedCount(selectedCount);
-            // 총 가격 변경
-            cart.setTotalPrice(totalPrice);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    // 로그인 시 회원, 비회원 카트 합치기
-    public void mergeCartsFromCookieToMember(Long memberId, String cookieValue) {
-        // 로그인 전 카트 목록
-        List<Cart> cartsFromCookie = getAllCartsByCookieValue(cookieValue);
-        // 회원 카트 목록
-        List<Cart> cartsFromMember = getAllCartsByMemberId(memberId);
-
-        // 로그인 전 카트가 비어있다면 종료
-        if(cartsFromCookie.isEmpty()) return;
-
-        // 동일한 클래스가 들어있는지 확인
-        for(Cart cart: cartsFromCookie) {
-            Cart existingCart = cartsFromMember.stream()
-                    .filter(c -> Objects.equals(c.getClassTime().getId(), cart.getClassTime().getId()))
-                    .findFirst()
-                    .orElse(null);
-            if(existingCart == null) {
-                cart.setMember(memberRepository.findById(memberId).orElse(null));
-                cartRepository.save(cart);
+            if(selectedCount != null) {
+                cart.setSelectedCount(selectedCount.intValue());
             }
+            // 총 가격 변경
+            if(totalPrice != null) {
+                cart.setTotalPrice(totalPrice.intValue());
+            }
+            cartRepository.save(cart);
+            return true;
+        } else {
+            return false;
         }
     }
 }
