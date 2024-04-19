@@ -15,7 +15,7 @@ import ReservationManage from "./ReservationManage";
 
 function MemberUpdate() {
     // URL에서 memberId 받아오기
-    const { memberId } = useParams();
+    const { id : memberId } = useParams();
 
     // memberId로 회원정보 받아오기
     const [userEmail, setUserEmail] = useState('');
@@ -25,7 +25,7 @@ function MemberUpdate() {
     const [loginType, setLoginType] = useState('');
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/admin/members/${memberId}`)
+        axios.get(`/admin/members/${memberId}`)
             .then(response => {
                 // 회원 정보 가져오기
                 const member = response.data;
@@ -43,7 +43,7 @@ function MemberUpdate() {
 
     //회원 정보 수정
     const updateMember = () => {
-        axios.put(`http://localhost:8080/admin/members/${memberId}`, {
+        axios.put(`/admin/members/${memberId}`, {
             userEmail,
             password,
             name,

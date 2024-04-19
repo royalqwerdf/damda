@@ -5,6 +5,7 @@ import com.team_damda.domain.dto.MemberDto;
 import com.team_damda.domain.entity.Category;
 import com.team_damda.domain.entity.Member;
 import com.team_damda.domain.repository.AdminMemberRepository;
+import com.team_damda.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,10 +17,11 @@ import java.util.List;
 @Service
 public class AdminMemberService {
     private final AdminMemberRepository adminMemberRepository;
+    private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public List<MemberDto> getAllCategory(){
-        List<Member> allMembers = adminMemberRepository.findAll();
+    public List<MemberDto> getAllMembers(){
+        List<Member> allMembers = memberRepository.findAll();
         List<MemberDto> allMemberDtos = new ArrayList<>();
         for(Member member: allMembers){
             MemberDto memberDto = member.toDto();
@@ -28,11 +30,16 @@ public class AdminMemberService {
         return allMemberDtos;
     }
 
+    public MemberDto getMember(Long memberId) {
+        MemberDto memberDto = memberRepository.findById(memberId).get().toDto();
+        return memberDto;
+    }
+
     public boolean deleteMember(Long memberId) {
         boolean isDeleted = false;
-        Member member = adminMemberRepository.findById(memberId).orElse(null);
+        Member member = memberRepository.findById(memberId).orElse(null);
         if(member != null) {
-            adminMemberRepository.delete(member);
+            memberRepository.delete(member);
             isDeleted = true;
         }
         return isDeleted;
@@ -40,7 +47,7 @@ public class AdminMemberService {
 
     public boolean updateMember(Long memberId, String userEmail, String password, String name, String phone) {
         boolean isUpdated = false;
-        Member member = adminMemberRepository.findById(memberId).orElse(null);
+        Member member = memberRepository.findById(memberId).orElse(null);
         if(member != null) {
             member.setUserEmail(userEmail);
             member.setPassword(password);
