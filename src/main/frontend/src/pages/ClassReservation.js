@@ -252,7 +252,7 @@ const submitReservation = async () => {
   };
 
   try {
-    const response = await axios.post(`http://localhost:8080/class-reservation/${id}/reserve`, reservationData);
+    const response = await axios.post(`http://34.64.51.56:5000/class-reservation/${id}/reserve`, reservationData);
     if (response.status === 200) {
       // 예약 성공 시 처리 로직
       console.log("예약이 성공적으로 완료되었습니다.");
@@ -305,7 +305,7 @@ const submitCart = async () => {
       return;
   }
   try {
-    const response = await axios.post(`http://localhost:8080/class-reservation/${id}/add-to-cart`, CartData);
+    const response = await axios.post(`http://34.64.51.56:5000/class-reservation/${id}/add-to-cart`, CartData);
     if (response.status === 200) {
       // 예약 성공 시 처리 로직
       console.log("담기가 성공적으로 완료되었습니다.");
@@ -425,7 +425,7 @@ const submitCart = async () => {
           return;
       }
       try {
-        const response = await axios.post(`http://localhost:8080/review`, reviewData);
+        const response = await axios.post(`http://34.64.51.56:5000/review`, reviewData);
         if (response.status === 200) {
           // 예약 성공 시 처리 로직
           console.log("리뷰작성 완료");

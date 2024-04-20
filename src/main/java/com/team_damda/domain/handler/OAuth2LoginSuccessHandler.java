@@ -54,11 +54,11 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         // 사용자의 추가 정보가 필요한 경우(예: 전화번호가 없는 경우)
         if (member.getPhone() == null || member.getPhone().isEmpty()) {
-            String redirectUrl = "http://localhost:3000/Oauth2Signup?accessToken=" + URLEncoder.encode(accessToken, "UTF-8");
+            String redirectUrl = "http://34.64.51.56:3000/Oauth2Signup?accessToken=" + URLEncoder.encode(accessToken, "UTF-8");
             response.sendRedirect(redirectUrl);
         } else {
             // 기존 회원은 홈페이지로 리다이렉션
-            String redirectUrl = "http://localhost:3000/?accessToken=" + URLEncoder.encode(accessToken, "UTF-8");
+            String redirectUrl = "http://34.64.51.56:3000/?accessToken=" + URLEncoder.encode(accessToken, "UTF-8");
             response.sendRedirect(redirectUrl);
         }
 

@@ -151,7 +151,7 @@ const Cart = () => {
                 classType: cart.categoryName
             };
             try {
-                const response = await axios.post(`http://localhost:8080/class-reservation/${id}/reserve`, reservationData)
+                const response = await axios.post(`http://34.64.51.56:5000/class-reservation/${id}/reserve`, reservationData)
                 if (response.status === 200) {
                     console.log(`Class is reserved successfully`);
                     const updatedCarts = carts.filter(cart => cart.id !== cartId);
@@ -191,7 +191,7 @@ const Cart = () => {
                 classType: cart.categoryName
             };
             try {
-                const response = await axios.post(`http://localhost:8080/class-reservation/${id}/reserve`, reservationData)
+                const response = await axios.post(`http://34.64.51.56:5000/class-reservation/${id}/reserve`, reservationData)
                 if (response.status === 200) {
                     console.log(`Class is reserved successfully`);
                     const updatedCarts = carts.filter(cart => cart.id !== cartId);

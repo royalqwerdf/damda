@@ -19,7 +19,7 @@ const Oauth2Signup = () => {
         try {
             const { phone } = data;
             const accessToken = localStorage.getItem('accessToken'); // 로컬 스토리지에서 액세스 토큰 가져오기
-            const response = await fetch('http://localhost:8080/api/Oauth2Signup', {
+            const response = await fetch('http://34.64.51.56:5000/api/Oauth2Signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -4,14 +4,14 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
      app.use(
          '/home',
          createProxyMiddleware({
-             target: 'http://localhost:8080',
+             target: 'http://34.64.51.56:5000',
              changeOrigin: true,
          })
      );
      app.use(
              '/class-reservation',
              createProxyMiddleware({
-                 target: 'http://localhost:8080',
+                 target: 'http://34.64.51.56:5000',
                  changeOrigin: true,
              })
          );
