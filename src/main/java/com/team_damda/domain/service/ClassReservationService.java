@@ -50,6 +50,8 @@ public class ClassReservationService {
         ClassReservation reservation = reservationDto.toEntity();
         reservation.setMember(member);
         reservation.setOnedayClass(reservationClass);
+        reservation.setUserEmail(member.getUserEmail());
+        reservation.setClassName(reservationClass.getClassName());
 
 
         ClassTime reservationTime = classTimeRepository.findById(reservationDto.getSelect_time())

@@ -315,6 +315,9 @@ const ClassOpen = () => {
 
     };
 
+    const handleCancelSubmit = async () => {
+        navigate("/");
+    }
 
 
     return (
@@ -615,6 +618,7 @@ const ClassOpen = () => {
                     <div className="cancel-submit-button-area">
                         <button className="cancel-button"
                                 type="button"
+                                onClick={handleCancelSubmit}
                                 style={{cursor: 'pointer', fontWeight: 'bold', color: '#FFFFFF', width: '120px', height: '40px', backgroundColor: '#c0c0c0', border: '2px solid #808080', borderRadius: '10px', marginLeft: '780px'}}>
                                 취  소
                          </button>
